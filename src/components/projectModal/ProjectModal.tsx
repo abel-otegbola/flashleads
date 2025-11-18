@@ -4,7 +4,7 @@ import { CloseCircle } from "@solar-icons/react";
 import Input from "../input/Input";
 import Button from "../button/Button";
 import { projectSchema } from "../../schema/clientSchema";
-import type { Project, Client } from "../../contexts/ClientsContextValue";
+import type { Project } from "../../contexts/ClientsContextValue";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 import { ClientsContext } from "../../contexts/ClientsContextValue";
 
