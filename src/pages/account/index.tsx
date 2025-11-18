@@ -12,10 +12,10 @@ import Clients from "./clients";
 function AccountPages() {
     const { user } = useContext(AuthContext);
 
-    // // If not authenticated, redirect to login
-    // if (!user) {
-    //     return <Navigate to="/auth/login" replace />;
-    // }
+    // If not authenticated, redirect to login
+    if (!user) {
+        return <Navigate to="/auth/login" replace />;
+     }
   return (
     <div className="min-h-[400px] flex justify-between bg-bg-gray-100 dark:bg-dark/[0.6]">
         <Sidebar />
