@@ -8,9 +8,7 @@ import {
   TrashBin2,
   Letter,
   DollarMinimalistic,
-  ClipboardList,
-  Folder,
-  Calendar
+  Folder
 } from "@solar-icons/react";
 import { ClientsContext } from "../../../contexts/ClientsContextValue";
 import type { Client } from "../../../contexts/ClientsContextValue";
