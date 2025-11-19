@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     const [user, setUser] = useLocalStorage("user", null);
     const [popup, setPopup] = useState<{ type: string; msg: string; timestamp?: number }>({ type: "", msg: "" });
     const [loading, setLoading] = useState(false);
-    const [resetEmail, setResetEmail] = useState<string>("");
+    const [, setResetEmail] = useState<string>("");
     const [resetCode, setResetCode] = useState<string>("");
     const router = useNavigate()
 
