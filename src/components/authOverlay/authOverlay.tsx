@@ -30,23 +30,13 @@ function AuthOverlay() {
   }, [activeSlider]);
 
   return (
-    <div className="h-screen sticky top-0 2xl:w-[45.625%] xl:w-[45%] md:w-[45%] md:block hidden relative">
-      {/* Background Image */}
-      <img
-        key={activeSlider}
-        src={slides[activeSlider].img}
-        alt={slides[activeSlider].title}
-        className="absolute inset-0 w-full h-full object-cover animate-blur-reveal"
-      />
+    <div className="h-screen sticky top-0 bg-[url('/auth-bg.webp')] bg-cover bg-top 2xl:w-[45.625%] xl:w-[45%] md:w-[45%] md:block hidden relative">
 
       {/* Content Overlay */}
-      <div className="relative flex flex-col h-full justify-between gap-6 text-white w-full">
-        <h1 className="flex justify-end p-[5%]">
-          <img src="/logo.png" alt="Logo" width={140} height={140} />
-        </h1>
+      <div className="relative flex flex-col h-full justify-end gap-6 w-full">
 
-        <div className="bg-gradient-to-b via-[#00000090] to-[#000000] px-[12%] pb-[18%] pt-[20%]">
-          <div className="relative h-[190px] min-[1920px]:h-[140px] overflow-hidden">
+        <div className="bg-gradient-to-b via-[#FBFBFB] to-[#FBFBFB] px-[12%] pb-[5%] pt-[28%]">
+          <div className="relative h-[170px] min-[1920px]:h-[140px] overflow-hidden">
             <div
               className="flex relative h-full"
             >
@@ -59,7 +49,7 @@ function AuthOverlay() {
             {slides.map((_, i) => (
               <button onClick={() => setActiveSlider(i)}
                 key={i}
-                className={`cursor-pointer duration-500 rounded-lg ${activeSlider === i ? "w-8 h-[6px] bg-[#D4A574]" : "w-5 h-[6px] bg-white"}`}
+                className={`cursor-pointer duration-500 rounded-lg ${activeSlider === i ? "w-8 h-[6px] bg-primary" : "w-5 h-[6px] bg-gray-100"}`}
               ></button>
             ))}
           </div>

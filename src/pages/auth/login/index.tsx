@@ -12,27 +12,26 @@ import GoogleIcon from "../../../assets/icons/googleIcon";
 import LineCircleIcon from "../../../assets/icons/lineCircle";
 
 export default function Login() {
-  const { login, loading } = useContext(AuthContext);
+  const { login, loading, sociallogin } = useContext(AuthContext);
   const [URLSearchParams] = useSearchParams()
   const [rememberMe, setRememberMe] = useState(false)
   const callbackURL = URLSearchParams.get("callbackURL") || ""
 
   return (
-    <div className="h-screen flex sm:items-center justify-between">
-      <AuthOverlay />
+    <div className="h-screen flex justify-between">
 
-      <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md-px-0 px-6">
-        <div className="2xl:w-[400px] sm:w-[360px] md:mx-0 mx-auto w-full">
-          <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6">
+      <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md:px-0 px-6">
+        <div className="2xl:w-[600px] sm:w-[460px] py-[15%] md:mx-0 mx-auto h-full w-full">
+          <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-[24px]">Welcome 👋</h1>
-              <p className="text-[#7C7E7E] font-medium">Log in to manage your leads and grow your business</p>
+              <h1 className="font-bold text-[24px] text-center">Sign in to Flashleads</h1>
+              <p className="text-[#7C7E7E] font-medium text-center">Manage your leads and grow your business</p>
             </div>
-            <Button variant="secondary" className="w-full"><GoogleIcon /> Sign in with Google</Button>
+            <Button variant="secondary" onClick={() => sociallogin("google")} className="w-full font-semibold"><GoogleIcon /> Sign in with Google</Button>
 
             <div className="flex items-center gap-4 w-full">
               <LineCircleIcon className="flex-1 "/>
-              <span className="text-gray-400 rounded border border-gray-100 p-4 leading-[12px] py-2 text-nowrap text-[12px]">Or sign in with Email</span>
+              <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 px-[15%] leading-[12px] py-2 text-nowrap text-[12px]">Or sign in with Email</span>
               <LineCircleIcon className="flex-1 rotate-180" />
             </div>
 
@@ -66,7 +65,7 @@ export default function Login() {
                     label="Password"
                   />
                   <div className="flex justify-between items-center w-full">
-                    <div className="text-center flex gap-1 items-center text-[#7C7E7E] leading-[0px]">
+                    <div className="text-center flex gap-1 items-center text-[#7C7E7E] font-medium leading-[0px]">
                       <input id="remember" checked={rememberMe} type="checkbox" onChange={() => setRememberMe(!rememberMe)} />
                       <label htmlFor="remember">Remember me</label>
                     </div>
@@ -82,12 +81,12 @@ export default function Login() {
               )}
             </Formik>
 
-            <div className="">
+            <div className="flex justify-center gap-2 items-center font-medium">
               <span className="text-[#7C7E7E]">Don't have an account? </span>
-              <Link to="/signup" className="text-primary font-medium">Sign up for free</Link>
+              <Link to="/signup" className="text-primary">Sign up for free</Link>
             </div>
 
-            <div className="flex justify-between gap-2 items-center">
+            <div className="flex justify-center gap-4 items-center mb-8">
               <Link to="/termsofuse" className="text-gray-200 hover:underline">
                 Terms of Use
               </Link>
@@ -101,6 +100,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <AuthOverlay />
 
     </div>
   );

@@ -14,14 +14,13 @@ export default function Signup() {
 
   return (
     <div className="h-screen overflow-y-auto flex sm:items-center justify-between">
-      <AuthOverlay />
 
-      <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md-px-0 px-6">
-        <div className="2xl:w-[400px] sm:w-[360px] pt-[25%] md:mx-0 mx-auto w-full">
-          <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6">
+      <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md:px-0 px-6">
+        <div className="2xl:w-[600px] sm:w-[460px] py-[15%] md:mx-0 mx-auto h-full w-full">
+          <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-[24px]">Create Account</h1>
-              <p className="text-[#7C7E7E] font-medium">Create your free account to start finding high-quality leads and sending smarter cold emails.</p>
+              <h1 className="font-bold text-[24px] text-center">Create Account</h1>
+              <p className="text-[#7C7E7E] font-medium text-center">Create your free account to start finding high-quality leads and sending smarter cold emails.</p>
             </div>
 
             <Formik
@@ -83,12 +82,12 @@ export default function Signup() {
               )}
             </Formik>
 
-            <div className="">
+            <div className="text-center flex gap-2 items-center justify-center font-medium">
               <span className="text-[#7C7E7E]">Already have an account? </span>
               <Link to="/" className="text-primary font-medium">Log in</Link>
             </div>
 
-            <div className="flex justify-between gap-2 items-center mb-8">
+            <div className="flex justify-center gap-2 items-center mb-8">
               <Link to="/termsofuse" className="text-gray-200 hover:underline">
                 Terms of Use
               </Link>
@@ -102,6 +101,8 @@ export default function Signup() {
           </div>
         </div>
       </div>
+
+      <AuthOverlay />
     </div>
   );
 }
