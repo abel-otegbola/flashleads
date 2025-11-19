@@ -6,7 +6,6 @@ import { verifyOtpSchema } from "../../../schema/authSchema";
 import LoadingIcon from "../../../assets/icons/loadingIcon";
 import AuthOverlay from "../../../components/authOverlay/authOverlay";
 import { AuthContext } from "../../../contexts/AuthContextValue";
-import LineCircleIcon from "../../../assets/icons/lineCircle";
 import OtpInput from 'react-otp-input';
 
 export default function VerifyOtp() {
@@ -23,13 +22,6 @@ export default function VerifyOtp() {
               <h1 className="font-bold text-[24px] text-center">Verify OTP</h1>
               <p className="text-[#7C7E7E] font-medium text-center">Enter the 6-digit code sent to your email</p>
             </div>
-
-            <div className="flex items-center gap-4 w-full">
-              <LineCircleIcon className="flex-1 "/>
-              <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 md:px-[15%] leading-[12px] py-2 text-nowrap text-[12px]">Verify Code</span>
-              <LineCircleIcon className="flex-1 rotate-180" />
-            </div>
-
 
             <Formik
               initialValues={{ otp: "" }}

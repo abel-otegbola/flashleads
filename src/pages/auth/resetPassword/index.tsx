@@ -8,7 +8,6 @@ import LoadingIcon from "../../../assets/icons/loadingIcon";
 import AuthOverlay from "../../../components/authOverlay/authOverlay";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import { Lock } from "@solar-icons/react";
-import LineCircleIcon from "../../../assets/icons/lineCircle";
 
 export default function ResetPassword() {
   const { resetPassword, loading } = useContext(AuthContext);
@@ -23,13 +22,6 @@ export default function ResetPassword() {
               <h1 className="font-bold text-[24px] text-center">Reset Password</h1>
               <p className="text-[#7C7E7E] font-medium text-center">Enter your new password</p>
             </div>
-
-            <div className="flex items-center gap-4 w-full">
-              <LineCircleIcon className="flex-1 "/>
-              <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 md:px-[15%] leading-[12px] py-2 text-nowrap text-[12px]">Create New Password</span>
-              <LineCircleIcon className="flex-1 rotate-180" />
-            </div>
-
 
             <Formik
               initialValues={{ password: "", confirmPassword: "" }}

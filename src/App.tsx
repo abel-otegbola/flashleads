@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/auth/forgotPassword"
 import VerifyOtp from "./pages/auth/verifyOtp"
 import ResetPassword from "./pages/auth/resetPassword"
 import AccountPages from "./pages/account"
+import Homepage from "./pages/static/home/home"
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
         <LeadsProvider>
           <ClientsProvider>
             <Routes>
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={<Homepage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
