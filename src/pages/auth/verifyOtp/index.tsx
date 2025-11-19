@@ -31,7 +31,7 @@ export default function VerifyOtp() {
                 setSubmitting(false);
               }}
             >
-              {({ values, errors, touched, setFieldValue, handleSubmit, isSubmitting }) => (
+              {({ errors, touched, setFieldValue, handleSubmit, isSubmitting }) => (
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-medium text-gray-700">Enter OTP</label>
