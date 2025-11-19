@@ -9,6 +9,9 @@ export type values = {
     signUp: (data: { email: string, password: string, fullname: string, role: string, storename?: string }) => Promise<void>;
     sociallogin: (callbackUrl?: string) => Promise<void>;
     logOut: () => void;
+    forgotPassword: (email: string) => Promise<void>;
+    verifyOtp: (otp: string) => Promise<void>;
+    resetPassword: (password: string) => Promise<void>;
 }
 
 export const AuthContext = createContext({} as values);

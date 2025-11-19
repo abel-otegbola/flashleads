@@ -1,5 +1,5 @@
 'use client'
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { type ReactNode, useEffect, useState } from 'react';
@@ -16,6 +16,8 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     const [user, setUser] = useLocalStorage("user", null);
     const [popup, setPopup] = useState<{ type: string; msg: string; timestamp?: number }>({ type: "", msg: "" });
     const [loading, setLoading] = useState(false);
+    const [resetEmail, setResetEmail] = useState<string>("");
+    const [resetCode, setResetCode] = useState<string>("");
     const router = useNavigate()
 
     const formatError = (msg: string) => {
@@ -92,6 +94,52 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
                     });
     }
 
+    const forgotPassword = async (email: string) => {
+        setLoading(true);
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setResetEmail(email);
+            setPopup({ type: "success", msg: "Password reset code sent to your email", timestamp: Date.now() });
+            router("/verify-otp");
+        } catch (error: unknown) {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const verifyOtp = async (otp: string) => {
+        setLoading(true);
+        try {
+            await verifyPasswordResetCode(auth, otp);
+            setResetCode(otp);
+            setPopup({ type: "success", msg: "OTP verified successfully", timestamp: Date.now() });
+            router("/reset-password");
+        } catch (error: unknown) {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const resetPassword = async (password: string) => {
+        setLoading(true);
+        try {
+            await confirmPasswordReset(auth, resetCode, password);
+            setResetEmail("");
+            setResetCode("");
+            setPopup({ type: "success", msg: "Password reset successfully. Please login", timestamp: Date.now() });
+            router("/login");
+        } catch (error: unknown) {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() });
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setUser(user)
@@ -99,7 +147,7 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     }, [setUser]);
 
     return (
-        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut }}>
+        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut, forgotPassword, verifyOtp, resetPassword }}>
             <Toast
               message={popup?.msg} 
               type={popup?.type as "error" | "success"} 
