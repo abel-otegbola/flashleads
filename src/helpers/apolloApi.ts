@@ -1,70 +1,55 @@
-// Apollo.io API Integration (via Proxy Server)
-// API Documentation: https://apolloio.github.io/apollo-api-docs/
+// Hunter.io API Integration (via Vercel Serverless Functions)
+// API Documentation: https://hunter.io/api-documentation/v2
 
-const PROXY_API_URL = import.meta.env.VITE_PROXY_API_URL || 'http://localhost:3001/api/apollo';
+// Use Vercel serverless functions in production, localhost for development
+const PROXY_API_URL = import.meta.env.VITE_PROXY_API_URL || 
+  (import.meta.env.MODE === 'production' ? '/api/apollo' : 'http://localhost:5173/api/apollo');
 
-export interface ApolloSearchParams {
-  personTitles?: string[];
-  personLocations?: string[];
-  organizationLocations?: string[];
-  organizationIndustryTagIds?: string[];
-  organizationNumEmployeesRanges?: string[];
-  personNotNullFields?: string[];
-  page?: number;
-  perPage?: number;
-}
-
-export interface ApolloContact {
-  id: string;
+export interface HunterContact {
+  value: string; // email
+  type: 'personal' | 'generic';
+  confidence: number;
   first_name: string;
   last_name: string;
-  name: string;
-  title: string;
-  email: string | null;
-  phone_numbers: Array<{ raw_number: string; sanitized_number: string }>;
-  linkedin_url: string | null;
-  twitter_url: string | null;
-  facebook_url: string | null;
-  organization: {
-    id: string;
-    name: string;
-    website_url: string | null;
-    linkedin_url: string | null;
-    twitter_url: string | null;
-    facebook_url: string | null;
-    primary_phone: { number: string } | null;
-    industry: string | null;
-    estimated_num_employees: number | null;
-    city: string | null;
-    state: string | null;
-    country: string | null;
+  position: string | null;
+  seniority: string | null;
+  department: string | null;
+  linkedin: string | null;
+  twitter: string | null;
+  phone_number: string | null;
+  verification: {
+    date: string | null;
+    status: 'valid' | 'invalid' | 'accept_all' | 'webmail' | 'disposable' | 'unknown';
+  } | null;
+}
+
+export interface HunterOrganization {
+  domain: string;
+  disposable: boolean;
+  webmail: boolean;
+  accept_all: boolean;
+  pattern: string | null;
+  organization: string;
+}
+
+export interface HunterSearchResponse {
+  data: HunterOrganization & {
+    emails: HunterContact[];
+  };
+  meta: {
+    results: number;
+    limit: number;
+    offset: number;
+    params: Record<string, unknown>;
   };
 }
 
-export interface ApolloSearchResponse {
-  contacts: ApolloContact[];
-  breadcrumbs: Array<{
-    label: string;
-    signal_field_name: string;
-    value: string;
-    display_name: string;
-  }>;
-  pagination: {
-    page: number;
-    per_page: number;
-    total_entries: number;
-    total_pages: number;
-  };
-}
 
-export interface ApolloEnrichResponse {
-  person: ApolloContact;
-}
 
 /**
- * Search for contacts/leads using Apollo.io (via proxy)
+ * Search for contacts/leads using Hunter.io Domain Search (via proxy)
  */
-export async function searchLeads(params: Record<string, unknown>): Promise<ApolloSearchResponse> {
+export async function searchLeads(params: Record<string, unknown>): Promise<HunterSearchResponse> {
   try {
     const response = await fetch(`${PROXY_API_URL}/search`, {
       method: 'POST',
@@ -76,9 +61,9 @@ export async function searchLeads(params: Record<string, unknown>): Promise<Apol
 
     const contentType = response.headers.get('content-type');
     
-    // Check if we got HTML instead of JSON (proxy server not running)
+    // Check if we got HTML instead of JSON (API not available)
     if (contentType?.includes('text/html')) {
-      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
+      throw new Error('Hunter.io API endpoint not available. Make sure you have deployed to Vercel or are running dev server.');
     }
 
     if (!response.ok) {
@@ -89,108 +74,37 @@ export async function searchLeads(params: Record<string, unknown>): Promise<Apol
     return response.json();
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
+      throw new Error('Cannot connect to Hunter.io API. Check your internet connection and Vercel deployment.');
     }
     throw error;
   }
 }
 
-/**
- * Enrich a contact by email to get complete information including socials (via proxy)
- */
-export async function enrichContact(email: string): Promise<ApolloEnrichResponse> {
-  try {
-    const response = await fetch(`${PROXY_API_URL}/enrich`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
 
-    const contentType = response.headers.get('content-type');
-    
-    if (contentType?.includes('text/html')) {
-      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
-    }
 
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
-      throw new Error(error.error || `API Error: ${response.status}`);
-    }
 
-    return response.json();
-  } catch (error) {
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
-    }
-    throw error;
-  }
-}
 
 /**
- * Get organization details by domain (via proxy)
+ * Convert Hunter contact to our Lead format
  */
-export async function getOrganization(domain: string) {
-  try {
-    const response = await fetch(`${PROXY_API_URL}/organization?domain=${encodeURIComponent(domain)}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const contentType = response.headers.get('content-type');
-    
-    if (contentType?.includes('text/html')) {
-      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
-    }
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
-      throw new Error(error.error || `API Error: ${response.status}`);
-    }
-
-    return response.json();
-  } catch (error) {
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
-    }
-    throw error;
-  }
-}
-
-/**
- * Convert Apollo contact to our Lead format
- */
-export function apolloContactToLead(contact: ApolloContact) {
-  const phone = contact.phone_numbers?.[0]?.sanitized_number || 
-                contact.organization?.primary_phone?.number || 
-                '';
-  
-  const location = [
-    contact.organization?.city,
-    contact.organization?.state,
-    contact.organization?.country
-  ].filter(Boolean).join(', ');
-
+export function hunterContactToLead(contact: HunterContact, organization: HunterOrganization) {
   return {
-    name: contact.name || `${contact.first_name} ${contact.last_name}`,
-    company: contact.organization?.name || 'Unknown Company',
-    email: contact.email || '',
-    phone: phone,
-    location: location || 'Unknown',
+    name: `${contact.first_name} ${contact.last_name}`.trim() || 'Unknown',
+    company: organization.organization || 'Unknown Company',
+    email: contact.value,
+    phone: contact.phone_number || '',
+    location: 'Unknown', // Hunter.io doesn't provide location in domain search
     status: 'new' as const,
     value: 0, // User will set this
-    industry: contact.organization?.industry || 'Other',
-    score: 75, // Default score for Apollo leads
+    industry: 'Other', // Hunter.io doesn't provide industry in domain search
+    score: contact.confidence || 50,
     // Additional fields for social profiles
-    linkedinUrl: contact.linkedin_url || '',
-    twitterUrl: contact.twitter_url || '',
-    facebookUrl: contact.facebook_url || '',
-    companyWebsite: contact.organization?.website_url || '',
-    companyLinkedin: contact.organization?.linkedin_url || '',
-    companyTwitter: contact.organization?.twitter_url || '',
-    companyFacebook: contact.organization?.facebook_url || '',
+    linkedinUrl: contact.linkedin || '',
+    twitterUrl: contact.twitter || '',
+    facebookUrl: '',
+    companyWebsite: `https://${organization.domain}`,
+    companyLinkedin: '',
+    companyTwitter: '',
+    companyFacebook: '',
   };
 }

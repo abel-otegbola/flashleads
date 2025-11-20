@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CloseCircle, Buildings2, MapPoint, UserCircle, Star } from "@solar-icons/react";
 import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
-import { searchLeads, apolloContactToLead, type ApolloContact } from "../../helpers/apolloApi";
+import { searchLeads, hunterContactToLead, type HunterContact, type HunterOrganization } from "../../helpers/apolloApi";
 
 interface ApolloLeadSearchProps {
   isOpen: boolean;
@@ -10,78 +10,66 @@ interface ApolloLeadSearchProps {
   onImportLeads: (leads: Record<string, unknown>[]) => void;
 }
 
-const industryTags = [
-  { id: '5567cd4773696439b10b0000', name: 'Technology' },
-  { id: '5567cd4773696439b11d0000', name: 'Software' },
-  { id: '5567cd4773696439b1230000', name: 'Finance' },
-  { id: '5567cd4773696439b1170000', name: 'Healthcare' },
-  { id: '5567cd4773696439b1250000', name: 'Marketing' },
-  { id: '5567cd4773696439b11f0000', name: 'E-commerce' },
-  { id: '5567cd4773696439b1210000', name: 'Real Estate' },
+const departments = [
+  'executive', 'it', 'finance', 'management', 'sales', 'legal', 
+  'support', 'hr', 'marketing', 'communication', 'design', 'operations'
 ];
 
-const employeeRanges = [
-  { value: '1,10', label: '1-10 employees' },
-  { value: '11,50', label: '11-50 employees' },
-  { value: '51,200', label: '51-200 employees' },
-  { value: '201,500', label: '201-500 employees' },
-  { value: '501,1000', label: '501-1000 employees' },
-  { value: '1001,10000', label: '1001+ employees' },
-];
+const seniorities = ['junior', 'senior', 'executive'];
 
 export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: ApolloLeadSearchProps) {
   const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState<ApolloContact[]>([]);
+  const [searchResults, setSearchResults] = useState<HunterContact[]>([]);
+  const [organization, setOrganization] = useState<HunterOrganization | null>(null);
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string>('');
 
   // Search params
+  const [domain, setDomain] = useState('');
   const [jobTitle, setJobTitle] = useState('');
-  const [location, setLocation] = useState('');
-  const [industry, setIndustry] = useState('');
-  const [companySize, setCompanySize] = useState('');
+  const [department, setDepartment] = useState('');
+  const [seniority, setSeniority] = useState('');
 
   const handleSearch = async () => {
+    if (!domain) {
+      setError('Please enter a company domain (e.g., stripe.com)');
+      return;
+    }
+
     setLoading(true);
     setError('');
     try {
       const params: Record<string, unknown> = {
-        page: 1,
-        per_page: 25,
-        person_titles: jobTitle ? [jobTitle] : undefined,
-        organization_locations: location ? [location] : undefined,
-        organization_industry_tag_ids: industry ? [industry] : undefined,
-        organization_num_employees_ranges: companySize ? [companySize] : undefined,
+        domain: domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0], // Clean domain
+        limit: 25,
       };
 
-      // Remove undefined values
-      Object.keys(params).forEach(key => {
-        if (params[key] === undefined) {
-          delete params[key];
-        }
-      });
+      if (jobTitle) params.job_titles = jobTitle;
+      if (department) params.department = department;
+      if (seniority) params.seniority = seniority;
 
       const response = await searchLeads(params);
-      setSearchResults(response.contacts);
+      setSearchResults(response.data.emails || []);
+      setOrganization(response.data);
 
-      if (response.contacts.length === 0) {
-        setError('No leads found matching your criteria. Try adjusting your filters.');
+      if (!response.data.emails || response.data.emails.length === 0) {
+        setError('No leads found for this domain. Try a different company or check the domain name.');
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to search leads. Please check your Apollo API key.';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to search leads. Please check your Hunter.io API key.';
       setError(errorMessage);
-      console.error('Apollo search error:', err);
+      console.error('Hunter search error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const toggleLead = (id: string) => {
+  const toggleLead = (email: string) => {
     const newSelected = new Set(selectedLeads);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
+    if (newSelected.has(email)) {
+      newSelected.delete(email);
     } else {
-      newSelected.add(id);
+      newSelected.add(email);
     }
     setSelectedLeads(newSelected);
   };
@@ -90,14 +78,16 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     if (selectedLeads.size === searchResults.length) {
       setSelectedLeads(new Set());
     } else {
-      setSelectedLeads(new Set(searchResults.map(c => c.id)));
+      setSelectedLeads(new Set(searchResults.map(c => c.value)));
     }
   };
 
   const handleImport = () => {
+    if (!organization) return;
+    
     const leadsToImport = searchResults
-      .filter(contact => selectedLeads.has(contact.id))
-      .map(apolloContactToLead);
+      .filter(contact => selectedLeads.has(contact.value))
+      .map(contact => hunterContactToLead(contact, organization));
     
     onImportLeads(leadsToImport);
     onClose();
@@ -114,7 +104,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
             <Star size={24} className="text-primary" />
             <div>
               <h2 className="text-xl font-bold">AI Lead Generation</h2>
-              <p className="text-sm text-gray-600">Powered by Apollo.io</p>
+              <p className="text-sm text-gray-600">Powered by Hunter.io</p>
             </div>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -124,50 +114,51 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
 
         {/* Search Filters */}
         <div className="p-6 border-b border-gray-200 bg-gray-50">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="mb-4">
+            <label className="text-sm font-medium mb-2 block">Company Domain <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="e.g., stripe.com, intercom.com"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+            />
+            <p className="text-xs text-gray-500 mt-1">Enter the company's website domain to find their team members</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Job Title</label>
+              <label className="text-sm font-medium mb-2 block">Job Title (Optional)</label>
               <input
                 type="text"
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
-                placeholder="e.g., CEO, Marketing Manager, Founder"
+                placeholder="e.g., CEO, VP Sales"
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
               />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">Location</label>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="e.g., San Francisco, CA"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Industry</label>
+              <label className="text-sm font-medium mb-2 block">Department (Optional)</label>
               <select
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
               >
-                <option value="">All Industries</option>
-                {industryTags.map(tag => (
-                  <option key={tag.id} value={tag.id}>{tag.name}</option>
+                <option value="">All Departments</option>
+                {departments.map(dept => (
+                  <option key={dept} value={dept}>{dept.charAt(0).toUpperCase() + dept.slice(1)}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">Company Size</label>
+              <label className="text-sm font-medium mb-2 block">Seniority (Optional)</label>
               <select
-                value={companySize}
-                onChange={(e) => setCompanySize(e.target.value)}
+                value={seniority}
+                onChange={(e) => setSeniority(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
               >
-                <option value="">Any Size</option>
-                {employeeRanges.map(range => (
-                  <option key={range.value} value={range.value}>{range.label}</option>
+                <option value="">All Levels</option>
+                {seniorities.map(level => (
+                  <option key={level} value={level}>{level.charAt(0).toUpperCase() + level.slice(1)}</option>
                 ))}
               </select>
             </div>
@@ -209,54 +200,65 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
               <div className="space-y-3">
                 {searchResults.map((contact) => (
                   <div
-                    key={contact.id}
+                    key={contact.value}
                     className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                      selectedLeads.has(contact.id)
+                      selectedLeads.has(contact.value)
                         ? 'border-primary bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
-                    onClick={() => toggleLead(contact.id)}
+                    onClick={() => toggleLead(contact.value)}
                   >
                     <div className="flex items-start gap-4">
                       <input
                         type="checkbox"
-                        checked={selectedLeads.has(contact.id)}
+                        checked={selectedLeads.has(contact.value)}
                         onChange={() => {}}
                         className="mt-1"
                       />
                       <div className="flex-1">
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <h3 className="font-semibold text-gray-900">{contact.name}</h3>
-                            <p className="text-sm text-gray-600">{contact.title}</p>
+                            <h3 className="font-semibold text-gray-900">
+                              {contact.first_name} {contact.last_name}
+                            </h3>
+                            <p className="text-sm text-gray-600">{contact.position || 'Position not available'}</p>
                           </div>
+                          <span className="text-xs font-medium text-primary">
+                            {contact.confidence}% match
+                          </span>
                         </div>
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                           <div className="flex items-center gap-1">
                             <Buildings2 size={14} />
-                            <span>{contact.organization?.name}</span>
+                            <span>{organization?.organization}</span>
                           </div>
-                          {contact.organization?.city && (
-                            <div className="flex items-center gap-1">
-                              <MapPoint size={14} />
-                              <span>{contact.organization.city}, {contact.organization.state}</span>
-                            </div>
+                          {contact.department && (
+                            <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                              {contact.department}
+                            </span>
+                          )}
+                          {contact.seniority && (
+                            <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                              {contact.seniority}
+                            </span>
                           )}
                         </div>
                         <div className="flex items-center gap-3 mt-2">
-                          {contact.email && (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                              ✓ Email
-                            </span>
-                          )}
-                          {contact.linkedin_url && (
+                          <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                            ✓ {contact.value}
+                          </span>
+                          {contact.linkedin && (
                             <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
                               LinkedIn
                             </span>
                           )}
-                          {contact.organization?.website_url && (
-                            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">
-                              Website
+                          {contact.verification?.status && (
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              contact.verification.status === 'valid' 
+                                ? 'bg-green-100 text-green-700' 
+                                : 'bg-yellow-100 text-yellow-700'
+                            }`}>
+                              {contact.verification.status}
                             </span>
                           )}
                         </div>
@@ -271,8 +273,11 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
           {!loading && searchResults.length === 0 && !error && (
             <div className="text-center py-12">
               <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">
-                Enter your search criteria and click "Search Leads" to find potential clients
+              <p className="text-gray-500 mb-2">
+                Enter a company domain to find their team members' contact information
+              </p>
+              <p className="text-xs text-gray-400">
+                Example: stripe.com, intercom.com, shopify.com
               </p>
             </div>
           )}

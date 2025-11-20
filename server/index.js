@@ -10,121 +10,97 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const APOLLO_API_KEY = process.env.APOLLO_API_KEY;
-const APOLLO_API_URL = 'https://api.apollo.io/v1';
+const HUNTER_API_KEY = process.env.HUNTER_API_KEY;
+const HUNTER_API_URL = 'https://api.hunter.io/v2';
 
-// Apollo People Search Endpoint
+// Hunter.io Domain Search Endpoint
 app.post('/api/apollo/search', async (req, res) => {
   try {
-    console.log('Apollo search request:', JSON.stringify(req.body, null, 2));
+    const { domain, job_titles, department, seniority, limit = 25 } = req.body;
+    console.log('Hunter search request:', JSON.stringify(req.body, null, 2));
     
-    // Use people/search endpoint which is available on free tier
-    const response = await fetch(`${APOLLO_API_URL}/people/search`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'X-Api-Key': APOLLO_API_KEY || '',
-      },
-      body: JSON.stringify(req.body),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Apollo API error:', response.status, error);
-      return res.status(response.status).json({
-        error: error.message || JSON.stringify(error) || 'Failed to search leads',
-      });
-    }
-
-    const data = await response.json();
-    console.log('Apollo search success:', data.contacts?.length || 0, 'contacts found');
-    res.json(data);
-  } catch (error) {
-    console.error('Apollo search error:', error);
-    res.status(500).json({
-      error: error instanceof Error ? error.message : 'Internal server error',
-    });
-  }
-});
-
-// Apollo Contact Enrichment Endpoint
-app.post('/api/apollo/enrich', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ error: 'Email is required' });
-    }
-
-    const response = await fetch(`${APOLLO_API_URL}/people/match`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'X-Api-Key': APOLLO_API_KEY || '',
-      },
-      body: JSON.stringify({
-        api_key: APOLLO_API_KEY,
-        email,
-        reveal_personal_emails: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      return res.status(response.status).json({
-        error: error.message || 'Failed to enrich contact',
-      });
-    }
-
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    console.error('Apollo enrich error:', error);
-    res.status(500).json({
-      error: error instanceof Error ? error.message : 'Internal server error',
-    });
-  }
-});
-
-// Apollo Organization Enrichment Endpoint
-app.get('/api/apollo/organization', async (req, res) => {
-  try {
-    const { domain } = req.query;
-
     if (!domain) {
       return res.status(400).json({ error: 'Domain is required' });
     }
 
-    const response = await fetch(
-      `${APOLLO_API_URL}/organizations/enrich?domain=${domain}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache',
-          'X-Api-Key': APOLLO_API_KEY || '',
-        },
-      }
-    );
+    // Build query parameters
+    const params = new URLSearchParams({
+      domain,
+      api_key: HUNTER_API_KEY || '',
+      limit: limit.toString(),
+    });
+
+    if (job_titles) params.append('job_titles', job_titles);
+    if (department) params.append('department', department);
+    if (seniority) params.append('seniority', seniority);
+    
+    const response = await fetch(`${HUNTER_API_URL}/domain-search?${params}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('Hunter API error:', response.status, error);
+      return res.status(response.status).json({
+        error: error.errors?.[0]?.details || JSON.stringify(error) || 'Failed to search leads',
+      });
+    }
+
+    const data = await response.json();
+    console.log('Hunter search success:', data.data?.emails?.length || 0, 'contacts found');
+    res.json(data);
+  } catch (error) {
+    console.error('Hunter search error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Internal server error',
+    });
+  }
+});
+
+// Hunter.io Email Finder Endpoint
+app.get('/api/apollo/enrich', async (req, res) => {
+  try {
+    const { domain, first_name, last_name } = req.query;
+
+    if (!domain || !first_name || !last_name) {
+      return res.status(400).json({ error: 'Domain, first_name, and last_name are required' });
+    }
+
+    const params = new URLSearchParams({
+      domain,
+      first_name,
+      last_name,
+      api_key: HUNTER_API_KEY || '',
+    });
+
+    const response = await fetch(`${HUNTER_API_URL}/email-finder?${params}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!response.ok) {
       const error = await response.json();
       return res.status(response.status).json({
-        error: error.message || 'Failed to get organization',
+        error: error.errors?.[0]?.details || 'Failed to find email',
       });
     }
 
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    console.error('Apollo organization error:', error);
+    console.error('Hunter email finder error:', error);
     res.status(500).json({
       error: error instanceof Error ? error.message : 'Internal server error',
     });
   }
 });
+
+
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -132,6 +108,7 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Apollo proxy server running on http://localhost:${PORT}`);
-  console.log(`📡 Forwarding requests to ${APOLLO_API_URL}`);
+  console.log(`🚀 Hunter.io proxy server running on http://localhost:${PORT}`);
+  console.log(`📡 Forwarding requests to ${HUNTER_API_URL}`);
+  console.log(`🔑 API Key configured: ${HUNTER_API_KEY ? 'Yes' : 'No'}`);
 });

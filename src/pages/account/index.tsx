@@ -1,11 +1,9 @@
 "use client";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
-import { AddCircle, Bell } from "@solar-icons/react";
 import { Formik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
-import Button from "../../components/button/Button";
 import Leads from "./leads";
 import Clients from "./clients";
 
