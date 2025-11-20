@@ -36,10 +36,11 @@ export default function Toast({ message, type = "success", duration = 5000, time
   return (
     <div
       className={`
-        bg-[#FFF5F4] p-4 font-bold
-        transition-all duration-300 ease-out overflow-hidden absolute top-4 left-4
+        bg-white p-4 font-bold
+        transition-all duration-300 ease-out overflow-hidden fixed top-4 left-4 z-[1000]
         rounded-md shadow-md m-2
         ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'}
+        ${type === "error" ? "border-b border-red-400" : "border-b border-green-400"}
       `}
     >
       <p className={type === "error" ? "text-[var(--color-red)]" : "text-[var(--color-green)]"}>

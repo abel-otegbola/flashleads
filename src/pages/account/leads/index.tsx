@@ -74,7 +74,7 @@ export default function Leads() {
   };
 
   return (
-    <div className="p-6 max-w-[1400px] mx-auto">
+    <div className="p-6">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
@@ -99,23 +99,23 @@ export default function Leads() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-sm text-gray-600 mb-1">Total Leads</p>
           <p className="text-2xl font-bold">{leads.length}</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-sm text-gray-600 mb-1">New Leads</p>
           <p className="text-2xl font-bold text-blue-600">
             {leads.filter(l => l.status === "new").length}
           </p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-sm text-gray-600 mb-1">Qualified</p>
           <p className="text-2xl font-bold text-green-600">
             {leads.filter(l => l.status === "qualified").length}
           </p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-sm text-gray-600 mb-1">Total Value</p>
           <p className="text-2xl font-bold text-primary">
             ${leads.reduce((sum, l) => sum + l.value, 0).toLocaleString()}
@@ -124,7 +124,7 @@ export default function Leads() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-4">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <input
@@ -132,13 +132,13 @@ export default function Leads() {
               placeholder="Search leads by name, company, or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+            className="px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
           >
             <option value="all">All Status</option>
             <option value="new">New</option>
@@ -152,7 +152,7 @@ export default function Leads() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">

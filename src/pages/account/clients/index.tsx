@@ -90,7 +90,7 @@ export default function Clients() {
   const totalRevenue = clients.reduce((sum, c) => sum + (c.totalRevenue || 0), 0);
 
   return (
-    <div className="p-6 max-w-[1400px] mx-auto">
+    <div className="p-6">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
@@ -113,7 +113,7 @@ export default function Clients() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-blue-50 rounded-lg">
               <UserCircle size={24} className="text-blue-600" />
@@ -125,7 +125,7 @@ export default function Clients() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-green-50 rounded-lg">
               <UserCircle size={24} className="text-green-600" />
@@ -137,7 +137,7 @@ export default function Clients() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-purple-50 rounded-lg">
               <UserCircle size={24} className="text-purple-600" />
@@ -149,7 +149,7 @@ export default function Clients() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-emerald-50 rounded-lg">
               <DollarMinimalistic size={24} className="text-emerald-600" />
@@ -163,7 +163,7 @@ export default function Clients() {
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <Input
@@ -177,7 +177,7 @@ export default function Clients() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
             >
               <option value="all">All Statuses</option>
               <option value="active">Active</option>
@@ -209,7 +209,7 @@ export default function Clients() {
           {filteredClients.map(client => {
             const stats = getClientStats(client);
             return (
-              <div key={client.id} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+              <div key={client.id} className="bg-white border border-gray-200/[0.2] rounded-lg p-6 hover:shadow-lg transition-shadow">
                 {/* Client Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
@@ -267,7 +267,7 @@ export default function Clients() {
                 <div className="flex gap-2">
                   <button 
                     onClick={() => setSelectedClient(client)}
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm flex items-center justify-center gap-1"
+                    className="flex-1 px-3 py-2 border border-gray-200/[0.2] rounded-lg hover:bg-gray-50 text-sm flex items-center justify-center gap-1"
                   >
                     <Folder size={16} />
                     View Details
@@ -286,7 +286,7 @@ export default function Clients() {
                       setEditingClient(client);
                       setIsClientModalOpen(true);
                     }}
-                    className="px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm"
+                    className="px-3 py-2 border border-gray-200/[0.2] rounded-lg hover:bg-gray-50 text-sm"
                   >
                     <Pen size={16} />
                   </button>
@@ -305,7 +305,7 @@ export default function Clients() {
 
       {/* Clients List View */}
       {view === 'list' && (
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -398,7 +398,7 @@ export default function Clients() {
 
       {/* Empty State for Grid View */}
       {view === 'grid' && filteredClients.length === 0 && (
-        <div className="text-center py-12 bg-white border border-gray-200 rounded-lg">
+        <div className="flex flex-col items-center text-center py-12 bg-white border border-gray-200/[0.2] rounded-lg">
           <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
           <p className="text-gray-500 mb-4">
             {clientsLoading ? 'Loading clients...' : 'No clients found'}

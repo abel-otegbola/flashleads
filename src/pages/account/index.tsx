@@ -38,14 +38,7 @@ function AccountPages() {
                 {/* <LogoIcon className="md:hidden"/> */}
 
                 <div className="flex gap-6 items-center">
-                    <Button href="/account/tasks/new" size="medium"><AddCircle /> Create</Button>
-                    <button className="relative p-2">
-                        <Bell size={16}/> 
-                        <span className="absolute top-1 right-3 p-[2px] w-[2px] h-[2px] rounded-lg bg-red-500"></span>
-                    </button>
-                    <Link to="/account" className="outline outline-offset-2 outline-primary/[0.2] rounded-full">
-                        <img src="/profile_pic.png" width={26} height={26} alt="avatar" className="rounded-full" />
-                    </Link>
+                    <Link to={"/account"} className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold">{user?.email?.charAt(0).toUpperCase()}</Link>
                 </div>
             </div>
             <Routes>

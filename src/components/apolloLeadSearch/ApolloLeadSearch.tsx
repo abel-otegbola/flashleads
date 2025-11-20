@@ -47,22 +47,19 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     try {
       const params: Record<string, unknown> = {
         page: 1,
-        perPage: 25,
-        personNotNullFields: ['email'],
+        per_page: 25,
+        person_titles: jobTitle ? [jobTitle] : undefined,
+        organization_locations: location ? [location] : undefined,
+        organization_industry_tag_ids: industry ? [industry] : undefined,
+        organization_num_employees_ranges: companySize ? [companySize] : undefined,
       };
 
-      if (jobTitle) {
-        params.personTitles = [jobTitle];
-      }
-      if (location) {
-        params.organizationLocations = [location];
-      }
-      if (industry) {
-        params.organizationIndustryTagIds = [industry];
-      }
-      if (companySize) {
-        params.organizationNumEmployeesRanges = [companySize];
-      }
+      // Remove undefined values
+      Object.keys(params).forEach(key => {
+        if (params[key] === undefined) {
+          delete params[key];
+        }
+      });
 
       const response = await searchLeads(params);
       setSearchResults(response.contacts);

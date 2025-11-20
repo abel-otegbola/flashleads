@@ -84,7 +84,7 @@ export default function Signup() {
 
             <div className="text-center flex gap-2 items-center justify-center font-medium">
               <span className="text-[#7C7E7E]">Already have an account? </span>
-              <Link to="/" className="text-primary font-medium">Log in</Link>
+              <Link to="/login" className="text-primary font-medium">Log in</Link>
             </div>
 
             <div className="flex justify-center gap-2 items-center mb-8">

@@ -65,59 +65,99 @@ export interface ApolloEnrichResponse {
  * Search for contacts/leads using Apollo.io (via proxy)
  */
 export async function searchLeads(params: Record<string, unknown>): Promise<ApolloSearchResponse> {
-  const response = await fetch(`${PROXY_API_URL}/search`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(params),
-  });
+  try {
+    const response = await fetch(`${PROXY_API_URL}/search`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to search leads');
+    const contentType = response.headers.get('content-type');
+    
+    // Check if we got HTML instead of JSON (proxy server not running)
+    if (contentType?.includes('text/html')) {
+      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(error.error || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
+    }
+    throw error;
   }
-
-  return response.json();
 }
 
 /**
  * Enrich a contact by email to get complete information including socials (via proxy)
  */
 export async function enrichContact(email: string): Promise<ApolloEnrichResponse> {
-  const response = await fetch(`${PROXY_API_URL}/enrich`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email }),
-  });
+  try {
+    const response = await fetch(`${PROXY_API_URL}/enrich`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to enrich contact');
+    const contentType = response.headers.get('content-type');
+    
+    if (contentType?.includes('text/html')) {
+      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(error.error || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
+    }
+    throw error;
   }
-
-  return response.json();
 }
 
 /**
  * Get organization details by domain (via proxy)
  */
 export async function getOrganization(domain: string) {
-  const response = await fetch(`${PROXY_API_URL}/organization?domain=${encodeURIComponent(domain)}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    const response = await fetch(`${PROXY_API_URL}/organization?domain=${encodeURIComponent(domain)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to get organization');
+    const contentType = response.headers.get('content-type');
+    
+    if (contentType?.includes('text/html')) {
+      throw new Error('Apollo proxy server is not running. Please start the server with: node server/index.js');
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(error.error || `API Error: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Cannot connect to Apollo proxy server. Make sure it\'s running on port 3001');
+    }
+    throw error;
   }
-
-  return response.json();
 }
 
 /**

@@ -16,27 +16,29 @@ const APOLLO_API_URL = 'https://api.apollo.io/v1';
 // Apollo People Search Endpoint
 app.post('/api/apollo/search', async (req, res) => {
   try {
-    const response = await fetch(`${APOLLO_API_URL}/mixed_people/search`, {
+    console.log('Apollo search request:', JSON.stringify(req.body, null, 2));
+    
+    // Use people/search endpoint which is available on free tier
+    const response = await fetch(`${APOLLO_API_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
         'X-Api-Key': APOLLO_API_KEY || '',
       },
-      body: JSON.stringify({
-        ...req.body,
-        api_key: APOLLO_API_KEY,
-      }),
+      body: JSON.stringify(req.body),
     });
 
     if (!response.ok) {
       const error = await response.json();
+      console.error('Apollo API error:', response.status, error);
       return res.status(response.status).json({
-        error: error.message || 'Failed to search leads',
+        error: error.message || JSON.stringify(error) || 'Failed to search leads',
       });
     }
 
     const data = await response.json();
+    console.log('Apollo search success:', data.contacts?.length || 0, 'contacts found');
     res.json(data);
   } catch (error) {
     console.error('Apollo search error:', error);
