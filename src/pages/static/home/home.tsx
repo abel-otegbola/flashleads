@@ -13,13 +13,14 @@ function Homepage() {
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-primary text-white font-medium text-xs">New</span>
                     <span className="font-medium text-xs">Perfectly Organized with New AI Tools</span>
                 </div>
-                <h1 className="flex md:flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
+                <h1 className="md:flex hidden flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
                     Turn Customer 
                     <span className="flex md:mt-2 gap-4 items-center">Data into <img 
                         src="/hero-img2.png" 
                         alt="FlashLeads Illustration" 
                         className="object-contain md:block hidden"/></span>
                 </h1>
+                <h1 className="text-3xl font-bold">Turn Customer Data into</h1>
                 <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] text-[#21E061] mb-2 md:mb-12">
                     Sales Success
                 </h1>
