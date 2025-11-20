@@ -42,11 +42,11 @@ function Homepage() {
             </div>
         </header>
 
-        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[5%] px-4">
-            <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
+        <section className="flex justify-center flex-col md:items-center gap-6 py-8 md:px-[5%] px-4">
+            <div className="flex flex-col md:items-center justify-center gap-5 md:w-1/2 md:text-center">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 leading-[12px] py-2 text-nowrap text-[12px]">Why Choose Us</span>
+                    <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 p-2 leading-[12px] py-2 text-nowrap md:text-[12px] text-[10px]">Why Choose Us</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl text-2xl font-semibold"> Complete Lead Generation & Outreach Platform Built for Growth</h1>
