@@ -1,32 +1,35 @@
+import Button from "../../../components/button/Button"
 import Topbar from "../../../components/topbar/topbar"
 
 function Homepage() {
   return (
-    <div>
+    <div className="overflow-hidden">
             
         <Topbar />
 
-        <header className="flex flex-col md:flex-row items-center justify-between min-h-screen gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-20">
-            <div className="w-full md:w-1/2 flex flex-col items-start max-w-2xl">
-                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit mb-6 gap-2 text-xs sm:text-sm">
+        <header className="flex flex-col md:flex-row justify-between min-h-screen gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
+            <div className="w-full md:w-1/2 flex flex-col items-start max-w-2xl md:py-12">
+                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit md:mb-10 mb-4 gap-2 text-xs sm:text-sm">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-primary text-white font-medium text-xs">New</span>
-                    <span className="">Perfectly Organized with New AI Tools</span>
+                    <span className="font-medium text-xs">Perfectly Organized with New AI Tools</span>
                 </div>
-                <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] mb-4">
-                    Turn Customer Data into
+                <h1 className="flex md:flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
+                    Turn Customer 
+                    <span className="flex md:mt-2 gap-4 items-center">Data into <img 
+                        src="/hero-img2.png" 
+                        alt="FlashLeads Illustration" 
+                        className="object-contain md:block hidden"/></span>
                 </h1>
-                <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] bg-gradient-to-r from-primary to-fuchsia-500 bg-clip-text text-transparent mb-6 md:mb-8">
+                <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] text-[#21E061] mb-2 md:mb-12">
                     Sales Success
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg mb-8 max-w-xl leading-relaxed">
-                    Discover high-quality leads and streamline your cold email campaigns with FlashLeads. Sign up today and take your business to the next level!
+                <p className="opacity-[0.8] md:w-[75%] md:mb-8 mb-4 max-w-xl leading-[28px]">
+                    FlashLeads helps freelancers, agencies, and growing businesses discover qualified leads, automate outreach, and manage client relationships, all from one powerful, streamlined platform.
                 </p>
-                <a 
-                    href="/signup" 
-                    className="bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-primary/90 hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm sm:text-base"
-                >
-                    Get Started for Free
-                </a>
+                <div className="flex items-center gap-4">
+                    <Button href="/signup" className="text-[14px]">Start Free Trial</Button>
+                    <Button variant="secondary" className="text-[14px]">Learn More</Button>
+                </div>
             </div>
             <div className="w-full md:w-1/2 flex items-center justify-center mt-8 md:mt-0">
                 <img 
