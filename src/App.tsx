@@ -9,6 +9,15 @@ import VerifyOtp from "./pages/auth/verifyOtp"
 import ResetPassword from "./pages/auth/resetPassword"
 import AccountPages from "./pages/account"
 import Homepage from "./pages/static/home/home"
+import Integrations from "./pages/static/integrations"
+import Pricing from "./pages/static/pricing"
+import About from "./pages/static/about"
+import Contact from "./pages/static/contact"
+import Solutions from "./pages/static/solutions"
+import Privacy from "./pages/static/privacy"
+import Terms from "./pages/static/terms"
+import Security from "./pages/static/security"
+import Blog from "./pages/static/blog"
 
 function App() {
 
@@ -19,12 +28,28 @@ function App() {
         <LeadsProvider>
           <ClientsProvider>
             <Routes>
+              {/* Static Pages */}
               <Route path="/" element={<Homepage />} />
+              <Route path="/integrations" element={<Integrations />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/blog" element={<Blog />} />
+              
+              {/* Legal Pages */}
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/security" element={<Security />} />
+              
+              {/* Auth Pages */}
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/verify-otp" element={<VerifyOtp />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              
+              {/* Account Pages */}
               <Route path="/account/*" element={<AccountPages />} />
             </Routes>
           </ClientsProvider>
