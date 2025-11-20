@@ -1,3 +1,4 @@
+import LineCircleIcon from "../../../assets/icons/lineCircle"
 import Button from "../../../components/button/Button"
 import Topbar from "../../../components/topbar/topbar"
 
@@ -40,6 +41,39 @@ function Homepage() {
                 />
             </div>
         </header>
+
+        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[5%] px-4">
+            <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
+                <div className="max-w-[338px] flex items-center gap-4 w-full">
+                    <LineCircleIcon className="flex-1 "/>
+                    <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 leading-[12px] py-2 text-nowrap text-[12px]">Why Choose Us</span>
+                    <LineCircleIcon className="flex-1 rotate-180" />
+                </div>
+                <h1 className="xl:text-4xl text-2xl font-semibold"> Complete Lead Generation & Outreach Platform Built for Growth</h1>
+                <p>FlashLeads combines advanced lead discovery, real-time contact enrichment, and intelligent outreach automation, enabling you to identify new opportunities and convert them faster.</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
+                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg">
+                    <img src="/lead-gen.png" alt="Lead Generation Icon" className="w-full h-auto"/>
+                    <h1 className="text-xl text-primary font-bold">01</h1>
+                    <h2 className="font-semibold text-lg">Advanced Lead Generation</h2>
+                    <p className="text-sm text-gray-600">Discover high-quality leads with our AI-powered search and filtering tools, tailored to your ideal customer profile.</p>
+                </div>
+                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg">
+                    <img src="/outreach.png" alt="Outreach Automation Icon" className="w-full h-auto"/>
+                    <h1 className="text-xl text-primary font-bold">02</h1>
+                    <h2 className="font-semibold text-lg">Automated Outreach</h2>
+                    <p className="text-sm text-gray-600">Create personalized email campaigns and follow-ups that nurture leads and drive conversions, all on autopilot.</p>
+                </div>
+                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg">
+                    <img src="/crm.png" alt="CRM Icon" className="w-full h-auto"/>
+                    <h1 className="text-xl text-primary font-bold">03</h1>
+                    <h2 className="font-semibold text-lg">Integrated CRM</h2>
+                    <p className="text-sm text-gray-600">Manage your leads, track interactions, and monitor sales pipelines with our built-in CRM designed for efficiency.</p>
+                </div>
+            </div>
+        </section>
 
     </div>
 
