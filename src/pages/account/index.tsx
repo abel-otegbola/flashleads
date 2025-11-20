@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import { Formik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
+import Dashboard from "./dashboard";
 import Leads from "./leads";
 import Clients from "./clients";
 
@@ -41,6 +42,7 @@ function AccountPages() {
             </div>
             <Routes>
                 <Route path="/" element={<Navigate to={"/account/dashboard"} />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/leads" element={<Leads />} />
                 <Route path="/clients" element={<Clients />} />
             </Routes>
