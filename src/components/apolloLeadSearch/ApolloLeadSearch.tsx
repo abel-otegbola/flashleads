@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CloseCircle, Buildings2, MapPoint, UserCircle, Star } from "@solar-icons/react";
+import { CloseCircle, Buildings2, UserCircle, Star } from "@solar-icons/react";
 import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
 import { searchLeads, hunterContactToLead, type HunterContact, type HunterOrganization } from "../../helpers/apolloApi";
