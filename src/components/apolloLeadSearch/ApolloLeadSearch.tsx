@@ -23,6 +23,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
   const [organization, setOrganization] = useState<HunterOrganization | null>(null);
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string>('');
+  const [totalResults, setTotalResults] = useState<number>(0);
 
   // Search params
   const [domain, setDomain] = useState('');
@@ -41,7 +42,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     try {
       const params: Record<string, unknown> = {
         domain: domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0], // Clean domain
-        limit: 25,
+        limit: 10, // Free plan limit
       };
 
       if (jobTitle) params.job_titles = jobTitle;
@@ -51,6 +52,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
       const response = await searchLeads(params);
       setSearchResults(response.data.emails || []);
       setOrganization(response.data);
+      setTotalResults(response.meta?.results || 0);
 
       if (!response.data.emails || response.data.emails.length === 0) {
         setError('No leads found for this domain. Try a different company or check the domain name.');
@@ -180,6 +182,23 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
               {error}
+            </div>
+          )}
+
+          {totalResults > searchResults.length && searchResults.length > 0 && (
+            <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4">
+              <div className="flex items-start gap-2">
+                <span className="text-lg">ℹ️</span>
+                <div>
+                  <p className="font-medium mb-1">Free Plan Limit</p>
+                  <p className="text-sm">
+                    Showing {searchResults.length} of {totalResults} contacts. 
+                    <a href="https://hunter.io/pricing" target="_blank" rel="noopener noreferrer" className="underline font-medium ml-1">
+                      Upgrade to see all {totalResults} results
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 
