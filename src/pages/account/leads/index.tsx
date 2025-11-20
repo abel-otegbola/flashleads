@@ -96,7 +96,7 @@ export default function Leads() {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center gap-12 justify-between">
         <div>
           <h1 className="text-2xl font-bold mb-2">Leads</h1>
           <p className="text-gray-600">Manage and track your potential clients</p>
@@ -118,7 +118,7 @@ export default function Leads() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-sm text-gray-600 mb-1">Total Leads</p>
           <p className="text-2xl font-bold">{leads.length}</p>
@@ -172,7 +172,7 @@ export default function Leads() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[92vw]">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
