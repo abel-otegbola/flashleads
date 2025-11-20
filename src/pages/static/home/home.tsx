@@ -86,6 +86,41 @@ function Homepage() {
                 <p>Whether you're targeting local businesses or international clients, FlashLeads delivers verified, up-to-date contact data across global markets.</p>
             </div>
 
+            <div className="flex gap-4 md:flex-row flex-col">
+                <div className="w-full md:w-1/2 flex flex-col gap-6">
+                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                        <img src="/features-lead-gen.png" alt="Feature 1 Icon" className="w-full h-auto object-contain"/>
+                        <div>
+                            <h2 className="font-semibold text-lg">AI-Powered Lead Discovery</h2>
+                            <p className="text-sm text-gray-600">Utilize advanced AI algorithms to identify and target high-potential leads that match your ideal customer profile.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                        <img src="/features-outreach.png" alt="Feature 2 Icon" className="w-full h-auto object-contain"/>
+                        <div>
+                            <h2 className="font-semibold text-lg">Personalized Email Campaigns</h2>
+                            <p className="text-sm text-gray-600">Craft tailored email sequences that engage your audience and increase response rates through automation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
+                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                        <img src="/features-crm.png" alt="Feature 3 Icon" className="w-full h-auto object-contain"/>
+                        <div>
+                            <h2 className="font-semibold text-lg">Integrated CRM</h2>
+                            <p className="text-sm text-gray-600">Manage your leads, track interactions, and monitor sales pipelines with our built-in CRM designed for efficiency.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                        <img src="/features-social.png" alt="Feature 4 Icon" className="w-full h-auto object-contain"/>
+                        <div>
+                            <h2 className="font-semibold text-lg">Real-Time Analytics</h2>
+                            <p className="text-sm text-gray-600">Gain insights into your outreach performance with detailed analytics and reporting tools to optimize your strategies.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
     </div>
