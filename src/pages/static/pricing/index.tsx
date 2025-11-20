@@ -1,11 +1,15 @@
 import Topbar from "../../../components/topbar/topbar";
 import Footer from "../../../components/footer/Footer";
+import { useState } from "react";
 
 function Pricing() {
+  const [isYearly, setIsYearly] = useState(false);
+
   const plans = [
     {
       name: "Starter",
-      price: "Free",
+      monthlyPrice: 10,
+      yearlyPrice: 96,
       period: "forever",
       description: "Perfect for freelancers and solo entrepreneurs",
       features: [
@@ -21,7 +25,8 @@ function Pricing() {
     },
     {
       name: "Professional",
-      price: "$49",
+      monthlyPrice: 49,
+      yearlyPrice: 470,
       period: "per month",
       description: "Ideal for small teams and growing businesses",
       features: [
@@ -40,7 +45,8 @@ function Pricing() {
     },
     {
       name: "Enterprise",
-      price: "Custom",
+      monthlyPrice: null,
+      yearlyPrice: null,
       period: "contact sales",
       description: "For large teams with advanced needs",
       features: [
@@ -61,7 +67,7 @@ function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen">
       <Topbar />
       
       {/* Hero Section */}
@@ -73,16 +79,30 @@ function Pricing() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Choose the Perfect Plan for Your Business
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          <p className="text-lg  mb-8">
             Start free, scale as you grow. No hidden fees, cancel anytime.
           </p>
           
           {/* Billing Toggle */}
-          <div className="inline-flex items-center gap-3 p-1 bg-gray-100 dark:bg-gray-800 rounded-full">
-            <button className="px-6 py-2 rounded-full bg-white dark:bg-gray-700 shadow-sm font-medium text-sm">
+          <div className="inline-flex items-center gap-3 p-1 rounded-full">
+            <button 
+              onClick={() => setIsYearly(false)}
+              className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                !isYearly 
+                  ? 'shadow-sm' 
+                  : 'text-gray-600 dark:text-gray-400'
+              }`}
+            >
               Monthly
             </button>
-            <button className="px-6 py-2 rounded-full font-medium text-sm text-gray-600 dark:text-gray-400">
+            <button 
+              onClick={() => setIsYearly(true)}
+              className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                isYearly 
+                  ? 'shadow-sm' 
+                  : 'text-gray-600 dark:text-gray-400'
+              }`}
+            >
               Yearly <span className="text-green-600 text-xs ml-1">(Save 20%)</span>
             </button>
           </div>
@@ -98,7 +118,7 @@ function Pricing() {
               className={`rounded-2xl p-8 ${
                 plan.highlighted
                   ? "bg-gradient-to-br from-primary to-fuchsia-500 text-white shadow-2xl scale-105 relative"
-                  : "bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                  : "bg-gray-100/[0.1] border border-gray-200/[0.2]"
               }`}
             >
               {plan.highlighted && (
@@ -109,23 +129,36 @@ function Pricing() {
               
               <div className="mb-6">
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <p className={`text-sm ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                <p className={`text-sm ${plan.highlighted ? "text-white/80" : ""}`}>
                   {plan.description}
                 </p>
               </div>
 
               <div className="mb-8">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold">{plan.price}</span>
-                  {plan.price !== "Free" && plan.price !== "Custom" && (
-                    <span className={`text-sm ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
-                      / month
-                    </span>
+                  {plan.monthlyPrice === null ? (
+                    <span className="text-5xl font-bold">Custom</span>
+                  ) : (
+                    <>
+                      <span className="text-5xl font-bold">
+                        ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                      </span>
+                      <span className={`text-sm ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                        / {isYearly ? 'year' : 'month'}
+                      </span>
+                    </>
                   )}
                 </div>
-                <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
-                  {plan.period}
-                </p>
+                {plan.monthlyPrice !== null && isYearly && (
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                    ${(plan.yearlyPrice / 12).toFixed(2)} per month, billed annually
+                  </p>
+                )}
+                {plan.monthlyPrice === null && (
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                    {plan.period}
+                  </p>
+                )}
               </div>
 
               <ul className="space-y-4 mb-8">
@@ -134,7 +167,7 @@ function Pricing() {
                     <svg className={`w-5 h-5 mt-0.5 flex-shrink-0 ${plan.highlighted ? "text-white" : "text-green-500"}`} fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span className={`text-sm ${plan.highlighted ? "text-white" : "text-gray-700 dark:text-gray-300"}`}>
+                    <span className={`text-sm ${plan.highlighted ? "text-white" : ""}`}>
                       {feature}
                     </span>
                   </li>
@@ -177,9 +210,9 @@ function Pricing() {
               a: "You'll receive a notification when you're approaching your limit. You can upgrade anytime to continue accessing more leads."
             }
           ].map((faq, index) => (
-            <div key={index} className="p-6 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div key={index} className="p-6 rounded-xl border border-gray-200/[0.2]">
               <h3 className="text-lg font-semibold mb-2">{faq.q}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{faq.a}</p>
+              <p className="">{faq.a}</p>
             </div>
           ))}
         </div>

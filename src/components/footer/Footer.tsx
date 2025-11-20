@@ -7,9 +7,9 @@ function Footer() {
     <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
-          <div className="col-span-2 lg:col-span-2">
+          <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src="/logo.png" alt="FlashLeads Logo" className="w-8 h-8 object-contain" />
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-fuchsia-400 bg-clip-text text-transparent">
@@ -61,14 +61,9 @@ function Footer() {
             <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Product</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#features" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Features
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                <Link to="/pricing" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
                   Pricing
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to="/integrations" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
@@ -76,77 +71,8 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/changelog" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Changelog
-                </Link>
-              </li>
-              <li>
-                <Link to="/roadmap" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Roadmap
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Solutions Column */}
-          <div className="col-span-1">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Solutions</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/solutions/sales" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Sales Teams
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/marketing" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Marketing
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/startups" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Startups
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/enterprise" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Enterprise
-                </Link>
-              </li>
-              <li>
-                <Link to="/case-studies" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Case Studies
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources Column */}
-          <div className="col-span-1">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Resources</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/blog" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/documentation" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Documentation
-                </Link>
-              </li>
-              <li>
-                <Link to="/help" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link to="/api" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  API Reference
-                </Link>
-              </li>
-              <li>
-                <Link to="/community" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Community
+                <Link to="/solutions" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                  Solutions
                 </Link>
               </li>
             </ul>
@@ -158,27 +84,17 @@ function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link to="/about" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  About Us
+                  About
                 </Link>
               </li>
               <li>
-                <Link to="/careers" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Careers
+                <Link to="/blog" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                  Blog
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
                   Contact
-                </Link>
-              </li>
-              <li>
-                <Link to="/partners" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Partners
-                </Link>
-              </li>
-              <li>
-                <Link to="/press" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Press Kit
                 </Link>
               </li>
             </ul>
@@ -193,13 +109,10 @@ function Footer() {
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-6">
               <Link to="/privacy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                Privacy Policy
+                Privacy
               </Link>
               <Link to="/terms" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                Terms of Service
-              </Link>
-              <Link to="/cookies" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                Cookie Policy
+                Terms
               </Link>
               <Link to="/security" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
                 Security

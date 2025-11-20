@@ -22,7 +22,7 @@ function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen">
       <Topbar />
       
       {/* Hero Section */}
@@ -31,7 +31,7 @@ function Contact() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Get in Touch
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg">
             Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>
@@ -94,7 +94,7 @@ function Contact() {
                   <a
                     key={platform}
                     href="#"
-                    className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                    className="w-10 h-10 bg-gray-100/[0.2] rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                     aria-label={platform}
                   >
                     {platform[0]}
@@ -106,7 +106,7 @@ function Contact() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+            <div className="bg-gray-50/[0.2] border border-gray-500/[0.2] rounded-2xl p-8">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
@@ -120,7 +120,7 @@ function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600/[0.2] focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                       placeholder="John Doe"
                     />
                   </div>
@@ -134,7 +134,7 @@ function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600/[0.2] focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                       placeholder="john@company.com"
                     />
                   </div>
@@ -149,7 +149,7 @@ function Contact() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600/[0.2] focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                     placeholder="Your Company Inc."
                   />
                 </div>
@@ -163,7 +163,7 @@ function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600/[0.2] focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                   >
                     <option value="">Select a subject</option>
                     <option value="sales">Sales Inquiry</option>
@@ -184,7 +184,7 @@ function Contact() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600/[0.2] focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
                     placeholder="Tell us more about your inquiry..."
                   />
                 </div>
@@ -199,7 +199,7 @@ function Contact() {
       </div>
 
       {/* FAQ Section */}
-      <section className="bg-gray-50 dark:bg-gray-800 py-20">
+      <section className="py-20">
         <div className="px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Quick Answers</h2>
           <div className="space-y-4">
@@ -217,7 +217,7 @@ function Contact() {
                 a: "Absolutely! Select 'Sales Inquiry' in the form above and mention you'd like a demo in your message."
               }
             ].map((faq, index) => (
-              <details key={index} className="group bg-white dark:bg-gray-700 rounded-lg p-6">
+              <details key={index} className="group/[0.2] rounded-lg p-6">
                 <summary className="font-semibold cursor-pointer flex justify-between items-center">
                   {faq.q}
                   <span className="text-primary group-open:rotate-180 transition-transform">▼</span>

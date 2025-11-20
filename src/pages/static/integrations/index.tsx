@@ -93,12 +93,12 @@ function Integrations() {
   const categories = ["All", "CRM", "Email", "Communication", "Automation", "Lead Generation", "Productivity", "Payment", "Scheduling", "Support"];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen overflow-hidden">
       <Topbar />
       
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
           <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm mb-6">
             30+ Integrations
           </div>
@@ -132,14 +132,14 @@ function Integrations() {
           {integrations.map((integration, index) => (
             <div
               key={index}
-              className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-800"
+              className="p-6 rounded-xl border border-gray-200/[0.2] hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="text-4xl">{integration.logo}</div>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                   integration.status === "Available" 
-                    ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                    : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                    ? "bg-green-100/[0.2] text-green-700 dark:text-green-400"
+                    : "bg-yellow-100/[0.2] text-yellow-700  dark:text-yellow-400"
                 }`}>
                   {integration.status}
                 </span>
@@ -166,7 +166,7 @@ function Integrations() {
           <p className="text-lg mb-8 opacity-90">
             Request a new integration or build your own using our powerful API
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex gap-4 justify-center">
             <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100">
               Request Integration
             </Button>
