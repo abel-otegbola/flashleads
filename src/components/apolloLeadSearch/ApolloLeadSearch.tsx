@@ -85,12 +85,22 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
   };
 
   const handleImport = () => {
-    if (!organization) return;
+    if (!organization) {
+      console.error('No organization data available');
+      setError('Organization data is missing. Please try searching again.');
+      return;
+    }
+
+    if (selectedLeads.size === 0) {
+      setError('Please select at least one lead to import.');
+      return;
+    }
     
     const leadsToImport = searchResults
       .filter(contact => selectedLeads.has(contact.value))
       .map(contact => hunterContactToLead(contact, organization));
     
+    console.log('Importing leads:', leadsToImport);
     onImportLeads(leadsToImport);
     onClose();
   };

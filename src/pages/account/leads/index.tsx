@@ -52,8 +52,28 @@ export default function Leads() {
   };
 
   const handleImportApolloLeads = async (apolloLeads: Record<string, unknown>[]) => {
-    for (const leadData of apolloLeads) {
-      await addLead(leadData as Omit<Lead, 'id' | 'userId' | 'addedDate'>);
+    try {
+      console.log('Importing Apollo leads:', apolloLeads);
+      let successCount = 0;
+      
+      for (const leadData of apolloLeads) {
+        try {
+          await addLead(leadData as Omit<Lead, 'id' | 'userId' | 'addedDate'>);
+          successCount++;
+        } catch (err) {
+          console.error('Failed to import lead:', leadData, err);
+        }
+      }
+      
+      console.log(`Successfully imported ${successCount} of ${apolloLeads.length} leads`);
+      
+      // Show success message (you can add a toast here if you have one)
+      if (successCount > 0) {
+        alert(`Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`);
+      }
+    } catch (err) {
+      console.error('Error importing leads:', err);
+      alert('Failed to import leads. Please try again.');
     }
   };
 
