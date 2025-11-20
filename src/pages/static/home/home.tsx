@@ -1,6 +1,7 @@
 import LineCircleIcon from "../../../assets/icons/lineCircle"
 import Button from "../../../components/button/Button"
 import Topbar from "../../../components/topbar/topbar"
+import Footer from "../../../components/footer/Footer"
 
 function Homepage() {
   return (
@@ -88,40 +89,52 @@ function Homepage() {
 
             <div className="flex gap-4 md:flex-row flex-col">
                 <div className="w-full md:w-1/2 flex flex-col gap-6">
-                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
                         <img src="/features-lead-gen.png" alt="Feature 1 Icon" className="w-full h-auto object-contain"/>
-                        <div>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-primary uppercase">Instant leads</h1>
                             <h2 className="font-semibold text-lg">AI-Powered Lead Discovery</h2>
-                            <p className="text-sm text-gray-600">Utilize advanced AI algorithms to identify and target high-potential leads that match your ideal customer profile.</p>
+                            <p className="text-sm text-gray-600">Discover targeted leads across industries, locations, and company sizes — complete with decision-maker details and enriched contact data.</p>
                         </div>
                     </div>
-                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
                         <img src="/features-outreach.png" alt="Feature 2 Icon" className="w-full h-auto object-contain"/>
-                        <div>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-primary uppercase">Easy Outreach</h1>
                             <h2 className="font-semibold text-lg">Personalized Email Campaigns</h2>
-                            <p className="text-sm text-gray-600">Craft tailored email sequences that engage your audience and increase response rates through automation.</p>
+                            <p className="text-sm text-gray-600">Launch optimized cold email sequences that improve deliverability, engagement, and reply rates. Connect Gmail or Outlook in seconds.</p>
                         </div>
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
-                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
                         <img src="/features-crm.png" alt="Feature 3 Icon" className="w-full h-auto object-contain"/>
-                        <div>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-primary uppercase">Build Relationships</h1>
                             <h2 className="font-semibold text-lg">Integrated CRM</h2>
-                            <p className="text-sm text-gray-600">Manage your leads, track interactions, and monitor sales pipelines with our built-in CRM designed for efficiency.</p>
+                            <p className="text-sm text-gray-600">A lightweight CRM that keeps your leads, clients, and communication history structured and easy to manage.</p>
                         </div>
                     </div>
-                    <div className="flex gap-4 flex-col p-10 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]">
                         <img src="/features-social.png" alt="Feature 4 Icon" className="w-full h-auto object-contain"/>
-                        <div>
-                            <h2 className="font-semibold text-lg">Real-Time Analytics</h2>
-                            <p className="text-sm text-gray-600">Gain insights into your outreach performance with detailed analytics and reporting tools to optimize your strategies.</p>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-primary uppercase">Social Connect</h1>
+                            <h2 className="font-semibold text-lg">Social & Web Profile Enrichment</h2>
+                            <p className="text-sm text-gray-600">Instant access to LinkedIn, Twitter, Facebook, website info, and key company insights — all in one view.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
         </section>
+
+        <section className="bg-black text-white flex justify-center flex-col md:items-center gap-6 md:mx-[5%] mx-4 p-[5%] rounded-lg mb-16">
+            <h1 className="xl:text-4xl text-2xl font-semibold text-center">Ready to Supercharge Your Sales?</h1>
+            <p className="text-center max-w-2xl">Join thousands of freelancers, agencies, and businesses using FlashLeads to discover leads, automate outreach, and close deals faster.</p>
+            <Button href="/signup" className="text-[14px]">Start Your Free Trial Today</Button>
+        </section>
+
+        <Footer />
 
     </div>
 
