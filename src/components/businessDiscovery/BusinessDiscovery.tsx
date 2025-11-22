@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { CloseCircle, Buildings2, MagicStick, Magnifer } from "@solar-icons/react";
+import { CloseCircle, Buildings2, MagicStick, Magnifer, AltArrowLeft } from "@solar-icons/react";
 import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
 import type { Lead } from "../../contexts/LeadsContextValue";
@@ -42,6 +42,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
   const [searchResults, setSearchResults] = useState<DiscoveredBusiness[]>([]);
   const [selectedBusinesses, setSelectedBusinesses] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string>('');
+  const [showMobileResults, setShowMobileResults] = useState(false);
 
   // Search params
   const [industry, setIndustry] = useState('');
@@ -247,6 +248,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
       const businesses = await scrapeYellowPages(industry, location, keywords);
       
       setSearchResults(businesses);
+      setShowMobileResults(true); // Show results on mobile after search
       
       if (businesses.length === 0) {
         setError('No businesses found. Try different search terms.');
@@ -331,7 +333,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
 
         <div className="flex md:flex-row flex-col overflow-y-auto">
           {/* Search Filters */}
-          <div className="p-6 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50 md:w-80">
+          <div className={`p-6 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50 md:w-80 ${showMobileResults ? 'hidden md:block' : 'block'}`}>
             <h3 className="font-semibold mb-4">Search Criteria</h3>
             
             <div className="space-y-4">
@@ -395,7 +397,18 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
           </div>
 
           {/* Results */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className={`flex-1 overflow-y-auto p-6 ${!showMobileResults ? 'hidden md:block' : 'block'}`}>
+            {/* Back button for mobile */}
+            {showMobileResults && (
+              <button
+                onClick={() => setShowMobileResults(false)}
+                className="flex items-center gap-2 text-primary mb-4 md:hidden hover:underline"
+              >
+                <AltArrowLeft size={20} />
+                <span>Back to Search</span>
+              </button>
+            )}
+            
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
                 {error}

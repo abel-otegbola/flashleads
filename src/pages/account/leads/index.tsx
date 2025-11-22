@@ -319,8 +319,8 @@ export default function Leads() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[90vw]">
-        <div className="overflow-x-auto md:text-[14px] text-[12px]">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-x-auto md:w-full w-[90vw]">
+        <div className="overflow-x-auto md:text-[14px] text-[12px] min-w-[1000px]">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -353,7 +353,7 @@ export default function Leads() {
             <tbody className="divide-y divide-gray-200/[0.2]">
               {filteredLeads.map((lead) => (
                 <tr key={lead.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-1">
+                  <td className="px-4 py-1 min-w-[210px]">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-[12px] flex-shrink-0">
                         {lead.name.charAt(0)}
@@ -362,7 +362,7 @@ export default function Leads() {
                         <p className="font-medium text-gray-900">{lead.name}</p>
                         <div className="flex items-center gap-1 text-[12px] text-gray-500">
                           <Buildings size={14} />
-                          <span>{lead.company}</span>
+                          <span className="leading-[16px]">{lead.company}</span>
                         </div>
                       </div>
                     </div>
@@ -426,7 +426,7 @@ export default function Leads() {
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-1">
+                  <td className="px-4 py-1  min-w-[110px]">
                     <span className="text-[12px] opacity-[0.5]">
                       {new Date(lead.addedDate).toLocaleDateString('en-US', { 
                         month: 'short', 
