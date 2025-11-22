@@ -1,18 +1,19 @@
 import { useState, useContext } from "react";
-import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2 } from "@solar-icons/react";
+import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2, MagicStick, Upload, UserSpeak } from "@solar-icons/react";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
 import type { Lead } from "../../../contexts/LeadsContextValue";
 import LeadModal from "../../../components/leadModal/LeadModal";
-import ApolloLeadSearch from "../../../components/apolloLeadSearch/ApolloLeadSearch";
+import BusinessDiscovery from "../../../components/businessDiscovery/BusinessDiscovery";
+import { CSVImport } from "../../../components/csvImport/CSVImport";
 import Button from "../../../components/button/Button";
+import LoadingIcon from "../../../assets/icons/loadingIcon";
 
 const statusColors = {
   new: "bg-blue-100 text-blue-700 border-blue-200",
   contacted: "bg-purple-100 text-purple-700 border-purple-200",
-  qualified: "bg-green-100 text-green-700 border-green-200",
-  negotiating: "bg-orange-100 text-orange-700 border-orange-200",
-  won: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  lost: "bg-gray-100 text-gray-700 border-gray-200"
+  conversation: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  proposal: "bg-orange-100 text-orange-700 border-orange-200",
+  closed: "bg-green-100 text-green-700 border-green-200"
 };
 
 export default function Leads() {
@@ -20,8 +21,10 @@ export default function Leads() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isApolloModalOpen, setIsApolloModalOpen] = useState(false);
+  const [isDiscoveryModalOpen, setIsDiscoveryModalOpen] = useState(false);
+  const [isCSVImportOpen, setIsCSVImportOpen] = useState(false);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
+  const [findingEmailFor, setFindingEmailFor] = useState<string | null>(null);
 
   const filteredLeads = leads.filter(lead => {
     const matchesSearch = 
@@ -51,41 +54,61 @@ export default function Leads() {
     }
   };
 
-  const handleImportApolloLeads = async (apolloLeads: Omit<Lead, 'id' | 'addedDate'>[]) => {
-    console.log('🎯 handleImportApolloLeads called with', apolloLeads.length, 'leads');
-    console.log('📋 First lead sample:', apolloLeads[0]);
+  interface ImportableBusiness {
+    name: string;
+    company: string;
+    email: string;
+    phone: string;
+    location: string;
+    companyWebsite: string;
+    industry: string;
+    score?: number;
+    serviceNeeds?: string[];
+    value?: number;
+  }
+
+  const handleImportDiscoveredLeads = async (discoveredLeads: ImportableBusiness[]) => {
+    console.log('🎯 Importing discovered businesses:', discoveredLeads.length, 'leads');
     
     try {
       let successCount = 0;
       let failCount = 0;
       
-      for (let i = 0; i < apolloLeads.length; i++) {
-        const leadData = apolloLeads[i];
-        console.log(`\n--- Processing lead ${i + 1}/${apolloLeads.length} ---`);
-        console.log('Lead data:', leadData);
+      for (let i = 0; i < discoveredLeads.length; i++) {
+        const business = discoveredLeads[i];
+        
+        // Convert business to Lead format
+        const leadData: Omit<Lead, 'id' | 'addedDate' | 'userId'> = {
+          name: business.name,
+          company: business.company,
+          email: business.email,
+          phone: business.phone,
+          location: business.location,
+          companyWebsite: business.companyWebsite,
+          industry: business.industry,
+          score: business.score || 75,
+          serviceNeeds: business.serviceNeeds || ['Website Design', 'SEO Optimization'],
+          value: business.value || 10000,
+          status: 'new',
+          notes: ''
+        };
         
         try {
-          console.log('🔄 Calling addLead...');
           await addLead(leadData);
           successCount++;
-          console.log(`✅ Lead ${i + 1} imported successfully`);
         } catch (err) {
           failCount++;
           console.error(`❌ Failed to import lead ${i + 1}:`, err);
-          console.error('Lead data that failed:', leadData);
         }
       }
       
-      console.log(`\n📊 Import Summary: ${successCount} succeeded, ${failCount} failed out of ${apolloLeads.length} total`);
+      console.log(`📊 Import Summary: ${successCount} succeeded, ${failCount} failed`);
       
-      // Show success message
       if (successCount > 0) {
         const message = failCount > 0 
           ? `Imported ${successCount} lead${successCount > 1 ? 's' : ''}. ${failCount} failed.`
           : `Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`;
         alert(message);
-      } else {
-        alert('Failed to import any leads. Check console for details.');
       }
     } catch (err) {
       console.error('❌ Critical error in import handler:', err);
@@ -109,6 +132,57 @@ export default function Leads() {
     return "text-gray-600";
   };
 
+  const handleFindEmail = async (leadId: string, companyWebsite: string, companyName: string) => {
+    if (!companyWebsite) {
+      alert('No website available for this lead. Please add a website first.');
+      return;
+    }
+
+    setFindingEmailFor(leadId);
+
+    try {
+      // Extract domain from website
+      const domain = new URL(companyWebsite).hostname.replace('www.', '');
+
+      // Call Hunter.io API through your helper
+      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=${import.meta.env.VITE_HUNTER_API_KEY}&limit=5`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to find contacts');
+      }
+
+      const data = await response.json();
+      
+      if (data.data && data.data.emails && data.data.emails.length > 0) {
+        // Get the first email (usually the most common pattern)
+        const contact = data.data.emails[0];
+        const email = contact.value;
+        const firstName = contact.first_name || 'Contact';
+        const lastName = contact.last_name || '';
+        const fullName = `${firstName} ${lastName}`.trim();
+
+        // Update the lead with the found email and name
+        const lead = leads.find(l => l.id === leadId);
+        if (lead) {
+          await updateLead(leadId, {
+            ...lead,
+            email: email,
+            name: fullName || lead.name
+          });
+          
+          alert(`✅ Found contact: ${fullName}\nEmail: ${email}`);
+        }
+      } else {
+        alert(`No contacts found for ${companyName}. Try searching manually with Hunter.io.`);
+      }
+    } catch (error) {
+      console.error('Error finding email:', error);
+      alert('Failed to find contact. Please check your Hunter.io API key or try manually.');
+    } finally {
+      setFindingEmailFor(null);
+    }
+  };
+
   return (
     <div className="p-4 md:p-6">
       {/* Header */}
@@ -119,12 +193,20 @@ export default function Leads() {
         </div>
         <div className="flex gap-3">
           <Button 
-            onClick={() => setIsApolloModalOpen(true)} 
+            onClick={() => setIsDiscoveryModalOpen(true)} 
             variant="secondary"
             className="flex items-center gap-2"
           >
-            <Star size={20} />
-            AI Lead Generation
+            <MagicStick size={20} />
+            Discover Businesses
+          </Button>
+          <Button 
+            onClick={() => setIsCSVImportOpen(true)} 
+            variant="secondary"
+            className="flex items-center gap-2"
+          >
+            <Upload size={20} />
+            Import CSV
           </Button>
           <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
             <AddCircle size={20} />
@@ -146,9 +228,9 @@ export default function Leads() {
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">Qualified</p>
+          <p className="text-[12px] opacity-[0.5] mb-1">In Conversation</p>
           <p className="text-2xl font-medium">
-            {leads.filter(l => l.status === "qualified").length}
+            {leads.filter(l => l.status === "conversation").length}
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
@@ -177,12 +259,11 @@ export default function Leads() {
             className="px-4 py-1 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
           >
             <option value="all">All Status</option>
-            <option value="new">New</option>
+            <option value="new">New Lead</option>
             <option value="contacted">Contacted</option>
-            <option value="qualified">Qualified</option>
-            <option value="negotiating">Negotiating</option>
-            <option value="won">Won</option>
-            <option value="lost">Lost</option>
+            <option value="conversation">In Conversation</option>
+            <option value="proposal">Proposal Sent</option>
+            <option value="closed">Closed</option>
           </select>
         </div>
       </div>
@@ -240,9 +321,29 @@ export default function Leads() {
                     <div className="space-y-[2px]">
                       <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Letter size={14} />
-                        <a href={`mailto:${lead.email}`} className="hover:text-primary">
-                          {lead.email}
-                        </a>
+                        {lead.email ? (
+                          <a href={`mailto:${lead.email}`} className="hover:text-primary">
+                            {lead.email}
+                          </a>
+                        ) : (
+                          <button
+                            onClick={() => handleFindEmail(lead.id, lead.companyWebsite, lead.company)}
+                            disabled={findingEmailFor === lead.id}
+                            className="text-blue-600 hover:text-blue-800 underline disabled:opacity-50 flex items-center gap-1"
+                          >
+                            {findingEmailFor === lead.id ? (
+                              <>
+                                <LoadingIcon />
+                                Finding...
+                              </>
+                            ) : (
+                              <>
+                                <UserSpeak size={14} />
+                                Find Contact
+                              </>
+                            )}
+                          </button>
+                        )}
                       </div>
                       <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Phone size={14} />
@@ -333,12 +434,20 @@ export default function Leads() {
         title={editingLead ? 'Edit Lead' : 'Add New Lead'}
       />
 
-      {/* Apollo AI Lead Search Modal */}
-      <ApolloLeadSearch
-        isOpen={isApolloModalOpen}
-        onClose={() => setIsApolloModalOpen(false)}
-        onImportLeads={handleImportApolloLeads}
+      {/* Business Discovery Modal */}
+      <BusinessDiscovery
+        isOpen={isDiscoveryModalOpen}
+        onClose={() => setIsDiscoveryModalOpen(false)}
+        onImportLeads={handleImportDiscoveredLeads}
       />
+
+      {/* CSV Import Modal */}
+      {isCSVImportOpen && (
+        <CSVImport
+          onImport={handleImportDiscoveredLeads}
+          onClose={() => setIsCSVImportOpen(false)}
+        />
+      )}
     </div>
   );
 }

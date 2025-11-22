@@ -152,6 +152,47 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    // Audit a website for a lead
+    const auditWebsite = async (leadId: string, websiteUrl: string) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            console.log('🔍 Starting website audit for:', websiteUrl);
+            
+            // Call the audit API
+            const response = await fetch('/api/audit/website', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: websiteUrl })
+            });
+
+            const data = await response.json();
+            
+            if (data.success && data.audit) {
+                console.log('✅ Audit completed:', data.audit);
+                
+                // Update the lead with audit data
+                await updateLead(leadId, {
+                    websiteAudit: data.audit
+                });
+                
+                console.log('✅ Lead updated with audit data');
+            } else {
+                throw new Error(data.error || 'Audit failed');
+            }
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            setError(message);
+            console.error('❌ Error auditing website:', err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Fetch leads when user changes
     useEffect(() => {
         if (user?.uid) {
@@ -170,7 +211,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
             addLead, 
             updateLead, 
             deleteLead, 
-            refreshLeads 
+            refreshLeads,
+            auditWebsite
         }}>
             {children}
         </LeadsContext.Provider>
