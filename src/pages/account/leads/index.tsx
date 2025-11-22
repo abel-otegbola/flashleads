@@ -136,23 +136,23 @@ export default function Leads() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm opacity-[0.5] mb-1">Total Leads</p>
+          <p className="text-[12px] opacity-[0.5] mb-1">Total Leads</p>
           <p className="text-2xl font-medium">{leads.length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm opacity-[0.5] mb-1">New Leads</p>
+          <p className="text-[12px] opacity-[0.5] mb-1">New Leads</p>
           <p className="text-2xl font-medium">
             {leads.filter(l => l.status === "new").length}
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm opacity-[0.5] mb-1">Qualified</p>
+          <p className="text-[12px] opacity-[0.5] mb-1">Qualified</p>
           <p className="text-2xl font-medium">
             {leads.filter(l => l.status === "qualified").length}
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm opacity-[0.5] mb-1">Total Value</p>
+          <p className="text-[12px] opacity-[0.5] mb-1">Total Value</p>
           <p className="text-2xl font-medium">
             ${leads.reduce((sum, l) => sum + l.value, 0).toLocaleString()}
           </p>
@@ -168,13 +168,13 @@ export default function Leads() {
               placeholder="Search leads by name, company, or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-1 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
+            className="px-4 py-1 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
           >
             <option value="all">All Status</option>
             <option value="new">New</option>
@@ -189,94 +189,94 @@ export default function Leads() {
 
       {/* Table */}
       <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[90vw]">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto md:text-[14px] text-[12px]">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Lead
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Industry
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Value
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Score
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Added
                 </th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200/[0.2]">
               {filteredLeads.map((lead) => (
                 <tr key={lead.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-[12px] flex-shrink-0">
                         {lead.name.charAt(0)}
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">{lead.name}</p>
-                        <div className="flex items-center gap-1 text-sm text-gray-500">
+                        <div className="flex items-center gap-1 text-[12px] text-gray-500">
                           <Buildings size={14} />
                           <span>{lead.company}</span>
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-sm opacity-[0.5]">
+                  <td className="px-4 py-1">
+                    <div className="space-y-[2px]">
+                      <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Letter size={14} />
                         <a href={`mailto:${lead.email}`} className="hover:text-primary">
                           {lead.email}
                         </a>
                       </div>
-                      <div className="flex items-center gap-2 text-sm opacity-[0.5]">
+                      <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Phone size={14} />
                         <span>{lead.phone}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <div className="flex items-center gap-2 text-[12px] text-gray-500">
                         <MapPoint size={14} />
                         <span>{lead.location}</span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-700">{lead.industry}</span>
+                  <td className="px-4 py-1">
+                    <span className="text-[12px] text-gray-700">{lead.industry}</span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[lead.status]}`}>
                       {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm font-semibold text-gray-900">
+                  <td className="px-4 py-1">
+                    <span className="text-[12px] font-semibold text-gray-900">
                       ${lead.value.toLocaleString()}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1">
                     <div className="flex items-center gap-2">
                       <Star size={14} className="text-yellow-500" weight="Bold" />
-                      <span className={`text-sm ${getScoreColor(lead.score)}`}>
+                      <span className={`text-[12px] ${getScoreColor(lead.score)}`}>
                         {lead.score}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm opacity-[0.5]">
+                  <td className="px-4 py-1">
+                    <span className="text-[12px] opacity-[0.5]">
                       {new Date(lead.addedDate).toLocaleDateString('en-US', { 
                         month: 'short', 
                         day: 'numeric',
@@ -284,7 +284,7 @@ export default function Leads() {
                       })}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1">
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => openEditModal(lead)}
@@ -319,7 +319,7 @@ export default function Leads() {
 
       {/* Pagination placeholder */}
       <div className="mt-4 flex items-center justify-between">
-        <p className="text-sm opacity-[0.5]">
+        <p className="text-[12px] opacity-[0.5]">
           Showing {filteredLeads.length} of {leads.length} leads
         </p>
       </div>
