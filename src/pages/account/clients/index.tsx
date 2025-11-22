@@ -7,7 +7,6 @@ import {
   Pen, 
   TrashBin2,
   Letter,
-  DollarMinimalistic,
   Folder,
   Widget,
   ServerMinimalistic
@@ -15,7 +14,6 @@ import {
 import { ClientsContext } from "../../../contexts/ClientsContextValue";
 import type { Client } from "../../../contexts/ClientsContextValue";
 import Button from "../../../components/button/Button";
-import Input from "../../../components/input/Input";
 import ClientModal from "../../../components/clientModal/ClientModal";
 import EmailModal from "../../../components/emailModal/EmailModal";
 import SearchBar from "../../../components/search/searchBar";
@@ -149,7 +147,7 @@ export default function Clients() {
       <div className="bg-white border border-gray-200/[0.2] border-b-transparent rounded-t-lg p-4">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            <SearchBar />
+            <SearchBar onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
           <div className="w-full md:w-48">
             <select
