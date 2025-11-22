@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Formik } from "formik";
 import { CloseCircle } from "@solar-icons/react";
 import Input from "../input/Input";
@@ -6,11 +6,12 @@ import Button from "../button/Button";
 import { leadSchema } from "../../schema/leadSchema";
 import type { Lead } from "../../contexts/LeadsContextValue";
 import LoadingIcon from "../../assets/icons/loadingIcon";
+import { AuthContext } from "../../contexts/AuthContextValue";
 
 interface LeadModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (values: Omit<Lead, 'id' | 'userId' | 'addedDate'>) => Promise<void>;
+  onSubmit: (values: Omit<Lead, 'id' | 'addedDate'>) => Promise<void>;
   lead?: Lead | null;
   title: string;
 }
@@ -41,6 +42,7 @@ const industryOptions = [
 ];
 
 export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: LeadModalProps) {
+  const { user } = useContext(AuthContext);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -69,6 +71,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     location: lead.location,
     status: lead.status,
     value: lead.value,
+    userId: user.uid,
     industry: lead.industry,
     score: lead.score,
   } : {
@@ -79,6 +82,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     location: '',
     status: 'new' as const,
     value: 0,
+    userId: user.uid,
     industry: '',
     score: 50,
   };
@@ -107,7 +111,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
             validationSchema={leadSchema}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                await onSubmit(values);
+                await onSubmit({ ...values, userId: user.uid });
                 onClose();
               } catch (error) {
                 console.error('Error submitting lead:', error);

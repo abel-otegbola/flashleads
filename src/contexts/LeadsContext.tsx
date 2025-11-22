@@ -16,7 +16,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
 
     // Fetch leads for the current user
     const refreshLeads = async () => {
-        if (!user?.id) {
+        if (!user?.uid) {
             setLeads([]);
             return;
         }
@@ -26,7 +26,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
 
         try {
             const leadsRef = collection(db, 'leads');
-            const q = query(leadsRef, where('userId', '==', user.id));
+            const q = query(leadsRef, where('userId', '==', user.uid));
             const querySnapshot = await getDocs(q);
 
             const fetchedLeads: Lead[] = [];
@@ -59,12 +59,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     // Add a new lead
-    const addLead = async (leadData: Omit<Lead, 'id' | 'userId' | 'addedDate'>) => {
-        if (!user?.id) {
-            setError('User must be logged in to add leads');
-            return;
-        }
-
+    const addLead = async (leadData: Omit<Lead, 'id' | 'addedDate'>) => {
         setLoading(true);
         setError(null);
 
@@ -72,25 +67,29 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
             const leadsRef = collection(db, 'leads');
             const newLead = {
                 ...leadData,
-                userId: user.id,
                 addedDate: Timestamp.now()
             };
 
+            console.log('📤 Calling Firebase addDoc with data:', newLead);
             const docRef = await addDoc(leadsRef, newLead);
+            console.log('✅ Firebase addDoc successful, doc ID:', docRef.id);
 
             // Add to local state
             const addedLead: Lead = {
                 ...leadData,
                 id: docRef.id,
-                userId: user.id,
                 addedDate: new Date().toISOString()
             };
 
-            setLeads(prev => [...prev, addedLead]);
+            setLeads(prev => {
+                console.log('📝 Updating local state, current count:', prev.length);
+                return [...prev, addedLead];
+            });
+            console.log('✅ Lead added successfully to local state');
         } catch (err: unknown) {
             const message = err instanceof FirebaseError ? err.message : String(err);
             setError(message);
-            console.error('Error adding lead:', err);
+            console.error('❌ Error adding lead:', err);
             throw err;
         } finally {
             setLoading(false);
@@ -99,7 +98,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
 
     // Update an existing lead
     const updateLead = async (id: string, updates: Partial<Lead>) => {
-        if (!user?.id) {
+        if (!user?.uid) {
             setError('User must be logged in to update leads');
             return;
         }
@@ -129,7 +128,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
 
     // Delete a lead
     const deleteLead = async (id: string) => {
-        if (!user?.id) {
+        if (!user?.uid) {
             setError('User must be logged in to delete leads');
             return;
         }
@@ -155,13 +154,13 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
 
     // Fetch leads when user changes
     useEffect(() => {
-        if (user?.id) {
+        if (user?.uid) {
             refreshLeads();
         } else {
             setLeads([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.id]);
+    }, [user?.uid]);
 
     return (
         <LeadsContext.Provider value={{ 

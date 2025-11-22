@@ -34,11 +34,11 @@ export default function Leads() {
     return matchesSearch && matchesStatus;
   });
 
-  const handleAddLead = async (values: Omit<Lead, 'id' | 'userId' | 'addedDate'>) => {
+  const handleAddLead = async (values: Omit<Lead, 'id' | 'addedDate'>) => {
     await addLead(values);
   };
 
-  const handleEditLead = async (values: Omit<Lead, 'id' | 'userId' | 'addedDate'>) => {
+  const handleEditLead = async (values: Omit<Lead, 'id' | 'addedDate'>) => {
     if (editingLead) {
       await updateLead(editingLead.id, values);
       setEditingLead(null);
@@ -51,28 +51,44 @@ export default function Leads() {
     }
   };
 
-  const handleImportApolloLeads = async (apolloLeads: Record<string, unknown>[]) => {
+  const handleImportApolloLeads = async (apolloLeads: Omit<Lead, 'id' | 'addedDate'>[]) => {
+    console.log('🎯 handleImportApolloLeads called with', apolloLeads.length, 'leads');
+    console.log('📋 First lead sample:', apolloLeads[0]);
+    
     try {
-      console.log('Importing Apollo leads:', apolloLeads);
       let successCount = 0;
+      let failCount = 0;
       
-      for (const leadData of apolloLeads) {
+      for (let i = 0; i < apolloLeads.length; i++) {
+        const leadData = apolloLeads[i];
+        console.log(`\n--- Processing lead ${i + 1}/${apolloLeads.length} ---`);
+        console.log('Lead data:', leadData);
+        
         try {
-          await addLead(leadData as Omit<Lead, 'id' | 'userId' | 'addedDate'>);
+          console.log('🔄 Calling addLead...');
+          await addLead(leadData);
           successCount++;
+          console.log(`✅ Lead ${i + 1} imported successfully`);
         } catch (err) {
-          console.error('Failed to import lead:', leadData, err);
+          failCount++;
+          console.error(`❌ Failed to import lead ${i + 1}:`, err);
+          console.error('Lead data that failed:', leadData);
         }
       }
       
-      console.log(`Successfully imported ${successCount} of ${apolloLeads.length} leads`);
+      console.log(`\n📊 Import Summary: ${successCount} succeeded, ${failCount} failed out of ${apolloLeads.length} total`);
       
-      // Show success message (you can add a toast here if you have one)
+      // Show success message
       if (successCount > 0) {
-        alert(`Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`);
+        const message = failCount > 0 
+          ? `Imported ${successCount} lead${successCount > 1 ? 's' : ''}. ${failCount} failed.`
+          : `Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`;
+        alert(message);
+      } else {
+        alert('Failed to import any leads. Check console for details.');
       }
     } catch (err) {
-      console.error('Error importing leads:', err);
+      console.error('❌ Critical error in import handler:', err);
       alert('Failed to import leads. Please try again.');
     }
   };

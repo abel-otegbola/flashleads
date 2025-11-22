@@ -30,13 +30,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== CLIENTS ====================
     
     const refreshClients = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setClientsLoading(true);
         try {
             const q = query(
                 collection(db, 'clients'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -57,13 +57,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addClient = async (clientData: Omit<Client, 'id' | 'userId' | 'addedDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setClientsLoading(true);
         try {
             const newClient = {
                 ...clientData,
-                userId: user.id,
+                userId: user.uid,
                 addedDate: new Date().toISOString(),
             };
             
@@ -101,7 +101,7 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const deleteClient = async (id: string) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setClientsLoading(true);
         try {
@@ -122,13 +122,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== PROJECTS ====================
     
     const refreshProjects = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setProjectsLoading(true);
         try {
             const q = query(
                 collection(db, 'projects'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -149,13 +149,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addProject = async (projectData: Omit<Project, 'id' | 'userId' | 'createdDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setProjectsLoading(true);
         try {
             const newProject = {
                 ...projectData,
-                userId: user.id,
+                userId: user.uid,
                 createdDate: new Date().toISOString(),
             };
             
@@ -216,13 +216,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== MILESTONES ====================
     
     const refreshMilestones = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setMilestonesLoading(true);
         try {
             const q = query(
                 collection(db, 'milestones'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -243,13 +243,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addMilestone = async (milestoneData: Omit<Milestone, 'id' | 'userId' | 'createdDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setMilestonesLoading(true);
         try {
             const newMilestone = {
                 ...milestoneData,
-                userId: user.id,
+                userId: user.uid,
                 createdDate: new Date().toISOString(),
             };
             
@@ -310,13 +310,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== INVOICES ====================
     
     const refreshInvoices = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setInvoicesLoading(true);
         try {
             const q = query(
                 collection(db, 'invoices'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -337,13 +337,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addInvoice = async (invoiceData: Omit<Invoice, 'id' | 'userId' | 'createdDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setInvoicesLoading(true);
         try {
             const newInvoice = {
                 ...invoiceData,
-                userId: user.id,
+                userId: user.uid,
                 createdDate: new Date().toISOString(),
             };
             
@@ -404,13 +404,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== ESTIMATES ====================
     
     const refreshEstimates = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setEstimatesLoading(true);
         try {
             const q = query(
                 collection(db, 'estimates'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -431,13 +431,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addEstimate = async (estimateData: Omit<Estimate, 'id' | 'userId' | 'createdDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setEstimatesLoading(true);
         try {
             const newEstimate = {
                 ...estimateData,
-                userId: user.id,
+                userId: user.uid,
                 createdDate: new Date().toISOString(),
             };
             
@@ -498,13 +498,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     // ==================== EMAILS ====================
     
     const refreshEmails = async () => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setEmailsLoading(true);
         try {
             const q = query(
                 collection(db, 'client_emails'),
-                where('userId', '==', user.id)
+                where('userId', '==', user.uid)
             );
             
             const querySnapshot = await getDocs(q);
@@ -525,13 +525,13 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const sendEmail = async (emailData: Omit<Email, 'id' | 'userId' | 'sentDate'>) => {
-        if (!user?.id) return;
+        if (!user?.uid) return;
         
         setEmailsLoading(true);
         try {
             const newEmail = {
                 ...emailData,
-                userId: user.id,
+                userId: user.uid,
                 sentDate: new Date().toISOString(),
             };
             
@@ -569,10 +569,10 @@ const ClientsProvider = ({ children }: { children: ReactNode }) => {
 
     // Initial data fetch
     useEffect(() => {
-        if (user?.id) {
+        if (user?.uid) {
             refreshAll();
         }
-    }, [user?.id, refreshAll]);
+    }, [user?.uid, refreshAll]);
 
     const value: ClientsContextValue = {
         clients,

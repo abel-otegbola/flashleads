@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CloseCircle, Buildings2, UserCircle, Star } from "@solar-icons/react";
 import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
 import { searchLeads, hunterContactToLead, type HunterContact, type HunterOrganization } from "../../helpers/apolloApi";
 
+import type { Lead } from "../../contexts/LeadsContextValue";
+import { AuthContext } from "../../contexts/AuthContextValue";
+
 interface ApolloLeadSearchProps {
   isOpen: boolean;
   onClose: () => void;
-  onImportLeads: (leads: Record<string, unknown>[]) => void;
+  onImportLeads: (leads: Omit<Lead, 'id' | 'addedDate'>[]) => void;
 }
 
 const departments = [
@@ -18,6 +21,7 @@ const departments = [
 const seniorities = ['junior', 'senior', 'executive'];
 
 export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: ApolloLeadSearchProps) {
+  const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<HunterContact[]>([]);
   const [organization, setOrganization] = useState<HunterOrganization | null>(null);
@@ -103,23 +107,32 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
   };
 
   const handleImport = () => {
+    console.log('🎬 handleImport called');
+    
     if (!organization) {
-      console.error('No organization data available');
+      console.error('❌ No organization data available');
       setError('Organization data is missing. Please try searching again.');
       return;
     }
 
     if (selectedLeads.size === 0) {
+      console.error('❌ No leads selected');
       setError('Please select at least one lead to import.');
       return;
     }
+    
+    console.log('📦 Selected leads count:', selectedLeads.size);
+    console.log('📦 Organization:', organization);
     
     const leadsToImport = searchResults
       .filter(contact => selectedLeads.has(contact.value))
       .map(contact => hunterContactToLead(contact, organization));
     
-    console.log('Importing leads:', leadsToImport);
-    onImportLeads(leadsToImport);
+    console.log('✨ Leads converted for import:', leadsToImport);
+    console.log('📞 Calling onImportLeads with', leadsToImport.length, 'leads');
+    
+    onImportLeads(leadsToImport.map(lead => ({ ...lead, userId: user.uid })));
+    console.log('✅ onImportLeads completed, closing modal');
     onClose();
   };
 
