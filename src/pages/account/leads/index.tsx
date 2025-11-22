@@ -94,11 +94,11 @@ export default function Leads() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 md:p-6">
       {/* Header */}
       <div className="mb-6 flex flex-wrap items-center gap-12 justify-between">
         <div>
-          <h1 className="text-2xl font-bold mb-2">Leads</h1>
+          <h1 className="text-2xl font-medium mb-2">Leads</h1>
           <p className="text-gray-600">Manage and track your potential clients</p>
         </div>
         <div className="flex gap-3">
@@ -120,24 +120,24 @@ export default function Leads() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm text-gray-600 mb-1">Total Leads</p>
-          <p className="text-2xl font-bold">{leads.length}</p>
+          <p className="text-sm opacity-[0.5] mb-1">Total Leads</p>
+          <p className="text-2xl font-medium">{leads.length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm text-gray-600 mb-1">New Leads</p>
-          <p className="text-2xl font-bold text-blue-600">
+          <p className="text-sm opacity-[0.5] mb-1">New Leads</p>
+          <p className="text-2xl font-medium">
             {leads.filter(l => l.status === "new").length}
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm text-gray-600 mb-1">Qualified</p>
-          <p className="text-2xl font-bold text-green-600">
+          <p className="text-sm opacity-[0.5] mb-1">Qualified</p>
+          <p className="text-2xl font-medium">
             {leads.filter(l => l.status === "qualified").length}
           </p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm text-gray-600 mb-1">Total Value</p>
-          <p className="text-2xl font-bold text-primary">
+          <p className="text-sm opacity-[0.5] mb-1">Total Value</p>
+          <p className="text-2xl font-medium">
             ${leads.reduce((sum, l) => sum + l.value, 0).toLocaleString()}
           </p>
         </div>
@@ -222,13 +222,13 @@ export default function Leads() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm opacity-[0.5]">
                         <Letter size={14} />
                         <a href={`mailto:${lead.email}`} className="hover:text-primary">
                           {lead.email}
                         </a>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm opacity-[0.5]">
                         <Phone size={14} />
                         <span>{lead.phone}</span>
                       </div>
@@ -260,7 +260,7 @@ export default function Leads() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm opacity-[0.5]">
                       {new Date(lead.addedDate).toLocaleDateString('en-US', { 
                         month: 'short', 
                         day: 'numeric',
@@ -303,7 +303,7 @@ export default function Leads() {
 
       {/* Pagination placeholder */}
       <div className="mt-4 flex items-center justify-between">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm opacity-[0.5]">
           Showing {filteredLeads.length} of {leads.length} leads
         </p>
       </div>

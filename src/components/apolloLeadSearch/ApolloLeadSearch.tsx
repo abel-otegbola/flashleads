@@ -24,24 +24,42 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string>('');
   const [totalResults, setTotalResults] = useState<number>(0);
+  const [step, setStep] = useState<'search' | 'results'>('search');
 
   // Search params
-  const [domain, setDomain] = useState('');
+  const [companySearch, setCompanySearch] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [department, setDepartment] = useState('');
   const [seniority, setSeniority] = useState('');
 
+  const extractDomain = (input: string): string => {
+    // Remove protocol and www
+    let domain = input.toLowerCase().trim();
+    domain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
+    // Remove path and query params
+    domain = domain.split('/')[0].split('?')[0];
+    // If no dot, assume it's a company name and add .com
+    if (!domain.includes('.')) {
+      domain = `${domain}.com`;
+    }
+    return domain;
+  };
+
   const handleSearch = async () => {
-    if (!domain) {
-      setError('Please enter a company domain (e.g., stripe.com)');
+    if (!companySearch) {
+      setError('Please enter a company name or website (e.g., Stripe, stripe.com)');
       return;
     }
 
     setLoading(true);
     setError('');
+    setStep('results');
+    
     try {
+      const domain = extractDomain(companySearch);
+      
       const params: Record<string, unknown> = {
-        domain: domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0], // Clean domain
+        domain,
         limit: 10, // Free plan limit
       };
 
@@ -55,7 +73,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
       setTotalResults(response.meta?.results || 0);
 
       if (!response.data.emails || response.data.emails.length === 0) {
-        setError('No leads found for this domain. Try a different company or check the domain name.');
+        setError('No leads found for this company. Try a different company name or verify the website.');
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to search leads. Please check your Hunter.io API key.';
@@ -105,6 +123,15 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     onClose();
   };
 
+  const handleReset = () => {
+    setStep('search');
+    setSearchResults([]);
+    setOrganization(null);
+    setSelectedLeads(new Set());
+    setError('');
+    setTotalResults(0);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -124,20 +151,23 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
           </button>
         </div>
 
+        <div className="flex md:flex-row flex-col overflow-y-auto">
         {/* Search Filters */}
         <div className="p-6 border-b border-gray-200 bg-gray-50">
           <div className="mb-4">
-            <label className="text-sm font-medium mb-2 block">Company Domain <span className="text-red-500">*</span></label>
+            <label className="text-sm font-medium mb-2 block">Company Name or Website <span className="text-red-500">*</span></label>
             <input
               type="text"
-              value={domain}
-              onChange={(e) => setDomain(e.target.value)}
-              placeholder="e.g., stripe.com, intercom.com"
+              value={companySearch}
+              onChange={(e) => setCompanySearch(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              placeholder="e.g., Stripe, Google, apple.com"
               className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+              disabled={step === 'results'}
             />
-            <p className="text-xs text-gray-500 mt-1">Enter the company's website domain to find their team members</p>
+            <p className="text-xs text-gray-500 mt-1">Enter any company name or website - we'll find their contacts automatically</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="flex flex-col gap-4 mb-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Job Title (Optional)</label>
               <input
@@ -146,6 +176,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
                 onChange={(e) => setJobTitle(e.target.value)}
                 placeholder="e.g., CEO, VP Sales"
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+                disabled={step === 'results'}
               />
             </div>
             <div>
@@ -154,6 +185,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+                disabled={step === 'results'}
               >
                 <option value="">All Departments</option>
                 {departments.map(dept => (
@@ -167,6 +199,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
                 value={seniority}
                 onChange={(e) => setSeniority(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+                disabled={step === 'results'}
               >
                 <option value="">All Levels</option>
                 {seniorities.map(level => (
@@ -175,20 +208,27 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
               </select>
             </div>
           </div>
-          <Button onClick={handleSearch} disabled={loading} className="w-full">
-            {loading ? (
-              <LoadingIcon color="white" className="animate-spin w-5 h-5" />
-            ) : (
-              <>
-                <Star size={18} />
-                Search Leads
-              </>
-            )}
-          </Button>
+          {step === 'search' ? (
+            <Button onClick={handleSearch} disabled={loading} className="w-full">
+              {loading ? (
+                <LoadingIcon color="white" className="animate-spin w-5 h-5" />
+              ) : (
+                <>
+                  <Star size={18} />
+                  Find Leads
+                </>
+              )}
+            </Button>
+          ) : (
+            <Button onClick={handleReset} variant="secondary" className="w-full">
+              <Star size={18} />
+              New Search
+            </Button>
+          )}
         </div>
 
         {/* Results */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 min-h-[300px]">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
               {error}
@@ -299,17 +339,24 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
             </>
           )}
 
-          {!loading && searchResults.length === 0 && !error && (
+          {!loading && searchResults.length === 0 && !error && step === 'search' && (
             <div className="text-center py-12">
               <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
               <p className="text-gray-500 mb-2">
-                Enter a company domain to find their team members' contact information
+                Enter any company name or website
               </p>
-              <p className="text-xs text-gray-400">
-                Example: stripe.com, intercom.com, shopify.com
+              <p className="text-xs text-gray-400 mb-4">
+                We'll automatically find their team members' contact information
               </p>
+              <div className="inline-flex flex-wrap gap-2 justify-center">
+                <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">Stripe</span>
+                <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">Google</span>
+                <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">shopify.com</span>
+                <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">Tesla</span>
+              </div>
             </div>
           )}
+        </div>
         </div>
 
         {/* Footer */}

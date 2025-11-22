@@ -8,7 +8,9 @@ import {
   TrashBin2,
   Letter,
   DollarMinimalistic,
-  Folder
+  Folder,
+  Widget,
+  ServerMinimalistic
 } from "@solar-icons/react";
 import { ClientsContext } from "../../../contexts/ClientsContextValue";
 import type { Client } from "../../../contexts/ClientsContextValue";
@@ -16,6 +18,7 @@ import Button from "../../../components/button/Button";
 import Input from "../../../components/input/Input";
 import ClientModal from "../../../components/clientModal/ClientModal";
 import EmailModal from "../../../components/emailModal/EmailModal";
+import SearchBar from "../../../components/search/searchBar";
 
 const statusColors = {
   active: "bg-green-100 text-green-700 border-green-200",
@@ -90,11 +93,11 @@ export default function Clients() {
   const totalRevenue = clients.reduce((sum, c) => sum + (c.totalRevenue || 0), 0);
 
   return (
-    <div className="p-6">
+    <div className="p-4 md:p-6 bg-gray-100/[0.05]">
       {/* Header */}
       <div className="mb-6 flex flex-wrap items-center gap-12 justify-between">
         <div>
-          <h1 className="text-2xl font-bold mb-2">Clients</h1>
+          <h1 className="text-2xl font-medium mb-2">Clients</h1>
           <p className="text-gray-600">Manage your client relationships and track projects</p>
         </div>
         <div className="flex gap-3">
@@ -114,64 +117,39 @@ export default function Clients() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-blue-50 rounded-lg">
-              <UserCircle size={24} className="text-blue-600" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Total Clients</p>
-              <p className="text-2xl font-bold">{totalClients}</p>
-            </div>
+          <div className="flex flex-col gap-3 mb-2">
+              <p className="text-sm opacity-[0.5]">Total Clients</p>
+              <p className="text-2xl font-medium">{totalClients}</p>
           </div>
         </div>
 
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-green-50 rounded-lg">
-              <UserCircle size={24} className="text-green-600" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Active Clients</p>
-              <p className="text-2xl font-bold">{activeClients}</p>
-            </div>
+          <div className="flex flex-col gap-3 mb-2">
+              <p className="text-sm opacity-[0.5]">Active Clients</p>
+              <p className="text-2xl font-medium">{activeClients}</p>
           </div>
         </div>
 
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-purple-50 rounded-lg">
-              <UserCircle size={24} className="text-purple-600" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Prospects</p>
-              <p className="text-2xl font-bold">{prospects}</p>
-            </div>
+          <div className="flex flex-col gap-3 mb-2">
+              <p className="text-sm opacity-[0.5]">Prospects</p>
+              <p className="text-2xl font-medium">{prospects}</p>
           </div>
         </div>
 
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-emerald-50 rounded-lg">
-              <DollarMinimalistic size={24} className="text-emerald-600" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Total Revenue</p>
-              <p className="text-2xl font-bold">${totalRevenue.toLocaleString()}</p>
-            </div>
+          <div className="flex flex-col gap-3 mb-2">
+              <p className="text-sm opacity-[0.5]">Total Revenue</p>
+              <p className="text-2xl font-medium">${totalRevenue.toLocaleString()}</p>
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-6">
+      <div className="bg-white border border-gray-200/[0.2] border-b-transparent rounded-t-lg p-4">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            <Input
-              type="text"
-              placeholder="Search clients by name, company, or email..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <SearchBar />
           </div>
           <div className="w-full md:w-48">
             <select
@@ -191,13 +169,13 @@ export default function Clients() {
               onClick={() => setView('grid')}
               className={`px-4 py-2 rounded-lg border ${view === 'grid' ? 'border-primary bg-blue-50 text-primary' : 'border-gray-200'}`}
             >
-              Grid
+              <Widget size={20} />
             </button>
             <button
               onClick={() => setView('list')}
               className={`px-4 py-2 rounded-lg border ${view === 'list' ? 'border-primary bg-blue-50 text-primary' : 'border-gray-200'}`}
             >
-              List
+              <ServerMinimalistic size={20} />
             </button>
           </div>
         </div>
@@ -209,7 +187,7 @@ export default function Clients() {
           {filteredClients.map(client => {
             const stats = getClientStats(client);
             return (
-              <div key={client.id} className="bg-white border border-gray-200/[0.2] rounded-lg p-6 hover:shadow-lg transition-shadow">
+              <div key={client.id} className="bg-white border border-gray-200/[0.2] rounded-b-lg p-6 hover:shadow-lg transition-shadow">
                 {/* Client Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
@@ -220,7 +198,7 @@ export default function Clients() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">{client.name}</h3>
-                      <p className="text-sm text-gray-600 flex items-center gap-1">
+                      <p className="text-sm opacity-[0.5] flex items-center gap-1">
                         <Buildings size={14} />
                         {client.company}
                       </p>
@@ -233,18 +211,18 @@ export default function Clients() {
 
                 {/* Contact Info */}
                 <div className="space-y-2 mb-4 pb-4 border-b border-gray-100">
-                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <p className="text-sm opacity-[0.5] flex items-center gap-2">
                     <Letter size={14} />
                     {client.email}
                   </p>
                   {client.phone && (
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
+                    <p className="text-sm opacity-[0.5] flex items-center gap-2">
                       <span>📞</span>
                       {client.phone}
                     </p>
                   )}
                   {client.location && (
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
+                    <p className="text-sm opacity-[0.5] flex items-center gap-2">
                       <MapPoint size={14} />
                       {client.location}
                     </p>
@@ -305,7 +283,7 @@ export default function Clients() {
 
       {/* Clients List View */}
       {view === 'list' && (
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[92vw]">
+        <div className="bg-white border border-gray-200/[0.2] rounded-b-lg overflow-hidden md:w-full w-[92vw]">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -331,13 +309,13 @@ export default function Clients() {
                         </div>
                         <div>
                           <p className="font-semibold text-gray-900">{client.name}</p>
-                          <p className="text-sm text-gray-600">{client.company}</p>
+                          <p className="text-sm opacity-[0.5]">{client.company}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-sm text-gray-900">{client.email}</p>
-                      {client.phone && <p className="text-sm text-gray-600">{client.phone}</p>}
+                      {client.phone && <p className="text-sm opacity-[0.5]">{client.phone}</p>}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs rounded-full border ${statusColors[client.status]}`}>
@@ -398,7 +376,7 @@ export default function Clients() {
 
       {/* Empty State for Grid View */}
       {view === 'grid' && filteredClients.length === 0 && (
-        <div className="flex flex-col items-center text-center py-12 bg-white border border-gray-200/[0.2] rounded-lg">
+        <div className="flex flex-col items-center text-center py-12 bg-white border border-gray-200/[0.2] rounded-b-lg">
           <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
           <p className="text-gray-500 mb-4">
             {clientsLoading ? 'Loading clients...' : 'No clients found'}

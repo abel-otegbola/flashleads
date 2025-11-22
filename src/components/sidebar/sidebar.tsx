@@ -50,7 +50,7 @@ function Sidebar() {
 
     return (
         <div ref={modalRef} className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[250px]"}`}>
-            <button className={`md:absolute fixed sm:top-4 top-6 md:right-4 right-5 flex flex-col justify-center items-center bg-white/[0.7] dark:bg-dark-bg/[0.7] backdrop-blur-md gap-1 w-5 h-8 z-[50] p-[2px] px-[13px] rounded-full`} onClick={() => setOpen(!open)}>
+            <button className={`md:absolute fixed sm:top-4 top-3 md:right-4 right-5 flex flex-col justify-center items-center bg-white/[0.7] dark:bg-dark-bg/[0.7] backdrop-blur-md gap-1 w-5 h-8 z-[50] p-[2px] px-[13px] rounded-full`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
                 :
