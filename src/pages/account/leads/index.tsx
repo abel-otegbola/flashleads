@@ -193,7 +193,7 @@ export default function Leads() {
           <h1 className="text-2xl font-medium mb-2">Leads</h1>
           <p className="text-gray-600">Manage and track your potential clients</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button 
             onClick={() => setIsDiscoveryModalOpen(true)} 
             variant="secondary"
