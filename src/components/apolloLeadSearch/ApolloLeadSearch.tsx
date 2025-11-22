@@ -160,11 +160,11 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <Star size={24} className="text-primary" />
             <div>
-              <h2 className="text-xl font-bold">AI Lead Generation</h2>
+              <h2 className="text-lg font-bold">AI Lead Generation</h2>
               <p className="text-sm text-gray-600">Powered by Hunter.io</p>
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
 
         <div className="flex md:flex-row flex-col overflow-y-auto">
         {/* Search Filters */}
-        <div className="p-6 border-b border-gray-200 bg-gray-50">
+        <div className="p-4 border-b border-gray-200 bg-gray-50">
           <div className="mb-4">
             <label className="text-sm font-medium mb-2 block">Company Name or Website <span className="text-red-500">*</span></label>
             <input
@@ -250,7 +250,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
         </div>
 
         {/* Results */}
-        <div className="flex-1 overflow-y-auto p-6 min-h-[300px]">
+        <div className="flex-1 overflow-y-auto p-4 min-h-[300px]">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
               {error}
@@ -383,7 +383,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
 
         {/* Footer */}
         {searchResults.length > 0 && (
-          <div className="p-6 border-t border-gray-200 bg-gray-50">
+          <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-600">
                 {selectedLeads.size} lead{selectedLeads.size !== 1 ? 's' : ''} selected

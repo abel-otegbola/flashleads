@@ -106,15 +106,15 @@ export default function Leads() {
       
       console.log(`📊 Import Summary: ${successCount} succeeded, ${failCount} failed`);
       
-      if (successCount > 0) {
-        const message = failCount > 0 
-          ? `Imported ${successCount} lead${successCount > 1 ? 's' : ''}. ${failCount} failed.`
-          : `Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`;
-        alert(message);
+          if (successCount > 0) {
+            const message = failCount > 0 
+              ? `Imported ${successCount} lead${successCount > 1 ? 's' : ''}. ${failCount} failed.`
+              : `Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`;
+            await alert({ title: 'Import Results', message });
       }
     } catch (err) {
       console.error('❌ Critical error in import handler:', err);
-      alert('Failed to import leads. Please try again.');
+          await alert({ title: 'Import Failed', message: 'Failed to import leads. Please try again.', showCancel: false });
     }
   };
 
@@ -136,14 +136,14 @@ export default function Leads() {
 
   const handleFindEmail = async (leadId: string, companyWebsite: string, companyName: string) => {
     if (!companyWebsite) {
-      alert('No website available for this lead. Please add a website first.');
+      await alert({ message: 'No website available for this lead. Please add a website first.' });
       return;
     }
 
     // Check if API key exists
     const apiKey = import.meta.env.VITE_HUNTER_API_KEY;
     if (!apiKey) {
-      alert('⚠️ Hunter.io API key not configured.\n\nAdd VITE_HUNTER_API_KEY to your .env file.\n\nGet your free API key at: https://hunter.io/api');
+      await alert({ title: 'Hunter.io API Key Missing', message: '⚠️ Hunter.io API key not configured.\n\nAdd VITE_HUNTER_API_KEY to your .env file.\n\nGet your free API key at: https://hunter.io/api', showCancel: false });
       return;
     }
 
@@ -273,21 +273,15 @@ export default function Leads() {
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">New Leads</p>
-          <p className="text-2xl font-medium">
-            {leads.filter(l => l.status === "new").length}
-          </p>
+          <p className="text-2xl font-medium">{leads.filter(l => l.status === "new").length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">In Conversation</p>
-          <p className="text-2xl font-medium">
-            {leads.filter(l => l.status === "conversation").length}
-          </p>
+          <p className="text-2xl font-medium">{leads.filter(l => l.status === "conversation").length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">Total Value</p>
-          <p className="text-2xl font-medium">
-            ${leads.reduce((sum, l) => sum + l.value, 0).toLocaleString()}
-          </p>
+          <p className="text-[12px] opacity-[0.5] mb-1">Estimated Value</p>
+          <p className="text-2xl font-medium">${leads.reduce((sum, l) => sum + (l.value || 0), 0).toLocaleString()}</p>
         </div>
       </div>
 

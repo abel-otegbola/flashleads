@@ -318,11 +318,11 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <MagicStick size={24} className="text-primary" />
             <div>
-              <h2 className="text-xl font-bold">Discover Businesses</h2>
+              <h2 className="text-lg font-bold">Discover Businesses</h2>
               <p className="text-sm text-gray-600">Find small businesses that need your services</p>
             </div>
           </div>
@@ -333,7 +333,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
 
         <div className="flex md:flex-row flex-col overflow-y-auto">
           {/* Search Filters */}
-          <div className={`p-6 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50 md:w-80 ${showMobileResults ? 'hidden md:block' : 'block'}`}>
+          <div className={`p-4 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50 md:w-80 ${showMobileResults ? 'hidden md:block' : 'block'}`}>
             <h3 className="font-semibold mb-4">Search Criteria</h3>
             
             <div className="space-y-4">
@@ -397,7 +397,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
           </div>
 
           {/* Results */}
-          <div className={`flex-1 overflow-y-auto p-6 ${!showMobileResults ? 'hidden md:block' : 'block'}`}>
+          <div className={`flex-1 overflow-y-auto p-4 ${!showMobileResults ? 'hidden md:block' : 'block'}`}>
             {/* Back button for mobile */}
             {showMobileResults && (
               <button
@@ -502,7 +502,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
 
         {/* Footer */}
         {searchResults.length > 0 && (
-          <div className="p-6 border-t border-gray-200 bg-gray-50">
+          <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-600">
                 {selectedBusinesses.size} business{selectedBusinesses.size !== 1 ? 'es' : ''} selected

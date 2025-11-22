@@ -100,8 +100,8 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
         className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold">{title}</h2>
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <h2 className="text-lg font-bold">{title}</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -111,7 +111,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
         </div>
 
         {/* Form */}
-        <div className="overflow-y-auto p-6">
+        <div className="overflow-y-auto p-4">
           <Formik
             initialValues={initialValues}
             validationSchema={leadSchema}

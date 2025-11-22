@@ -120,9 +120,9 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg p-4 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Import Businesses from CSV</h2>
+          <h2 className="text-lg font-bold text-gray-800">Import Businesses from CSV</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl"
