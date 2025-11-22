@@ -140,20 +140,44 @@ export default function Leads() {
       return;
     }
 
+    // Check if API key exists
+    const apiKey = import.meta.env.VITE_HUNTER_API_KEY;
+    if (!apiKey) {
+      alert('⚠️ Hunter.io API key not configured.\n\nAdd VITE_HUNTER_API_KEY to your .env file.\n\nGet your free API key at: https://hunter.io/api');
+      return;
+    }
+
     setFindingEmailFor(leadId);
 
     try {
       // Extract domain from website
-      const domain = new URL(companyWebsite).hostname.replace('www.', '');
+      let domain = companyWebsite.toLowerCase().trim();
+      domain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
+      domain = domain.split('/')[0].split('?')[0];
 
-      // Call Hunter.io API through your helper
-      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=${import.meta.env.VITE_HUNTER_API_KEY}&limit=5`);
+      console.log('🔍 Searching Hunter.io for domain:', domain);
+
+      // Call Hunter.io API
+      const url = `https://api.hunter.io/v2/domain-search?domain=${encodeURIComponent(domain)}&api_key=${apiKey}&limit=5`;
+      const response = await fetch(url);
       
+      console.log('📡 Hunter.io response status:', response.status);
+
       if (!response.ok) {
-        throw new Error('Failed to find contacts');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ Hunter.io error:', errorData);
+        
+        if (response.status === 401) {
+          throw new Error('Invalid API key. Check your VITE_HUNTER_API_KEY in .env file.');
+        } else if (response.status === 429) {
+          throw new Error('Rate limit exceeded. You\'ve used your monthly quota.');
+        } else {
+          throw new Error(errorData.errors?.[0]?.details || 'Failed to search Hunter.io');
+        }
       }
 
       const data = await response.json();
+      console.log('📊 Hunter.io data:', data);
       
       if (data.data && data.data.emails && data.data.emails.length > 0) {
         // Get the first email (usually the most common pattern)
@@ -163,23 +187,47 @@ export default function Leads() {
         const lastName = contact.last_name || '';
         const fullName = `${firstName} ${lastName}`.trim();
 
+        console.log('✅ Found contact:', fullName, email);
+
         // Update the lead with the found email and name
         const lead = leads.find(l => l.id === leadId);
         if (lead) {
-          await updateLead(leadId, {
-            ...lead,
+          // Only include defined fields to avoid Firestore errors
+          const updateData: Partial<Lead> = {
+            name: fullName || lead.name,
+            company: lead.company,
             email: email,
-            name: fullName || lead.name
-          });
+            phone: lead.phone,
+            location: lead.location,
+            status: lead.status,
+            value: lead.value,
+            industry: lead.industry,
+            score: lead.score,
+            companyWebsite: lead.companyWebsite,
+            serviceNeeds: lead.serviceNeeds,
+            addedDate: lead.addedDate,
+            userId: lead.userId
+          };
+
+          // Only add optional fields if they're defined
+          if (lead.notes !== undefined) {
+            updateData.notes = lead.notes;
+          }
+          if (lead.websiteAudit !== undefined) {
+            updateData.websiteAudit = lead.websiteAudit;
+          }
+
+          await updateLead(leadId, updateData);
           
-          alert(`✅ Found contact: ${fullName}\nEmail: ${email}`);
+          alert(`✅ Found contact!\n\nName: ${fullName}\nEmail: ${email}\n\nSearches remaining: ${data.meta.requests.searches.available - data.meta.requests.searches.used} / ${data.meta.requests.searches.available}`);
         }
       } else {
-        alert(`No contacts found for ${companyName}. Try searching manually with Hunter.io.`);
+        alert(`❌ No contacts found for ${companyName}\n\nDomain searched: ${domain}\n\nTips:\n• Company might not have public emails\n• Try finding them on LinkedIn\n• Use a different domain variant\n\nSearches remaining: ${data.meta?.requests?.searches?.available ? (data.meta.requests.searches.available - data.meta.requests.searches.used) : 'Unknown'}`);
       }
     } catch (error) {
-      console.error('Error finding email:', error);
-      alert('Failed to find contact. Please check your Hunter.io API key or try manually.');
+      console.error('❌ Error finding email:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`❌ Failed to find contact\n\n${errorMessage}`);
     } finally {
       setFindingEmailFor(null);
     }
