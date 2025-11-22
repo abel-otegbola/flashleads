@@ -61,6 +61,7 @@ export type LeadsContextValue = {
     deleteLead: (id: string) => Promise<void>;
     refreshLeads: () => Promise<void>;
     auditWebsite: (leadId: string, websiteUrl: string) => Promise<void>;
+    getSingleLead: (id: string) => Promise<Lead | null>;
 }
 
 export const LeadsContext = createContext({} as LeadsContextValue);

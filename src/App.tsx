@@ -18,12 +18,14 @@ import Privacy from "./pages/static/privacy"
 import Terms from "./pages/static/terms"
 import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
+import { ModalProvider } from "./contexts/ModalContext"
 
 function App() {
 
   return (
     <div className="text-[14px] 2xl:text-[18px] tracking-[5%] leading-[24px]">
       <BrowserRouter>
+      <ModalProvider>
       <AuthProvider>
         <LeadsProvider>
           <ClientsProvider>
@@ -55,6 +57,7 @@ function App() {
           </ClientsProvider>
         </LeadsProvider>
       </AuthProvider>
+      </ModalProvider>
       </BrowserRouter>
     </div>
   )

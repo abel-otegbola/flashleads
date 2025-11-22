@@ -1,6 +1,6 @@
 'use client'
 import { type ReactNode, useEffect, useState, useContext } from 'react';
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc, Timestamp } from 'firebase/firestore';
 import { FirebaseError } from "firebase/app";
 import { app } from "../firebase/firebase";
 import { AuthContext } from "./AuthContextValue";
@@ -196,6 +196,42 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    // Get a single lead by id (fresh from Firestore)
+    const getSingleLead = async (id: string) => {
+        try {
+            const leadRef = doc(db, 'leads', id);
+            const snap = await getDoc(leadRef);
+            if (!snap.exists()) return null;
+            const data = snap.data();
+            const lead: Lead = {
+                id: snap.id,
+                name: data.name,
+                company: data.company,
+                email: data.email,
+                phone: data.phone,
+                location: data.location,
+                status: data.status,
+                value: data.value,
+                industry: data.industry,
+                score: data.score,
+                addedDate: data.addedDate?.toDate?.()?.toISOString() || data.addedDate,
+                companyWebsite: data.companyWebsite,
+                websiteAudit: data.websiteAudit,
+                serviceNeeds: data.serviceNeeds || [],
+                userId: data.userId,
+                linkedinUrl: data.linkedinUrl,
+                twitterUrl: data.twitterUrl,
+                companyLinkedin: data.companyLinkedin,
+                notes: data.notes
+            };
+
+            return lead;
+        } catch (err: unknown) {
+            console.error('Error fetching single lead:', err);
+            return null;
+        }
+    };
+
     // Fetch leads when user changes
     useEffect(() => {
         if (user?.uid) {
@@ -215,7 +251,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
             updateLead, 
             deleteLead, 
             refreshLeads,
-            auditWebsite
+            auditWebsite,
+            getSingleLead
         }}>
             {children}
         </LeadsContext.Provider>

@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2, MagicStick, Upload, UserSpeak } from "@solar-icons/react";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
 import type { Lead } from "../../../contexts/LeadsContextValue";
@@ -7,6 +8,7 @@ import BusinessDiscovery from "../../../components/businessDiscovery/BusinessDis
 import { CSVImport } from "../../../components/csvImport/CSVImport";
 import Button from "../../../components/button/Button";
 import LoadingIcon from "../../../assets/icons/loadingIcon";
+import { useModal } from "../../../contexts/useModal";
 
 const statusColors = {
   new: "bg-blue-100 text-blue-700 border-blue-200",
@@ -18,6 +20,7 @@ const statusColors = {
 
 export default function Leads() {
   const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +28,7 @@ export default function Leads() {
   const [isCSVImportOpen, setIsCSVImportOpen] = useState(false);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
   const [findingEmailFor, setFindingEmailFor] = useState<string | null>(null);
+  const { showModal } = useModal();
 
   const filteredLeads = leads.filter(lead => {
     const matchesSearch = 
@@ -110,11 +114,11 @@ export default function Leads() {
             const message = failCount > 0 
               ? `Imported ${successCount} lead${successCount > 1 ? 's' : ''}. ${failCount} failed.`
               : `Successfully imported ${successCount} lead${successCount > 1 ? 's' : ''}!`;
-            await alert({ title: 'Import Results', message });
+            await showModal({ title: 'Import Results', message });
       }
     } catch (err) {
       console.error('❌ Critical error in import handler:', err);
-          await alert({ title: 'Import Failed', message: 'Failed to import leads. Please try again.', showCancel: false });
+          await showModal({ title: 'Import Failed', message: 'Failed to import leads. Please try again.', showCancel: false });
     }
   };
 
@@ -136,14 +140,14 @@ export default function Leads() {
 
   const handleFindEmail = async (leadId: string, companyWebsite: string, companyName: string) => {
     if (!companyWebsite) {
-      await alert({ message: 'No website available for this lead. Please add a website first.' });
+      await showModal({ message: 'No website available for this lead. Please add a website first.' });
       return;
     }
 
     // Check if API key exists
     const apiKey = import.meta.env.VITE_HUNTER_API_KEY;
     if (!apiKey) {
-      await alert({ title: 'Hunter.io API Key Missing', message: '⚠️ Hunter.io API key not configured.\n\nAdd VITE_HUNTER_API_KEY to your .env file.\n\nGet your free API key at: https://hunter.io/api', showCancel: false });
+      await showModal({ title: 'Hunter.io API Key Missing', message: '⚠️ Hunter.io API key not configured.\n\nAdd VITE_HUNTER_API_KEY to your .env file.\n\nGet your free API key at: https://hunter.io/api', showCancel: false });
       return;
     }
 
@@ -219,15 +223,15 @@ export default function Leads() {
 
           await updateLead(leadId, updateData);
           
-          alert(`✅ Found contact!\n\nName: ${fullName}\nEmail: ${email}\n\nSearches remaining: ${data.meta.requests.searches.available - data.meta.requests.searches.used} / ${data.meta.requests.searches.available}`);
+          await showModal({ title: 'Contact Found', message: `✅ Found contact!\n\nName: ${fullName}\nEmail: ${email}\n\nSearches remaining: ${data.meta.requests.searches.available - data.meta.requests.searches.used} / ${data.meta.requests.searches.available}` });
         }
       } else {
-        alert(`❌ No contacts found for ${companyName}\n\nDomain searched: ${domain}\n\nTips:\n• Company might not have public emails\n• Try finding them on LinkedIn\n• Use a different domain variant\n\nSearches remaining: ${data.meta?.requests?.searches?.available ? (data.meta.requests.searches.available - data.meta.requests.searches.used) : 'Unknown'}`);
+        await showModal({ title: 'No Contacts Found', message: `❌ No contacts found for ${companyName}\n\nDomain searched: ${domain}\n\nTips:\n• Company might not have public emails\n• Try finding them on LinkedIn\n• Use a different domain variant\n\nSearches remaining: ${data.meta?.requests?.searches?.available ? (data.meta.requests.searches.available - data.meta.requests.searches.used) : 'Unknown'}` });
       }
     } catch (error) {
       console.error('❌ Error finding email:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      alert(`❌ Failed to find contact\n\n${errorMessage}`);
+      await showModal({ title: 'Find Contact Failed', message: `❌ Failed to find contact\n\n${errorMessage}` });
     } finally {
       setFindingEmailFor(null);
     }
@@ -346,7 +350,7 @@ export default function Leads() {
             </thead>
             <tbody className="divide-y divide-gray-200/[0.2]">
               {filteredLeads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={lead.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/account/leads/${lead.id}`)}>
                   <td className="px-4 py-1 min-w-[210px]">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-[12px] flex-shrink-0">
@@ -432,14 +436,14 @@ export default function Leads() {
                   <td className="px-4 py-1">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => openEditModal(lead)}
+                        onClick={(e) => { e.stopPropagation(); openEditModal(lead); }}
                         className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                         title="Edit lead"
                       >
                         <Pen size={18} />
                       </button>
                       <button
-                        onClick={() => handleDeleteLead(lead.id)}
+                        onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead.id); }}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                         title="Delete lead"
                       >

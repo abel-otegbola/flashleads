@@ -1,6 +1,7 @@
 "use client";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
+import LeadDetails from "./leads/LeadDetails";
 import { Formik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
@@ -66,6 +67,7 @@ function AccountPages() {
                 <Route path="/" element={<Navigate to={"/account/dashboard"} />} />
                 <Route path="/dashboard" element={<Dashboardpage />} />
                 <Route path="/leads" element={<Leads />} />
+                <Route path="/leads/:id" element={<LeadDetails />} />
                 <Route path="/clients" element={<Clients />} />
             </Routes>
         </div>
