@@ -126,12 +126,21 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
     
     const leadsToImport = searchResults
       .filter(contact => selectedLeads.has(contact.value))
-      .map(contact => hunterContactToLead(contact, organization));
+      .map(contact => {
+        const lead = hunterContactToLead(contact, organization);
+        return {
+          ...lead,
+          userId: user.uid,
+          companyWebsite: lead.companyWebsite || '',
+          serviceNeeds: ['Website Design', 'SEO Optimization'],
+          notes: ''
+        };
+      });
     
     console.log('✨ Leads converted for import:', leadsToImport);
     console.log('📞 Calling onImportLeads with', leadsToImport.length, 'leads');
     
-    onImportLeads(leadsToImport.map(lead => ({ ...lead, userId: user.uid })));
+    onImportLeads(leadsToImport);
     console.log('✅ onImportLeads completed, closing modal');
     onClose();
   };

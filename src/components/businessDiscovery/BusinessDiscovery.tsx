@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CloseCircle, Buildings2, MagicStick, Magnifer } from "@solar-icons/react";
 import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
 import type { Lead } from "../../contexts/LeadsContextValue";
+import { AuthContext } from "../../contexts/AuthContextValue";
 
 interface DiscoveredBusiness {
   name: string;
@@ -13,6 +14,7 @@ interface DiscoveredBusiness {
   companyWebsite: string;
   industry: string;
   score: number;
+  userId: string,
   serviceNeeds: string[];
   value: number;
 }
@@ -20,7 +22,7 @@ interface DiscoveredBusiness {
 interface BusinessDiscoveryProps {
   isOpen: boolean;
   onClose: () => void;
-  onImportLeads: (leads: Omit<Lead, 'id' | 'addedDate' | 'userId'>[]) => void;
+  onImportLeads: (leads: Omit<Lead, 'id' | 'addedDate'>[]) => void;
 }
 
 const industries = [
@@ -36,6 +38,7 @@ const locations = [
 
 export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: BusinessDiscoveryProps) {
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
   const [searchResults, setSearchResults] = useState<DiscoveredBusiness[]>([]);
   const [selectedBusinesses, setSelectedBusinesses] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string>('');
@@ -155,6 +158,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
           companyWebsite: website,
           industry: category || industry || 'General',
           score: Math.min(score, 100),
+          userId: user?.uid,
           serviceNeeds,
           value: estimateProjectValue(serviceNeeds, score)
         });
@@ -225,6 +229,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         companyWebsite: hasWebsite ? `https://${names[i].toLowerCase().replace(/\s+/g, '')}.com` : '',
         industry: industry || 'General',
         score,
+        userId: user?.uid,
         serviceNeeds: determineServiceNeeds(hasWebsite ? 'site.com' : '', score, industry),
         value: Math.floor(Math.random() * 20000) + 5000
       });
@@ -291,6 +296,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         value: business.value,
         industry: business.industry,
         score: business.score,
+        userId: user?.uid,
         companyWebsite: business.companyWebsite,
         serviceNeeds: business.serviceNeeds,
         linkedinUrl: '',

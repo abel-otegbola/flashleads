@@ -56,7 +56,7 @@ export type LeadsContextValue = {
     leads: Lead[];
     loading: boolean;
     error: string | null;
-    addLead: (lead: Omit<Lead, 'id' | 'addedDate' | 'userId'>) => Promise<void>;
+    addLead: (lead: Omit<Lead, 'id' | 'addedDate'>) => Promise<void>;
     updateLead: (id: string, updates: Partial<Lead>) => Promise<void>;
     deleteLead: (id: string) => Promise<void>;
     refreshLeads: () => Promise<void>;

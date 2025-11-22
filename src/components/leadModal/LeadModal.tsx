@@ -74,6 +74,9 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     userId: user.uid,
     industry: lead.industry,
     score: lead.score,
+    companyWebsite: lead.companyWebsite,
+    serviceNeeds: lead.serviceNeeds,
+    notes: lead.notes || '',
   } : {
     name: '',
     company: '',
@@ -85,6 +88,9 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     userId: user.uid,
     industry: '',
     score: 50,
+    companyWebsite: '',
+    serviceNeeds: ['Website Design', 'SEO Optimization'],
+    notes: '',
   };
 
   return (
@@ -163,15 +169,25 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
                   />
                 </div>
 
-                {/* Location */}
-                <Input
-                  name="location"
-                  label="Location"
-                  value={values.location}
-                  onChange={handleChange}
-                  error={touched.location ? errors.location : ''}
-                  placeholder="New York, NY"
-                />
+                {/* Location & Website */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    name="location"
+                    label="Location"
+                    value={values.location}
+                    onChange={handleChange}
+                    error={touched.location ? errors.location : ''}
+                    placeholder="New York, NY"
+                  />
+                  <Input
+                    name="companyWebsite"
+                    label="Company Website"
+                    value={values.companyWebsite}
+                    onChange={handleChange}
+                    error={touched.companyWebsite ? errors.companyWebsite : ''}
+                    placeholder="https://example.com"
+                  />
+                </div>
 
                 {/* Industry & Status */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -266,6 +282,21 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
                       <p className="text-xs text-red-500">{errors.score}</p>
                     )}
                   </div>
+                </div>
+
+                {/* Notes */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="notes" className="text-sm font-medium">
+                    Notes
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    value={values.notes}
+                    onChange={handleChange}
+                    className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary min-h-[80px]"
+                    placeholder="Add any additional notes about this lead..."
+                  />
                 </div>
 
                 {/* Action Buttons */}

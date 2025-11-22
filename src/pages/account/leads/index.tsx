@@ -61,6 +61,7 @@ export default function Leads() {
     phone: string;
     location: string;
     companyWebsite: string;
+    userId: string;
     industry: string;
     score?: number;
     serviceNeeds?: string[];
@@ -78,7 +79,7 @@ export default function Leads() {
         const business = discoveredLeads[i];
         
         // Convert business to Lead format
-        const leadData: Omit<Lead, 'id' | 'addedDate' | 'userId'> = {
+        const leadData: Omit<Lead, 'id' | 'addedDate'> = {
           name: business.name,
           company: business.company,
           email: business.email,
@@ -89,6 +90,7 @@ export default function Leads() {
           score: business.score || 75,
           serviceNeeds: business.serviceNeeds || ['Website Design', 'SEO Optimization'],
           value: business.value || 10000,
+          userId: business.userId,
           status: 'new',
           notes: ''
         };

@@ -11,6 +11,7 @@ interface DiscoveredBusiness {
   companyWebsite: string;
   industry: string;
   score: number;
+  userId: string;
   serviceNeeds: string[];
   value: number;
 }

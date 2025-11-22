@@ -51,17 +51,6 @@ The new sales pipeline is streamlined for service providers:
 
 ## API Endpoints
 
-### Business Discovery
-**POST** `/api/discover/businesses`
-```json
-{
-  "industry": "technology",
-  "location": "United States",
-  "keywords": "startup",
-  "limit": 20
-}
-```
-
 ### CSV Import
 **POST** `/api/import/csv`
 ```json
@@ -91,16 +80,6 @@ Supports flexible column mapping:
 ```
 
 Returns comprehensive audit data including scores, issues, and recommendations.
-
-### Web Scraper (Template)
-**POST** `/api/scrape/directory`
-```json
-{
-  "url": "https://www.yellowpages.com/search?..."
-}
-```
-
-Basic scraper for extracting business data from public directories. See file for important notes about usage and alternatives.
 
 ## Data Structure
 

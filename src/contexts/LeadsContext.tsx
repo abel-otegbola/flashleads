@@ -44,6 +44,9 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                     industry: data.industry,
                     score: data.score,
                     addedDate: data.addedDate?.toDate?.()?.toISOString() || data.addedDate,
+                    companyWebsite: data.companyWebsite,
+                    websiteAudit: data.websiteAudit,
+                    serviceNeeds: data.serviceNeeds || [],
                     userId: data.userId
                 });
             });
