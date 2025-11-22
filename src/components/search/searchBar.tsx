@@ -3,9 +3,10 @@ import { Magnifer } from "@solar-icons/react";
 
 interface Props {
   placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function SearchBar({ placeholder = "Search..." }: Props) {
+export default function SearchBar({ placeholder = "Search...", onChange }: Props) {
   const [query, setQuery] = useState("");
 
   return (
@@ -15,7 +16,7 @@ export default function SearchBar({ placeholder = "Search..." }: Props) {
         className="w-full p-2 bg-transparent rounded-lg outline-none"
         placeholder={placeholder}
         value={query}
-        onChange={(e) => {setQuery(e.target.value); console.log("Input changed:", e.target.value); }}
+        onChange={(e) => {setQuery(e.target.value); if (onChange) onChange(e); }}
       />
     </div>
   );
