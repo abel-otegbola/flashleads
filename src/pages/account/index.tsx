@@ -23,9 +23,9 @@ function AccountPages() {
     <div className="min-h-[400px] flex justify-between bg-bg-gray-100 dark:bg-dark/[0.6]">
         <Sidebar />
         <div className="flex flex-col flex-1">
-            <div className="flex p-3 px-4 sm:pr-4 pr-[66px] items-center justify-between bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] md:static sticky top-0">
-                <div className="flex gap-1 capitalize font-semibold items-center">
-                    {pathname.replace("/account/", "").split("/").map((segment, index, arr) => (
+            <div className="flex p-3 md:px-6 px-4 sm:pr-4 pr-[66px] items-center justify-between bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] md:static sticky top-0 z-[10]">
+                <div className="flex gap-1 capitalize opacity-[0.7] font-medium items-center">
+                    {pathname.replace("/", "").split("/").map((segment, index, arr) => (
                         <span key={index} className="flex items-center gap-1">
                             {segment}
                             {index < arr.length - 1 && <AltArrowRight size={16} />}

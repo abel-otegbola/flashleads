@@ -283,7 +283,7 @@ export default function Clients() {
 
       {/* Clients List View */}
       {view === 'list' && (
-        <div className="bg-white border border-gray-200/[0.2] rounded-b-lg overflow-hidden md:w-full w-[92vw]">
+        <div className="bg-white border border-gray-200/[0.2] rounded-b-lg overflow-hidden md:w-full w-[90vw]">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>

@@ -172,7 +172,7 @@ export default function Leads() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[92vw]">
+      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-hidden md:w-full w-[90vw]">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
