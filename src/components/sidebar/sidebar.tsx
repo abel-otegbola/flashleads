@@ -1,7 +1,7 @@
 'use client'
 import { useContext, useState, type ReactElement } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AltArrowDown, Bell, Home, Logout, Server, Settings, UsersGroupRounded, WidgetAdd, type IconProps, CloseCircle, SidebarMinimalistic, Case, MoneyBag } from "@solar-icons/react";
+import { AltArrowDown, Bell, Home, Logout, Server, Settings, UsersGroupRounded, WidgetAdd, type IconProps, CloseCircle, SidebarMinimalistic, Case } from "@solar-icons/react";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 import { AuthContext } from "../../contexts/AuthContextValue";
 
@@ -11,7 +11,7 @@ export interface Link {
 
 function Sidebar() {
     const [open, setOpen] = useState(false)
-    const [projectsOpen, setprojectsOpen] = useState(false)
+    const [portfolioOpen, setportfolioOpen] = useState(false)
     const pathname = useLocation().pathname;
     const { user, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -29,14 +29,14 @@ function Sidebar() {
     const generalLinks: Link[] = [
         { id: 0, label: "Dashboard", icon: <Home size={16} />, link: "/account/dashboard" },
         { id: 2, label: "Leads", icon: <Server size={16} />, link: "/account/leads" },
-        { id: 1, label: "Clients", icon: <UsersGroupRounded size={16} />, link: "/account/clients" },
         // projects will render its children when toggled
-        { id: 3, label: "Projects", icon: <Case size={16} />, link: "/account/projects" },
+        { id: 3, label: "Portfolio", icon: <Case size={16} />, link: "/account/portfolio" },
         { id: 4, label: "Integrations", icon: <WidgetAdd size={16} />, link: "/account/integrations" },
     ]
     
     const projectsLinks: Link[] = [
-        { id: 0, label: "Budgets", icon: <MoneyBag size={14} />, link: "/account/projects/budgets" },
+        { id: 1, label: "Clients", icon: <UsersGroupRounded size={16} />, link: "/account/clients" },
+        { id: 3, label: "Projects", icon: <Case size={16} />, link: "/account/projects" },
     ]
     
     const otherLinks: Link[] = [
@@ -67,19 +67,19 @@ function Sidebar() {
                         <p className={`text-gray-200 text-[12px] mb-2 ${open ? "sm:opacity-0" : ""}`}>MAIN</p>
                         {
                         generalLinks.map(link => {
-                                // Render projects with toggleable children
-                                if (link.label === 'Projects') {
+                                // Render portfolio with toggleable children
+                                if (link.label === 'Portfolio') {
                                     return (
                                         <div key={link.id} className="flex flex-col gap-1">
-                                            <button onClick={() => setprojectsOpen(!projectsOpen)} className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
+                                            <button onClick={() => setportfolioOpen(!portfolioOpen)} className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
                                                 <div className="flex items-center gap-1">
                                                     <span className="w-[24px] opacity-[0.6]">{link.icon}</span>
                                                     <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
                                                 </div>
-                                                <span className={`text-xs opacity-60 ${open ? 'sm:hidden' : ''}`}><AltArrowDown className={`duration-300 ${projectsOpen ? "rotate-180" : ""}`} /></span>
+                                                <span className={`text-xs opacity-60 ${open ? 'sm:hidden' : ''}`}><AltArrowDown className={`duration-300 ${portfolioOpen ? "rotate-180" : ""}`} /></span>
                                             </button>
 
-                                            {projectsOpen && (
+                                            {portfolioOpen && (
                                                 <div className="flex flex-col pl-8 pr-2 duration-500 gap-1">
                                                     {projectsLinks.map(sublink => (
                                                         <Link key={sublink.id} onClick={() => setOpen(false)} to={sublink.link} className={`relative flex items-center justify-between px-3 py-1 h-[30px] md:rounded-[6px] duration-300 text-sm ${pathname.includes(sublink.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
