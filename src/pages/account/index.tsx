@@ -24,7 +24,7 @@ function AccountPages() {
     <div className="min-h-[400px] flex justify-between bg-bg-gray-100 dark:bg-dark/[0.6]">
         <Sidebar />
         <div className="flex flex-col flex-1">
-            <div className="flex p-2 md:px-6 px-4 sm:pr-4 pr-[66px] items-center justify-between bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
+            <div className="flex md:p-2 p-3 md:px-6 px-4 sm:pr-4 pr-[66px] items-center justify-between bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
                 <div className="flex gap-1 capitalize opacity-[0.7] font-medium items-center">
                     {pathname.replace("/", "").split("/").map((segment, index, arr) => (
                         <span key={index} className="flex items-center gap-1 max-w-[80px] truncate">
@@ -36,7 +36,7 @@ function AccountPages() {
                 
                 {/* <LogoIcon className="md:hidden"/> */}
 
-                <div className="flex gap-6 items-center">
+                <div className="flex md:gap-6 gap-4 items-center">
                     <Link to={"/account/notifications"} className="relative text-gray-200 hover:text-gray-400 duration-300">
                         <Bell size={20} color="currentColor"/>
                     </Link>

@@ -111,18 +111,18 @@ export default function LeadDetails() {
         <div className='flex flex-col gap-4'>
           <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
             <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2]">Contact</p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Email:</span> 
               <span className='text-right'>{lead.email || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Phone:</span> <span className='text-right'>{lead.phone || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Location:</span> 
               <span className='text-right'>{lead.location || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Website:</span> 
               <span className='text-right'>{lead.companyWebsite || '—'}</span>
             </p>
@@ -134,15 +134,15 @@ export default function LeadDetails() {
               <p className="text-sm text-gray-500">Opportunity</p>
               <button className="text-[10px] text-primary font-semibold hover:border border-transparent rounded hover:border-primary p-2 leading-0 py-1" onClick={handleAuditWebsite}>Audit Website</button>
             </div>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Status</span> 
               <span className='text-right'>{lead.status || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Value</span> 
               <span className='text-right'>${lead.value || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between">
+            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Score</span> 
               <span className='text-right'>{lead.score || '—'}</span>
             </p>
@@ -157,7 +157,7 @@ export default function LeadDetails() {
             <div className='flex-1 min-h-[240px] overflow-y-auto'>
 
             </div>
-            <div className="p-2 py-1 flex items-start bg-white rounded-lg shadow-md">
+            <div className="p-[8px] py-1 flex items-center bg-white rounded-[16px] border border-gray-500/[0.1]">
               <Input className='flex-1 py-0 leading-0 border-none' placeholder='Write a message' />
               <Button className=''>Send</Button>
             </div>
