@@ -86,7 +86,7 @@ export default function LeadDetails() {
   };
 
   return (
-    <div className="p-6 bg-gray-100/[0.05] min-h-screen">
+    <div className="md:p-6 p-2 bg-gray-100/[0.05] min-h-screen">
       <button onClick={() => navigate('/account/leads')}><AltArrowLeft size={20} /></button>
       <div className="flex flex-wrap gap-4 items-center justify-between">
         <div className='w-full py-2'>
