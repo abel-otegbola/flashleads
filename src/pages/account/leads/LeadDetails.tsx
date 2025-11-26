@@ -23,7 +23,7 @@ export default function LeadDetails() {
       setLoading(true);
       try {
         const data = await getSingleLead(id);
-        if (mounted) setLead(data);
+        if (mounted) {setLead(data); console.log(data)};
       } catch (err) {
         console.error('Error fetching lead details', err);
       } finally {
@@ -98,10 +98,10 @@ export default function LeadDetails() {
             </div>
           </div>
           <div className="mt-4 flex gap-2 flex-wrap text-[12px]">
-            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
-            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
-            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Create Project</button>
-            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateContract}><MoneyBag />Create Contract</button>
+            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
+            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
+            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Create Project</button>
+            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateContract}><MoneyBag />Create Contract</button>
           </div>
         </div>
         <div className="flex gap-2">
@@ -132,7 +132,7 @@ export default function LeadDetails() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
+          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white pb-2">
             
             <div className="flex gap-4 justify-between mb-2 p-4 border-b border-gray-500/[0.2]">
               
@@ -154,6 +154,52 @@ export default function LeadDetails() {
               <span className='text-gray-500 w-[40%]'>Score</span> 
               <span className='text-right'>{lead.score || '—'}</span>
             </p>
+            
+            <div className="mx-4 my-2 p-2 px-4 rounded font-medium border border-gray-500/[0.2] bg-[url('/bg-cover.svg')] flex flex-col text-[12px]">
+              <span className='text-gray-500 w-[40%]'>Website Audit Result</span> 
+              <div className='grid grid-cols-4 gap-8 text-[10px] my-2'>
+                <div>
+                  <p>performance:</p>
+                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
+                    <span 
+                      className={`h-[6px] rounded-full`}
+                      style={{ width: `${lead.websiteAudit?.performanceScore}%`, backgroundColor: +(lead.websiteAudit?.performanceScore || 0) > 70 ? "green" : +(lead.websiteAudit?.performanceScore || 0) > 49 ? "orange" : "red" }}
+                      ></span>
+                  </div>
+                  <p className="font-semibold">{lead.websiteAudit?.performanceScore}%</p>
+                </div>
+                <div>
+                  <p>SEO:</p>
+                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
+                    <span 
+                      className={`h-[6px] rounded-full`}
+                      style={{ width: `${lead.websiteAudit?.seoScore}%`, backgroundColor: +(lead.websiteAudit?.seoScore || 0) > 70 ? "green" : +(lead.websiteAudit?.seoScore || 0) > 49 ? "orange" : "red" }}
+                      ></span>
+                  </div>
+                  <p className="font-semibold">{lead.websiteAudit?.seoScore}%</p>
+                </div>
+                <div>
+                  <p>Design:</p>
+                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
+                    <span 
+                      className={`h-[6px] rounded-full`}
+                      style={{ width: `${lead.websiteAudit?.designScore}%`, backgroundColor: +(lead.websiteAudit?.designScore || 0) > 70 ? "green" : +(lead.websiteAudit?.designScore || 0) > 49 ? "orange" : "red" }}
+                      ></span>
+                  </div>
+                  <p className="font-semibold">{lead.websiteAudit?.designScore}%</p>
+                </div>
+                <div>
+                  <p>Mobile:</p>
+                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
+                    <span 
+                      className={`h-[6px] rounded-full`}
+                      style={{ width: `${lead.websiteAudit?.mobileScore}%`, backgroundColor: +(lead.websiteAudit?.mobileScore || 0) > 70 ? "green" : +(lead.websiteAudit?.mobileScore || 0) > 49 ? "orange" : "red" }}
+                      ></span>
+                  </div>
+                  <p className="font-semibold">{lead.websiteAudit?.mobileScore}%</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

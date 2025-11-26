@@ -21,7 +21,7 @@ function AccountPages() {
         return <Navigate to="/auth/login" replace />;
      }
   return (
-    <div className="min-h-[400px] flex justify-between bg-bg-gray-100 dark:bg-dark/[0.6]">
+    <div className="min-h-[400px] flex justify-between bg-[url('/bg-cover.svg')]/[0.5] bg-cover">
         <Sidebar />
         <div className="flex flex-col flex-1">
             <div className="flex md:p-2 p-3 md:px-6 px-4 sm:pr-4 pr-[66px] items-center justify-between bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">

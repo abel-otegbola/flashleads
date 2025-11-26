@@ -11,13 +11,6 @@ import {
   orderBy
 } from 'firebase/firestore';
 import { ChatContext, type Chat } from './ChatContextValue';
-import { useContext } from 'react';
-// Custom hook to safely use ChatContext
-export function useChatContext() {
-  const context = useContext(ChatContext);
-  if (!context) throw new Error('useChatContext must be used within ChatProvider');
-  return context;
-}
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [chats, setChats] = useState<Chat[]>([]);
