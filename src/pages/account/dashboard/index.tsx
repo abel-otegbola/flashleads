@@ -62,7 +62,7 @@ function Dashboardpage() {
 
   return (
     <div className="p-4">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
 
         <div className="md:w-[65%] w-full flex flex-col gap-4 mb-6">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
