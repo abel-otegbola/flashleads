@@ -100,8 +100,7 @@ export default function LeadDetails() {
           <div className="mt-4 flex gap-2 flex-wrap text-[12px]">
             <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
             <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
-            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Create Project</button>
-            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateContract}><MoneyBag />Create Contract</button>
+            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Convert Lead to Client</button>
           </div>
         </div>
         <div className="flex gap-2">
