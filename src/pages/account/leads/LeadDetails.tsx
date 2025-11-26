@@ -91,7 +91,7 @@ export default function LeadDetails() {
       <div className="flex flex-wrap gap-4 items-center justify-between">
         <div className='w-full py-2'>
           <div className='flex gap-2 items-center p-1'>
-            <p className='w-[60px] h-[60px] bg-gradient-to-tr from-blue-500 to-purple-600 text-white rounded-[10px] outline outline-offset-2 outline-primary/[0.3] flex items-center justify-center'>{lead.name.charAt(0) + lead.name.charAt(1)}</p>
+            <p className='w-[60px] min-w-[60px] h-[60px] bg-gradient-to-tr from-blue-500 to-purple-600 text-white rounded-[10px] outline outline-offset-2 outline-primary/[0.3] flex items-center justify-center'>{lead.name.charAt(0) + lead.name.charAt(1)}</p>
             <div>
               <h1 className="text-xl font-semibold">{lead.name}</h1>
               <p className="text-sm text-gray-600">{lead.company} — {lead.industry}</p>

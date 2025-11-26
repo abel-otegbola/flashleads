@@ -399,12 +399,12 @@ export default function Leads() {
                       </div>
                       <div className="flex items-center gap-2 text-[12px] text-gray-500">
                         <MapPoint size={14} />
-                        <span>{lead.location}</span>
+                        <p className="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap">{lead.location}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-1">
-                    <span className="text-[12px] text-gray-700">{lead.industry}</span>
+                    <p className="text-[12px] text-gray-700 max-w-[100px] text-ellipsis overflow-hidden whitespace-nowrap">{lead.industry}</p>
                   </td>
                   <td className="px-4 py-1">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[lead.status]}`}>
