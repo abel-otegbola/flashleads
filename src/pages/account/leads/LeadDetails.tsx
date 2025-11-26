@@ -4,8 +4,9 @@ import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
-import { AltArrowLeft, Case, Letter, MoneyBag, Phone } from '@solar-icons/react';
+import { AltArrowLeft, Book, Case, HandMoney, Letter, MoneyBag, Phone, User } from '@solar-icons/react';
 import Input from '../../../components/input/Input';
+import { ChatDots } from '@solar-icons/react/ssr';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
@@ -110,7 +111,10 @@ export default function LeadDetails() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className='flex flex-col gap-4'>
           <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-            <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2]">Contact</p>
+            <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2">
+              <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><User /> </span> 
+              Contacts
+            </p>
             <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Email:</span> 
               <span className='text-right'>{lead.email || '—'}</span>
@@ -131,7 +135,11 @@ export default function LeadDetails() {
           <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
             
             <div className="flex gap-4 justify-between mb-2 p-4 border-b border-gray-500/[0.2]">
-              <p className="text-sm text-gray-500">Opportunity</p>
+              
+              <p className="text-sm text-gray-500 flex items-center gap-2 font-semibold"> 
+                <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><HandMoney /> </span> 
+                Opportunity
+              </p>
               <button className="text-[10px] text-primary font-semibold hover:border border-transparent rounded hover:border-primary p-2 leading-0 py-1" onClick={handleAuditWebsite}>Audit Website</button>
             </div>
             <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
@@ -151,23 +159,29 @@ export default function LeadDetails() {
 
         
         <div className="flex flex-col bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-          <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2]">Conversations</p>
+          <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2 font-semibold"> 
+            <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><ChatDots /> </span> 
+            Conversations
+          </p>
 
           <div className='p-4 flex flex-col gap-4 justify-between flex-1'>
             <div className='flex-1 min-h-[240px] overflow-y-auto'>
 
             </div>
-            <div className="p-[8px] py-1 flex items-center bg-white rounded-[16px] border border-gray-500/[0.1]">
+            <div className="p-[8px] py-1 flex items-center bg-white rounded-lg border border-gray-500/[0.1]">
               <Input className='flex-1 py-0 leading-0 border-none' placeholder='Write a message' />
-              <Button className=''>Send</Button>
+              <Button className='border-[2px]'>Send</Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-4 bg-white p-4 rounded-lg border border-gray-500/[0.2] bg-white">
-        <h3 className="font-semibold mb-2">Notes</h3>
-        <p className="text-sm text-gray-700">{lead.notes || 'No notes yet.'}</p>
+      <div className="mt-4 bg-white rounded-lg border border-gray-500/[0.2] bg-white">
+        <h3 className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2 font-semibold">
+          <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><Book /> </span>
+          Notes
+        </h3>
+        <p className="text-sm text-gray-700 p-4">{lead.notes || 'No notes yet.'}</p>
       </div>
     </div>
   );
