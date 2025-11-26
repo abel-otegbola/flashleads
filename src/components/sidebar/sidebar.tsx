@@ -155,8 +155,8 @@ function Sidebar() {
                             
                             {/* User Details */}
                             <div className={`flex-1 min-w-0 ${open ? "sm:hidden" : ""}`}>
-                                <p className="font-medium text-sm truncate dark:text-white">
-                                    {user.firstname || 'User'}
+                                <p className="font-medium text-sm mb-1">
+                                    <span className="text-sm capitalize">{user?.firstname || user?.email?.split('@')[0]}</span>
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                     {user.email || ''}

@@ -15,14 +15,14 @@ function Homepage() {
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-primary text-white font-medium text-xs">New</span>
                     <span className="font-medium text-xs">Perfectly Organized with New AI Tools</span>
                 </div>
-                <h1 className="md:flex hidden flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
+                <h1 className="md:flex hidden flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
                     Turn Customer 
                     <span className="flex md:mt-2 gap-4 items-center">Data into <img 
                         src="/hero-img2.png" 
                         alt="FlashLeads Illustration" 
                         className="object-contain md:block hidden"/></span>
                 </h1>
-                <h1 className="text-3xl font-bold">Turn Customer Data into</h1>
+                <h1 className="text-3xl font-bold md:hidden ">Turn Customer Data into</h1>
                 <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] text-[#21E061] mb-2 md:mb-12">
                     Sales Success
                 </h1>
@@ -129,8 +129,8 @@ function Homepage() {
         </section>
 
         <section className="bg-black text-white flex justify-center flex-col md:items-center gap-6 md:mx-[5%] mx-4 p-[5%] rounded-lg mb-16">
-            <h1 className="xl:text-4xl text-2xl font-semibold text-center">Ready to Supercharge Your Sales?</h1>
-            <p className="text-center max-w-2xl">Join thousands of freelancers, agencies, and businesses using FlashLeads to discover leads, automate outreach, and close deals faster.</p>
+            <h1 className="xl:text-4xl text-2xl font-semibold md:text-center">Ready to Supercharge Your Sales?</h1>
+            <p className="md:text-center max-w-2xl">Join thousands of freelancers, agencies, and businesses using FlashLeads to discover leads, automate outreach, and close deals faster.</p>
             <Button href="/signup" className="text-[14px]">Start Your Free Trial Today</Button>
         </section>
 

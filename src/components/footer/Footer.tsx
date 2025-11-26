@@ -103,11 +103,11 @@ function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-600 dark:text-gray-400 text-center md:text-left">
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400 md:text-center md:text-left">
               © {currentYear} FlashLeads. All rights reserved.
             </p>
-            <div className="flex flex-wrap justify-center md:justify-end gap-6">
+            <div className="flex flex-wrap md:justify-end gap-6">
               <Link to="/privacy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
                 Privacy
               </Link>

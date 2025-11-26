@@ -4,6 +4,8 @@ import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
+import { AltArrowLeft, Case, Letter, MoneyBag, Phone } from '@solar-icons/react';
+import Input from '../../../components/input/Input';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
@@ -64,10 +66,6 @@ export default function LeadDetails() {
     await showModal({ title: 'Create Project', message: 'Create project flow not yet implemented.' });
   };
 
-  const handleCreateOffer = async () => {
-    await showModal({ title: 'Create Offer', message: 'Create offer flow not yet implemented.' });
-  };
-
   const handleCreateContract = async () => {
     await showModal({ title: 'Create Contract', message: 'Create contract flow not yet implemented.' });
   };
@@ -88,46 +86,86 @@ export default function LeadDetails() {
 
   return (
     <div className="p-6 bg-gray-100/[0.05] min-h-screen">
-      <div className="flex flex-wrap gap-6 items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-semibold">{lead.name}</h1>
-          <p className="text-sm text-gray-600">{lead.company} — {lead.industry}</p>
+      <button onClick={() => navigate('/account/leads')}><AltArrowLeft size={20} /></button>
+      <div className="flex flex-wrap gap-4 items-center justify-between">
+        <div className='w-full py-2'>
+          <div className='flex gap-2 items-center p-1'>
+            <p className='w-[60px] h-[60px] bg-gradient-to-tr from-blue-500 to-purple-600 text-white rounded-[10px] outline outline-offset-2 outline-primary/[0.3] flex items-center justify-center'>{lead.name.charAt(0) + lead.name.charAt(1)}</p>
+            <div>
+              <h1 className="text-xl font-semibold">{lead.name}</h1>
+              <p className="text-sm text-gray-600">{lead.company} — {lead.industry}</p>
+            </div>
+          </div>
+          <div className="mt-4 flex gap-2 flex-wrap text-[12px]">
+            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
+            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
+            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Create Project</button>
+            <button className='flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateContract}><MoneyBag />Create Contract</button>
+          </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => navigate('/account/leads')}>Back</Button>
-          <Button onClick={handleSendEmail}>Send Email</Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white p-4 rounded-lg border border-gray-500/[0.2] bg-white">
-          <p className="text-sm text-gray-500 mb-2">Contact</p>
-          <p className="font-medium">{lead.email || '—'}</p>
-          <p className="font-medium">{lead.phone || '—'}</p>
-          <p className="text-sm text-gray-500 mt-2">Location</p>
-          <p>{lead.location}</p>
-          <p className="text-sm text-gray-500 mt-2">Website</p>
-          <p>{lead.companyWebsite || '—'}</p>
+        <div className='flex flex-col gap-4'>
+          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
+            <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2]">Contact</p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Email:</span> 
+              <span className='text-right'>{lead.email || '—'}</span>
+            </p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Phone:</span> <span className='text-right'>{lead.phone || '—'}</span>
+            </p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Location:</span> 
+              <span className='text-right'>{lead.location || '—'}</span>
+            </p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Website:</span> 
+              <span className='text-right'>{lead.companyWebsite || '—'}</span>
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
+            
+            <div className="flex gap-4 justify-between mb-2 p-4 border-b border-gray-500/[0.2]">
+              <p className="text-sm text-gray-500">Opportunity</p>
+              <button className="text-[10px] text-primary font-semibold hover:border border-transparent rounded hover:border-primary p-2 leading-0 py-1" onClick={handleAuditWebsite}>Audit Website</button>
+            </div>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Status</span> 
+              <span className='text-right'>{lead.status || '—'}</span>
+            </p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Value</span> 
+              <span className='text-right'>${lead.value || '—'}</span>
+            </p>
+            <p className="px-4 py-2 font-medium flex items-center justify-between">
+              <span className='text-gray-500 w-[40%]'>Score</span> 
+              <span className='text-right'>{lead.score || '—'}</span>
+            </p>
+          </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border border-gray-500/[0.2] bg-white">
-          <p className="text-sm text-gray-500 mb-2">Opportunity</p>
-          <p className="font-medium">Status: {lead.status}</p>
-          <p className="font-medium">Value: ${lead.value?.toLocaleString() || 0}</p>
-          <p className="font-medium">Score: {lead.score}</p>
-          <div className="mt-4 flex gap-2">
-            <Button size='small' onClick={handleCall} variant="secondary">Call</Button>
-            <Button size='small' onClick={handleCreateProject}>Create Project</Button>
-            <Button size='small' onClick={handleCreateOffer}>Create Offer</Button>
-            <Button size='small' onClick={handleCreateContract}>Contract</Button>
-          </div>
-          <div className="mt-4">
-            <Button size='small' variant="secondary" onClick={handleAuditWebsite}>Audit Website</Button>
+        
+        <div className="flex flex-col bg-white rounded-lg border border-gray-500/[0.2] bg-white">
+          <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2]">Conversations</p>
+
+          <div className='p-4 flex flex-col gap-4 justify-between flex-1'>
+            <div className='flex-1 min-h-[240px] overflow-y-auto'>
+
+            </div>
+            <div className="p-2 py-1 flex items-start bg-white rounded-lg shadow-md">
+              <Input className='flex-1 py-0 leading-0 border-none' placeholder='Write a message' />
+              <Button className=''>Send</Button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-6 bg-white p-4 rounded-lg border border-gray-500/[0.2] bg-white">
+      <div className="mt-4 bg-white p-4 rounded-lg border border-gray-500/[0.2] bg-white">
         <h3 className="font-semibold mb-2">Notes</h3>
         <p className="text-sm text-gray-700">{lead.notes || 'No notes yet.'}</p>
       </div>

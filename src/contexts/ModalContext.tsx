@@ -1,19 +1,6 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 import type { ReactNode } from 'react';
-
-type ModalOptions = {
-  title?: string;
-  message: string | ReactNode;
-  showCancel?: boolean;
-  acceptText?: string;
-  cancelText?: string;
-};
-
-type ModalContextValue = {
-  showModal: (options: ModalOptions) => Promise<boolean>;
-};
-
-export const ModalContext = createContext<ModalContextValue | undefined>(undefined);
+import { ModalContext, type ModalOptions } from './ModalContextValue';
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
