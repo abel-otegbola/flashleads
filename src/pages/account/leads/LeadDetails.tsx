@@ -4,7 +4,7 @@ import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
-import { AltArrowLeft, Book, Case, HandMoney, Letter, MoneyBag, Phone, User } from '@solar-icons/react';
+import { AltArrowLeft, Book, Case, HandMoney, Letter, Phone, User } from '@solar-icons/react';
 import Input from '../../../components/input/Input';
 import { ChatDots } from '@solar-icons/react/ssr';
 
@@ -65,10 +65,6 @@ export default function LeadDetails() {
 
   const handleCreateProject = async () => {
     await showModal({ title: 'Create Project', message: 'Create project flow not yet implemented.' });
-  };
-
-  const handleCreateContract = async () => {
-    await showModal({ title: 'Create Contract', message: 'Create contract flow not yet implemented.' });
   };
 
   const handleAuditWebsite = async () => {
