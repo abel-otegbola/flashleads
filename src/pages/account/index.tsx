@@ -37,7 +37,7 @@ function AccountPages() {
                 {/* <LogoIcon className="md:hidden"/> */}
 
                 <div className="flex md:gap-6 gap-4 items-center">
-                    <Link to={"/account/notifications"} className="relative text-gray-200 hover:text-gray-400 duration-300">
+                    <Link to={"/account/notifications"} className="relative md:block hidden text-gray-200 hover:text-gray-400 duration-300">
                         <Bell size={20} color="currentColor"/>
                     </Link>
                     <Formik

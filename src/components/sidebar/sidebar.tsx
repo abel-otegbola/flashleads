@@ -48,7 +48,7 @@ function Sidebar() {
     const modalRef = useOutsideClick(setOpen, false)
 
     return (
-        <div ref={modalRef} className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[250px]"}`}>
+        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[250px]"}`}>
             <button className={`md:absolute fixed sm:top-4 top-3 md:right-4 right-5 flex flex-col justify-center items-center bg-white/[0.7] dark:bg-dark-bg/[0.7] backdrop-blur-md gap-1 w-5 h-8 z-[50] p-[2px] px-[13px] rounded-full`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
@@ -56,7 +56,9 @@ function Sidebar() {
                 <SidebarMinimalistic size={20} color="currentColor" />
                 }
             </button>
-            <div className={`flex flex-col justify-between md:h-full bg-white dark:bg-dark-bg-secondary border-x border-gray-500/[0.1] dark:border-gray-500/[0.2] h-[100vh] md:sticky fixed md:top-0 top-0 py-4 px-4 right-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[280px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
+
+            <div  className={`fixed top-0 right-0 md:hidden bg-[#000]/[0.5] duration-300 ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
+            <div ref={modalRef} className={`flex flex-col justify-between md:h-full bg-white dark:bg-dark-bg-secondary border-x border-gray-500/[0.1] dark:border-gray-500/[0.2] h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 right-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[280px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
                 <Link to={"/"} className="flex items-center mb-2 sm:p-1">
                     {/* <LogoIcon className="text-primary 2xl:w-[40px] md:w-[32px] w-[24px]" /> */}
                 </Link>
