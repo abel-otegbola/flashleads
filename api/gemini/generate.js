@@ -10,6 +10,8 @@ export default async function handler(req, res) {
 
   const { lead } = req.body || {};
 
+  console.log('Received lead for email generation:', lead);
+
   if (!lead)
     return res.status(400).json({ error: 'Missing lead in request body' });
 
