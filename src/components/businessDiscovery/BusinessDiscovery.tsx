@@ -33,7 +33,8 @@ const industries = [
 
 const locations = [
   'United States', 'United Kingdom', 'Canada', 'Australia',
-  'Germany', 'France', 'Spain', 'Italy', 'Netherlands'
+  'Germany', 'France', 'Spain', 'Italy', 'Netherlands', 'India', 'Brazil', 'Mexico', 'Japan', 'South Korea', 'Singapore', 'Nigeria', 'South Africa', 'Egypt', 'Turkey', 'Russia', 'China', 'Indonesia', 'Argentina', 'Chile', 'Colombia', 'Peru', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Poland', 'Portugal', 'Ireland', 'Switzerland', 'Belgium', 'Austria', 'New Zealand', 'Czech Republic', 'Greece', 'Hungary', 'Romania', 'Saudi Arabia', 'UAE', 'Vietnam', 'Thailand', 'Philippines', 'Malaysia', 'Pakistan', 'Bangladesh', 'Ukraine',
+  'Thailand', 'Philippines', 'Malaysia', 'Pakistan', 'Bangladesh', 'Ukraine',
 ];
 
 export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: BusinessDiscoveryProps) {
