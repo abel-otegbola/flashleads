@@ -19,7 +19,6 @@ import Terms from "./pages/static/terms"
 import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
 import { ModalProvider } from "./contexts/ModalContext"
-import { ChatProvider } from "./contexts/ChatContext"
 
 function App() {
 
@@ -30,7 +29,6 @@ function App() {
       <AuthProvider>
         <LeadsProvider>
           <ClientsProvider>
-            <ChatProvider>
               <Routes>
               {/* Static Pages */}
               <Route path="/" element={<Homepage />} />
@@ -56,7 +54,6 @@ function App() {
               {/* Account Pages */}
               <Route path="/account/*" element={<AccountPages />} />
             </Routes>
-            </ChatProvider>
           </ClientsProvider>
         </LeadsProvider>
       </AuthProvider>

@@ -7,6 +7,7 @@ import { useModal } from '../../../contexts/useModal';
 import { AltArrowLeft, Book, Case, HandMoney, Letter, Phone, User } from '@solar-icons/react';
 import Input from '../../../components/input/Input';
 import { ChatDots } from '@solar-icons/react/ssr';
+import Conversation from '../../../components/conversation/Conversation';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
@@ -207,7 +208,7 @@ export default function LeadDetails() {
 
           <div className='p-4 flex flex-col gap-4 justify-between flex-1'>
             <div className='flex-1 min-h-[240px] overflow-y-auto'>
-
+              <Conversation lead={lead} />
             </div>
             <div className="p-[8px] py-1 flex items-center bg-white rounded-lg border border-gray-500/[0.1]">
               <Input className='flex-1 py-0 leading-0 border-none' placeholder='Write a message' />

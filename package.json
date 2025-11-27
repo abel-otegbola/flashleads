@@ -12,6 +12,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google-cloud/vertexai": "^1.10.0",
+    "@google/generative-ai": "^0.24.1",
     "@solar-icons/react": "^1.0.1",
     "@tailwindcss/vite": "^4.1.17",
     "cors": "^2.8.5",
@@ -19,6 +21,7 @@
     "express": "^4.21.2",
     "firebase": "^12.6.0",
     "formik": "^2.4.9",
+    "google-auth-library": "^10.5.0",
     "react": "^19.2.0",
     "react-calendar": "^6.0.0",
     "react-dom": "^19.2.0",
