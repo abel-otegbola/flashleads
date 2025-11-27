@@ -47,18 +47,47 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await response.json();
-
-    if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      return res.status(500).json({ error: "Invalid AI response", raw: data });
+    // Try to parse body safely and provide detailed errors for debugging
+    let data;
+    const rawText = await response.text();
+    try {
+      data = rawText ? JSON.parse(rawText) : null;
+    } catch (parseErr) {
+      // If parsing fails, include the raw body in the error
+      console.error('Failed to parse Gemini response JSON', parseErr, rawText);
+      return res.status(502).json({
+        error: 'Failed to parse Gemini response JSON',
+        status: response.status,
+        statusText: response.statusText,
+        rawBody: rawText
+      });
     }
 
-    const text = data.candidates[0].content.parts[0].text;
+    if (!response.ok) {
+      console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
+      return res.status(502).json({
+        error: 'Gemini API returned non-OK status',
+        status: response.status,
+        statusText: response.statusText,
+        body: data
+      });
+    }
+
+    // Validate expected shape
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      console.error('Invalid AI response shape', data);
+      return res.status(502).json({ error: 'Invalid AI response shape', body: data });
+    }
 
     return res.status(200).json({ text });
   } catch (err) {
-    console.error("Gemini generation error:", err);
-    return res.status(500).json({ error: "Generation failed" });
+    console.error("Gemini generation error:", err && err.message ? err.message : err, err && err.stack ? err.stack : err);
+    return res.status(500).json({
+      error: 'Generation failed',
+      message: err && err.message ? err.message : String(err),
+      stack: err && err.stack ? err.stack : undefined
+    });
   }
 }
 
