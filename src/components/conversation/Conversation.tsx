@@ -19,7 +19,7 @@ export default function Conversation({ lead }: Props) {
       const resp = await fetch('/api/gemini/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lead: lead.toString() })
+        body: JSON.stringify({ lead })
       });
       if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
       const data = await resp.json();

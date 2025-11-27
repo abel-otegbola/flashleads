@@ -10,8 +10,6 @@ export default async function handler(req, res) {
 
   const { lead } = req.body || {};
 
-  console.log('Received lead for email generation:', lead);
-
   if (!lead)
     return res.status(400).json({ error: 'Missing lead in request body' });
 
@@ -21,6 +19,13 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Missing GOOGLE_GEMINI_API_KEY env variable' });
 
   // Build STAR prompt – clean, structured
+  // Create a readable lead summary. If `lead` is an object, include important fields
+  const leadSummary = (typeof lead === 'string')
+    ? lead
+    : `Name: ${lead.name || ''}\nCompany: ${lead.company || ''}\nWebsite: ${lead.companyWebsite || ''}\nNotes: ${lead.notes || ''}\nWebsiteAudit: ${typeof lead.websiteAudit === 'string' ? lead.websiteAudit : JSON.stringify(lead.websiteAudit || {}, null, 2)}`;
+
+  if (process.env.DEBUG_GEMINI) console.log('Lead summary for prompt:', leadSummary);
+
   const prompt = `
     You are an expert marketing and web developer freelancer.
 
@@ -28,8 +33,8 @@ export default async function handler(req, res) {
     for this lead. Make it clear what the freelancer can help the company improve, include a suggested next step, and a clear
     result/benefit the company will get. Friendly, professional tone.
 
-    Lead details (string):
-    ${lead}
+    Lead details:
+    ${leadSummary}
     `;
 
   try {
