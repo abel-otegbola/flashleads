@@ -38,7 +38,6 @@ export default async function handler(req, res) {
 
     // Build request body for Apollo AI (using free tier endpoint)
     const requestBody = {
-      api_key: APOLLO_API_KEY,
       q_organization_keyword_tags: [searchTerm],
       page,
       per_page: Math.min(perPage, 10), // Free tier limit
@@ -58,6 +57,7 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
+        'X-Api-Key': APOLLO_API_KEY
       },
       body: JSON.stringify(requestBody)
     });
