@@ -5,6 +5,21 @@ import LoadingIcon from "../../assets/icons/loadingIcon";
 import type { Lead } from "../../contexts/LeadsContextValue";
 import { AuthContext } from "../../contexts/AuthContextValue";
 
+interface ApolloOrganization {
+  name: string;
+  website_url?: string;
+  primary_email?: string;
+  phone?: string;
+  primary_phone?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  industry?: string;
+  linkedin_url?: string;
+  facebook_url?: string;
+  twitter_url?: string;
+}
+
 interface DiscoveredBusiness {
   name: string;
   company: string;
@@ -50,127 +65,109 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
   const [location, setLocation] = useState('');
   const [keywords, setKeywords] = useState('');
 
-  // Scrape Yellow Pages directly from frontend
-  const scrapeYellowPages = async (industry: string, location: string, keywords: string): Promise<DiscoveredBusiness[]> => {
+  // Search businesses using Apollo AI
+  const searchApolloBusinesses = async (industry: string, location: string, keywords: string): Promise<DiscoveredBusiness[]> => {
     const searchTerm = keywords || industry || 'businesses';
     const searchLocation = location || 'United States';
     
-    console.log('🔍 Searching Yellow Pages:', searchTerm, 'in', searchLocation);
+    console.log('🔍 Searching Apollo AI:', searchTerm, 'in', searchLocation);
     
-    // Use a CORS proxy to fetch Yellow Pages
-    const url = `https://www.yellowpages.com/search?search_terms=${encodeURIComponent(searchTerm)}&geo_location_terms=${encodeURIComponent(searchLocation)}`;
+    const apiKey = import.meta.env.VITE_APOLLO_API_KEY;
+    
+    if (!apiKey) {
+      console.error('❌ VITE_APOLLO_API_KEY not found in environment');
+      setError('Apollo API key not configured. Please add VITE_APOLLO_API_KEY to your .env.local file.');
+      return [];
+    }
     
     try {
-      // Try multiple CORS proxies
-      const proxies = [
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-        `https://corsproxy.io/?${encodeURIComponent(url)}`,
-        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-      ];
+      // Apollo AI organization search endpoint (free tier available)
+      const response = await fetch('https://api.apollo.io/v1/mixed_companies/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+          'X-Api-Key': apiKey
+        },
+        body: JSON.stringify({
+          q_organization_keyword_tags: [searchTerm],
+          organization_locations: [searchLocation],
+          page: 1,
+          per_page: 25,
+          organization_num_employees_ranges: ['1,20', '21,50', '51,100'], // Small businesses
+        })
+      });
       
-      for (const proxyUrl of proxies) {
-        try {
-          console.log('📡 Trying proxy:', proxyUrl.split('?')[0]);
-          const response = await fetch(proxyUrl, {
-            headers: {
-              'Accept': 'text/html',
-            }
-          });
-          
-          if (response.ok) {
-            const html = await response.text();
-            console.log('✅ Fetched HTML, length:', html.length);
-            
-            const businesses = parseYellowPagesHTML(html, industry, searchLocation);
-            
-            if (businesses.length > 0) {
-              console.log('✅ Parsed', businesses.length, 'businesses');
-              return businesses;
-            } else {
-              console.log('⚠️ Parsing returned 0 businesses, trying next proxy');
-            }
-          }
-        } catch (proxyError) {
-          console.log('❌ Proxy failed:', proxyError);
-          continue;
-        }
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Apollo API error:', response.status, errorText);
+        throw new Error(`Apollo API error: ${response.status}`);
       }
       
-      // All proxies failed, use realistic sample data
-      console.log('ℹ️ All proxies failed, generating realistic sample data');
-      return generateSampleBusinesses(searchTerm, searchLocation, 20);
+      const data = await response.json();
+      console.log('✅ Apollo API response:', data);
       
-    } catch (error) {
-      console.error('Scraping error:', error);
-      // Fallback to sample data
-      return generateSampleBusinesses(searchTerm, searchLocation, 20);
-    }
-  };
-
-  const parseYellowPagesHTML = (html: string, industry: string, location: string): DiscoveredBusiness[] => {
-    const businesses: DiscoveredBusiness[] = [];
-    
-    // Extract business listings
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const results = doc.querySelectorAll('.result');
-    
-    results.forEach((result) => {
-      try {
-        const nameEl = result.querySelector('.business-name');
-        const name = nameEl?.textContent?.trim();
-        if (!name) return;
+      const organizations = data.organizations || data.accounts || [];
+      
+      if (organizations.length === 0) {
+        console.log('ℹ️ No organizations found');
+        return [];
+      }
+      
+      const businesses = organizations.map((org: ApolloOrganization) => {
+        const score = calculateApolloScore(org);
+        const serviceNeeds = determineServiceNeeds(org.website_url || '', score, industry);
         
-        const phoneEl = result.querySelector('.phones');
-        const phone = phoneEl?.textContent?.trim() || '';
-        
-        const addressEl = result.querySelector('.street-address');
-        const cityEl = result.querySelector('.locality');
-        const address = addressEl?.textContent?.trim() || '';
-        const city = cityEl?.textContent?.trim() || '';
-        const fullLocation = [address, city, location].filter(Boolean).join(', ');
-        
-        const websiteEl = result.querySelector('.track-visit-website') as HTMLAnchorElement;
-        let website = websiteEl?.href || '';
-        
-        // Clean URL
-        if (website && !website.startsWith('http')) {
-          website = 'https://' + website;
-        }
-        
-        const categoryEl = result.querySelector('.categories');
-        const category = categoryEl?.textContent?.trim() || industry;
-        
-        // Score
-        let score = 45;
-        if (website) score += 25;
-        if (phone) score += 10;
-        if (address) score += 10;
-        score += Math.floor(Math.random() * 20);
-        
-        // Service needs
-        const serviceNeeds = determineServiceNeeds(website, score, category);
-        
-        businesses.push({
+        return {
           name: 'Contact',
-          company: name,
-          email: '', // Will need Hunter.io to find
-          phone,
-          location: fullLocation,
-          companyWebsite: website,
-          industry: category || industry || 'General',
-          score: Math.min(score, 100),
+          company: org.name || 'Unknown Company',
+          email: org.primary_email || '',
+          phone: org.phone || org.primary_phone || '',
+          location: formatApolloLocation(org),
+          companyWebsite: org.website_url || '',
+          industry: org.industry || industry || 'General',
+          score,
           userId: user?.uid,
           serviceNeeds,
           value: estimateProjectValue(serviceNeeds, score)
-        });
-      } catch {
-        // Skip invalid entries
-      }
-    });
-    
-    return businesses;
+        };
+      });
+      
+      console.log('✅ Parsed', businesses.length, 'businesses from Apollo');
+      return businesses;
+      
+    } catch (error) {
+      console.error('Apollo search error:', error);
+      throw error;
+    }
   };
+  
+  const formatApolloLocation = (org: ApolloOrganization): string => {
+    const parts = [];
+    if (org.city) parts.push(org.city);
+    if (org.state) parts.push(org.state);
+    if (org.country) parts.push(org.country);
+    return parts.join(', ') || 'Unknown';
+  };
+  
+  const calculateApolloScore = (org: ApolloOrganization): number => {
+    let score = 40;
+    
+    if (org.website_url) score += 20;
+    if (org.phone || org.primary_phone) score += 10;
+    if (org.linkedin_url) score += 5;
+    if (org.facebook_url) score += 5;
+    if (org.twitter_url) score += 5;
+    
+    // Lower score for companies without much web presence
+    if (!org.facebook_url && !org.twitter_url && !org.linkedin_url) {
+      score += 15; // Higher opportunity
+    }
+    
+    return Math.min(score, 100);
+  };
+
+
 
   const determineServiceNeeds = (website: string, score: number, category: string): string[] => {
     const needs: string[] = [];
@@ -209,44 +206,13 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
     return value;
   };
 
-  const generateSampleBusinesses = (industry: string, location: string, count: number): DiscoveredBusiness[] => {
-    const businesses: DiscoveredBusiness[] = [];
-    const names = [
-      'Main Street Cafe', 'Tech Solutions', 'City Retail', 'Local Services',
-      'Green Valley Shop', 'Metro Consulting', 'Prime Contractors', 'Urban Designs',
-      'Coastal Restaurant', 'Summit Agency', 'Valley Auto', 'Downtown Salon',
-      'Peak Fitness', 'Harbor Medical', 'Mountain Spa', 'Riverside Boutique'
-    ];
-    
-    for (let i = 0; i < Math.min(count, names.length); i++) {
-      const hasWebsite = Math.random() > 0.3;
-      const score = hasWebsite ? Math.floor(Math.random() * 40) + 50 : Math.floor(Math.random() * 30) + 30;
-      
-      businesses.push({
-        name: 'Contact',
-        company: names[i],
-        email: '',
-        phone: `(555) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
-        location,
-        companyWebsite: hasWebsite ? `https://${names[i].toLowerCase().replace(/\s+/g, '')}.com` : '',
-        industry: industry || 'General',
-        score,
-        userId: user?.uid,
-        serviceNeeds: determineServiceNeeds(hasWebsite ? 'site.com' : '', score, industry),
-        value: Math.floor(Math.random() * 20000) + 5000
-      });
-    }
-    
-    return businesses;
-  };
-
   const handleDiscover = async () => {
     setLoading(true);
     setError('');
     
     try {
-      // Scrape Yellow Pages directly from frontend
-      const businesses = await scrapeYellowPages(industry, location, keywords);
+      // Search businesses using Apollo AI
+      const businesses = await searchApolloBusinesses(industry, location, keywords);
       
       setSearchResults(businesses);
       setShowMobileResults(true); // Show results on mobile after search
