@@ -84,43 +84,32 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
   const [location, setLocation] = useState('');
   const [keywords, setKeywords] = useState('');
 
-  // Search businesses using Apollo AI
+  // Search businesses using Apollo AI (via serverless proxy)
   const searchApolloBusinesses = async (industry: string, location: string, keywords: string): Promise<DiscoveredBusiness[]> => {
     const searchTerm = keywords || industry || 'businesses';
     const searchLocation = location || 'United States';
     
     console.log('🔍 Searching Apollo AI:', searchTerm, 'in', searchLocation);
     
-    const apiKey = import.meta.env.VITE_APOLLO_API_KEY;
-    
-    if (!apiKey) {
-      console.error('❌ VITE_APOLLO_API_KEY not found in environment');
-      setError('Apollo API key not configured. Please add VITE_APOLLO_API_KEY to your .env.local file.');
-      return [];
-    }
-    
     try {
-      // Apollo AI organization search endpoint (free tier available)
-      const response = await fetch('https://api.apollo.io/v1/mixed_companies/search', {
+      // Call our serverless proxy function to avoid CORS issues
+      const response = await fetch('/api/apollo/discover', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache',
-          'X-Api-Key': apiKey
         },
         body: JSON.stringify({
-          q_organization_keyword_tags: [searchTerm],
-          organization_locations: [searchLocation],
+          searchTerm,
+          location: searchLocation,
           page: 1,
-          per_page: 25,
-          organization_num_employees_ranges: ['1,20', '21,50', '51,100'], // Small businesses
+          perPage: 25
         })
       });
       
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Apollo API error:', response.status, errorText);
-        throw new Error(`Apollo API error: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('❌ Apollo API error:', response.status, errorData);
+        throw new Error(errorData.error || `Apollo API error: ${response.status}`);
       }
       
       const data = await response.json();
