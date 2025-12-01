@@ -36,11 +36,12 @@ export default async function handler(req, res) {
       });
     }
 
-    // Build request body for Apollo AI
+    // Build request body for Apollo AI (using free tier endpoint)
     const requestBody = {
+      api_key: APOLLO_API_KEY,
       q_organization_keyword_tags: [searchTerm],
       page,
-      per_page: perPage,
+      per_page: Math.min(perPage, 10), // Free tier limit
       organization_num_employees_ranges: ['1,20', '21,50', '51,100'], // Small businesses
     };
 
@@ -51,13 +52,12 @@ export default async function handler(req, res) {
 
     console.log('Apollo discover request:', { searchTerm, location, page, perPage });
 
-    // Call Apollo AI API
-    const response = await fetch('https://api.apollo.io/v1/mixed_companies/search', {
+    // Call Apollo AI API (free tier endpoint)
+    const response = await fetch('https://api.apollo.io/v1/organizations/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
-        'X-Api-Key': APOLLO_API_KEY
       },
       body: JSON.stringify(requestBody)
     });
