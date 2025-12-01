@@ -47,9 +47,28 @@ const industries = [
 ];
 
 const locations = [
-  'United States', 'United Kingdom', 'Canada', 'Australia',
-  'Germany', 'France', 'Spain', 'Italy', 'Netherlands', 'India', 'Brazil', 'Mexico', 'Japan', 'South Korea', 'Singapore', 'Nigeria', 'South Africa', 'Egypt', 'Turkey', 'Russia', 'China', 'Indonesia', 'Argentina', 'Chile', 'Colombia', 'Peru', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Poland', 'Portugal', 'Ireland', 'Switzerland', 'Belgium', 'Austria', 'New Zealand', 'Czech Republic', 'Greece', 'Hungary', 'Romania', 'Saudi Arabia', 'UAE', 'Vietnam', 'Thailand', 'Philippines', 'Malaysia', 'Pakistan', 'Bangladesh', 'Ukraine',
-  'Thailand', 'Philippines', 'Malaysia', 'Pakistan', 'Bangladesh', 'Ukraine',
+  // North America
+  'United States', 'Canada', 'Mexico',
+  
+  // Europe
+  'United Kingdom', 'Germany', 'France', 'Spain', 'Italy', 'Netherlands', 
+  'Switzerland', 'Belgium', 'Austria', 'Ireland', 'Sweden', 'Norway', 
+  'Denmark', 'Finland', 'Poland', 'Portugal', 'Czech Republic', 'Greece', 
+  'Hungary', 'Romania', 'Ukraine',
+  
+  // Asia-Pacific
+  'Australia', 'New Zealand', 'Singapore', 'Japan', 'South Korea', 
+  'India', 'China', 'Indonesia', 'Thailand', 'Vietnam', 'Philippines', 
+  'Malaysia', 'Pakistan', 'Bangladesh', 'Hong Kong', 'Taiwan',
+  
+  // Middle East
+  'UAE', 'Saudi Arabia', 'Israel', 'Qatar', 'Kuwait', 'Turkey',
+  
+  // Latin America
+  'Brazil', 'Argentina', 'Chile', 'Colombia', 'Peru', 'Costa Rica',
+  
+  // Africa
+  'South Africa', 'Nigeria', 'Egypt', 'Kenya', 'Morocco', 'Ghana',
 ];
 
 export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: BusinessDiscoveryProps) {
