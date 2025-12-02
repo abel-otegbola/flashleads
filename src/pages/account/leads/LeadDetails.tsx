@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
+import { ClientsContext } from '../../../contexts/ClientsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
@@ -12,10 +13,12 @@ import Conversation from '../../../components/conversation/Conversation';
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getSingleLead, auditWebsite } = useContext(LeadsContext);
+  const { getSingleLead, auditWebsite, deleteLead } = useContext(LeadsContext);
+  const { addClient } = useContext(ClientsContext);
   const { showModal } = useModal();
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
+  const [converting, setConverting] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -64,8 +67,57 @@ export default function LeadDetails() {
     window.location.href = `tel:${lead.phone}`;
   };
 
-  const handleCreateProject = async () => {
-    await showModal({ title: 'Create Project', message: 'Create project flow not yet implemented.' });
+  const handleConvertToClient = async () => {
+    if (!lead) return;
+    
+    const confirmed = await showModal({ 
+      title: 'Convert Lead to Client', 
+      message: `Convert ${lead.name} from ${lead.company} to a client?\n\nThis will:\n• Create a new client record\n• Move them to your Clients page\n• You can then create projects for them\n\nThe lead will be removed from your leads list.`,
+      showCancel: true
+    });
+    
+    if (!confirmed) return;
+    
+    setConverting(true);
+    try {
+      // Create client from lead data
+      await addClient({
+        name: lead.name,
+        email: lead.email,
+        phone: typeof lead.phone === 'string' ? lead.phone : '',
+        company: lead.company,
+        location: lead.location,
+        industry: lead.industry,
+        status: 'active',
+        totalRevenue: 0,
+        linkedinUrl: lead.linkedinUrl || '',
+        website: lead.companyWebsite,
+        notes: lead.notes || `Converted from lead. Original value: $${lead.value.toLocaleString()}`,
+        tags: lead.serviceNeeds || []
+      });
+      
+      // Delete the lead
+      await deleteLead(lead.id);
+      
+      await showModal({ 
+        title: 'Success!', 
+        message: `${lead.name} has been converted to a client!\n\nYou can now find them in the Clients section.`,
+        showCancel: false
+      });
+      
+      // Navigate to clients page
+      navigate('/account/clients');
+      
+    } catch (error) {
+      console.error('Error converting lead to client:', error);
+      await showModal({ 
+        title: 'Conversion Failed', 
+        message: 'Failed to convert lead to client. Please try again.',
+        showCancel: false
+      });
+    } finally {
+      setConverting(false);
+    }
   };
 
   const handleAuditWebsite = async () => {
@@ -97,7 +149,14 @@ export default function LeadDetails() {
           <div className="mt-4 flex gap-2 flex-wrap text-[12px]">
             <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
             <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
-            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCreateProject}><Case /> Convert Lead to Client</button>
+            <button 
+              className='bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center gap-1 cursor-pointer hover:from-green-600 hover:to-green-700 p-[2px] px-2 border border-green-600 rounded disabled:opacity-50 disabled:cursor-not-allowed' 
+              onClick={handleConvertToClient}
+              disabled={converting}
+            >
+              {converting ? <LoadingIcon /> : <Case />} 
+              {converting ? 'Converting...' : 'Convert Lead to Client'}
+            </button>
           </div>
         </div>
         <div className="flex gap-2">
