@@ -19,7 +19,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { searchTerm, location, page = 1, perPage = 25 } = req.body;
+    const { 
+      searchTerm, 
+      location, 
+      page = 1, 
+      perPage = 25,
+      companySize,
+      revenueRange,
+      hasWebsite
+    } = req.body;
 
     // Validate required parameters
     if (!searchTerm) {
@@ -41,12 +49,29 @@ export default async function handler(req, res) {
       q_organization_keyword_tags: [searchTerm],
       page,
       per_page: Math.min(perPage, 10), // Free tier limit
-      organization_num_employees_ranges: ['1,20', '21,50', '51,100'], // Small businesses
     };
+
+    // Add company size filter
+    if (companySize) {
+      requestBody.organization_num_employees_ranges = [companySize];
+    } else {
+      requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200']; // Small to medium businesses
+    }
 
     // Add location if provided
     if (location) {
       requestBody.organization_locations = [location];
+    }
+
+    // Add revenue range if provided (Apollo uses annual revenue)
+    if (revenueRange) {
+      const [min, max] = revenueRange.split(',');
+      if (min && max) {
+        requestBody.revenue_range = {
+          min: parseInt(min),
+          max: parseInt(max)
+        };
+      }
     }
 
     console.log('Apollo discover request:', { searchTerm, location, page, perPage });

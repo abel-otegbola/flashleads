@@ -116,7 +116,7 @@ export default function LeadDetails() {
               <span className='text-right'>{lead.email || '—'}</span>
             </p>
             <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Phone:</span> <span className='text-right'>{lead.phone || '—'}</span>
+              <span className='text-gray-500 w-[40%]'>Phone:</span> <span className='text-right'>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
             </p>
             <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
               <span className='text-gray-500 w-[40%]'>Location:</span> 

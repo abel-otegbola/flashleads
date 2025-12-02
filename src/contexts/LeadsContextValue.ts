@@ -27,7 +27,7 @@ export interface Lead {
     name: string;
     company: string;
     email: string;
-    phone: string;
+    phone: string | Record<string, never>; // Can be a string or empty object from Apollo API
     location: string;
     status: "new" | "contacted" | "conversation" | "proposal" | "closed";
     value: number; // Estimated project value

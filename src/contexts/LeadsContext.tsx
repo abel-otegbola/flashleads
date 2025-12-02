@@ -50,7 +50,7 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                     userId: data.userId
                 });
             });
-
+            console.log(fetchedLeads)
             setLeads(fetchedLeads);
         } catch (err: unknown) {
             const message = err instanceof FirebaseError ? err.message : String(err);

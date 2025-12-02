@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Timestamp } from 'firebase/firestore';
 import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2, MagicStick, Upload, UserSpeak } from "@solar-icons/react";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
 import type { Lead } from "../../../contexts/LeadsContextValue";
@@ -19,7 +20,7 @@ const statusColors = {
 };
 
 export default function Leads() {
-  const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
+  const { leads, loading, addLead, updateLead, deleteLead, refreshLeads } = useContext(LeadsContext);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -30,13 +31,13 @@ export default function Leads() {
   const [findingEmailFor, setFindingEmailFor] = useState<string | null>(null);
   const { showModal } = useModal();
 
-  const filteredLeads = leads.filter(lead => {
+  const filteredLeads = leads?.filter(lead => {
     const matchesSearch = 
-      lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.email.toLowerCase().includes(searchQuery.toLowerCase());
+      lead?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lead?.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lead?.email.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
+    const matchesStatus = statusFilter === "all" || lead?.status === statusFilter;
     
     return matchesSearch && matchesStatus;
   });
@@ -47,7 +48,7 @@ export default function Leads() {
 
   const handleEditLead = async (values: Omit<Lead, 'id' | 'addedDate'>) => {
     if (editingLead) {
-      await updateLead(editingLead.id, values);
+      await updateLead(editingLead?.id, values);
       setEditingLead(null);
     }
   };
@@ -62,7 +63,7 @@ export default function Leads() {
     name: string;
     company: string;
     email: string;
-    phone: string;
+    phone: string | Record<string, never>;
     location: string;
     companyWebsite: string;
     userId: string;
@@ -73,13 +74,13 @@ export default function Leads() {
   }
 
   const handleImportDiscoveredLeads = async (discoveredLeads: ImportableBusiness[]) => {
-    console.log('🎯 Importing discovered businesses:', discoveredLeads.length, 'leads');
+    console.log('🎯 Importing discovered businesses:', discoveredLeads?.length, 'leads');
     
     try {
       let successCount = 0;
       let failCount = 0;
       
-      for (let i = 0; i < discoveredLeads.length; i++) {
+      for (let i = 0; i < discoveredLeads?.length; i++) {
         const business = discoveredLeads[i];
         
         // Convert business to Lead format
@@ -118,7 +119,7 @@ export default function Leads() {
       }
     } catch (err) {
       console.error('❌ Critical error in import handler:', err);
-          await showModal({ title: 'Import Failed', message: 'Failed to import leads. Please try again.', showCancel: false });
+          await showModal({ title: 'Import Failed', message: 'Failed to import leads?. Please try again.', showCancel: false });
     }
   };
 
@@ -132,6 +133,15 @@ export default function Leads() {
     setEditingLead(null);
   };
 
+  useEffect(() => {
+    console.log(leads)
+  }, [leads]);
+
+  useEffect(() => {
+    refreshLeads();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
     if (score >= 70) return "text-orange-600 font-medium";
@@ -140,7 +150,7 @@ export default function Leads() {
 
   const handleFindEmail = async (leadId: string, companyWebsite: string, companyName: string) => {
     if (!companyWebsite) {
-      await showModal({ message: 'No website available for this lead. Please add a website first.' });
+      await showModal({ message: 'No website available for this lead?. Please add a website first.' });
       return;
     }
 
@@ -194,31 +204,31 @@ export default function Leads() {
         console.log('✅ Found contact:', fullName, email);
 
         // Update the lead with the found email and name
-        const lead = leads.find(l => l.id === leadId);
+        const lead = leads?.find(l => l.id === leadId);
         if (lead) {
           // Only include defined fields to avoid Firestore errors
           const updateData: Partial<Lead> = {
-            name: fullName || lead.name,
-            company: lead.company,
+            name: fullName || lead?.name,
+            company: lead?.company,
             email: email,
-            phone: lead.phone,
-            location: lead.location,
-            status: lead.status,
-            value: lead.value,
-            industry: lead.industry,
-            score: lead.score,
-            companyWebsite: lead.companyWebsite,
-            serviceNeeds: lead.serviceNeeds,
-            addedDate: lead.addedDate,
-            userId: lead.userId
+            phone: lead?.phone,
+            location: lead?.location,
+            status: lead?.status,
+            value: lead?.value,
+            industry: lead?.industry,
+            score: lead?.score,
+            companyWebsite: lead?.companyWebsite,
+            serviceNeeds: lead?.serviceNeeds,
+            addedDate: lead?.addedDate,
+            userId: lead?.userId
           };
 
           // Only add optional fields if they're defined
-          if (lead.notes !== undefined) {
-            updateData.notes = lead.notes;
+          if (lead?.notes !== undefined) {
+            updateData.notes = lead?.notes;
           }
-          if (lead.websiteAudit !== undefined) {
-            updateData.websiteAudit = lead.websiteAudit;
+          if (lead?.websiteAudit !== undefined) {
+            updateData.websiteAudit = lead?.websiteAudit;
           }
 
           await updateLead(leadId, updateData);
@@ -273,19 +283,19 @@ export default function Leads() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">Total Leads</p>
-          <p className="text-2xl font-medium">{leads.length}</p>
+          <p className="text-2xl font-medium">{leads?.length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">New Leads</p>
-          <p className="text-2xl font-medium">{leads.filter(l => l.status === "new").length}</p>
+          <p className="text-2xl font-medium">{leads?.filter(l => l.status === "new").length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">In Conversation</p>
-          <p className="text-2xl font-medium">{leads.filter(l => l.status === "conversation").length}</p>
+          <p className="text-2xl font-medium">{leads?.filter(l => l.status === "conversation").length}</p>
         </div>
         <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
           <p className="text-[12px] opacity-[0.5] mb-1">Estimated Value</p>
-          <p className="text-2xl font-medium">${leads.reduce((sum, l) => sum + (l.value || 0), 0).toLocaleString()}</p>
+          <p className="text-2xl font-medium">${leads?.reduce((sum, l) => sum + (l.value || 0), 0).toLocaleString()}</p>
         </div>
       </div>
 
@@ -349,18 +359,18 @@ export default function Leads() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200/[0.2]">
-              {filteredLeads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/account/leads/${lead.id}`)}>
+              {filteredLeads?.map((lead) => (
+                <tr key={lead?.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/account/leads/${lead?.id}`)}>
                   <td className="px-4 py-1 min-w-[210px]">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-[12px] flex-shrink-0">
-                        {lead.name.charAt(0)}
+                        {lead?.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{lead.name}</p>
+                        <p className="font-medium text-gray-900">{lead?.name}</p>
                         <div className="flex items-center gap-1 text-[12px] text-gray-500">
                           <Buildings size={14} />
-                          <span className="leading-[16px]">{lead.company}</span>
+                          <span className="leading-[16px]">{lead?.company}</span>
                         </div>
                       </div>
                     </div>
@@ -369,17 +379,17 @@ export default function Leads() {
                     <div className="space-y-[2px]">
                       <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Letter size={14} />
-                        {lead.email ? (
-                          <a href={`mailto:${lead.email}`} className="hover:text-primary">
-                            {lead.email}
+                        {lead?.email ? (
+                          <a href={`mailto:${lead?.email}`} className="hover:text-primary">
+                            {lead?.email}
                           </a>
                         ) : (
                           <button
-                            onClick={() => handleFindEmail(lead.id, lead.companyWebsite, lead.company)}
-                            disabled={findingEmailFor === lead.id}
+                            onClick={() => handleFindEmail(lead?.id, lead?.companyWebsite, lead?.company)}
+                            disabled={findingEmailFor === lead?.id}
                             className="text-blue-600 hover:text-blue-800 underline disabled:opacity-50 flex items-center gap-1"
                           >
-                            {findingEmailFor === lead.id ? (
+                            {findingEmailFor === lead?.id ? (
                               <>
                                 <LoadingIcon />
                                 Finding...
@@ -395,42 +405,51 @@ export default function Leads() {
                       </div>
                       <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
                         <Phone size={14} />
-                        <span>{lead.phone}</span>
+                        <span>{typeof lead?.phone === 'string' && lead.phone ? lead.phone : 'N/A'}</span>
                       </div>
                       <div className="flex items-center gap-2 text-[12px] text-gray-500">
                         <MapPoint size={14} />
-                        <p className="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap">{lead.location}</p>
+                        <p className="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap">{lead?.location}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-1">
-                    <p className="text-[12px] text-gray-700 max-w-[100px] text-ellipsis overflow-hidden whitespace-nowrap">{lead.industry}</p>
+                    <p className="text-[12px] text-gray-700 max-w-[100px] text-ellipsis overflow-hidden whitespace-nowrap">{lead?.industry}</p>
                   </td>
                   <td className="px-4 py-1">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[lead.status]}`}>
-                      {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[lead?.status]}`}>
+                      {lead?.status.charAt(0).toUpperCase() + lead?.status.slice(1)}
                     </span>
                   </td>
                   <td className="px-4 py-1">
                     <span className="text-[12px] font-semibold text-gray-900">
-                      ${lead.value.toLocaleString()}
+                      ${lead?.value.toLocaleString()}
                     </span>
                   </td>
                   <td className="px-4 py-1">
                     <div className="flex items-center gap-2">
                       <Star size={14} className="text-yellow-500" weight="Bold" />
-                      <span className={`text-[12px] ${getScoreColor(lead.score)}`}>
-                        {lead.score}
+                      <span className={`text-[12px] ${getScoreColor(lead?.score)}`}>
+                        {lead?.score}
                       </span>
                     </div>
                   </td>
                   <td className="px-4 py-1  min-w-[110px]">
                     <span className="text-[12px] opacity-[0.5]">
-                      {new Date(lead.addedDate).toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
+                      {lead?.addedDate && typeof lead?.addedDate === 'string' 
+                        ? new Date(lead?.addedDate).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                          })
+                        : lead?.addedDate && typeof lead?.addedDate === 'object' && 'toDate' in lead.addedDate
+                        ? (lead?.addedDate as Timestamp).toDate().toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                          })
+                        : 'N/A'
+                      }
                     </span>
                   </td>
                   <td className="px-4 py-1">
@@ -443,7 +462,7 @@ export default function Leads() {
                         <Pen size={18} />
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead.id); }}
+                        onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead?.id); }}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                         title="Delete lead"
                       >
@@ -457,10 +476,10 @@ export default function Leads() {
           </table>
         </div>
 
-        {filteredLeads.length === 0 && (
+        {filteredLeads?.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500">
-              {loading ? 'Loading leads...' : 'No leads found matching your criteria'}
+              {loading ? 'Loading leads?...' : 'No leads found matching your criteria'}
             </p>
           </div>
         )}
@@ -469,7 +488,7 @@ export default function Leads() {
       {/* Pagination placeholder */}
       <div className="mt-4 flex items-center justify-between">
         <p className="text-[12px] opacity-[0.5]">
-          Showing {filteredLeads.length} of {leads.length} leads
+          Showing {filteredLeads?.length} of {leads?.length} leads
         </p>
       </div>
 
