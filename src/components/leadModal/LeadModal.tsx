@@ -67,7 +67,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     name: lead.name,
     company: lead.company,
     email: lead.email,
-    phone: lead.phone,
+    phone: typeof lead.phone === 'string' ? lead.phone : '',
     location: lead.location,
     status: lead.status,
     value: lead.value,
