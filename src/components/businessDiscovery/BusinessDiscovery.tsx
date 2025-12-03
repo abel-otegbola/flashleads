@@ -4,6 +4,8 @@ import Button from "../button/Button";
 import LoadingIcon from "../../assets/icons/loadingIcon";
 import type { Lead } from "../../contexts/LeadsContextValue";
 import { AuthContext } from "../../contexts/AuthContextValue";
+import { UserProfileContext } from "../../contexts/UserProfileContextValue";
+import { filterUnclaimedLeads, claimMultipleLeads, calculateLeadRelevanceScore } from "../../helpers/leadClaims";
 
 interface ApolloOrganization {
   name: string;
@@ -72,6 +74,7 @@ interface DiscoveredBusiness {
   userId: string,
   serviceNeeds: string[];
   value: number;
+  relevanceScore?: number; // How well this lead matches user profile
 }
 
 interface BusinessDiscoveryProps {
@@ -139,23 +142,43 @@ const locations = [
 export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: BusinessDiscoveryProps) {
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
+  const { profile } = useContext(UserProfileContext);
   const [searchResults, setSearchResults] = useState<DiscoveredBusiness[]>([]);
   const [selectedBusinesses, setSelectedBusinesses] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string>('');
   const [showMobileResults, setShowMobileResults] = useState(false);
+  const [useProfileFilters, setUseProfileFilters] = useState(true);
+
+  // Initialize filters with user profile preferences
+  const getInitialFilters = (): SearchFilters => {
+    if (useProfileFilters && profile) {
+      return {
+        industry: profile.industries?.[0] || '',
+        location: profile.preferredLocations?.[0] || '',
+        keywords: '',
+        companySize: profile.targetCompanySize?.[0] || '',
+        revenueRange: '',
+        hasWebsite: profile.leadPreferences?.mustHaveWebsite ? 'yes' : '',
+        needsSEO: false,
+        needsRedesign: false,
+        searchMode: profile.leadPreferences?.preferPersonalEmails ? 'people' : 'organizations'
+      };
+    }
+    return {
+      industry: '',
+      location: '',
+      keywords: '',
+      companySize: '',
+      revenueRange: '',
+      hasWebsite: '',
+      needsSEO: false,
+      needsRedesign: false,
+      searchMode: 'organizations'
+    };
+  };
 
   // Search filters
-  const [filters, setFilters] = useState<SearchFilters>({
-    industry: '',
-    location: '',
-    keywords: '',
-    companySize: '',
-    revenueRange: '',
-    hasWebsite: '',
-    needsSEO: false,
-    needsRedesign: false,
-    searchMode: 'organizations'
-  });
+  const [filters, setFilters] = useState<SearchFilters>(getInitialFilters());
   
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -450,6 +473,8 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         ? await searchApolloPeople(filters)
         : await searchApolloBusinesses(filters);
       
+      const totalFound = businesses.length;
+      
       // Apply client-side filters for better targeting
       if (filters.needsSEO) {
         businesses = businesses.filter(b => 
@@ -469,14 +494,57 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         businesses = businesses.filter(b => b.companyWebsite);
       }
       
-      // Sort by conversion potential (score)
-      businesses.sort((a, b) => b.score - a.score);
+      // Filter out already claimed leads (prevents duplicates across users)
+      console.log('🔍 Checking for already claimed leads...');
+      const unclaimedBusinesses = await filterUnclaimedLeads(businesses);
+      const claimedCount = businesses.length - unclaimedBusinesses.length;
       
-      setSearchResults(businesses);
+      if (claimedCount > 0) {
+        console.log(`🚫 Filtered out ${claimedCount} already claimed leads`);
+      }
+      
+      // Calculate relevance score for each lead based on user profile
+      const businessesWithRelevance = unclaimedBusinesses.map(business => ({
+        ...business,
+        relevanceScore: calculateLeadRelevanceScore(
+          business.industry,
+          business.serviceNeeds,
+          profile
+        )
+      }));
+      
+      // Filter out excluded industries
+      let filteredBusinesses = businessesWithRelevance;
+      if (profile?.leadPreferences?.excludeIndustries) {
+        filteredBusinesses = businessesWithRelevance.filter(
+          b => !profile.leadPreferences?.excludeIndustries?.includes(b.industry)
+        );
+      }
+      
+      // Sort by relevance score first, then by conversion score
+      filteredBusinesses.sort((a, b) => {
+        // Primary: relevance score (how well it matches user profile)
+        if (Math.abs(a.relevanceScore - b.relevanceScore) > 10) {
+          return b.relevanceScore - a.relevanceScore;
+        }
+        // Secondary: conversion potential
+        return b.score - a.score;
+      });
+      
+      console.log('✨ Sorted by relevance to your profile and conversion potential');
+      
+      setSearchResults(filteredBusinesses);
       setShowMobileResults(true); // Show results on mobile after search
       
-      if (businesses.length === 0) {
-        setError('No businesses found matching your criteria. Try adjusting your filters.');
+      if (unclaimedBusinesses.length === 0) {
+        if (claimedCount > 0 && totalFound > 0) {
+          setError(`Found ${totalFound} businesses, but all ${claimedCount} have already been claimed by other users. Try different search criteria for fresh leads.`);
+        } else {
+          setError('No businesses found matching your criteria. Try adjusting your filters.');
+        }
+      } else if (claimedCount > 0) {
+        // Show info message if some were filtered
+        console.log(`ℹ️ Found ${unclaimedBusinesses.length} unclaimed leads (${claimedCount} already claimed by others)`);
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to discover businesses';
@@ -505,34 +573,50 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
     }
   };
 
-  const handleImport = () => {
+  const handleImport = async () => {
     if (selectedBusinesses.size === 0) {
       setError('Please select at least one business to import.');
       return;
     }
     
-    const leadsToImport = searchResults
-      .filter((_, index) => selectedBusinesses.has(index))
-      .map(business => ({
-        name: business.name,
-        company: business.company,
-        email: business.email,
-        phone: business.phone,
-        location: business.location,
-        status: 'new' as const,
-        value: business.value,
-        industry: business.industry,
-        score: business.score,
-        userId: user?.uid,
-        companyWebsite: business.companyWebsite,
-        serviceNeeds: business.serviceNeeds,
-        linkedinUrl: '',
-        twitterUrl: '',
-        companyLinkedin: '',
-        notes: ''
-      }));
+    const selectedLeads = searchResults.filter((_, index) => selectedBusinesses.has(index));
+    
+    const leadsToImport = selectedLeads.map(business => ({
+      name: business.name,
+      company: business.company,
+      email: business.email,
+      phone: business.phone,
+      location: business.location,
+      status: 'new' as const,
+      value: business.value,
+      industry: business.industry,
+      score: business.score,
+      userId: user?.uid,
+      companyWebsite: business.companyWebsite,
+      serviceNeeds: business.serviceNeeds,
+      linkedinUrl: '',
+      twitterUrl: '',
+      companyLinkedin: '',
+      notes: ''
+    }));
     
     console.log('✨ Importing discovered businesses:', leadsToImport);
+    
+    // Claim these leads so other users won't see them
+    if (user?.uid) {
+      await claimMultipleLeads(
+        selectedLeads.map(b => ({
+          companyWebsite: b.companyWebsite,
+          email: b.email,
+          company: b.company,
+          industry: b.industry
+        })),
+        user.uid,
+        profile?.primaryServices || []
+      );
+      console.log('🔒 Claimed selected leads for user');
+    }
+    
     onImportLeads(leadsToImport);
     onClose();
   };
@@ -569,6 +653,32 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
             </h3>
             
             <div className="space-y-4">
+              {/* Profile-based Recommendations */}
+              {profile && (
+                <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-3">
+                  <p className="text-sm font-semibold text-purple-900 mb-2 flex items-center gap-2">
+                    <span>🎯</span> Personalized for You
+                  </p>
+                  <div className="space-y-1 text-xs text-purple-800">
+                    {profile.industries && profile.industries.length > 0 && (
+                      <p>• Industries: <span className="font-medium">{profile.industries.slice(0, 2).join(', ')}</span></p>
+                    )}
+                    {profile.primaryServices && profile.primaryServices.length > 0 && (
+                      <p>• Services: <span className="font-medium">{profile.primaryServices.slice(0, 2).join(', ')}</span></p>
+                    )}
+                    {profile.previousClients && profile.previousClients.length > 0 && (
+                      <p>• Experience: <span className="font-medium">{profile.previousClients.length} previous {profile.previousClients.length === 1 ? 'client' : 'clients'}</span></p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setUseProfileFilters(!useProfileFilters)}
+                    className="text-xs text-purple-600 hover:text-purple-800 underline mt-2"
+                  >
+                    {useProfileFilters ? 'Use custom filters' : 'Use my profile'}
+                  </button>
+                </div>
+              )}
+              
               {/* Search Mode Toggle */}
               <div className="bg-white border border-gray-200 rounded-lg p-3">
                 <label className="text-sm font-medium mb-2 block">Search For</label>

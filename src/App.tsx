@@ -3,6 +3,7 @@ import Login from "./pages/auth/login"
 import AuthProvider from "./contexts/AuthContext"
 import LeadsProvider from "./contexts/LeadsContext"
 import ClientsProvider from "./contexts/ClientsContext"
+import UserProfileProvider from "./contexts/UserProfileContext"
 import Signup from "./pages/auth/signup"
 import ForgotPassword from "./pages/auth/forgotPassword"
 import VerifyOtp from "./pages/auth/verifyOtp"
@@ -27,6 +28,7 @@ function App() {
       <BrowserRouter>
       <ModalProvider>
       <AuthProvider>
+        <UserProfileProvider>
         <LeadsProvider>
           <ClientsProvider>
               <Routes>
@@ -56,6 +58,7 @@ function App() {
             </Routes>
           </ClientsProvider>
         </LeadsProvider>
+        </UserProfileProvider>
       </AuthProvider>
       </ModalProvider>
       </BrowserRouter>

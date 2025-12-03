@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Timestamp } from 'firebase/firestore';
 import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2, MagicStick, Upload, UserSpeak } from "@solar-icons/react";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
+import { UserProfileContext } from "../../../contexts/UserProfileContextValue";
+import { claimLead, isLeadClaimed } from "../../../helpers/leadClaims";
 import type { Lead } from "../../../contexts/LeadsContextValue";
 import LeadModal from "../../../components/leadModal/LeadModal";
 import BusinessDiscovery from "../../../components/businessDiscovery/BusinessDiscovery";
@@ -20,7 +22,8 @@ const statusColors = {
 };
 
 export default function Leads() {
-  const { leads, loading, addLead, updateLead, deleteLead, refreshLeads } = useContext(LeadsContext);
+  const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
+  const { profile } = useContext(UserProfileContext);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -43,7 +46,32 @@ export default function Leads() {
   });
 
   const handleAddLead = async (values: Omit<Lead, 'id' | 'addedDate'>) => {
+    // Check if lead is already claimed by another user
+    const alreadyClaimed = await isLeadClaimed(values.companyWebsite, values.email);
+    
+    if (alreadyClaimed) {
+      const confirmed = await showModal({
+        title: 'Lead Already Exists',
+        message: `This company (${values.company}) has already been claimed by another user.\n\nDo you still want to add them to your leads?`,
+        showCancel: true
+      });
+      
+      if (!confirmed) return;
+    }
+    
     await addLead(values);
+    
+    // Claim the lead with user's services
+    if (values.userId && (values.companyWebsite || values.email)) {
+      await claimLead(
+        values.companyWebsite, 
+        values.email, 
+        values.company, 
+        values.userId,
+        values.industry,
+        profile?.primaryServices || []
+      );
+    }
   };
 
   const handleEditLead = async (values: Omit<Lead, 'id' | 'addedDate'>) => {
@@ -136,11 +164,6 @@ export default function Leads() {
   useEffect(() => {
     console.log(leads)
   }, [leads]);
-
-  useEffect(() => {
-    refreshLeads();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
@@ -301,8 +324,8 @@ export default function Leads() {
 
       {/* Filters */}
       <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
+        <div className="flex flex-col md:flex-row gap-4 justify-between">
+          <div className="md:w-1/3 w-full">
             <input
               type="text"
               placeholder="Search leads by name, company, or email..."

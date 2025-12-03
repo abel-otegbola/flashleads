@@ -1,0 +1,160 @@
+// User Profile Provider Implementation
+import { useState, useEffect, useContext } from 'react';
+import type { ReactNode } from 'react';
+import { UserProfileContext } from './UserProfileContextValue';
+import type { UserProfile } from '../interface/userProfile';
+import { AuthContext } from './AuthContextValue';
+import { db } from '../firebase/firebase';
+import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
+
+export default function UserProfileProvider({ children }: { children: ReactNode }) {
+  const { user } = useContext(AuthContext);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Load user profile when user changes
+  useEffect(() => {
+    if (!user?.uid) {
+      setProfile(null);
+      setLoading(false);
+      return;
+    }
+
+    loadProfile(user.uid);
+  }, [user?.uid]);
+
+  const loadProfile = async (userId: string) => {
+    try {
+      setLoading(true);
+      const profileDoc = await getDoc(doc(db, 'userProfiles', userId));
+      
+      if (profileDoc.exists()) {
+        const data = profileDoc.data();
+        setProfile({
+          ...data,
+          createdAt: data.createdAt?.toDate(),
+          updatedAt: data.updatedAt?.toDate(),
+        } as UserProfile);
+      } else {
+        setProfile(null);
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createProfile = async (profileData: Omit<UserProfile, 'uid' | 'createdAt' | 'updatedAt'>) => {
+    if (!user?.uid) throw new Error('User not authenticated');
+
+    try {
+      const newProfile: UserProfile = {
+        ...profileData,
+        uid: user.uid,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      await setDoc(doc(db, 'userProfiles', user.uid), {
+        ...newProfile,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+      });
+
+      setProfile(newProfile);
+      console.log('✅ Profile created successfully');
+    } catch (error) {
+      console.error('Error creating profile:', error);
+      throw error;
+    }
+  };
+
+  const updateProfile = async (updates: Partial<UserProfile>) => {
+    if (!user?.uid) throw new Error('User not authenticated');
+
+    try {
+      await updateDoc(doc(db, 'userProfiles', user.uid), {
+        ...updates,
+        updatedAt: Timestamp.now(),
+      });
+
+      setProfile(prev => prev ? {
+        ...prev,
+        ...updates,
+        updatedAt: new Date(),
+      } : null);
+
+      console.log('✅ Profile updated successfully');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw error;
+    }
+  };
+
+  const getProfile = async (userId: string): Promise<UserProfile | null> => {
+    try {
+      const profileDoc = await getDoc(doc(db, 'userProfiles', userId));
+      
+      if (profileDoc.exists()) {
+        const data = profileDoc.data();
+        return {
+          ...data,
+          createdAt: data.createdAt?.toDate(),
+          updatedAt: data.updatedAt?.toDate(),
+        } as UserProfile;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error getting profile:', error);
+      return null;
+    }
+  };
+
+  const hasCompletedProfile = (): boolean => {
+    if (!profile) return false;
+    
+    return !!(
+      profile.bio &&
+      profile.primaryServices?.length > 0 &&
+      profile.industries?.length > 0
+    );
+  };
+
+  const getRecommendedIndustries = (): string[] => {
+    if (!profile) return [];
+    
+    // Return industries from previous work and profile industries
+    const industries = new Set([
+      ...(profile.industries || []),
+      ...(profile.previousClients?.map(c => c.industry) || [])
+    ]);
+    
+    return Array.from(industries);
+  };
+
+  const getRecommendedServices = (): string[] => {
+    if (!profile) return [];
+    
+    return profile.primaryServices || [];
+  };
+
+  return (
+    <UserProfileContext.Provider
+      value={{
+        profile,
+        loading,
+        createProfile,
+        updateProfile,
+        getProfile,
+        hasCompletedProfile,
+        getRecommendedIndustries,
+        getRecommendedServices,
+      }}
+    >
+      {children}
+    </UserProfileContext.Provider>
+  );
+}
