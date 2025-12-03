@@ -1,6 +1,6 @@
 // User Profile Context and Management
 import { createContext } from 'react';
-import { UserProfile } from '../interface/userProfile';
+import type { UserProfile } from '../interface/userProfile';
 
 export interface UserProfileContextValue {
   profile: UserProfile | null;

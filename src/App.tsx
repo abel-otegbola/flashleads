@@ -24,7 +24,7 @@ import { ModalProvider } from "./contexts/ModalContext"
 function App() {
 
   return (
-    <div className="text-[14px] 2xl:text-[18px] tracking-[5%] leading-[24px]">
+    <div className="text-[14px] 2xl:text-[16px] tracking-[5%] leading-[24px]">
       <BrowserRouter>
       <ModalProvider>
       <AuthProvider>

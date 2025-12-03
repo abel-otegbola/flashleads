@@ -48,7 +48,7 @@ function Sidebar() {
     const modalRef = useOutsideClick(setOpen, false)
 
     return (
-        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[250px]"}`}>
+        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 text-[13px] ${open ? "sm:w-[104px]": "sm:w-[250px]"}`}>
             <button className={`md:absolute fixed sm:top-4 top-3 md:right-4 right-5 flex flex-col justify-center items-center bg-white/[0.7] dark:bg-dark-bg/[0.7] backdrop-blur-md gap-1 w-5 h-8 z-[50] p-[2px] px-[13px] rounded-full`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
@@ -64,7 +64,7 @@ function Sidebar() {
                 </Link>
 
                 {/* Navigation Links */}
-                <div className="flex-1 flex flex-col gap-6 text-sm">
+                <div className="flex-1 flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <p className={`text-gray-200 text-[12px] mb-2 ${open ? "sm:opacity-0" : ""}`}>MAIN</p>
                         {
@@ -73,9 +73,9 @@ function Sidebar() {
                                 if (link.label === 'Portfolio') {
                                     return (
                                         <div key={link.id} className="flex flex-col gap-1">
-                                            <button onClick={() => setportfolioOpen(!portfolioOpen)} className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
-                                                <div className="flex items-center gap-1">
-                                                    <span className="w-[24px] opacity-[0.6]">{link.icon}</span>
+                                            <button onClick={() => setportfolioOpen(!portfolioOpen)} className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                                     <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
                                                 </div>
                                                 <span className={`text-xs opacity-60 ${open ? 'sm:hidden' : ''}`}><AltArrowDown className={`duration-300 ${portfolioOpen ? "rotate-180" : ""}`} /></span>
@@ -84,9 +84,9 @@ function Sidebar() {
                                             {portfolioOpen && (
                                                 <div className="flex flex-col pl-8 pr-2 duration-500 gap-1">
                                                     {projectsLinks.map(sublink => (
-                                                        <Link key={sublink.id} onClick={() => setOpen(false)} to={sublink.link} className={`relative flex items-center justify-between px-3 py-1 h-[30px] md:rounded-[6px] duration-300 text-sm ${pathname.includes(sublink.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
+                                                        <Link key={sublink.id} onClick={() => setOpen(false)} to={sublink.link} className={`relative flex items-center justify-between px-3 py-1 h-[30px] md:rounded-[6px] duration-300  ${pathname.includes(sublink.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
                                                             <div className="flex items-center gap-2">
-                                                                <span className="w-[18px] opacity-[0.6]">{sublink.icon}</span>
+                                                                <span className={`w-[18px] ${pathname.includes(sublink.link) ? "text-primary opacity-100" : ""}`}>{sublink.icon}</span>
                                                                 <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{sublink.label}</span>
                                                             </div>
                                                         </Link>
@@ -98,9 +98,9 @@ function Sidebar() {
                                 }
 
                                 return (
-                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
-                                    <div className="flex items-center gap-1">
-                                        <span className="w-[24px] opacity-[0.6]">{link.icon}</span>
+                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                         <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
                                     </div>
                                     { link.subtext ? <span className="flex items-center justify-center bg-primary text-white text-[9px] rounded-full px-[6px]">{link.subtext}</span> : ""}
@@ -120,9 +120,9 @@ function Sidebar() {
                                         <button
                                             key={link.id}
                                             onClick={async () => { setOpen(false); await logOut(); navigate('/auth/waitlist'); }}
-                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
-                                            <div className="flex items-center gap-1">
-                                                <span className="w-[24px] opacity-[0.6]">{link.icon}</span>
+                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
+                                            <div className="flex items-center gap-2">
+                                                <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                                 <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
                                             </div>
                                         </button>
@@ -130,9 +130,9 @@ function Sidebar() {
                                 }
 
                                 return (
-                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-medium" : " hover:bg-gray-100/[0.2]"}`}>
-                                    <div className="flex items-center gap-1">
-                                        <span className="w-[24px] opacity-[0.6]">{link.icon}</span>
+                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                         <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
                                     </div>
                                     { link.subtext ? <span className="flex items-center justify-center bg-primary text-white text-[9px] rounded-full px-[6px]">{link.subtext}</span> : ""}
@@ -150,14 +150,14 @@ function Sidebar() {
                     {user && (
                         <div className={`flex items-center gap-3 p-1`}>
                             {/* User Avatar */}
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-fuchsia-400 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-fuchsia-400 flex items-center justify-center text-white font-bold  flex-shrink-0">
                                 {getUserInitial()}
                             </div>
                             
                             {/* User Details */}
                             <div className={`flex-1 min-w-0 ${open ? "sm:hidden" : ""}`}>
-                                <p className="font-medium text-sm mb-1">
-                                    <span className="text-sm capitalize">{user?.firstname || user?.email?.split('@')[0]}</span>
+                                <p className="font-medium  mb-1">
+                                    <span className=" capitalize">{user?.firstname || user?.email?.split('@')[0]}</span>
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                     {user.email || ''}
