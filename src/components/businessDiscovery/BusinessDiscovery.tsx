@@ -26,30 +26,6 @@ interface ApolloOrganization {
   keywords?: string[];
 }
 
-interface ApolloPerson {
-  id: string;
-  first_name: string;
-  last_name: string;
-  name: string;
-  title: string;
-  email: string; // Personal email (can be Gmail, Yahoo, etc.)
-  phone_numbers?: { raw_number: string; sanitized_number: string }[];
-  organization?: {
-    name: string;
-    website_url?: string;
-    primary_domain?: string;
-    industry?: string;
-  };
-  city?: string;
-  state?: string;
-  country?: string;
-  linkedin_url?: string;
-  employment_history?: Array<{
-    title: string;
-    organization_name: string;
-  }>;
-}
-
 interface SearchFilters {
   industry: string;
   location: string;
@@ -59,7 +35,6 @@ interface SearchFilters {
   hasWebsite: string;
   needsSEO: boolean;
   needsRedesign: boolean;
-  searchMode: 'organizations' | 'people'; // Toggle between company and individual contacts
 }
 
 interface DiscoveredBusiness {
@@ -160,8 +135,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         revenueRange: '',
         hasWebsite: profile.leadPreferences?.mustHaveWebsite ? 'yes' : '',
         needsSEO: false,
-        needsRedesign: false,
-        searchMode: profile.leadPreferences?.preferPersonalEmails ? 'people' : 'organizations'
+        needsRedesign: false
       };
     }
     return {
@@ -172,8 +146,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
       revenueRange: '',
       hasWebsite: '',
       needsSEO: false,
-      needsRedesign: false,
-      searchMode: 'organizations'
+      needsRedesign: false
     };
   };
 
@@ -184,86 +157,6 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
 
   const updateFilter = (key: keyof SearchFilters, value: string | boolean) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  // Search for individual contacts using Apollo AI People Search
-  const searchApolloPeople = async (searchFilters: SearchFilters): Promise<DiscoveredBusiness[]> => {
-    const searchTerm = searchFilters.keywords || searchFilters.industry || 'business owner';
-    const searchLocation = searchFilters.location || 'United States';
-    
-    console.log('🔍 Searching Apollo AI for people with filters:', searchFilters);
-    
-    try {
-      const payload: Record<string, string | number | string[]> = {
-        searchTerm,
-        location: searchLocation,
-        page: 1,
-        perPage: 25,
-        jobTitles: ['founder', 'ceo', 'owner', 'director', 'manager', 'president']
-      };
-      
-      if (searchFilters.companySize) {
-        payload.companySize = searchFilters.companySize;
-      }
-      
-      const response = await fetch('/api/apollo/search-people', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        console.error('❌ Apollo People API error:', response.status, errorData);
-        throw new Error(errorData.error || `Apollo API error: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      console.log('✅ Apollo People API response:', data);
-      
-      const people = data.people || [];
-      
-      if (people.length === 0) {
-        console.log('ℹ️ No people found');
-        return [];
-      }
-      
-      const businesses = people.map((person: ApolloPerson) => {
-        const company = person.organization?.name || 'Unknown Company';
-        const website = person.organization?.website_url || '';
-        const industry = person.organization?.industry || searchFilters.industry || 'General';
-        
-        // Score is higher for personal emails (better for outreach)
-        let score = 70; // Base score for having a contact
-        if (person.email) score += 20; // Has personal email
-        if (person.phone_numbers && person.phone_numbers.length > 0) score += 10;
-        
-        const serviceNeeds = determineServiceNeeds(website, score, searchFilters.industry);
-        
-        return {
-          name: person.name || `${person.first_name} ${person.last_name}`,
-          company,
-          email: person.email || '', // Personal email (Gmail, Yahoo, etc.)
-          phone: person.phone_numbers?.[0]?.sanitized_number || person.phone_numbers?.[0]?.raw_number || '',
-          location: [person.city, person.state, person.country].filter(Boolean).join(', ') || 'Unknown',
-          companyWebsite: website,
-          industry,
-          score,
-          userId: user?.uid,
-          serviceNeeds,
-          value: estimateProjectValue(serviceNeeds, score)
-        };
-      });
-      
-      console.log('✅ Parsed', businesses.length, 'contacts from Apollo');
-      return businesses;
-      
-    } catch (error) {
-      console.error('Apollo people search error:', error);
-      throw error;
-    }
   };
 
   // Search businesses using Apollo AI (via serverless proxy)
@@ -468,10 +361,8 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
     setSelectedBusinesses(new Set()); // Reset selections
     
     try {
-      // Search using appropriate endpoint based on mode
-      let businesses = filters.searchMode === 'people' 
-        ? await searchApolloPeople(filters)
-        : await searchApolloBusinesses(filters);
+      // Search for organizations using Apollo AI
+      let businesses = await searchApolloBusinesses(filters);
       
       const totalFound = businesses.length;
       
@@ -679,41 +570,6 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
                 </div>
               )}
               
-              {/* Search Mode Toggle */}
-              <div className="bg-white border border-gray-200 rounded-lg p-3">
-                <label className="text-sm font-medium mb-2 block">Search For</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => updateFilter('searchMode', 'organizations')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                      filters.searchMode === 'organizations'
-                        ? 'bg-primary text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    🏢 Companies
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateFilter('searchMode', 'people')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                      filters.searchMode === 'people'
-                        ? 'bg-primary text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    👤 People
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  {filters.searchMode === 'people' 
-                    ? '✉️ Find decision makers with personal emails (Gmail, Yahoo, etc.)'
-                    : '🏢 Find companies with general contact info'
-                  }
-                </p>
-              </div>
-
               {/* Basic Filters */}
               <div>
                 <label className="text-sm font-medium mb-2 block">Industry</label>
@@ -846,16 +702,13 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
             {/* Dynamic Strategy Tips */}
             <div className="mt-6 p-4 bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 rounded-lg text-sm">
               <p className="font-semibold text-blue-900 mb-2">
-                {filters.searchMode === 'people' ? '✉️ Personal Email Strategy' :
-                 filters.hasWebsite === 'no' ? '🎯 High Conversion Strategy' :
+                {filters.hasWebsite === 'no' ? '🎯 High Conversion Strategy' :
                  filters.needsSEO || filters.needsRedesign ? '💼 Value-Add Strategy' :
                  filters.companySize === '1,10' ? '🚀 Startup Strategy' :
                  '💡 Smart Targeting'}
               </p>
               <p className="text-blue-800 leading-relaxed">
-                {filters.searchMode === 'people'
-                  ? 'Personal emails (Gmail, Yahoo, etc.) have 2-3x higher open rates than corporate emails! You\'re reaching decision makers directly - CEOs, founders, and business owners who can say YES immediately.'
-                  : filters.hasWebsite === 'no' 
+                {filters.hasWebsite === 'no' 
                   ? 'Companies without websites are 3x more likely to convert. They know they need help!' 
                   : filters.needsSEO && filters.needsRedesign
                   ? 'Targeting businesses with poor web presence = easier to demonstrate value with audits.'
