@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   if (!apiKey)
     return res.status(500).json({ error: 'Missing GOOGLE_GEMINI_API_KEY env variable' });
 
-  // Build STAR prompt – clean, structured
+  // Build PAS + CTA prompt – proven high-converting format
   // Create a readable lead summary. If `lead` is an object, include important fields
   const leadSummary = (typeof lead === 'string')
     ? lead
@@ -27,11 +27,26 @@ export default async function handler(req, res) {
   if (process.env.DEBUG_GEMINI) console.log('Lead summary for prompt:', leadSummary);
 
   const prompt = `
-    You are an expert marketing and web developer freelancer.
+    You are an expert cold outreach specialist writing highly converting B2B emails.
 
-    Using the STAR framework (Situation, Task, Action, Result), write a concise, persuasive outreach email (3 short paragraphs)
-    for this lead. Make it clear what the freelancer can help the company improve, include a suggested next step, and a clear
-    result/benefit the company will get. Friendly, professional tone.
+    Write a SHORT, personalized outreach email using this proven format:
+
+    **Subject Line**: Write ONE compelling, curiosity-driven subject line (5-8 words max)
+
+    **Email Body** (4-5 sentences ONLY):
+    1. HOOK: Open with ONE sentence showing you researched them (mention specific detail about their company/website)
+    2. PROBLEM: ONE sentence pointing out a specific issue or missed opportunity you noticed
+    3. SOLUTION: ONE sentence stating how you can fix it (be specific, not vague)
+    4. PROOF/VALUE: ONE short sentence with a relevant result or benefit
+    5. CTA: ONE simple question or soft call-to-action (e.g., "Worth a quick chat?")
+
+    CRITICAL RULES:
+    - Keep it under 80 words total
+    - NO fluff or corporate jargon
+    - Be conversational and direct
+    - Focus on THEIR benefit, not your services
+    - End with a low-pressure question, NOT "book a call" or "schedule a meeting"
+    - Do NOT use phrases like "I hope this email finds you well" or "I wanted to reach out"
 
     Lead details:
     ${leadSummary}
