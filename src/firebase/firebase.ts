@@ -10,8 +10,8 @@ const firebaseConfig = {
     projectId: "flashleads-f217e",
     storageBucket: "flashleads-f217e.firebasestorage.app",
     messagingSenderId: "364055522024",
-    appId: "1:364055522024:web:8539e35510c2a8748df75d",
-    measurementId: "G-KKW318HVXE"
+    appId: "1:364055522024:web:7cdd16d9174a712e8df75d",
+    measurementId: "G-3V76XD0DGN"
 };
 
 // Initialize Firebase

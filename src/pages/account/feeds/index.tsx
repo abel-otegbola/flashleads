@@ -21,7 +21,7 @@ const statusColors = {
   closed: "bg-green-100 text-green-700 border-green-200"
 };
 
-export default function Leads() {
+export default function Feeds() {
   const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
   const { profile } = useContext(UserProfileContext);
   const navigate = useNavigate();
@@ -315,9 +315,9 @@ export default function Leads() {
   return (
     <div className="p-4 md:p-6">
       {/* Header */}
-      <div className="mb-6 flex flex-wrap items-center gap-12 justify-between">
+      <div className="mb-6 flex flex-col gap-6 justify-between">
         <div>
-          <h1 className="text-2xl font-medium mb-2">Leads</h1>
+          <h1 className="text-2xl font-medium mb-2">For you</h1>
           <p className="text-gray-600">Manage and track your potential clients</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -344,26 +344,6 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">Total Leads</p>
-          <p className="text-2xl font-medium">{leads?.length}</p>
-        </div>
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">New Leads</p>
-          <p className="text-2xl font-medium">{leads?.filter(l => l.status === "new").length}</p>
-        </div>
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">In Conversation</p>
-          <p className="text-2xl font-medium">{leads?.filter(l => l.status === "conversation").length}</p>
-        </div>
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-[12px] opacity-[0.5] mb-1">Estimated Value</p>
-          <p className="text-2xl font-medium">${leads?.reduce((sum, l) => sum + (l.value || 0), 0).toLocaleString()}</p>
-        </div>
-      </div>
-
       {/* Filters */}
       <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-4">
         <div className="flex flex-col md:flex-row gap-4 justify-between">
@@ -373,13 +353,13 @@ export default function Leads() {
               placeholder="Search leads by name, company, or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-1 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-1 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
+            className="px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
           >
             <option value="all">All Status</option>
             <option value="new">New Lead</option>
@@ -391,171 +371,186 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg overflow-x-auto md:w-full w-[90vw]">
-        <div className="overflow-x-auto md:text-[14px] text-[12px] min-w-[1000px]">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Lead
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Contact
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Industry
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Value
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Score
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Added
-                </th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200/[0.2]">
-              {filteredLeads?.map((lead) => (
-                <tr key={lead?.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/account/leads/${lead?.id}`)}>
-                  <td className="px-4 py-1 min-w-[210px]">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-semibold text-[12px] flex-shrink-0">
-                        {lead?.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{lead?.name}</p>
-                        <div className="flex items-center gap-1 text-[12px] text-gray-500">
-                          <Buildings size={14} />
-                          <span className="leading-[16px]">{lead?.company}</span>
-                        </div>
+      {/* Feed Layout */}
+      <div className="space-y-4">
+        {filteredLeads?.map((lead) => (
+          <div
+            key={lead?.id}
+            className="bg-white border border-gray-200/[0.2] rounded-xl hover:shadow transition-all duration-300 overflow-hidden cursor-pointer group"
+            onClick={() => navigate(`/account/leads/${lead?.id}`)}
+          >
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start gap-4 flex-1">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-md">
+                    {lead?.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-lg text-gray-900 truncate">
+                        {lead?.name}
+                      </h3>
+                      <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
+                        <Star size={14} className="text-yellow-500" weight="Bold" />
+                        <span className={`text-xs font-medium ${getScoreColor(lead?.score)}`}>
+                          {lead?.score}
+                        </span>
                       </div>
                     </div>
-                  </td>
-                  <td className="px-4 py-1">
-                    <div className="space-y-[2px]">
-                      <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
-                        <Letter size={14} />
-                        {lead?.email ? (
-                          <a href={`mailto:${lead?.email}`} className="hover:text-primary">
-                            {lead?.email}
-                          </a>
-                        ) : (
-                          <button
-                            onClick={() => handleFindEmail(lead?.id, lead?.companyWebsite, lead?.company)}
-                            disabled={findingEmailFor === lead?.id}
-                            className="text-blue-600 hover:text-blue-800 underline disabled:opacity-50 flex items-center gap-1"
-                          >
-                            {findingEmailFor === lead?.id ? (
-                              <>
-                                <LoadingIcon />
-                                Finding...
-                              </>
-                            ) : (
-                              <>
-                                <UserSpeak size={14} />
-                                Find Contact
-                              </>
-                            )}
-                          </button>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 text-[12px] opacity-[0.5]">
-                        <Phone size={14} />
-                        <span>{typeof lead?.phone === 'string' && lead.phone ? lead.phone : 'N/A'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-[12px] text-gray-500">
-                        <MapPoint size={14} />
-                        <p className="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap">{lead?.location}</p>
-                      </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                      <Buildings size={16} className="flex-shrink-0" />
+                      <span className="font-medium">{lead?.company}</span>
+                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-500">{lead?.industry}</span>
                     </div>
-                  </td>
-                  <td className="px-4 py-1">
-                    <p className="text-[12px] text-gray-700 max-w-[100px] text-ellipsis overflow-hidden whitespace-nowrap">{lead?.industry}</p>
-                  </td>
-                  <td className="px-4 py-1">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[lead?.status]}`}>
-                      {lead?.status.charAt(0).toUpperCase() + lead?.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="px-4 py-1">
-                    <span className="text-[12px] font-semibold text-gray-900">
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <MapPoint size={14} />
+                      <span>{lead?.location}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Actions */}
+                <div className="flex items-center gap-2 ml-4">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); openEditModal(lead); }}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    title="Edit lead"
+                  >
+                    <Pen size={20} />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead?.id); }}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    title="Delete lead"
+                  >
+                    <TrashBin2 size={20} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-2">
+                <div className="flex items-center gap-3 text-sm">
+                  <Letter size={16} className="text-gray-400" />
+                  {lead?.email ? (
+                    <a 
+                      href={`mailto:${lead?.email}`} 
+                      className="text-gray-700 hover:text-primary font-medium"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {lead?.email}
+                    </a>
+                  ) : (
+                    <button
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        handleFindEmail(lead?.id, lead?.companyWebsite, lead?.company);
+                      }}
+                      disabled={findingEmailFor === lead?.id}
+                      className="text-blue-600 hover:text-blue-800 font-medium disabled:opacity-50 flex items-center gap-2"
+                    >
+                      {findingEmailFor === lead?.id ? (
+                        <>
+                          <LoadingIcon />
+                          Finding contact...
+                        </>
+                      ) : (
+                        <>
+                          <UserSpeak size={16} />
+                          Find Contact
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <Phone size={16} className="text-gray-400" />
+                  <span>{typeof lead?.phone === 'string' && lead.phone ? lead.phone : 'No phone'}</span>
+                </div>
+              </div>
+
+              {/* Service Needs (if available) */}
+              {lead?.serviceNeeds && lead.serviceNeeds.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-xs text-gray-500 mb-2 font-medium">Service Needs:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {lead.serviceNeeds.map((service, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full font-medium"
+                      >
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Footer */}
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-4">
+                  <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border ${statusColors[lead?.status]}`}>
+                    {lead?.status.charAt(0).toUpperCase() + lead?.status.slice(1)}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs text-gray-500">Value:</span>
+                    <span className="text-sm font-bold text-gray-900">
                       ${lead?.value.toLocaleString()}
                     </span>
-                  </td>
-                  <td className="px-4 py-1">
-                    <div className="flex items-center gap-2">
-                      <Star size={14} className="text-yellow-500" weight="Bold" />
-                      <span className={`text-[12px] ${getScoreColor(lead?.score)}`}>
-                        {lead?.score}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-1  min-w-[110px]">
-                    <span className="text-[12px] opacity-[0.5]">
-                      {lead?.addedDate && typeof lead?.addedDate === 'string' 
-                        ? new Date(lead?.addedDate).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            year: 'numeric'
-                          })
-                        : lead?.addedDate && typeof lead?.addedDate === 'object' && 'toDate' in lead.addedDate
-                        ? (lead?.addedDate as Timestamp).toDate().toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            year: 'numeric'
-                          })
-                        : 'N/A'
-                      }
-                    </span>
-                  </td>
-                  <td className="px-4 py-1">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); openEditModal(lead); }}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        title="Edit lead"
-                      >
-                        <Pen size={18} />
-                      </button>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead?.id); }}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete lead"
-                      >
-                        <TrashBin2 size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </div>
+                <span className="text-xs text-gray-400">
+                  {lead?.addedDate && typeof lead?.addedDate === 'string' 
+                    ? new Date(lead?.addedDate).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        year: 'numeric'
+                      })
+                    : lead?.addedDate && typeof lead?.addedDate === 'object' && 'toDate' in lead.addedDate
+                    ? (lead?.addedDate as Timestamp).toDate().toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        year: 'numeric'
+                      })
+                    : 'N/A'
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
 
         {filteredLeads?.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">
-              {loading ? 'Loading leads?...' : 'No leads found matching your criteria'}
-            </p>
+          <div className="bg-white border border-gray-200/[0.2] rounded-xl p-12 text-center">
+            <div className="max-w-md mx-auto">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Buildings size={32} className="text-gray-400" />
+              </div>
+              <p className="text-gray-500 text-lg font-medium mb-2">
+                {loading ? 'Loading your leads...' : 'No leads found'}
+              </p>
+              {!loading && (
+                <p className="text-gray-400 text-sm">
+                  {searchQuery || statusFilter !== 'all' 
+                    ? 'Try adjusting your filters'
+                    : 'Start by discovering or adding new leads'}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>
 
       {/* Pagination placeholder */}
-      <div className="mt-4 flex items-center justify-between">
-        <p className="text-[12px] opacity-[0.5]">
-          Showing {filteredLeads?.length} of {leads?.length} leads
-        </p>
-      </div>
+      {filteredLeads?.length > 0 && (
+        <div className="mt-6 flex items-center justify-between bg-white border border-gray-200/[0.2] rounded-lg p-4">
+          <p className="text-sm text-gray-600">
+            Showing <span className="font-semibold">{filteredLeads?.length}</span> of <span className="font-semibold">{leads?.length}</span> leads
+          </p>
+        </div>
+      )}
 
       {/* Lead Modal */}
       <LeadModal

@@ -7,7 +7,7 @@ function Footer() {
     <footer className="bg-black border-t border-gray-200 dark:border-gray-800 text-white">
       <div className="px-4 sm:px-6 lg:px-20 py-12 md:py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
+        <div className="grid max-[420px]:grid-cols-1 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4 text-white">
@@ -122,7 +122,7 @@ function Footer() {
         <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 md:text-center md:text-left">
-              © {currentYear} FlashLeads. All rights reserved.
+              © {currentYear} Prospo. All rights reserved.
             </p>
             <div className="flex flex-wrap md:justify-end gap-6">
               <Link to="/privacy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">

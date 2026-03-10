@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
+import SearchBar from "../search/searchBar";
 
 function Topbar() {
     const [open, setOpen] = useState(false)
@@ -40,7 +41,7 @@ function Topbar() {
         <>
         <div className={`flex justify-between items-center w-full lg:px-16 md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <Link to={"/"} className="flex gap-2 items-center">
-                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Prospo</h3>
+                <h3 className="md:text-[18px] text-[16px] font-bold uppercase">Prospo</h3>
             </Link>
             
             <ul className={`
@@ -94,7 +95,8 @@ function Topbar() {
             </ul>
             
             {/* Right actions - Desktop only */}
-            <div className="hidden md:flex items-center gap-3 lg:gap-4">
+            <div className="hidden md:flex items-center gap-3 lg:gap-6">
+                <SearchBar />
                 <AuthCTA user={user} />
             </div>
             
