@@ -10,15 +10,15 @@ function Homepage() {
         <Topbar />
 
         <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
-            <div className="flex flex-col items-center text-center md:max-w-3xl max-w-lg md:p-6">
-                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit md:mb-10 mb-4 gap-2 text-xs sm:text-sm shadow">
+            <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6">
+                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit gap-2 text-xs sm:text-sm shadow">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium text-xs">Hire</span>
                     <span className="font-medium text-xs">Start connecting with potential clients</span>
                 </div>
-                <h1 className="font-bold max-[500px]:text-3xl text-4xl sm:text-5xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] mb-4 px-11">
-                    Find Clients Who Already Need Your Skills
+                <h1 className="font-bold max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
+                    Find Clients Who  <br/>Already Need Your Skills
                 </h1>
-                <p className="opacity-[0.8] md:w-[75%] md:mb-8 mb-4 max-w-xl leading-[28px]">
+                <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
                     Prospo helps you discover businesses that need your expertise and connect you directly with potential clients.
                 </p>
                 <div className="flex items-center gap-4">
@@ -26,7 +26,7 @@ function Homepage() {
                     <Button variant="secondary">Discover Businesses</Button>
                 </div>
             </div>
-            <div className="w-full flex items-center justify-center -mt-8 lg:-mt-16">
+            <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16">
                 <img 
                     src="/hero-bg.png" 
                     alt="FlashLeads Illustration" 
