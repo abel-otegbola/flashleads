@@ -13,8 +13,8 @@ export interface buttonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({ variant, className, href, size, disabled, onClick, children, ...props }: buttonProps) {
     const variants = {
-        primary: "hover:bg-primary/[0.8] bg-primary text-white border border-primary",
-        secondary: "bg-transparent border border-gray-300 hover:border-gray-500 text-gray-700",
+        primary: "hover:bg-black/[0.8] bg-black text-white border border-gray-500 shadow-md",
+        secondary: "bg-transparent border border-gray-300 hover:border-gray-500 text-gray-700 shadow-md",
         tertiary: "rounded-[4px]"
     }
 
@@ -22,19 +22,19 @@ export default function Button({ variant, className, href, size, disabled, onCli
        <>
             { 
             href ? 
-                <Link role="button" to={href} className={`rounded-[6px] flex items-center justify-center md:gap-2 gap-1 w-fit 
+                <Link role="button" to={href} className={`rounded-[6px] flex items-center justify-center md:gap-2 gap-1 w-fit  font-semibold
                     ${variants[variant || "primary"]} 
                     ${disabled ? "opacity-[0.25]" : ""} 
-                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] text-[12px] py-[6px] md:px-[16px] px-[12px]"} 
+                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] text-[14px] py-[6px] md:px-[16px] px-[12px]"} 
                     ${className} 
                      `}> 
                     { children }
                 </Link>
 
-                : <button className={` duration-500 flex items-center justify-center md:gap-2 gap-1 w-fit cursor-pointer
+                : <button className={` duration-500 flex items-center justify-center md:gap-2 gap-1 w-fit cursor-pointer font-semibold
                     ${variants[variant || "primary"]} 
                     ${disabled ? "opacity-[0.25]" : ""} 
-                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] text-[12px] py-[6px] md:px-[16px] px-[12px]"} 
+                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] text-[14px] py-[6px] md:px-[16px] px-[12px]"} 
                     ${className} 
                 `}
                 {...props}

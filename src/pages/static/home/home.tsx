@@ -9,49 +9,41 @@ function Homepage() {
             
         <Topbar />
 
-        <header className="flex flex-col md:flex-row justify-between min-h-screen gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
-            <div className="w-full md:w-1/2 flex flex-col items-start max-w-2xl md:py-12">
-                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit md:mb-10 mb-4 gap-2 text-xs sm:text-sm">
-                    <span className="px-2 sm:px-3 py-1 rounded-full bg-primary text-white font-medium text-xs">New</span>
-                    <span className="font-medium text-xs">Perfectly Organized with New AI Tools</span>
+        <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
+            <div className="flex flex-col items-center text-center md:max-w-3xl max-w-lg md:p-6">
+                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit md:mb-10 mb-4 gap-2 text-xs sm:text-sm shadow">
+                    <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium text-xs">Hire</span>
+                    <span className="font-medium text-xs">Start connecting with potential clients</span>
                 </div>
-                <h1 className="md:flex hidden flex-col gap-2 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] md:mb-4">
-                    Turn Customer 
-                    <span className="flex md:mt-2 gap-4 items-center">Data into <img 
-                        src="/hero-img2.png" 
-                        alt="FlashLeads Illustration" 
-                        className="object-contain md:block hidden"/></span>
-                </h1>
-                <h1 className="text-3xl font-bold md:hidden ">Turn Customer Data into</h1>
-                <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[0.5] text-[#21E061] mb-2 md:mb-12">
-                    Sales Success
+                <h1 className="font-bold max-[500px]:text-3xl text-4xl sm:text-5xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] mb-4 px-11">
+                    Find Clients Who Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] md:mb-8 mb-4 max-w-xl leading-[28px]">
-                    FlashLeads helps freelancers, agencies, and growing businesses discover qualified leads, automate outreach, and manage client relationships, all from one powerful, streamlined platform.
+                    Prospo helps you discover businesses that need your expertise and connect you directly with potential clients.
                 </p>
                 <div className="flex items-center gap-4">
-                    <Button href="/signup" className="text-[14px]">Start Free Trial</Button>
-                    <Button variant="secondary" className="text-[14px]">Learn More</Button>
+                    <Button href="/signup">Get Started</Button>
+                    <Button variant="secondary">Discover Businesses</Button>
                 </div>
             </div>
-            <div className="w-full md:w-1/2 flex items-center justify-center mt-8 md:mt-0">
+            <div className="w-full flex items-center justify-center -mt-8 lg:-mt-16">
                 <img 
-                    src="/hero-img.png" 
+                    src="/hero-bg.png" 
                     alt="FlashLeads Illustration" 
-                    className="w-full max-w-md md:max-w-lg lg:max-w-xl h-auto object-contain"
+                    className="w-full lg:max-w-5xl h-auto object-contain"
                 />
             </div>
         </header>
 
-        <section className="flex justify-center flex-col md:items-center gap-6 py-8 md:px-[5%] px-4">
-            <div className="flex flex-col md:items-center justify-center gap-5 md:w-1/2 md:text-center">
+        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[5%] px-4">
+            <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
                     <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Choose Us</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
-                <h1 className="xl:text-4xl text-2xl font-semibold">Complete Lead Generation & Outreach Platform Built for Growth</h1>
-                <p>FlashLeads combines advanced lead discovery, real-time contact enrichment, and intelligent outreach automation, enabling you to identify new opportunities and convert them faster.</p>
+                <h1 className="xl:text-4xl text-2xl font-semibold">Join freelancers who want a smarter way to find clients</h1>
+                <p>Instead of waiting for clients to post jobs, Prospo helps you discover opportunities and reach out first</p>
             </div>
 
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">

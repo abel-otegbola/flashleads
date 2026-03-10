@@ -18,7 +18,7 @@ function AccountPages() {
 
     // If not authenticated, redirect to login
     if (!user) {
-        return <Navigate to="/auth/login" replace />;
+        return <Navigate to="/login" replace />;
      }
   return (
     <div className="min-h-[400px] flex justify-between bg-[url('/bg-cover.svg')] bg-cover">

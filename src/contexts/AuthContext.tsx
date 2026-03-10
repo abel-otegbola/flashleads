@@ -86,12 +86,12 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
 
     const logOut = () => {
         signOut(auth)
-                .then(() => {
-                        setPopup({ type: "success", msg:  "Logout Successful", timestamp: Date.now() })
-                    }).catch((error: unknown) => {
-                        const message = error instanceof FirebaseError ? error.message : String(error);
-                        setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() })
-                    });
+        .then(() => {
+            setPopup({ type: "success", msg:  "Logout Successful", timestamp: Date.now() })
+        }).catch((error: unknown) => {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() })
+        });
     }
 
     const forgotPassword = async (email: string) => {

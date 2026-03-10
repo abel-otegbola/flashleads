@@ -39,3 +39,24 @@ hr {
   animation: blur-reveal 0.8s ease-out 0.2s forwards;
   opacity: 0;
 }
+
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.scroll::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+/* Handle */
+.scroll::-webkit-scrollbar-thumb {
+  background: #ffffff07;
+  border-radius: 4px;
+}
+  
+/* Handle on hover */
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: #ffffff40;
+}

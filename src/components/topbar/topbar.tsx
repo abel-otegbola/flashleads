@@ -9,28 +9,31 @@ const AuthCTA = ({ user }: { user: { email?: string } | null }) => {
         const email = user.email || '';
         const initial = email ? email[0].toUpperCase() : 'U';
         return (
-            <Link to={"/account"} className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold">{initial}</Link>
+            <Link to={"/account"} className="w-8 h-8 rounded-full bg-slate-300 text-white outline outline-offset-2 outline-gray-200/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold">
+                {initial}
+            </Link>
         );
     }
 
     return (
-        <Button variant="secondary"><Link to="/signup">Sign up</Link></Button>
+        <>
+        <Button href="/login" variant="secondary" className="md:w-fit w-full">Login</Button>
+        <Button href="/signup" className="md:w-fit w-full">Sign up</Button>
+        </>
     );
 }
 
 function Topbar() {
     const [open, setOpen] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
     const [activeSection, setActiveSection] = useState("")
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 10)
 
             // Detect active section
-            const sections = ["features", "how-it-works", "pricing", "testimonials"]
-            const scrollPosition = window.scrollY + 100 // Offset for better detection
+            const sections = ["Hire Freelancers", "Find Opportunities", "Pricing", "Contact Us"]
+            const scrollPosition = window.scrollY + 100
 
             for (const sectionId of sections) {
                 const element = document.getElementById(sectionId)
@@ -55,10 +58,9 @@ function Topbar() {
 
     return (
         <>
-        <div className={`flex justify-between items-center w-full lg:px-16 md:px-9 px-4 py-4 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+        <div className={`flex justify-between items-center w-full lg:px-16 md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <Link to={"/"} className="flex gap-2 items-center">
-                <img src="/logo.png" alt="FlashLeads Logo" className="w-4 h-4 sm:w-6 sm:h-6 object-contain"/>
-                <h3 className="text-sm sm:text-base md:text-lg font-bold bg-gradient-to-r bg-clip-text text-transparent from-primary to-fuchsia-400">FlashLeads</h3>
+                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Prospo</h3>
             </Link>
             
             <ul className={`
@@ -74,10 +76,10 @@ function Topbar() {
             `}>
                 {
                     [
-                        { id: 0, title: "Products", href: "#features" },
-                        { id: 1, title: "Solutions", href: "#how-it-works" },
+                        { id: 0, title: "Hire Freelancers", href: "#freelancers" },
+                        { id: 1, title: "Find Opportunities", href: "#opportunities" },
                         { id: 2, title: "Pricing", href: "#pricing" },
-                        { id: 3, title: "Contact Us", href: "#testimonials" },
+                        { id: 3, title: "Contact Us", href: "#contact" },
                     ].map(link => (
                         <li key={link.id} className="md:px-0 md:py-0 py-2">
                             <a 
@@ -103,18 +105,9 @@ function Topbar() {
                         </li>
                     ))
                 }
-                <li className="md:hidden mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <Link 
-                        to="/contact" 
-                        className="text-primary font-medium block py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-                        onClick={() => setOpen(false)}
-                    >
-                        Message us
-                    </Link>
-                </li>
                 {/* Mobile CTA */}
                 <li className="md:hidden mt-4">
-                    <div onClick={() => setOpen(false)}>
+                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-6 md:flex-row flex-col">
                         <AuthCTA user={user} />
                     </div>
                 </li>
@@ -131,9 +124,9 @@ function Topbar() {
                 onClick={() => setOpen(!open)}
                 aria-label="Toggle menu"
             >
-                <span className={`w-6 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}></span>
-                <span className={`w-6 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 ${open ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}></span>
-                <span className={`w-6 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
+                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}></span>
+                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}></span>
+                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
             </button>
         </div>
         </>

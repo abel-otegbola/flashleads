@@ -119,7 +119,7 @@ function Sidebar() {
                                     return (
                                         <button
                                             key={link.id}
-                                            onClick={async () => { setOpen(false); await logOut(); navigate('/auth/waitlist'); }}
+                                            onClick={async () => { setOpen(false); await logOut(); navigate('/login'); }}
                                             className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[32px] md:rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "bg-gray-100/[0.2] font-bold text-primary" : "font-medium hover:bg-gray-100/[0.2]"}`}>
                                             <div className="flex items-center gap-2">
                                                 <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
