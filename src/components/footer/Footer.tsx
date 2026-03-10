@@ -4,17 +4,14 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <footer className="bg-black border-t border-gray-200 dark:border-gray-800 text-white">
+      <div className="px-4 sm:px-6 lg:px-20 py-12 md:py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="FlashLeads Logo" className="w-8 h-8 object-contain" />
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-fuchsia-400 bg-clip-text text-transparent">
-                FlashLeads
-              </span>
+            <Link to="/" className="flex items-center gap-2 mb-4 text-white">
+                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Prospo</h3>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
@@ -58,47 +55,67 @@ function Footer() {
 
           {/* Product Column */}
           <div className="col-span-1">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Product</h3>
+            <h3 className="font-semibold opacity-[0.4] mb-4">For Clients</h3>
             <ul className="space-y-3">
-              <li>
-                <Link to="/pricing" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link to="/integrations" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Integrations
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Solutions
-                </Link>
-              </li>
+              {
+                [
+                  { id: 1, title: "Talent Marketplace", href: "/talents" },
+                  { id: 2, title: "Project Catalogs", href: "/projects" },
+                  { id: 1, title: "Enterprise", href: "/enterprise" },
+                  { id: 1, title: "Business Plus", href: "/business-plus" },
+                  { id: 1, title: "Direct Contracts", href: "/direct-contracts" },
+                  { id: 1, title: "Hire an Agency", href: "/agencies" },
+                ].map(item => (
+                  <li key={item.id}>
+                    <Link to={item.href} className="text-sm opacity-[0.8] hover:text-primary transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))
+              }
             </ul>
           </div>
 
-          {/* Company Column */}
           <div className="col-span-1">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Company</h3>
+            <h3 className="font-semibold opacity-[0.4] mb-4">For Talent</h3>
             <ul className="space-y-3">
-              <li>
-                <Link to="/about" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-                  Contact
-                </Link>
-              </li>
+              {
+                [
+                  { id: 1, title: "How to find clients", href: "/blogs/how-to-find-clients" },
+                  { id: 2, title: "Direct contracts", href: "/blogs/direct-contract" },
+                  { id: 1, title: "Find freelance jobs worldwide", href: "/blogs/find-freelance-jobs-worldwide" },
+                  { id: 1, title: "Win work with ads", href: "/blogs/win-work-with-ads" },
+                ].map(item => (
+                  <li key={item.id}>
+                    <Link to={item.href} className="text-sm opacity-[0.8] hover:text-primary transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))
+              }
             </ul>
           </div>
+
+          <div className="col-span-1">
+            <h3 className="font-semibold opacity-[0.4] mb-4">Company</h3>
+            <ul className="space-y-3">
+              {
+                [
+                  { id: 1, title: "About Us", href: "/about" },
+                  { id: 2, title: "Pricing", href: "/pricing" },
+                  { id: 1, title: "Blogs", href: "/blogs" },
+                  { id: 1, title: "Support", href: "/support" },
+                ].map(item => (
+                  <li key={item.id}>
+                    <Link to={item.href} className="text-sm opacity-[0.8] hover:text-primary transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
         </div>
 
         {/* Bottom Bar */}

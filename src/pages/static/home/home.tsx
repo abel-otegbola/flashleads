@@ -58,21 +58,21 @@ function Homepage() {
             </div>
 
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
-                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="100">
                     <img src="/lead-gen.png" alt="Client Opportunity Discovery Icon" className="w-full h-auto"/>
-                    <h1 className="text-xl text-primary font-bold">01</h1>
+                    <h1 className="text-4xl opacity-[0.1] font-bold">01</h1>
                     <h2 className="font-semibold text-lg">Discover Client Opportunities</h2>
                     <p className="text-sm text-gray-600">Find businesses that may need your service. Prospo surfaces opportunities so you don't have to search endlessly for freelance jobs.</p>
                 </div>
-                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="200">
                     <img src="/outreach.png" alt="Smart Outreach Icon" className="w-full h-auto"/>
-                    <h1 className="text-xl text-primary font-bold">02</h1>
+                    <h1 className="text-4xl opacity-[0.1] font-bold">02</h1>
                     <h2 className="font-semibold text-lg">Smart Outreach Messages</h2>
                     <p className="text-sm text-gray-600">Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.</p>
                 </div>
-                <div className="flex flex-col gap-4 p-3 border border-gray-200/[0.2] rounded-lg" data-aos="fade-up" data-aos-delay="300">
+                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="300">
                     <img src="/crm.png" alt="Conversation Tracking Icon" className="w-full h-auto"/>
-                    <h1 className="text-xl text-primary font-bold">03</h1>
+                    <h1 className="text-4xl opacity-[0.1] font-bold">03</h1>
                     <h2 className="font-semibold text-lg">Track Conversations</h2>
                     <p className="text-sm text-gray-600">Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.</p>
                 </div>
