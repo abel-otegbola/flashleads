@@ -20,6 +20,7 @@ import Terms from "./pages/static/terms"
 import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
 import { ModalProvider } from "./contexts/ModalContext"
+import MouseCursor from "./components/mouseCursor/MouseCursor"
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
         <UserProfileProvider>
         <LeadsProvider>
           <ClientsProvider>
+            
+              <MouseCursor />
               <Routes>
               {/* Static Pages */}
               <Route path="/" element={<Homepage />} />
@@ -55,6 +58,7 @@ function App() {
               
               {/* Account Pages */}
               <Route path="/account/*" element={<AccountPages />} />
+
             </Routes>
           </ClientsProvider>
         </LeadsProvider>
