@@ -18,42 +18,14 @@ export interface ClaimedLead {
  * Higher score means better match for the user
  */
 export function calculateLeadRelevanceScore(
-  leadIndustry: string,
-  leadServices: string[],
   userProfile: UserProfile | null
 ): number {
   if (!userProfile) return 50; // Default score
   
-  let score = 0;
-  
-  // Industry match (30 points)
-  if (userProfile.industries?.includes(leadIndustry)) {
-    score += 30;
-  }
-  
-  // Service match (40 points)
-  const matchingServices = leadServices.filter(service => 
-    userProfile.primaryServices?.some(userService => 
-      service.toLowerCase().includes(userService.toLowerCase()) ||
-      userService.toLowerCase().includes(service.toLowerCase())
-    )
-  );
-  score += Math.min(40, matchingServices.length * 10);
-  
-  // Previous work in same industry (20 points)
-  if (userProfile.previousClients?.some(client => client.industry === leadIndustry)) {
-    score += 20;
-  }
-  
-  // Excluded industry check (−100 points = exclude)
-  if (userProfile.leadPreferences?.excludeIndustries?.includes(leadIndustry)) {
-    score -= 100;
-  }
-  
   // Location preference (10 points)
   // Note: Would need lead location to fully implement
   
-  return Math.max(0, Math.min(100, score));
+  return Math.max(0, Math.min(100, 0));
 }
 
 /**

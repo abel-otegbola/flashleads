@@ -113,34 +113,6 @@ export default function UserProfileProvider({ children }: { children: ReactNode 
     }
   };
 
-  const hasCompletedProfile = (): boolean => {
-    if (!profile) return false;
-    
-    return !!(
-      profile.bio &&
-      profile.primaryServices?.length > 0 &&
-      profile.industries?.length > 0
-    );
-  };
-
-  const getRecommendedIndustries = (): string[] => {
-    if (!profile) return [];
-    
-    // Return industries from previous work and profile industries
-    const industries = new Set([
-      ...(profile.industries || []),
-      ...(profile.previousClients?.map(c => c.industry) || [])
-    ]);
-    
-    return Array.from(industries);
-  };
-
-  const getRecommendedServices = (): string[] => {
-    if (!profile) return [];
-    
-    return profile.primaryServices || [];
-  };
-
   return (
     <UserProfileContext.Provider
       value={{
@@ -149,9 +121,6 @@ export default function UserProfileProvider({ children }: { children: ReactNode 
         createProfile,
         updateProfile,
         getProfile,
-        hasCompletedProfile,
-        getRecommendedIndustries,
-        getRecommendedServices,
       }}
     >
       {children}

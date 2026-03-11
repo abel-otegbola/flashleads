@@ -11,10 +11,6 @@ export interface UserProfileContextValue {
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   getProfile: (userId: string) => Promise<UserProfile | null>;
   
-  // Profile checks
-  hasCompletedProfile: () => boolean;
-  getRecommendedIndustries: () => string[];
-  getRecommendedServices: () => string[];
 }
 
 export const UserProfileContext = createContext({} as UserProfileContextValue);
