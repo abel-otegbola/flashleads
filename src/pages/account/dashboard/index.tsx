@@ -117,7 +117,40 @@ function Dashboardpage() {
         // Determine search term based on user's specialty
         const searchTerm = profile.specialty || 'businesses';
         
-        console.log('🔍 Generating dashboard leads for:', searchTerm);
+        // Randomize location for variety
+        const locations = [
+          'United States',
+          'New York, NY',
+          'Los Angeles, CA',
+          'Chicago, IL',
+          'Houston, TX',
+          'Phoenix, AZ',
+          'Philadelphia, PA',
+          'San Antonio, TX',
+          'San Diego, CA',
+          'Dallas, TX',
+          'San Jose, CA',
+          'Austin, TX',
+          'Jacksonville, FL',
+          'San Francisco, CA',
+          'Columbus, OH',
+          'Charlotte, NC',
+          'Indianapolis, IN',
+          'Seattle, WA',
+          'Denver, CO',
+          'Boston, MA',
+          'Portland, OR',
+          'Miami, FL',
+          'Atlanta, GA',
+          'Nashville, TN',
+          'Detroit, MI'
+        ];
+        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+        
+        // Randomize page to get different results each time
+        const randomPage = Math.floor(Math.random() * 5) + 1; // Pages 1-5
+        
+        console.log('🔍 Generating dashboard leads for:', searchTerm, 'in', randomLocation, 'page', randomPage);
 
         // Call Apollo discover API
         const response = await fetch('/api/apollo/discover', {
@@ -127,8 +160,8 @@ function Dashboardpage() {
           },
           body: JSON.stringify({
             searchTerm,
-            location: 'United States',
-            page: 1,
+            location: randomLocation,
+            page: randomPage,
             perPage: 5, // Only get 5 leads for dashboard
             companySize: '1,50' // Small businesses
           })
@@ -203,7 +236,7 @@ function Dashboardpage() {
         {!loading && generatedLeads.map((lead) => (
           <div
             key={lead?.id}
-            className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer group hover:shadow-md"
+            className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
             onClick={() => navigate(`/account/feeds`)}
           >
               {/* Header */}
