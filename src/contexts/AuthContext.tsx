@@ -1,10 +1,11 @@
 'use client'
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset, updateEmail, updatePassword, updateProfile } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { type ReactNode, useEffect, useState } from 'react';
 import { useLocalStorage } from "../customHooks/useLocaStorage";
-import { app } from "../firebase/firebase";
+import { app, db } from "../firebase/firebase";
+import { doc, setDoc, Timestamp, updateDoc, getDoc } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "./AuthContextValue";
@@ -21,11 +22,6 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     const router = useNavigate()
 
     const formatError = (msg: string) => {
-        // Examples we want to convert:
-        // "Firebase: Error (auth/wrong-password)." -> "wrong password"
-        // "Firebase: Error (user-not-found)" -> "user not found"
-        // Approach: remove the Firebase prefix and surrounding parentheses/dot,
-        // strip any leading "auth/", then replace hyphens with spaces.
         const cleaned = msg
             .replace(/^Firebase: Error \(/i, '') // remove prefix
             .replace(/\).*$/, '') // remove trailing ')' and anything after
@@ -50,12 +46,26 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
         }
     }
 
-    const signUp = async (data: { email: string, password: string }) => {
+    const signUp = async (data: { email: string, password: string, fullname: string, specialty?: string }) => {
         setLoading(true);
         try {
             // Create the user in Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
             const firebaseUser = userCredential.user;
+            
+            // Create user profile in Firestore
+            const userProfile = {
+                uid: firebaseUser.uid,
+                email: data.email,
+                fullName: data.fullname,
+                specialty: data.specialty || '',
+                portfolio: "",
+                createdAt: Timestamp.now(),
+                updatedAt: Timestamp.now(),
+            };
+            
+            await setDoc(doc(db, 'userProfiles', firebaseUser.uid), userProfile);
+            
             setUser(firebaseUser);
             setPopup({ type: "success", msg: "Signup Successful, Please login to continue", timestamp: Date.now() });
             router("/login");
@@ -140,6 +150,64 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
         }
     }
 
+    const updateUser = async (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string }) => {
+        setLoading(true);
+        try {
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                throw new Error('No user is currently logged in');
+            }
+
+            // Update Firebase Auth profile
+            const authUpdates: { displayName?: string; photoURL?: string } = {};
+            if (data.fullname) authUpdates.displayName = data.fullname;
+            if (data.photoURL !== undefined) authUpdates.photoURL = data.photoURL;
+            
+            if (Object.keys(authUpdates).length > 0) {
+                await updateProfile(currentUser, authUpdates);
+            }
+
+            if (data.email && data.email !== currentUser.email) {
+                await updateEmail(currentUser, data.email);
+            }
+
+            if (data.password) {
+                await updatePassword(currentUser, data.password);
+            }
+
+            // Update Firestore user profile
+            const userProfileRef = doc(db, 'userProfiles', currentUser.uid);
+            const userProfileDoc = await getDoc(userProfileRef);
+            
+            if (userProfileDoc.exists()) {
+                const updates: Record<string, unknown> = {
+                    updatedAt: Timestamp.now()
+                };
+                
+                if (data.fullname) updates.fullName = data.fullname;
+                if (data.email) updates.email = data.email;
+                if (data.specialty) updates.specialty = data.specialty;
+                if (data.bio !== undefined) updates.bio = data.bio;
+                if (data.photoURL !== undefined) updates.photoURL = data.photoURL;
+                if (data.username) updates.username = data.username;
+                if (data.status) updates.status = data.status;
+                
+                await updateDoc(userProfileRef, updates);
+            }
+
+            // Refresh the user state
+            setUser({ ...currentUser });
+            
+            setPopup({ type: "success", msg: "Profile updated successfully", timestamp: Date.now() });
+        } catch (error: unknown) {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: "error", msg: formatError(message), timestamp: Date.now() });
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setUser(user)
@@ -147,7 +215,7 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     }, [setUser]);
 
     return (
-        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut, forgotPassword, verifyOtp, resetPassword }}>
+        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut, forgotPassword, verifyOtp, resetPassword, updateUser }}>
             <Toast
               message={popup?.msg} 
               type={popup?.type as "error" | "success"} 

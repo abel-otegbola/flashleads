@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Timestamp } from 'firebase/firestore';
 import { Letter, Phone, Buildings, MapPoint, Star, AddCircle, Pen, TrashBin2, MagicStick, Upload, UserSpeak } from "@solar-icons/react";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
-import { UserProfileContext } from "../../../contexts/UserProfileContextValue";
 import { claimLead, isLeadClaimed } from "../../../helpers/leadClaims";
 import type { Lead } from "../../../contexts/LeadsContextValue";
 import LeadModal from "../../../components/leadModal/LeadModal";
@@ -23,7 +22,6 @@ const statusColors = {
 
 export default function Feeds() {
   const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
-  const { profile } = useContext(UserProfileContext);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -69,7 +67,6 @@ export default function Feeds() {
         values.company, 
         values.userId,
         values.industry,
-        profile?.primaryServices || []
       );
     }
   };

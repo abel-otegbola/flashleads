@@ -8,7 +8,7 @@ export const loginSchema = Yup.object({
 export const signupSchema = Yup.object({
     fullname: Yup.string().required('Full name is required').min(2, 'Name must be at least 2 characters'),
     email: Yup.string().required('Work email is required').email("Invalid email address"),
-    companyName: Yup.string().required('Company name is required').min(2, 'Company name must be at least 2 characters'),
+    specialty: Yup.string().required('Please select your specialty').notOneOf([''], 'Please select your specialty'),
     password: Yup.string()
         .required("Password is required")
         .min(8, 'Password must be at least 8 characters')
@@ -35,4 +35,14 @@ export const resetPasswordSchema = Yup.object({
     confirmPassword: Yup.string()
         .required("Confirm password is required")
         .oneOf([Yup.ref('password')], 'Passwords must match'),
+})
+
+export const profileSchema = Yup.object({
+    fullname: Yup.string().required('Full name is required').min(2, 'Name must be at least 2 characters'),
+    username: Yup.string().optional(),
+    email: Yup.string().required('Email is required').email("Invalid email address"),
+    specialty: Yup.string().optional(),
+    status: Yup.string().optional(),
+    bio: Yup.string().optional(),
+    password: Yup.string().optional(),
 })

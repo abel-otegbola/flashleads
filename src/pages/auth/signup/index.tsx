@@ -7,7 +7,9 @@ import { signupSchema } from "../../../schema/authSchema";
 import LoadingIcon from "../../../assets/icons/loadingIcon";
 import AuthOverlay from "../../../components/authOverlay/authOverlay";
 import { AuthContext } from "../../../contexts/AuthContextValue";
-import { Letter, Lock, User, Buildings } from "@solar-icons/react";
+import { Letter, Lock, User } from "@solar-icons/react";
+import { FREELANCING_SPECIALTIES } from "../../../constants/specialties";
+import Dropdown from "../../../components/dropdown/dropdown";
 
 export default function Signup() {
   const { signUp, loading } = useContext(AuthContext);
@@ -24,20 +26,19 @@ export default function Signup() {
             </div>
 
             <Formik
-              initialValues={{ fullname: "", email: "", companyName: "", password: "" }}
+              initialValues={{ fullname: "", email: "", specialty: "", password: "" }}
               validationSchema={signupSchema}
               onSubmit={(values, { setSubmitting }) => {
                 signUp({
                   email: values.email,
                   password: values.password,
                   fullname: values.fullname,
-                  role: "freelancer",
-                  storename: values.companyName
+                  specialty: values.specialty
                 });
                 setSubmitting(false);
               }}
             >
-              {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
+              {({ values, errors, touched, setFieldValue, handleChange, handleSubmit, isSubmitting }) => (
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-3">
                   <Input
                     name="fullname"
@@ -57,15 +58,14 @@ export default function Signup() {
                     error={touched.email ? errors.email : ""}
                     label="Work Email"
                   />
-                  <Input
-                    name="companyName"
-                    value={values.companyName}
-                    onChange={handleChange}
-                    type="text"
-                    lefticon={<Buildings weight="BoldDuotone" size={20} color="currentColor" />}
-                    error={touched.companyName ? errors.companyName : ""}
-                    label="Company Name"
+                  <Dropdown 
+                    label="Specialty" 
+                    value={values.specialty} 
+                    onChange={(value) => setFieldValue("specialty", value)} 
+                    error={touched.specialty ? errors.specialty : ""}
+                    options={FREELANCING_SPECIALTIES.map(specialty => { return { id: specialty.label, title: specialty.label } })} 
                   />
+                  
                   <Input
                     name="password"
                     value={values.password}
@@ -75,7 +75,7 @@ export default function Signup() {
                     error={touched.password ? errors.password : ""}
                     label="Password"
                   />
-                  <Button type="submit" className="w-full mt-4">
+                  <Button type="submit" className="w-full mt-4 py-[12px]">
                     {isSubmitting || loading ? <LoadingIcon color="white" className="animate-spin w-[20px]" /> : "Create Account"}
                   </Button>
                 </form>
@@ -85,18 +85,6 @@ export default function Signup() {
             <div className="text-center flex gap-2 items-center justify-center font-medium">
               <span className="text-[#7C7E7E]">Already have an account? </span>
               <Link to="/login" className="text-primary font-medium">Log in</Link>
-            </div>
-
-            <div className="flex justify-center gap-2 items-center mb-8">
-              <Link to="/termsofuse" className="text-gray-200 hover:underline">
-                Terms of Use
-              </Link>
-              <Link to="/privacypolicy" className="text-gray-200 hover:underline">
-                Privacy Policy
-              </Link>
-              <Link to="/privacysettings" className="text-gray-200 hover:underline">
-                Privacy Settings
-              </Link>
             </div>
           </div>
         </div>

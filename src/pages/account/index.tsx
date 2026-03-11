@@ -11,6 +11,7 @@ import Dashboardpage from "./dashboard";
 import SearchBar from "../../components/search/searchBar";
 import { Bell } from "@solar-icons/react";
 import { AuthCTA } from "../../components/authCTA/AuthCTA";
+import Profile from "./profile";
 
 function AccountPages() {
     const { user } = useContext(AuthContext);
@@ -24,7 +25,7 @@ function AccountPages() {
         <div className="min-h-[400px] flex justify-between bg-white bg-cover">
             <Sidebar />
             <div className="flex flex-col flex-1">
-                <div className="flex md:p-2 p-3 md:px-6 px-4 sm:pr-4 items-center justify-end bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
+                <div className="flex p-3 md:px-6 px-4 sm:pr-4 items-center justify-end bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
                     
 
                     <div className="flex md:gap-6 gap-4 items-center">
@@ -54,6 +55,7 @@ function AccountPages() {
                     <Route path="/feeds" element={<Feeds />} />
                     <Route path="/leads/:id" element={<LeadDetails />} />
                     <Route path="/clients" element={<Clients />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
         </div>

@@ -73,7 +73,7 @@ export default function Login() {
                       Forgot Password?
                     </Link>
                   </div>
-                  <Button type="submit" className="w-full mt-4">
+                  <Button type="submit" className="w-full py-[12px] mt-4">
                     {isSubmitting || loading ? <LoadingIcon color="white" className="animate-spin w-[20px]" /> : "Login"}
                   </Button>
                 </form>
@@ -84,18 +84,6 @@ export default function Login() {
             <div className="flex justify-center gap-2 items-center font-medium">
               <span className="text-[#7C7E7E]">Don't have an account? </span>
               <Link to="/signup" className="text-primary">Sign up for free</Link>
-            </div>
-
-            <div className="flex justify-center gap-4 items-center mb-8">
-              <Link to="/termsofuse" className="text-gray-200 hover:underline">
-                Terms of Use
-              </Link>
-              <Link to="/privacypolicy" className="text-gray-200 hover:underline">
-                Privacy Policy
-              </Link>
-              <Link to="/privacysettings" className="text-gray-200 hover:underline">
-                Privacy Settings
-              </Link>
             </div>
           </div>
         </div>
