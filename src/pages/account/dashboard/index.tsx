@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { Bookmark, Buildings, MapPoint, Star } from "@solar-icons/react";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import SkeletonLoader from "../../../components/skeletonLoader/SkeletonLoader";
+import { LeadsContext } from "../../../contexts/LeadsContextValue";
 
 interface GeneratedLead {
   id: string;
   name: string;
   company: string;
   email: string;
-  phone: string;
+  phone: string | Record<string, never>;
   location: string;
   companyWebsite: string;
   industry: string;
@@ -19,14 +20,20 @@ interface GeneratedLead {
   serviceNeeds: string[];
   value: number;
   addedDate: string;
+  logoUrl?: string;
+  linkedinUrl?: string;
+  twitterUrl?: string;
+  facebookUrl?: string;
+  foundedYear?: number;
+  estimatedEmployees?: number;
 }
 
 interface ApolloOrganization {
   id?: string;
   name?: string;
   primary_email?: string;
-  phone?: string;
-  primary_phone?: string;
+  phone?: string | Record<string, never>;
+  primary_phone?: Record<string, never>;
   website_url?: string;
   industry?: string;
   city?: string;
@@ -34,15 +41,22 @@ interface ApolloOrganization {
   country?: string;
   estimated_num_employees?: number;
   linkedin_url?: string;
+  twitter_url?: string;
+  facebook_url?: string;
+  logo_url?: string;
+  founded_year?: number;
+  raw_address?: string;
 }
 
 function Dashboardpage() {
   const { profile } = useContext(UserProfileContext);
   const { user } = useContext(AuthContext);
+  const { addLead } = useContext(LeadsContext);
   const navigate = useNavigate();
   const [generatedLeads, setGeneratedLeads] = useState<GeneratedLead[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [savingLeadId, setSavingLeadId] = useState<string | null>(null);
   
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
@@ -50,10 +64,44 @@ function Dashboardpage() {
     return "text-gray-600";
   };
 
+  const saveLead = async (lead: GeneratedLead, event: React.MouseEvent) => {
+    event.stopPropagation();
+    
+    if (!user?.uid) return;
+    
+    setSavingLeadId(lead.id);
+    
+    try {
+      await addLead({
+        name: lead.name,
+        company: lead.company,
+        email: lead.email,
+        phone: lead.phone,
+        location: lead.location,
+        companyWebsite: lead.companyWebsite,
+        industry: lead.industry,
+        score: lead.score,
+        serviceNeeds: lead.serviceNeeds,
+        value: lead.value,
+        status: 'new',
+        userId: user.uid,
+        linkedinUrl: lead.linkedinUrl,
+        twitterUrl: lead.twitterUrl,
+      });
+      
+      console.log('✅ Lead saved successfully');
+    } catch (error) {
+      console.error('Error saving lead:', error);
+    } finally {
+      setSavingLeadId(null);
+    }
+  };
+
   const calculateScore = useCallback((org: ApolloOrganization): number => {
     let score = 50;
     
-    if (org.phone || org.primary_phone) score += 15;
+    const hasPhone = org.phone && typeof org.phone === 'string';
+    if (hasPhone) score += 15;
     if (org.primary_email) score += 10;
     if (!org.website_url) score += 20; // Higher opportunity
     if (org.estimated_num_employees && org.estimated_num_employees >= 5 && org.estimated_num_employees <= 50) score += 10;
@@ -180,19 +228,28 @@ function Dashboardpage() {
           const score = calculateScore(org);
           const serviceNeeds = determineServiceNeeds(org, profile.specialty);
           
+          // Handle phone field which can be string or empty object
+          const phoneValue = org.phone && typeof org.phone === 'string' ? org.phone : '';
+          
           return {
             id: org.id || `generated-${index}`,
             name: 'Contact',
             company: org.name || 'Unknown Company',
             email: org.primary_email || '',
-            phone: org.phone || org.primary_phone || '',
+            phone: phoneValue,
             location: formatLocation(org),
             companyWebsite: org.website_url || '',
             industry: org.industry || profile.specialty || 'General',
             score,
             serviceNeeds,
             value: estimateValue(serviceNeeds, score),
-            addedDate: new Date().toISOString()
+            addedDate: new Date().toISOString(),
+            logoUrl: org.logo_url,
+            linkedinUrl: org.linkedin_url,
+            twitterUrl: org.twitter_url,
+            facebookUrl: org.facebook_url,
+            foundedYear: org.founded_year,
+            estimatedEmployees: org.estimated_num_employees,
           };
         });
 
@@ -241,7 +298,21 @@ function Dashboardpage() {
           >
               {/* Header */}
               <div className="flex items-start gap-4 p-4">
-                <div className="w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1]">
+                {lead?.logoUrl ? (
+                  <img 
+                    src={lead.logoUrl} 
+                    alt={`${lead.company} logo`}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-500/[0.1]"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      target.nextElementSibling?.classList.remove('hidden');
+                    }}
+                  />
+                ) : null}
+                <div 
+                  className={`w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
+                >
                   {lead?.company.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1">
@@ -259,14 +330,81 @@ function Dashboardpage() {
                   <div className="flex items-center flex-wrap gap-2 text-sm text-gray-600 mb-2">
                     <Buildings size={16} className="flex-shrink-0" />
                     <span className="font-medium">{lead?.industry}</span>
+                    {lead?.estimatedEmployees && (
+                      <span className="text-xs">• {lead.estimatedEmployees} employees</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-1 text-xs text-gray-500">
                     <MapPoint size={14} />
                     <span>{lead?.location}</span>
+                    {lead?.foundedYear && (
+                      <span>• Founded {lead.foundedYear}</span>
+                    )}
                   </div>
+                  
+                  {/* Social Links */}
+                  {(lead?.linkedinUrl || lead?.twitterUrl || lead?.facebookUrl || lead?.companyWebsite) && (
+                    <div className="flex items-center gap-2 mt-2">
+                      {lead?.companyWebsite && (
+                        <a
+                          href={lead.companyWebsite}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          Website
+                        </a>
+                      )}
+                      {lead?.linkedinUrl && (
+                        <a
+                          href={lead.linkedinUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          LinkedIn
+                        </a>
+                      )}
+                      {lead?.twitterUrl && (
+                        <a
+                          href={lead.twitterUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          Twitter
+                        </a>
+                      )}
+                      {lead?.facebookUrl && (
+                        <a
+                          href={lead.facebookUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          Facebook
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
                 
-                <button className="opacity-75 hover:opacity-100"><Bookmark size={20} /></button>
+                <button 
+                  onClick={(e) => saveLead(lead, e)}
+                  disabled={savingLeadId === lead.id}
+                  className="opacity-75 hover:opacity-100 disabled:opacity-50"
+                  title="Save to leads"
+                >
+                  <Bookmark 
+                    size={20} 
+                    weight={savingLeadId === lead.id ? 'Bold' : 'Linear'}
+                    className={savingLeadId === lead.id ? 'text-blue-600' : ''}
+                  />
+                </button>
               </div>
 
 

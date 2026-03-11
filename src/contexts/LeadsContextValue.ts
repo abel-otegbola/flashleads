@@ -46,7 +46,9 @@ export interface Lead {
     // Social profiles (optional)
     linkedinUrl?: string;
     twitterUrl?: string;
+    facebookUrl?: string;
     companyLinkedin?: string;
+    logoUrl?: string;
     
     // Notes
     notes?: string;
