@@ -223,7 +223,7 @@ function Dashboardpage() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            searchTerm: searchTerm,
+            searchTerm: searchTerm || profile?.specialty,
             location: randomLocation,
             page: randomPage,
             perPage: 5, // Only get 5 leads for dashboard
