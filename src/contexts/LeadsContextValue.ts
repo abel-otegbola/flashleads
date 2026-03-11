@@ -50,6 +50,10 @@ export interface Lead {
     companyLinkedin?: string;
     logoUrl?: string;
     
+    // Company details (optional)
+    foundedYear?: number;
+    estimatedEmployees?: number;
+    
     // Notes
     notes?: string;
 }
@@ -58,7 +62,7 @@ export type LeadsContextValue = {
     leads: Lead[];
     loading: boolean;
     error: string | null;
-    addLead: (lead: Omit<Lead, 'id' | 'addedDate'>) => Promise<void>;
+    addLead: (lead: Omit<Lead, 'id' | 'addedDate'>) => Promise<string>;
     updateLead: (id: string, updates: Partial<Lead>) => Promise<void>;
     deleteLead: (id: string) => Promise<void>;
     refreshLeads: () => Promise<void>;

@@ -64,15 +64,13 @@ function Dashboardpage() {
     return "text-gray-600";
   };
 
-  const saveLead = async (lead: GeneratedLead, event: React.MouseEvent) => {
-    event.stopPropagation();
-    
-    if (!user?.uid) return;
+  const saveLead = async (lead: GeneratedLead) => {
+    if (!user?.uid) return null;
     
     setSavingLeadId(lead.id);
     
     try {
-      await addLead({
+      const leadData = {
         name: lead.name,
         company: lead.company,
         email: lead.email,
@@ -83,17 +81,34 @@ function Dashboardpage() {
         score: lead.score,
         serviceNeeds: lead.serviceNeeds,
         value: lead.value,
-        status: 'new',
+        status: 'new' as const,
         userId: user.uid,
         linkedinUrl: lead.linkedinUrl,
         twitterUrl: lead.twitterUrl,
-      });
+        facebookUrl: lead.facebookUrl,
+        logoUrl: lead.logoUrl,
+        foundedYear: lead.foundedYear,
+        estimatedEmployees: lead.estimatedEmployees,
+      };
       
-      console.log('✅ Lead saved successfully');
+      const leadId = await addLead(leadData);
+      
+      console.log('✅ Lead saved successfully with ID:', leadId);
+      
+      return leadId;
     } catch (error) {
       console.error('Error saving lead:', error);
+      return null;
     } finally {
       setSavingLeadId(null);
+    }
+  };
+  
+  const handleLeadClick = async (lead: GeneratedLead) => {
+    // Save the lead first, then navigate
+    const leadId = await saveLead(lead);
+    if (leadId) {
+      navigate(`/account/leads/${leadId}`);
     }
   };
 
@@ -294,7 +309,7 @@ function Dashboardpage() {
           <div
             key={lead?.id}
             className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
-            onClick={() => navigate(`/account/feeds`)}
+            onClick={() => handleLeadClick(lead)}
           >
               {/* Header */}
               <div className="flex items-start gap-4 p-4">
@@ -346,55 +361,58 @@ function Dashboardpage() {
                   {(lead?.linkedinUrl || lead?.twitterUrl || lead?.facebookUrl || lead?.companyWebsite) && (
                     <div className="flex items-center gap-2 mt-2">
                       {lead?.companyWebsite && (
-                        <a
-                          href={lead.companyWebsite}
+                        <Link
+                          to={lead.companyWebsite}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                         >
                           Website
-                        </a>
+                        </Link>
                       )}
                       {lead?.linkedinUrl && (
-                        <a
-                          href={lead.linkedinUrl}
+                        <Link
+                          to={lead.linkedinUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                         >
                           LinkedIn
-                        </a>
+                        </Link>
                       )}
                       {lead?.twitterUrl && (
-                        <a
-                          href={lead.twitterUrl}
+                        <Link
+                          to={lead.twitterUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                         >
                           Twitter
-                        </a>
+                        </Link>
                       )}
                       {lead?.facebookUrl && (
-                        <a
-                          href={lead.facebookUrl}
+                        <Link
+                          to={lead.facebookUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                         >
                           Facebook
-                        </a>
+                        </Link>
                       )}
                     </div>
                   )}
                 </div>
                 
                 <button 
-                  onClick={(e) => saveLead(lead, e)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    saveLead(lead);
+                  }}
                   disabled={savingLeadId === lead.id}
                   className="opacity-75 hover:opacity-100 disabled:opacity-50"
                   title="Save to leads"

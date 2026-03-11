@@ -47,7 +47,13 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                     companyWebsite: data.companyWebsite,
                     websiteAudit: data.websiteAudit,
                     serviceNeeds: data.serviceNeeds || [],
-                    userId: data.userId
+                    userId: data.userId,
+                    linkedinUrl: data.linkedinUrl,
+                    twitterUrl: data.twitterUrl,
+                    facebookUrl: data.facebookUrl,
+                    logoUrl: data.logoUrl,
+                    foundedYear: data.foundedYear,
+                    estimatedEmployees: data.estimatedEmployees,
                 });
             });
             console.log(fetchedLeads)
@@ -89,6 +95,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                 return [...prev, addedLead];
             });
             console.log('✅ Lead added successfully to local state');
+            
+            return docRef.id;
         } catch (err: unknown) {
             const message = err instanceof FirebaseError ? err.message : String(err);
             setError(message);
