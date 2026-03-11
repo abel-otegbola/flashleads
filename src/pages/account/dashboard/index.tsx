@@ -207,7 +207,7 @@ function Dashboardpage() {
             onClick={() => navigate(`/account/feeds`)}
           >
               {/* Header */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 p-4">
                 <div className="w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1]">
                   {lead?.company.charAt(0).toUpperCase()}
                 </div>
@@ -255,15 +255,11 @@ function Dashboardpage() {
               )}
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-500/[0.1]">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-gray-500">Est. Value:</span>
-                    <span className="text-sm font-bold text-gray-900">
-                      ${lead?.value.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
+              <div className="flex items-center gap-1.5 p-4 border-t border-gray-500/[0.1]">
+                <span className="text-xs text-gray-500">Est. Value:</span>
+                <span className="text-sm font-bold text-gray-900">
+                  ${lead?.value.toLocaleString()}
+                </span>
               </div>
           </div>
         ))}
