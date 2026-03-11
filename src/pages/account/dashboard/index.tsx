@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState, useCallback } from "react"
 import { UserProfileContext } from "../../../contexts/UserProfileContextValue";
 import "../../../assets/css/react-calendar.css"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Bookmark, Buildings, MapPoint, Star } from "@solar-icons/react";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import SkeletonLoader from "../../../components/skeletonLoader/SkeletonLoader";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
+import Button from "../../../components/button/Button";
 
 interface GeneratedLead {
   id: string;
@@ -57,6 +58,8 @@ function Dashboardpage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savingLeadId, setSavingLeadId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>(profile?.specialty || "");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
@@ -177,8 +180,6 @@ function Dashboardpage() {
       setError(null);
 
       try {
-        // Determine search term based on user's specialty
-        const searchTerm = profile.specialty || 'businesses';
         
         // Randomize location for variety
         const locations = [
@@ -222,7 +223,7 @@ function Dashboardpage() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            searchTerm,
+            searchTerm: searchTerm,
             location: randomLocation,
             page: randomPage,
             perPage: 5, // Only get 5 leads for dashboard
@@ -280,7 +281,7 @@ function Dashboardpage() {
     };
 
     generateDashboardLeads();
-  }, [user?.uid, profile, calculateScore, determineServiceNeeds, estimateValue, formatLocation]);
+  }, [user?.uid, profile, calculateScore, determineServiceNeeds, estimateValue, formatLocation, searchTerm]);
 
   return (
       <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
@@ -304,6 +305,32 @@ function Dashboardpage() {
             <p className="text-gray-600">No leads generated yet. Please complete your profile first.</p>
           </div>
         )}
+
+        <div className="flex flex-col gap-2 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray-500/[0.1]">
+          <div className="flex items-start gap-2">
+            <Link to={"/account"} className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold">
+                <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" />
+            </Link>
+            <textarea onChange={(e) => setSearchQuery(e.target.value)} className="p-2 flex-1 border-none outline-none text-semibold" placeholder="Customize your client search here..."></textarea>
+          </div>
+          <div className="flex justify-between gap-2 items-end">
+            <select className="border border-gray-500/[0.1] rounded-full px-3 py-1 text-sm focus:ring-primary focus:ring-1 focus:outline-none">
+              <option value="">All Industries</option>
+              <option value="technology">Technology</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="finance">Finance</option>
+              <option value="retail">Retail</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="education">Education</option>
+              <option value="real_estate">Real Estate</option>
+              <option value="marketing">Marketing</option>
+              <option value="consulting">Consulting</option>
+            </select>
+            <Button className="px-4 py-2 rounded text-white hover:bg-primary-dark text-sm font-medium" onChange={() => setSearchTerm(searchQuery)}>Search</Button>
+          </div>
+        </div>
+
+        <p className="font-semibold opacity-[0.5] underline py-4">Current search: {profile?.specialty}</p>
 
         {!loading && generatedLeads.map((lead) => (
           <div
