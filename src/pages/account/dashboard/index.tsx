@@ -51,7 +51,7 @@ function Dashboardpage() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <div className="flex items-center flex-wrap gap-2 text-sm text-gray-600 mb-2">
                       <Buildings size={16} className="flex-shrink-0" />
                       <span className="font-medium">{lead?.company}</span>
                       <span className="text-gray-400">•</span>
@@ -70,7 +70,7 @@ function Dashboardpage() {
 
               {/* Service Needs (if available) */}
               {lead?.serviceNeeds && lead.serviceNeeds.length > 0 && (
-                <div className="mb-4 flex items-center gap-2">
+                <div className="mb-4 flex flex-wrap items-center gap-2">
                   <p className="text-xs text-gray-500 font-medium">Service Needs:</p>
                   <div className="flex flex-wrap gap-2">
                     {lead.serviceNeeds.map((service, idx) => (
