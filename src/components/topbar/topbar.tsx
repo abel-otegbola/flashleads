@@ -40,6 +40,7 @@ function Topbar() {
     return (
         <>
         <div className={`flex justify-between items-center w-full lg:px-16 md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
+            <div className="flex items-center gap-6">
             <Link to={"/"} className="flex gap-2 items-center">
                 <h3 className="md:text-[18px] text-[16px] font-bold uppercase">Prospo</h3>
             </Link>
@@ -93,6 +94,7 @@ function Topbar() {
                     </div>
                 </li>
             </ul>
+            </div>
             
             {/* Right actions - Desktop only */}
             <div className="hidden md:flex items-center gap-3 lg:gap-6">
