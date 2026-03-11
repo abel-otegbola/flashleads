@@ -1,173 +1,127 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
-import { AltArrowLeft, AltArrowRight, HandMoney, Letter } from "@solar-icons/react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
-import Calendar from "react-calendar";
 import "../../../assets/css/react-calendar.css"
+// import { AuthContext } from "../../../contexts/AuthContextValue";
+import { useNavigate } from "react-router-dom";
+import { Bookmark, Buildings, MapPoint, Star } from "@solar-icons/react";
+import type { Timestamp } from "firebase/firestore";
 
 function Dashboardpage() {
   const { leads } = useContext(LeadsContext);
-  const [dateRange, setDateRange] = useState<[string, string]>(["Sat Nov 22 2025 00:00:00 GMT+0100 (West Africa Standard Time)", "Sun Nov 23 2025 23:59:59 GMT+0100 (West Africa Standard Time)"]);
-
-  const data = [
-  {
-    name: '13th',
-    uv: 2000,
-  },
-  {
-    name: '14th',
-    uv: 1500,
-  },
-  {
-    name: '15th',
-    uv: 2000,
-  },
-  {
-    name: '16th',
-    uv: 1780,
-  },
-  {
-    name: '17th',
-    uv: 1890,
-  },
-  {
-    name: '18th',
-    uv: 2390,
-  },
-  {
-    name: '19th',
-    uv: 1800,
-  },
-  {
-    name: '20th',
-    uv: 1500,
-  },
-  {
-    name: '21st',
-    uv: 2000,
-  },
-  {
-    name: '22nd',
-    uv: 2780,
-  },
-  {
-    name: '23rd',
-    uv: 1590,
-  },
-  {
-    name: '24th',
-    uv: 2390,
-  },
-];
+  // const { user } = useContext(AuthContext)
+  const navigate = useNavigate();
+  
+  const getScoreColor = (score: number) => {
+    if (score >= 85) return "text-green-600 font-semibold";
+    if (score >= 70) return "text-orange-600 font-medium";
+    return "text-gray-600";
+  };
 
   return (
-    <div className="p-4">
-      <div className="flex md:flex-nowrap flex-wrap gap-4">
+      <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
 
-        <div className="md:w-[65%] w-full flex flex-col gap-4 mb-6">
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-
-            <div className="bg-white border border-gray-500/[0.2] rounded-lg p-4">
-              <p className="flex items-center justify-between gap-2 text-[12px] opacity-[0.5] mb-1">
-                Total Leads
-                <span className="py-[8px] px-2 rounded leading-0 text-[9px] bg-green/[0.4]">+8</span>
-              </p>
-              <div className="flex items-end justify-between gap-2 font-medium">
-                <p className=" text-2xl">{leads.length}</p>
-                <p className="opacity-[0.5] text-[10px]">+10 vs last week</p>
-              </div>
-            </div>
-            
-            <div className="bg-white border border-gray-500/[0.2] rounded-lg p-4">
-              <p className="flex items-center justify-between gap-2 text-[12px] opacity-[0.5] mb-1">
-                Conversion Rate
-                <span className="py-[8px] px-2 rounded leading-0 text-[9px] bg-green/[0.4]">+8</span>
-              </p>
-              <div className="flex items-end justify-between gap-2 font-medium">
-                <p className=" text-2xl">{( leads.filter(l => l.status === "conversation").length / leads.length) * 100}%</p>
-                <p className="opacity-[0.5] text-[10px]">+10 vs last week</p>
-              </div>
-            </div>
-            <div className="bg-white border border-gray-500/[0.2] rounded-lg p-4">
-              <p className="flex items-start justify-between gap-2 text-[12px] opacity-[0.5] mb-1">In Conversation</p>
-              <p className="text-2xl font-medium">{leads.filter(l => l.status === "conversation").length}</p>
-            </div>
-
+        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray-500/[0.09] bg-slate-100/[0.1] md:rounded-lg">
+          <div>
+            <h1 className="mb-2 font-semibold uppercase">Discover</h1>
+            <p className="text-gray-600">Find clients based on your specialization:</p>
           </div>
+
+        {leads?.map((lead) => (
+          <div
+            key={lead?.id}
+            className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer group"
+            onClick={() => navigate(`/account/leads/${lead?.id}`)}
+          >
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start gap-4 flex-1">
+                  <div className="w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1]">
+                    {lead?.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1 space-y-2 min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="font-semibold truncate">
+                        {lead?.name}
+                      </h3>
+                      <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
+                        <Star size={14} className="text-yellow-500" weight="Bold" />
+                        <span className={`text-xs font-medium ${getScoreColor(lead?.score)}`}>
+                          {lead?.score}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                      <Buildings size={16} className="flex-shrink-0" />
+                      <span className="font-medium">{lead?.company}</span>
+                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-500">{lead?.industry}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <MapPoint size={14} />
+                      <span>{lead?.location}</span>
+                    </div>
+                  </div>
+                  
+                  <button className="opacity-75 hover:opacity-100"><Bookmark size={20} /></button>
+                </div>
+              </div>
+
+
+              {/* Service Needs (if available) */}
+              {lead?.serviceNeeds && lead.serviceNeeds.length > 0 && (
+                <div className="mb-4 flex items-center gap-2">
+                  <p className="text-xs text-gray-500 font-medium">Service Needs:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {lead.serviceNeeds.map((service, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-slate-50 text-xs rounded-full font-medium"
+                      >
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Footer */}
+              <div className="flex items-center justify-between pt-4 border-t border-gray-500/[0.1]">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs text-gray-500">Value:</span>
+                    <span className="text-sm font-bold text-gray-900">
+                      ${lead?.value.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+                <span className="text-xs text-gray-400">
+                  {lead?.addedDate && typeof lead?.addedDate === 'string' 
+                    ? new Date(lead?.addedDate).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        year: 'numeric'
+                      })
+                    : lead?.addedDate && typeof lead?.addedDate === 'object' && 'toDate' in lead.addedDate
+                    ? (lead?.addedDate as Timestamp).toDate().toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        year: 'numeric'
+                      })
+                    : 'N/A'
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
           
-          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-            <p className="text-sm px-4 py-4 text-gray-500 mb-2 flex items-center gap-2">
-              <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><HandMoney /> </span> 
-              Revenue
-            </p>
-            <div className="p-4">
-              <AreaChart
-                style={{ width: '100%', maxWidth: '700px', maxHeight: '50vh', aspectRatio: 1.618 }}
-                responsive
-                data={data}
-                margin={{
-                  top: 20,
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis width="auto" />
-                <Tooltip />
-                <defs>
-                  <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor="#8884d890" stopOpacity={1} />
-                    <stop offset="1" stopColor="#ffffff00" stopOpacity={1} />
-                  </linearGradient>
-                </defs>
-                <Area type="monotone" dataKey="uv" strokeWidth={2} stroke="#111" fill="url(#splitColor)" />
-              </AreaChart>
-            </div>
-          </div>
         </div>
 
-        <div className="md:w-[35%] w-full flex flex-col mb-6 bg-white border border-gray-500/[0.2] rounded-lg">
-          <p className="text-sm text-gray-500 flex items-center gap-2 p-3">
-            <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><Letter /> </span> 
-            Calendar
-          </p>
-          <Calendar
-              defaultValue={dateRange}
-              selectRange={true}
-              onChange={(value) => {
-                  if (Array.isArray(value) && value[0] && value[1]) {
-                      setDateRange([
-                          value[0].toString(),
-                          value[1].toString()
-                      ]);
-                  }
-              }}
-              nextLabel={<AltArrowRight color="#fff" size={20} />}
-              prevLabel={<AltArrowLeft color="#fff" size={20} />}
-          />
-          <div className="flex flex-col gap-4 p-4" >
-            <div className="flex flex-col gap-2 p-2 rounded">
-              <p>{new Date(dateRange[0]).toLocaleString()}</p>
-              <div className="w-full">
-                {leads.filter(lead => {
-                  const leadDate = new Date(lead.addedDate);
-                  const startDate = new Date(dateRange[0]);
-                  const endDate = new Date(dateRange[1]);
-                  return leadDate >= startDate && leadDate <= endDate;
-                }).slice(0, 3).map(filteredLead => (
-                  <div key={filteredLead.id} className="p-2 border border-gray-500/[0.1] rounded">
-                    <p className="font-medium">{filteredLead.name}</p>
-                    <p className="text-sm opacity-[0.7]">{filteredLead.status}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="md:w-[35%] w-full p-4 flex flex-col mb-6 bg-white">
+            <h1 className="mb-2 font-medium uppercase">Activities</h1>
         </div>
       </div>
-    </div>
   )
 }
 
