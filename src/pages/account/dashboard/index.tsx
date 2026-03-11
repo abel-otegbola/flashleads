@@ -183,7 +183,7 @@ function Dashboardpage() {
         <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray-500/[0.09] bg-slate-100/[0.1] md:rounded-lg">
           <div>
             <h1 className="mb-2 font-semibold uppercase">Discover</h1>
-            <p className="text-gray-600">Fresh leads based on your specialization:</p>
+            <p className="text-gray-600">Leads based on your specialization:</p>
           </div>
 
         {loading && <SkeletonLoader count={5} />}
@@ -206,37 +206,34 @@ function Dashboardpage() {
             className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer group hover:shadow-md"
             onClick={() => navigate(`/account/feeds`)}
           >
-            <div className="p-6">
               {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-start gap-4 flex-1">
-                  <div className="w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1]">
-                    {lead?.company.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex-1 space-y-2 min-w-0">
-                    <div className="flex items-center gap-3 mb-1">
-                      <h3 className="font-semibold truncate">
-                        {lead?.company}
-                      </h3>
-                      <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
-                        <Star size={14} className="text-yellow-500" weight="Bold" />
-                        <span className={`text-xs font-medium ${getScoreColor(lead?.score)}`}>
-                          {lead?.score}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center flex-wrap gap-2 text-sm text-gray-600 mb-2">
-                      <Buildings size={16} className="flex-shrink-0" />
-                      <span className="font-medium">{lead?.industry}</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <MapPoint size={14} />
-                      <span>{lead?.location}</span>
-                    </div>
-                  </div>
-                  
-                  <button className="opacity-75 hover:opacity-100"><Bookmark size={20} /></button>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1]">
+                  {lead?.company.charAt(0).toUpperCase()}
                 </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="font-semibold truncate">
+                      {lead?.company}
+                    </h3>
+                    <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
+                      <Star size={14} className="text-yellow-500" weight="Bold" />
+                      <span className={`text-xs font-medium ${getScoreColor(lead?.score)}`}>
+                        {lead?.score}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center flex-wrap gap-2 text-sm text-gray-600 mb-2">
+                    <Buildings size={16} className="flex-shrink-0" />
+                    <span className="font-medium">{lead?.industry}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <MapPoint size={14} />
+                    <span>{lead?.location}</span>
+                  </div>
+                </div>
+                
+                <button className="opacity-75 hover:opacity-100"><Bookmark size={20} /></button>
               </div>
 
 
@@ -267,11 +264,7 @@ function Dashboardpage() {
                     </span>
                   </div>
                 </div>
-                <span className="text-xs text-gray-400">
-                  Just now
-                </span>
               </div>
-            </div>
           </div>
         ))}
           

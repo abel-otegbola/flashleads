@@ -53,13 +53,18 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
             const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
             const firebaseUser = userCredential.user;
             
-            // Create user profile in Firestore
+            // Create user profile in Firestore with all fields initialized
             const userProfile = {
                 uid: firebaseUser.uid,
                 email: data.email,
                 fullName: data.fullname,
                 specialty: data.specialty || '',
-                portfolio: "",
+                username: '',
+                company: '',
+                bio: '',
+                photoURL: firebaseUser.photoURL || '',
+                status: 'available',
+                portfolio: '',
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now(),
             };
