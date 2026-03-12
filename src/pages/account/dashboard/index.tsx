@@ -12,11 +12,12 @@ import LocationPicker from "../../../components/locationPicker/LocationPicker";
 import IndustryPicker from "../../../components/industryPicker/IndustryPicker";
 import LeadCard from "../../../components/leadCard/LeadCard";
 import type { Lead } from "../../../contexts/LeadsContextValue";
+import { Buildings } from "@solar-icons/react";
 
 function Dashboardpage() {
   const { profile } = useContext(UserProfileContext);
   const { user } = useContext(AuthContext);
-  const { addLead } = useContext(LeadsContext);
+  const { leads, addLead } = useContext(LeadsContext);
   const navigate = useNavigate();
   const [generatedLeads, setGeneratedLeads] = useState<GeneratedLead[]>([]);
   const [loading, setLoading] = useState(false);
@@ -217,8 +218,74 @@ function Dashboardpage() {
           
         </div>
 
-        <div className="md:w-[35%] w-full p-4 flex flex-col mb-6 bg-white">
-            <h1 className="mb-2 font-medium uppercase">Activities</h1>
+        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 bg-white ">
+          <div className="rounded-lg p-4 border border-gray-500/[0.1]">
+            <div className="flex justify-between items-center gap-2 flex-wrap mb-2">
+              <h1 className="font-medium">Bookmarked Leads</h1>
+              <Link to="/account/leads" className="text-primary text-[12px] underline">View all</Link>
+            </div>
+            <div className="flex flex-col gap-4 ">
+              {leads.slice(0, 4).map((lead) => (
+                <div key={lead?.id} className="flex items-center gap-3 pt-2 ">
+                  
+                  <div className="flex items-start gap-4">
+                    {lead?.logoUrl ? (
+                    <img 
+                      src={lead.logoUrl} 
+                      alt={`${lead.company} logo`}
+                      className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-500/[0.1]"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                    ) : null}
+                    <div 
+                      className={`w-10 h-10 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
+                    >
+                      {lead?.company.charAt(0).toUpperCase()}
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
+                      <h3 className="font-medium truncate text-[14px]">
+                        {lead?.company}
+                      </h3>
+                    </div>
+                    
+                    <div className="flex items-center flex-wrap gap-2 text-xs text-gray-600">
+                      <Buildings size={16} className="flex-shrink-0" />
+                      <span className="font-medium">{lead?.industry}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-gray-500/[0.1] p-4">
+            <h3 className="text-[14px] capitalize font-semibold">Based on your specialty</h3>
+            <div className="my-2">
+              <h4 className="uppercase text-[12px] py-2 border-b border-gray-500/[0.1] font-medium">Industries</h4>
+              <div className="flex flex-wrap gap-2 py-2 text-[12px]">
+                {
+                  profile?.specialty &&
+                categoryApolloFilters[FREELANCING_SPECIALTIES.find(
+                  s => s.label === profile.specialty
+                )?.category || "Development" ].industries.map(industry => (
+                  <button 
+                    key={industry} 
+                    className={`border border-gray-500/[0.2] px-4 py-[6px] rounded-full ${selectedIndustry === industry ? "bg-primary text-white" : ""}`}
+                    onClick={() => setSelectedIndustry(industry)}
+                    >{industry}</button>
+                ))
+                }
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
   )
