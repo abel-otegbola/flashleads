@@ -167,7 +167,7 @@ export default function LeadDetails() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="flex flex-col col-span-2 bg-white border border-gray-500/[0.1] rounded-lg p-4">
+        <div className="flex flex-col md:col-span-2 bg-white border border-gray-500/[0.1] rounded-lg p-4">
           <Conversation lead={lead} />
         </div>
         <div className='flex flex-col gap-4 text-[14px] w-full'>
