@@ -74,3 +74,218 @@ export const SPECIALTY_CATEGORIES = [
   'Business',
   'Other',
 ];
+
+export const categoryApolloFilters: Record<string, { industries: string[]; jobTitles: string[]; companySize: string[]; signals: string[] }> = {
+  Development: {
+    industries: [
+      "Computer Software",
+      "Internet",
+      "Information Technology & Services",
+      "SaaS",
+      "E-Commerce",
+      "Financial Services",
+      "HealthTech",
+      "EdTech",
+      "Artificial Intelligence",
+      "Fintech"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Founder",
+      "Co-Founder",
+      "CEO",
+      "CTO",
+      "Head of Engineering",
+      "VP Engineering",
+      "Technical Lead",
+      "Product Manager",
+      "Head of Product"
+    ],
+    signals: [
+      "Recently raised funding",
+      "Hiring software engineers",
+      "New product launch",
+      "Startup scaling team",
+      "Growing engineering team"
+    ]
+  },
+
+  Design: {
+    industries: [
+      "Marketing & Advertising",
+      "E-Commerce",
+      "Retail",
+      "Consumer Goods",
+      "Media Production",
+      "SaaS",
+      "Internet",
+      "Hospitality",
+      "Fashion & Apparel"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Founder",
+      "CEO",
+      "Creative Director",
+      "Head of Design",
+      "Marketing Director",
+      "Brand Manager",
+      "Head of Marketing",
+      "Product Manager"
+    ],
+    signals: [
+      "Launching new brand",
+      "Running marketing campaigns",
+      "Website redesign",
+      "New product launch",
+      "Scaling marketing team"
+    ]
+  },
+
+  Writing: {
+    industries: [
+      "Media & Publishing",
+      "Marketing & Advertising",
+      "SaaS",
+      "E-Commerce",
+      "Education",
+      "Online Media",
+      "Information Services",
+      "Technology"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Content Manager",
+      "Content Director",
+      "Head of Marketing",
+      "SEO Manager",
+      "Marketing Manager",
+      "Founder",
+      "CMO",
+      "Editorial Director"
+    ],
+    signals: [
+      "Active company blog",
+      "Content marketing campaigns",
+      "SEO growth initiatives",
+      "Expanding marketing team",
+      "Publishing frequent content"
+    ]
+  },
+
+  Marketing: {
+    industries: [
+      "E-Commerce",
+      "Retail",
+      "Consumer Goods",
+      "SaaS",
+      "Education",
+      "Hospitality",
+      "Travel & Tourism",
+      "Health & Wellness"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Marketing Director",
+      "Growth Manager",
+      "Digital Marketing Manager",
+      "CMO",
+      "Head of Marketing",
+      "Founder",
+      "Performance Marketing Manager"
+    ],
+    signals: [
+      "Running paid ads",
+      "Scaling marketing campaigns",
+      "Hiring marketing roles",
+      "Expanding digital presence",
+      "Launching new products"
+    ]
+  },
+
+  Media: {
+    industries: [
+      "Media Production",
+      "Entertainment",
+      "Marketing & Advertising",
+      "Online Media",
+      "Education",
+      "Broadcast Media",
+      "Digital Media",
+      "Content Creation"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Creative Director",
+      "Content Director",
+      "Head of Content",
+      "Marketing Manager",
+      "Brand Manager",
+      "Founder",
+      "Social Media Manager"
+    ],
+    signals: [
+      "Launching video campaigns",
+      "Active YouTube or podcast presence",
+      "Producing branded content",
+      "Scaling social media presence",
+      "Running marketing campaigns"
+    ]
+  },
+
+  Business: {
+    industries: [
+      "Management Consulting",
+      "Financial Services",
+      "Human Resources",
+      "SaaS",
+      "Professional Services",
+      "Startups",
+      "Business Services"
+    ],
+    companySize: ["11-50", "51-200", "201-500"],
+    jobTitles: [
+      "Founder",
+      "CEO",
+      "COO",
+      "Operations Manager",
+      "HR Manager",
+      "Head of Operations",
+      "Business Development Manager",
+      "Finance Director"
+    ],
+    signals: [
+      "Rapid company growth",
+      "Hiring operations roles",
+      "Scaling internal teams",
+      "Process optimization initiatives",
+      "New market expansion"
+    ]
+  },
+
+  Other: {
+    industries: [
+      "Information Technology",
+      "Professional Services",
+      "Education",
+      "E-Commerce",
+      "Marketing & Advertising",
+      "Business Services"
+    ],
+    companySize: ["1-10", "11-50", "51-200"],
+    jobTitles: [
+      "Founder",
+      "CEO",
+      "Operations Manager",
+      "Office Manager",
+      "Project Manager",
+      "Business Manager"
+    ],
+    signals: [
+      "Growing team",
+      "Hiring administrative roles",
+      "Scaling operations",
+      "New projects launching"
+    ]
+  }
+};

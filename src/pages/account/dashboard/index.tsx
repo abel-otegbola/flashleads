@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useCallback } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserProfileContext } from "../../../contexts/UserProfileContextValue";
 import "../../../assets/css/react-calendar.css"
 import { Link, useNavigate } from "react-router-dom";
@@ -7,47 +7,10 @@ import { AuthContext } from "../../../contexts/AuthContextValue";
 import SkeletonLoader from "../../../components/skeletonLoader/SkeletonLoader";
 import { LeadsContext } from "../../../contexts/LeadsContextValue";
 import Button from "../../../components/button/Button";
-
-interface GeneratedLead {
-  id: string;
-  name: string;
-  company: string;
-  email: string;
-  phone: string | Record<string, never>;
-  location: string;
-  companyWebsite: string;
-  industry: string;
-  score: number;
-  serviceNeeds: string[];
-  value: number;
-  addedDate: string;
-  logoUrl?: string;
-  linkedinUrl?: string;
-  twitterUrl?: string;
-  facebookUrl?: string;
-  foundedYear?: number;
-  estimatedEmployees?: number;
-}
-
-interface ApolloOrganization {
-  id?: string;
-  name?: string;
-  primary_email?: string;
-  phone?: string | Record<string, never>;
-  primary_phone?: Record<string, never>;
-  website_url?: string;
-  industry?: string;
-  city?: string;
-  state?: string;
-  country?: string;
-  estimated_num_employees?: number;
-  linkedin_url?: string;
-  twitter_url?: string;
-  facebook_url?: string;
-  logo_url?: string;
-  founded_year?: number;
-  raw_address?: string;
-}
+import { generateDashboardLeads, type GeneratedLead } from "../../../helpers/leadGenerator";
+import { categoryApolloFilters, FREELANCING_SPECIALTIES } from "../../../constants/specialties";
+import LocationPicker from "../../../components/locationPicker/LocationPicker";
+import IndustryPicker from "../../../components/industryPicker/IndustryPicker";
 
 function Dashboardpage() {
   const { profile } = useContext(UserProfileContext);
@@ -60,6 +23,8 @@ function Dashboardpage() {
   const [savingLeadId, setSavingLeadId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>(profile?.specialty || "");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] = useState<string>('United States');
+  const [selectedIndustry, setSelectedIndustry] = useState<string>('');
   
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
@@ -96,8 +61,6 @@ function Dashboardpage() {
       
       const leadId = await addLead(leadData);
       
-      console.log('✅ Lead saved successfully with ID:', leadId);
-      
       return leadId;
     } catch (error) {
       console.error('Error saving lead:', error);
@@ -115,173 +78,59 @@ function Dashboardpage() {
     }
   };
 
-  const calculateScore = useCallback((org: ApolloOrganization): number => {
-    let score = 50;
-    
-    const hasPhone = org.phone && typeof org.phone === 'string';
-    if (hasPhone) score += 15;
-    if (org.primary_email) score += 10;
-    if (!org.website_url) score += 20; // Higher opportunity
-    if (org.estimated_num_employees && org.estimated_num_employees >= 5 && org.estimated_num_employees <= 50) score += 10;
-    
-    return Math.min(score, 100);
-  }, []);
-
-  const determineServiceNeeds = useCallback((org: ApolloOrganization, specialty?: string): string[] => {
-    const needs: string[] = [];
-    
-    if (!org.website_url) {
-      needs.push('Website Development');
-    }
-    if (!org.linkedin_url) {
-      needs.push('Social Media Setup');
-    }
-    
-    // Add specialty-based needs
-    if (specialty) {
-      if (specialty.toLowerCase().includes('web')) {
-        needs.push('Web Design');
-      }
-      if (specialty.toLowerCase().includes('seo')) {
-        needs.push('SEO');
-      }
-      if (specialty.toLowerCase().includes('brand')) {
-        needs.push('Branding');
-      }
-    }
-    
-    return needs.slice(0, 3); // Max 3 needs
-  }, []);
-
-  const estimateValue = useCallback((serviceNeeds: string[], score: number): number => {
-    const baseValue = 2000;
-    const needsMultiplier = serviceNeeds.length * 1000;
-    const scoreMultiplier = (score / 100) * 1000;
-    
-    return baseValue + needsMultiplier + scoreMultiplier;
-  }, []);
-
-  const formatLocation = useCallback((org: ApolloOrganization): string => {
-    const parts = [];
-    if (org.city) parts.push(org.city);
-    if (org.state) parts.push(org.state);
-    if (org.country) parts.push(org.country);
-    return parts.join(', ') || 'Unknown';
-  }, []);
-
-  // Generate leads when dashboard opens
+  // Generate leads when dashboard opens or search parameters change
   useEffect(() => {
-    const generateDashboardLeads = async () => {
-      if (!user?.uid || !profile) {
-        return;
-      }
+    const fetchLeads = async () => {
+      if (!user?.uid || !profile?.specialty) return;
 
       setLoading(true);
       setError(null);
 
       try {
-        
-        // Randomize location for variety
-        const locations = [
-          'United States',
-          'New York, NY',
-          'Los Angeles, CA',
-          'Chicago, IL',
-          'Houston, TX',
-          'Phoenix, AZ',
-          'Philadelphia, PA',
-          'San Antonio, TX',
-          'San Diego, CA',
-          'Dallas, TX',
-          'San Jose, CA',
-          'Austin, TX',
-          'Jacksonville, FL',
-          'San Francisco, CA',
-          'Columbus, OH',
-          'Charlotte, NC',
-          'Indianapolis, IN',
-          'Seattle, WA',
-          'Denver, CO',
-          'Boston, MA',
-          'Portland, OR',
-          'Miami, FL',
-          'Atlanta, GA',
-          'Nashville, TN',
-          'Detroit, MI'
-        ];
-        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-        
-        // Randomize page to get different results each time
-        const randomPage = Math.floor(Math.random() * 5) + 1; // Pages 1-5
-        
-        console.log('🔍 Generating dashboard leads for:', searchTerm, 'in', randomLocation, 'page', randomPage);
+        const specialtyData = FREELANCING_SPECIALTIES.find(
+          s => s.value === profile.specialty
+        );
 
-        // Call Apollo discover API
-        const response = await fetch('/api/apollo/discover', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            searchTerm: searchTerm || profile?.specialty,
-            location: randomLocation,
-            page: randomPage,
-            perPage: 5, // Only get 5 leads for dashboard
-            companySize: '1,50' // Small businesses
-          })
-        });
+        const category = specialtyData?.category;
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-          throw new Error(errorData.error || 'Failed to generate leads');
-        }
+        const filters = categoryApolloFilters[category || ""] || { industries: [], jobTitles: [], companySize: [], signals: [] };
 
-        const data = await response.json();
-        const organizations = data.organizations || [];
+        // Use selected industry or pick random ones
+        const industries = selectedIndustry 
+          ? [selectedIndustry]
+          : filters.industries
+              ?.sort(() => 0.5 - Math.random())
+              .slice(0, 3) || [];
 
-        // Transform into lead format
-        const leads: GeneratedLead[] = organizations.slice(0, 5).map((org: ApolloOrganization, index: number) => {
-          const score = calculateScore(org);
-          const serviceNeeds = determineServiceNeeds(org, profile.specialty);
-          
-          // Handle phone field which can be string or empty object
-          const phoneValue = org.phone && typeof org.phone === 'string' ? org.phone : '';
-          
-          return {
-            id: org.id || `generated-${index}`,
-            name: 'Contact',
-            company: org.name || 'Unknown Company',
-            email: org.primary_email || '',
-            phone: phoneValue,
-            location: formatLocation(org),
-            companyWebsite: org.website_url || '',
-            industry: org.industry || profile.specialty || 'General',
-            score,
-            serviceNeeds,
-            value: estimateValue(serviceNeeds, score),
-            addedDate: new Date().toISOString(),
-            logoUrl: org.logo_url,
-            linkedinUrl: org.linkedin_url,
-            twitterUrl: org.twitter_url,
-            facebookUrl: org.facebook_url,
-            foundedYear: org.founded_year,
-            estimatedEmployees: org.estimated_num_employees,
-          };
+        const titles =
+          filters.jobTitles
+            ?.sort(() => 0.5 - Math.random())
+            .slice(0, 2) || [];
+
+        const randomPage = Math.floor(Math.random() * 5) + 1;
+
+        const leads = await generateDashboardLeads({
+          searchTerm: searchTerm || filters.signals[Math.floor(Math.random() * filters.signals.length)] || profile.specialty,
+          specialty: profile.specialty,
+          industries,
+          titles,
+          companySize: filters.companySize || ["1-10", "11-50"],
+          location: selectedLocation,
+          page: randomPage,
+          perPage: 5
         });
 
         setGeneratedLeads(leads);
-        console.log('✅ Generated', leads.length, 'leads for dashboard');
-
       } catch (err) {
-        console.error('Error generating dashboard leads:', err);
-        setError(err instanceof Error ? err.message : 'Failed to generate leads');
+        console.error("Error generating dashboard leads:", err);
+        setError(err instanceof Error ? err.message : "Failed to generate leads");
       } finally {
         setLoading(false);
       }
     };
 
-    generateDashboardLeads();
-  }, [user?.uid, profile, calculateScore, determineServiceNeeds, estimateValue, formatLocation, searchTerm]);
+    fetchLeads();
+  }, [user?.uid, profile?.specialty, searchTerm, selectedLocation, selectedIndustry]);
 
   return (
       <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
@@ -291,6 +140,54 @@ function Dashboardpage() {
             <h1 className="mb-2 font-semibold uppercase">Discover</h1>
             <p className="text-gray-600">Leads based on your specialization:</p>
           </div>
+          
+        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray-500/[0.1] bg-white">
+          <div className="flex items-start gap-2">
+            <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
+              <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
+            </Link>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedLocation}</button>
+                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedIndustry}</button>
+              </div>
+              <textarea 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} 
+                className="py-2 flex-1 border-none outline-none text-semibold resize-none" 
+                placeholder="Customize your client search here..."
+                rows={2}
+              />
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap justify-between gap-2 items-center">
+            <div className="flex gap-2 items-center">
+              <LocationPicker 
+                selectedLocation={selectedLocation}
+                onLocationChange={setSelectedLocation}
+              />
+              
+              <IndustryPicker 
+                selectedIndustry={selectedIndustry}
+                specialty={profile?.specialty}
+                onIndustryChange={setSelectedIndustry}
+              />
+            </div>
+            
+            <Button 
+              onClick={() => setSearchTerm(searchQuery || profile?.specialty || '')}
+              className="px-6 py-2 rounded-lg text-white hover:bg-primary-dark text-sm font-medium"
+            >
+              Search
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between py-4">
+          <p className="font-semibold opacity-[0.5]">Current search: <span className="underline">{searchTerm || profile?.specialty}</span></p>
+          <p className="text-xs text-gray-500">{selectedLocation} {selectedIndustry && `• ${selectedIndustry}`}</p>
+        </div>
 
         {loading && <SkeletonLoader count={5} />}
 
@@ -305,32 +202,6 @@ function Dashboardpage() {
             <p className="text-gray-600">No leads generated yet. Please complete your profile first.</p>
           </div>
         )}
-
-        <div className="flex flex-col gap-2 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray-500/[0.1]">
-          <div className="flex items-start gap-2">
-            <Link to={"/account"} className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold">
-                <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" />
-            </Link>
-            <textarea onChange={(e) => setSearchQuery(e.target.value)} className="p-2 flex-1 border-none outline-none text-semibold" placeholder="Customize your client search here..."></textarea>
-          </div>
-          <div className="flex justify-between gap-2 items-end">
-            <select className="border border-gray-500/[0.1] rounded-full px-3 py-1 text-sm focus:ring-primary focus:ring-1 focus:outline-none">
-              <option value="">All Industries</option>
-              <option value="technology">Technology</option>
-              <option value="healthcare">Healthcare</option>
-              <option value="finance">Finance</option>
-              <option value="retail">Retail</option>
-              <option value="manufacturing">Manufacturing</option>
-              <option value="education">Education</option>
-              <option value="real_estate">Real Estate</option>
-              <option value="marketing">Marketing</option>
-              <option value="consulting">Consulting</option>
-            </select>
-            <Button className="px-4 py-2 rounded text-white hover:bg-primary-dark text-sm font-medium" onChange={() => setSearchTerm(searchQuery)}>Search</Button>
-          </div>
-        </div>
-
-        <p className="font-semibold opacity-[0.5] underline py-4">Current search: {profile?.specialty}</p>
 
         {!loading && generatedLeads.map((lead) => (
           <div
@@ -386,7 +257,7 @@ function Dashboardpage() {
                   
                   {/* Social Links */}
                   {(lead?.linkedinUrl || lead?.twitterUrl || lead?.facebookUrl || lead?.companyWebsite) && (
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center flex-wrap gap-2 mt-2">
                       {lead?.companyWebsite && (
                         <Link
                           to={lead.companyWebsite}
