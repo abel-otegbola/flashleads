@@ -229,7 +229,11 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                 userId: data.userId,
                 linkedinUrl: data.linkedinUrl,
                 twitterUrl: data.twitterUrl,
+                facebookUrl: data.facebookUrl,
                 companyLinkedin: data.companyLinkedin,
+                logoUrl: data.logoUrl,
+                foundedYear: data.foundedYear,
+                estimatedEmployees: data.estimatedEmployees,
                 notes: data.notes
             };
 

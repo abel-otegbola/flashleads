@@ -148,7 +148,7 @@ function Dashboardpage() {
             <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
               <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
             </Link>
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-1">
               <div className="flex items-center gap-1">
                 <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedLocation}</button>
                 <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedIndustry}</button>
@@ -224,11 +224,11 @@ function Dashboardpage() {
               <h1 className="font-medium">Bookmarked Leads</h1>
               <Link to="/account/leads" className="text-primary text-[12px] underline">View all</Link>
             </div>
-            <div className="flex flex-col gap-4 ">
+            <div className="flex flex-col ">
               {leads.slice(0, 4).map((lead) => (
-                <div key={lead?.id} className="flex items-center gap-3 pt-2 ">
+                <Link to={`/account/leads/${lead.id}`} key={lead?.id} className="flex items-center gap-3 py-3">
                   
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-4">
                     {lead?.logoUrl ? (
                     <img 
                       src={lead.logoUrl} 
@@ -260,7 +260,7 @@ function Dashboardpage() {
                       <span className="font-medium">{lead?.industry}</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

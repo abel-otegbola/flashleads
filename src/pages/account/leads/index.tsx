@@ -11,6 +11,7 @@ import Button from "../../../components/button/Button";
 import { useModal } from "../../../contexts/useModal";
 import SkeletonLoader from "../../../components/skeletonLoader/SkeletonLoader";
 import LeadCard from "../../../components/leadCard/LeadCard";
+import { useNavigate } from "react-router-dom";
 
 export default function Leads() {
   const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
@@ -21,6 +22,7 @@ export default function Leads() {
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
   const [findingEmailFor, setFindingEmailFor] = useState<string | null>(null);
   const { showModal } = useModal();
+  const navigate = useNavigate()
 
   const filteredLeads = leads;
 
@@ -204,6 +206,7 @@ export default function Leads() {
             onFindEmail={handleFindEmail}
             isFindingEmail={findingEmailFor === lead.id}
             onEdit={openEditModal}
+            onClick={() => navigate(`/account/leads/${lead.id}`)}
             onDelete={handleDeleteLead}
             getScoreColor={getScoreColor}
           />

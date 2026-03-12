@@ -43,9 +43,9 @@ export default function Conversation({ lead }: Props) {
   return (
     <div className="conversation-component">
       <div className="mb-2">
-        <label className="block text-sm text-gray-600 mb-1">Generated Outreach (STAR)</label>
+        <label className="block text-sm text-gray-600 mb-1">Generate Outreach</label>
         <textarea
-          className="w-full min-h-[120px] border rounded p-2"
+          className="w-full min-h-[120px] border border-gray-500/[0.1] rounded p-2"
           value={message || generated || ''}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Generate a personalized outreach message"
@@ -56,7 +56,7 @@ export default function Conversation({ lead }: Props) {
 
       <div className="flex gap-2">
         <Button onClick={handleGenerate} disabled={loading || !lead}>
-          {loading ? 'Generating...' : 'Generate Outreach'}
+          {loading ? 'Generating...' : 'Generate Message'}
         </Button>
         <Button onClick={handleSend} disabled={!message && !generated}>Send Email</Button>
       </div>
@@ -64,7 +64,7 @@ export default function Conversation({ lead }: Props) {
       <details className="mt-3 text-xs text-gray-500">
         <summary>Prompt used (click to expand)</summary>
         <pre className="whitespace-pre-wrap mt-2 bg-gray-50 p-2 rounded text-xs">
-{`Use STAR format (Situation, Task, Action, Result) to write a short email (3-6 paragraphs) describing what a freelancer can do to help the company scale and build their business based on the website audit. Include suggested next steps and a short result/benefit paragraph. Lead data:\nName: ${lead.name}\nCompany: ${lead.company}\nWebsite: ${lead.companyWebsite || 'N/A'}\nNotes: ${lead.notes || 'N/A'}\nWebsite audit: ${lead.websiteAudit || 'N/A'}`}
+{`Write a short email (3-6 paragraphs) describing what a freelancer can do to help the company scale and build their business. Include suggested next steps and a short result/benefit paragraph. Lead data:\nName: ${lead.name}\nCompany: ${lead.company}\nWebsite: ${lead.companyWebsite || 'N/A'}\nNotes: ${lead.notes || 'N/A'}\nWebsite audit: ${lead.websiteAudit || 'N/A'}`}
         </pre>
       </details>
     </div>

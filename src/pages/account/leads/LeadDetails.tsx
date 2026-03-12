@@ -5,15 +5,13 @@ import { ClientsContext } from '../../../contexts/ClientsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
-import { AltArrowLeft, Book, Case, HandMoney, Letter, Phone, User } from '@solar-icons/react';
-import Input from '../../../components/input/Input';
-import { ChatDots } from '@solar-icons/react/ssr';
+import { Case, Letter, Phone } from '@solar-icons/react';
 import Conversation from '../../../components/conversation/Conversation';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getSingleLead, auditWebsite, deleteLead } = useContext(LeadsContext);
+  const { getSingleLead, deleteLead } = useContext(LeadsContext);
   const { addClient } = useContext(ClientsContext);
   const { showModal } = useModal();
   const [lead, setLead] = useState<Lead | null>(null);
@@ -27,6 +25,7 @@ export default function LeadDetails() {
       setLoading(true);
       try {
         const data = await getSingleLead(id);
+        console.log('Fetched lead details:', data);
         if (mounted) {setLead(data); console.log(data)};
       } catch (err) {
         console.error('Error fetching lead details', err);
@@ -120,169 +119,120 @@ export default function LeadDetails() {
     }
   };
 
-  const handleAuditWebsite = async () => {
-    if (!lead.companyWebsite) {
-      await showModal({ title: 'No Website', message: 'This lead has no website set.' });
-      return;
-    }
-    try {
-      await auditWebsite(lead.id, lead.companyWebsite);
-      await showModal({ title: 'Audit Started', message: 'Website audit started. Check lead details after a moment.' });
-    } catch (err) {
-      console.error(err);
-      await showModal({ title: 'Audit Failed', message: 'Failed to start audit.' });
-    }
-  };
-
   return (
-    <div className="md:p-6 p-2 bg-gray-100/[0.05] min-h-screen">
-      <button onClick={() => navigate('/account/leads')}><AltArrowLeft size={20} /></button>
+    <div className="md:p-6 p-2 min-h-screen">
       <div className="flex flex-wrap gap-4 items-center justify-between">
-        <div className='w-full py-2'>
+        <div className='w-full pb-2'>
           <div className='flex gap-2 items-center p-1'>
-            <p className='w-[60px] min-w-[60px] h-[60px] bg-gradient-to-tr from-blue-500 to-purple-600 text-white rounded-[10px] outline outline-offset-2 outline-primary/[0.3] flex items-center justify-center'>{lead.name.charAt(0) + lead.name.charAt(1)}</p>
+            <div className="flex items-center gap-4">
+              {lead?.logoUrl ? (
+              <img 
+                src={lead.logoUrl} 
+                alt={`${lead.company} logo`}
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-500/[0.1]"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              ) : null}
+              <div 
+                className={`w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
+              >
+                {lead?.company.charAt(0).toUpperCase()}
+              </div>
+            </div>
             <div>
-              <h1 className="text-xl font-semibold">{lead.name}</h1>
-              <p className="text-sm text-gray-600">{lead.company} — {lead.industry}</p>
+              <h1 className="text-xl font-semibold">{lead.company}</h1>
+              <p className="text-sm text-gray-600">{lead.industry}</p>
             </div>
           </div>
-          <div className="mt-4 flex gap-2 flex-wrap text-[12px]">
-            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleSendEmail}><Letter /> Send Email</button>
-            <button className='bg-white flex items-center gap-1 cursor-pointer hover:text-primary p-[2px] px-2 border border-gray-500/[0.1] hover:border-primary rounded' onClick={handleCall}><Phone />Call Company</button>
-            <button 
-              className='bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center gap-1 cursor-pointer hover:from-green-600 hover:to-green-700 p-[2px] px-2 border border-green-600 rounded disabled:opacity-50 disabled:cursor-not-allowed' 
+          <div className="mt-4 flex gap-2 flex-wrap">
+            <Button variant="secondary" className='shadow-none' onClick={handleSendEmail}><Letter /> Send Email</Button>
+            <Button variant="secondary" className='shadow-none' onClick={handleCall}><Phone />Call Company</Button>
+            <Button 
+              variant="secondary"
+              className='shadow-none'
               onClick={handleConvertToClient}
               disabled={converting}
             >
               {converting ? <LoadingIcon /> : <Case />} 
               {converting ? 'Converting...' : 'Convert Lead to Client'}
-            </button>
+            </Button>
           </div>
         </div>
         <div className="flex gap-2">
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className='flex flex-col gap-4'>
-          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-            <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2">
-              <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><User /> </span> 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex flex-col col-span-2 bg-white border border-gray-500/[0.1] rounded-lg p-4">
+          <Conversation lead={lead} />
+        </div>
+        <div className='flex flex-col gap-4 text-[14px] w-full'>
+          <div className="w-full bg-white rounded-lg border border-gray-500/[0.2] pb-4">
+            <p className="bg-slate-100/[0.2] px-4 py-4 font-medium mb-2 border-b border-gray-500/[0.2] flex items-center gap-2">
               Contacts
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Email:</span> 
-              <span className='text-right'>{lead.email || '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Email:</span> 
+              <span className=''>{lead.email || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Phone:</span> <span className='text-right'>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Phone:</span> <span className=''>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Location:</span> 
-              <span className='text-right'>{lead.location || '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Location:</span> 
+              <span className=''>{lead.location || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Website:</span> 
-              <span className='text-right'>{lead.companyWebsite || '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Website:</span> 
+              <span className=''>{lead.companyWebsite || '—'}</span>
             </p>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white pb-4">
+            <p className="bg-slate-100/[0.2] px-4 py-4 font-medium mb-2 border-b border-gray-500/[0.2] flex items-center gap-2">
+              Socials
+            </p>
+            {[
+              { label: 'LinkedIn', url: lead.linkedinUrl },
+              { label: 'Twitter', url: lead.twitterUrl },
+              { label: 'Facebook', url: lead.facebookUrl },
+            ].map((social) => (
+              <p key={social.label} className="px-4 py-1">
+                <span className='font-medium text-[12px] opacity-75 mr-2'>{social.label}:</span>
+                {social.url ? (
+                  <a href={social.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
+                    {social.url}
+                  </a>
+                ) : (
+                  <span className=''>—</span>
+                )}
+              </p>
+            ))}
           </div>
 
           <div className="bg-white rounded-lg border border-gray-500/[0.2] bg-white pb-2">
             
-            <div className="flex gap-4 justify-between mb-2 p-4 border-b border-gray-500/[0.2]">
-              
-              <p className="text-sm text-gray-500 flex items-center gap-2 font-semibold"> 
-                <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><HandMoney /> </span> 
+            <div className="bg-slate-100/[0.2] flex gap-4 justify-between mb-2 p-4 border-b border-gray-500/[0.2]">
+              <p className=" text-sm font-medium flex items-center gap-2 font-semibold"> 
                 Opportunity
               </p>
-              <button className="text-[10px] text-primary font-semibold hover:border border-transparent rounded hover:border-primary p-2 leading-0 py-1" onClick={handleAuditWebsite}>Audit Website</button>
             </div>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Status</span> 
-              <span className='text-right'>{lead.status || '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Value</span> 
+              <span className=''>${lead.value || '—'}</span>
             </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Value</span> 
-              <span className='text-right'>${lead.value || '—'}</span>
-            </p>
-            <p className="px-4 py-2 font-medium flex items-center justify-between text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Score</span> 
-              <span className='text-right'>{lead.score || '—'}</span>
+            <p className="px-4 py-1">
+              <span className='font-medium text-[12px] opacity-75 mr-2'>Score</span> 
+              <span className=''>{lead.score || '—'}</span>
             </p>
             
-            <div className="mx-4 my-2 p-2 px-4 rounded font-medium border border-gray-500/[0.2] bg-[url('/bg-cover.svg')] flex flex-col text-[12px]">
-              <span className='text-gray-500 w-[40%]'>Website Audit Result</span> 
-              <div className='grid grid-cols-4 gap-8 text-[10px] my-2'>
-                <div>
-                  <p>performance:</p>
-                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
-                    <span 
-                      className={`h-[6px] rounded-full`}
-                      style={{ width: `${lead.websiteAudit?.performanceScore}%`, backgroundColor: +(lead.websiteAudit?.performanceScore || 0) > 70 ? "green" : +(lead.websiteAudit?.performanceScore || 0) > 49 ? "orange" : "red" }}
-                      ></span>
-                  </div>
-                  <p className="font-semibold">{lead.websiteAudit?.performanceScore}%</p>
-                </div>
-                <div>
-                  <p>SEO:</p>
-                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
-                    <span 
-                      className={`h-[6px] rounded-full`}
-                      style={{ width: `${lead.websiteAudit?.seoScore}%`, backgroundColor: +(lead.websiteAudit?.seoScore || 0) > 70 ? "green" : +(lead.websiteAudit?.seoScore || 0) > 49 ? "orange" : "red" }}
-                      ></span>
-                  </div>
-                  <p className="font-semibold">{lead.websiteAudit?.seoScore}%</p>
-                </div>
-                <div>
-                  <p>Design:</p>
-                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
-                    <span 
-                      className={`h-[6px] rounded-full`}
-                      style={{ width: `${lead.websiteAudit?.designScore}%`, backgroundColor: +(lead.websiteAudit?.designScore || 0) > 70 ? "green" : +(lead.websiteAudit?.designScore || 0) > 49 ? "orange" : "red" }}
-                      ></span>
-                  </div>
-                  <p className="font-semibold">{lead.websiteAudit?.designScore}%</p>
-                </div>
-                <div>
-                  <p>Mobile:</p>
-                  <div className='flex h-[8px] bg-white rounded-full border border-gray-500/[0.09]'>
-                    <span 
-                      className={`h-[6px] rounded-full`}
-                      style={{ width: `${lead.websiteAudit?.mobileScore}%`, backgroundColor: +(lead.websiteAudit?.mobileScore || 0) > 70 ? "green" : +(lead.websiteAudit?.mobileScore || 0) > 49 ? "orange" : "red" }}
-                      ></span>
-                  </div>
-                  <p className="font-semibold">{lead.websiteAudit?.mobileScore}%</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        
-        <div className="flex flex-col bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-          <p className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2 font-semibold"> 
-            <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><ChatDots /> </span> 
-            Conversations
-          </p>
-
-          <div className='p-4 flex flex-col gap-4 justify-between flex-1'>
-            <div className='flex-1 min-h-[240px] overflow-y-auto'>
-              <Conversation lead={lead} />
-            </div>
-            <div className="p-[8px] py-1 flex items-center bg-white rounded-lg border border-gray-500/[0.1]">
-              <Input className='flex-1 py-0 leading-0 border-none' placeholder='Write a message' />
-              <Button className='border-[2px]'>Send</Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-4 bg-white rounded-lg border border-gray-500/[0.2] bg-white">
-        <h3 className="text-sm px-4 py-4 text-gray-500 mb-2 border-b border-gray-500/[0.2] flex items-center gap-2 font-semibold">
-          <span className='p-2 border border-gray-500/[0.1] rounded bg-gray-200/[0.05] font-semibold'><Book /> </span>
-          Notes
-        </h3>
-        <p className="text-sm text-gray-700 p-4">{lead.notes || 'No notes yet.'}</p>
       </div>
     </div>
   );
