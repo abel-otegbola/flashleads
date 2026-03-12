@@ -39,10 +39,11 @@ function Topbar() {
 
     return (
         <>
-        <div className={`flex justify-between items-center w-full lg:px-16 md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
+        <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <div className="flex items-center gap-6">
-            <Link to={"/"} className="flex gap-2 items-center">
-                <h3 className="font-bold uppercase">Flashleads</h3>
+            <Link to={"/"} className="flex gap-1 items-center">
+                <img src="/logo.svg" width={12} height={20} alt="logo" />
+                <h3 className="font-black uppercase">Flashleads</h3>
             </Link>
             
             <ul className={`
@@ -54,7 +55,7 @@ function Topbar() {
                 md:shadow-none shadow-xl
                 md:p-0 pt-20 px-6 pb-6
                 md:translate-x-0 ${open ? "translate-x-0" : "translate-x-full"}
-                transition-transform duration-300 ease-in-out
+                transition-transform duration-500 ease-in-out
             `}>
                 {
                     [
@@ -66,7 +67,7 @@ function Topbar() {
                         <li key={link.id} className="md:px-0 md:py-0 py-2">
                             <a 
                                 href={link.href} 
-                                className={`font-semibold lg:px-4 md:px-2 py-2 duration-200 block w-full rounded-md
+                                className={`font-semibold lg:px-3 md:px-2 py-2 duration-200 block w-full rounded-md
                                     ${activeSection === link.href 
                                         ? 'text-primary' 
                                         : ''

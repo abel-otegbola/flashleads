@@ -7,7 +7,7 @@ function Footer() {
     <footer className="bg-black border-t border-gray-200 dark:border-gray-800 text-white">
       <div className="px-4 sm:px-6 lg:px-20 py-12 md:py-16">
         {/* Main Footer Content */}
-        <div className="grid max-[420px]:grid-cols-1 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4 text-white">

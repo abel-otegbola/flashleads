@@ -5,6 +5,8 @@ import Topbar from "../../../components/topbar/topbar"
 import Footer from "../../../components/footer/Footer"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { categoryApolloFilters, SPECIALTY_CATEGORIES } from "../../../constants/specialties"
+import { ArrowRight } from "@solar-icons/react"
 
 function Homepage() {
   useEffect(() => {
@@ -20,9 +22,9 @@ function Homepage() {
             
         <Topbar />
 
-        <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
+        <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 py-12 md:py-12">
             <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6" data-aos="fade-up">
-                <div className="flex items-center md:text-xs text-[10px] p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-2">
+                <div className="flex items-center md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray-500/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-2">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
@@ -46,7 +48,23 @@ function Homepage() {
             </div>
         </header>
 
-        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[5%] px-4">
+        <section className="flex flex-col gap-4 py-8 md:px-[8%] px-4">
+            <h2 className="text-[14px] uppercase font-semibold text-center">Personalized categories</h2>
+            <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+            {
+                SPECIALTY_CATEGORIES.slice(0, 6).map(category => (
+                    <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
+                        <h3 className="flex gap-2 items-center font-light"># {category} <ArrowRight /></h3>
+                        <p className="flex flex-wrap w-full gap-1">{categoryApolloFilters[category].industries.slice(0,4).map(industry => (
+                            <span key={industry} className="text-[12px] px-3 py-1 rounded-full border border-gray-200/[0.3]">{industry}</span>
+                        )) }</p>
+                    </div>
+                ))
+            }
+            </div>
+        </section>
+
+        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
@@ -79,7 +97,7 @@ function Homepage() {
             </div>
         </section>
 
-        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[5%] px-4">
+        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center" data-aos="fade-up">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
@@ -90,12 +108,11 @@ function Homepage() {
                 <p>Flashleads helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
             </div>
 
-            <div className="flex gap-4 md:flex-row flex-col">
+            <div className="flex gap-6 md:flex-row flex-col">
                 <div className="w-full md:w-1/2 flex flex-col gap-6">
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-right" data-aos-delay="100">
                         <img src="/features-lead-gen.png" alt="Client Discovery Feature Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-primary uppercase">Client discovery</h1>
                             <h2 className="font-semibold text-lg">Find Businesses That Need Your Skills</h2>
                             <p className="text-sm text-gray-600">Discover potential clients across different industries who may benefit from your expertise.</p>
                         </div>
@@ -103,7 +120,6 @@ function Homepage() {
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-right" data-aos-delay="200">
                         <img src="/features-outreach.png" alt="AI Outreach Feature Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-primary uppercase">Smart outreach</h1>
                             <h2 className="font-semibold text-lg">AI-Generated Outreach Messages</h2>
                             <p className="text-sm text-gray-600">Create personalized messages that help you introduce your services and increase the chances of getting client replies.</p>
                         </div>
@@ -113,7 +129,6 @@ function Homepage() {
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-left" data-aos-delay="100">
                         <img src="/features-crm.png" alt="Conversation Tracking Feature Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-primary uppercase">Stay organized</h1>
                             <h2 className="font-semibold text-lg">Track Outreach and Replies</h2>
                             <p className="text-sm text-gray-600">Manage your conversations, follow up with leads, and keep track of potential projects in one simple dashboard.</p>
                         </div>
@@ -121,7 +136,6 @@ function Homepage() {
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray-200/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-left" data-aos-delay="200">
                         <img src="/features-social.png" alt="Opportunity Insights Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-primary uppercase">Opportunity insights</h1>
                             <h2 className="font-semibold text-lg">Understand Each Lead Better</h2>
                             <p className="text-sm text-gray-600">Get helpful information about potential clients so you can personalize your outreach and offer the right solution.</p>
                         </div>
@@ -131,10 +145,10 @@ function Homepage() {
 
         </section>
 
-        <section className="bg-black text-white flex justify-center flex-col md:items-center gap-6 md:mx-[5%] mx-4 p-[5%] rounded-lg mb-16" data-aos="zoom-in">
-            <h1 className="xl:text-4xl text-2xl font-semibold md:text-center">Start Finding Clients Today</h1>
-            <p className="md:text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
-            <Button href="/signup" className="text-[14px]">Join the Waitlist</Button>
+        <section className="bg-black text-white flex justify-center flex-col items-center gap-6 md:mx-[5%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="zoom-in">
+            <h1 className="xl:text-4xl text-2xl font-semibold text-center">Start Finding Clients Today</h1>
+            <p className="text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
+            <Button href="/signup" className="text-[14px]">Get Started</Button>
         </section>
 
         <Footer />

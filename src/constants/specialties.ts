@@ -80,14 +80,14 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
     industries: [
       "Computer Software",
       "Internet",
-      "Information Technology & Services",
-      "SaaS",
+      "Artificial Intelligence",
       "E-Commerce",
-      "Financial Services",
       "HealthTech",
       "EdTech",
-      "Artificial Intelligence",
-      "Fintech"
+      "Fintech",
+      "Information Technology & Services",
+      "SaaS",
+      "Financial Services",
     ],
     companySize: ["1-10", "11-50", "51-200"],
     jobTitles: [
@@ -114,9 +114,9 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
     industries: [
       "Marketing & Advertising",
       "E-Commerce",
+      "Media Production",
       "Retail",
       "Consumer Goods",
-      "Media Production",
       "SaaS",
       "Internet",
       "Hospitality",
@@ -146,11 +146,11 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
     industries: [
       "Media & Publishing",
       "Marketing & Advertising",
+      "Online Media",
+      "Information Services",
       "SaaS",
       "E-Commerce",
       "Education",
-      "Online Media",
-      "Information Services",
       "Technology"
     ],
     companySize: ["1-10", "11-50", "51-200"],
@@ -209,8 +209,8 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
       "Entertainment",
       "Marketing & Advertising",
       "Online Media",
-      "Education",
       "Broadcast Media",
+      "Education",
       "Digital Media",
       "Content Creation"
     ],
@@ -238,10 +238,10 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
       "Management Consulting",
       "Financial Services",
       "Human Resources",
+      "Business Services",
       "SaaS",
       "Professional Services",
       "Startups",
-      "Business Services"
     ],
     companySize: ["11-50", "51-200", "201-500"],
     jobTitles: [
