@@ -11,7 +11,7 @@ function Footer() {
           {/* Brand Column */}
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4 text-white">
-                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Prospo</h3>
+                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Flashleads</h3>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
@@ -122,7 +122,7 @@ function Footer() {
         <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 md:text-center md:text-left">
-              © {currentYear} Prospo. All rights reserved.
+              © {currentYear} Flashleads. All rights reserved.
             </p>
             <div className="flex flex-wrap md:justify-end gap-6">
               <Link to="/privacy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">

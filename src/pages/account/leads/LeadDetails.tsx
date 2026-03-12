@@ -7,16 +7,18 @@ import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
 import { Case, Letter, Phone } from '@solar-icons/react';
 import Conversation from '../../../components/conversation/Conversation';
+import { findLeadEmail } from '../../../helpers/emailFinder';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getSingleLead, deleteLead } = useContext(LeadsContext);
+  const { getSingleLead, deleteLead, updateLead, leads } = useContext(LeadsContext);
   const { addClient } = useContext(ClientsContext);
   const { showModal } = useModal();
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
   const [converting, setConverting] = useState(false);
+  const [findingEmail, setFindingEmail] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -51,7 +53,48 @@ export default function LeadDetails() {
 
   const handleSendEmail = async () => {
     if (!lead.email) {
-      await showModal({ title: 'No Email', message: 'This lead has no email address.' });
+      // Try to find email first
+      if (!lead.companyWebsite) {
+        await showModal({ 
+          title: 'No Email or Website', 
+          message: 'This lead has no email address and no website to search for contacts.' 
+        });
+        return;
+      }
+
+      const confirmed = await showModal({
+        title: 'Find Email First?',
+        message: `This lead has no email address.\n\nWould you like to search for their contact email using Hunter.io before sending?`,
+        showCancel: true
+      });
+
+      if (!confirmed) return;
+
+      setFindingEmail(true);
+      try {
+        const success = await findLeadEmail({
+          leadId: lead.id,
+          companyWebsite: lead.companyWebsite,
+          companyName: lead.company,
+          leads,
+          updateLead,
+          showModal
+        });
+
+        if (success && id) {
+          // Refresh the lead data to get the updated email
+          const updatedLead = await getSingleLead(id);
+          if (updatedLead) {
+            setLead(updatedLead);
+            // Now open mail client with the found email
+            window.location.href = `mailto:${updatedLead.email}?subject=${encodeURIComponent('Regarding your website')}&body=${encodeURIComponent('Hi ' + updatedLead.name + ',\n\nI noticed your website and...')}`;
+          }
+        }
+      } catch (error) {
+        console.error('Error finding email:', error);
+      } finally {
+        setFindingEmail(false);
+      }
       return;
     }
     // Open mail client
@@ -149,7 +192,10 @@ export default function LeadDetails() {
             </div>
           </div>
           <div className="mt-4 flex gap-2 flex-wrap">
-            <Button variant="secondary" className='shadow-none' onClick={handleSendEmail}><Letter /> Send Email</Button>
+            <Button variant="secondary" className='shadow-none' onClick={handleSendEmail} disabled={findingEmail}>
+              {findingEmail ? <LoadingIcon /> : <Letter />} 
+              {findingEmail ? 'Finding Email...' : 'Send Email'}
+            </Button>
             <Button variant="secondary" className='shadow-none' onClick={handleCall}><Phone />Call Company</Button>
             <Button 
               variant="secondary"

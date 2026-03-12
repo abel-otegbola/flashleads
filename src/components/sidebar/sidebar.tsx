@@ -46,14 +46,14 @@ function Sidebar() {
 
                 {/* Navigation Links */}
                 <div className="flex-1 flex flex-col gap-1 text-[14px]">
-                    <h1 className={`opacity-[0.4] p-3 text-[14px] uppercase ${open ? "opacity-[0]" : ""}`}>General</h1>
+                    <h1 className={`opacity-[0.4] p-3 text-[14px] uppercase ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>General</h1>
                     <div className="flex flex-col">
                         {
                         generalLinks.map(link => {
                             if (link.label === 'Profile') {
                                 return (
                                 <>
-                                    <h1 className={`opacity-[0.4] p-3 pt-4 text-[14px] uppercase mt-4 border-t border-gray-500/[0.2] ${open ? "opacity-[0]" : ""}`}>Others</h1>
+                                    <h1 className={`opacity-[0.4] p-3 pt-4 text-[14px] uppercase mt-4 border-t border-gray-500/[0.2] ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>Others</h1>
                                     <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-white font-bold" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
                                         {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black"></span>: ""}
                                         <div className="flex items-center gap-3">

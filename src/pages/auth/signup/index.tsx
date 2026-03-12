@@ -7,7 +7,7 @@ import { signupSchema } from "../../../schema/authSchema";
 import LoadingIcon from "../../../assets/icons/loadingIcon";
 import AuthOverlay from "../../../components/authOverlay/authOverlay";
 import { AuthContext } from "../../../contexts/AuthContextValue";
-import { Letter, Lock, User } from "@solar-icons/react";
+import { Case, Letter, Lock, User } from "@solar-icons/react";
 import { FREELANCING_SPECIALTIES } from "../../../constants/specialties";
 import Dropdown from "../../../components/dropdown/dropdown";
 
@@ -60,6 +60,7 @@ export default function Signup() {
                   />
                   <Dropdown 
                     label="Specialty" 
+                      leftIcon={<Case weight="BoldDuotone" size={20} color="currentColor" />}
                     value={values.specialty} 
                     onChange={(value) => setFieldValue("specialty", value)} 
                     error={touched.specialty ? errors.specialty : ""}

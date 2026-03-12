@@ -22,15 +22,15 @@ function Homepage() {
 
         <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-16 md:px-9 px-4 py-12 md:py-12">
             <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6" data-aos="fade-up">
-                <div className="flex items-center p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit gap-2 text-xs sm:text-sm shadow">
-                    <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium text-xs">Hire</span>
-                    <span className="font-medium text-xs">Start connecting with potential clients</span>
+                <div className="flex items-center md:text-xs text-[10px] p-1 pr-4 sm:pr-6 rounded-full border border-gray-500/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-2">
+                    <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
+                    <span className="font-medium">Start connecting with potential clients</span>
                 </div>
                 <h1 className="font-bold max-[400px]:text-2xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
                     Find Clients Who  <br/>Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
-                    Prospo helps you discover businesses that need your expertise and connect you directly with potential clients.
+                    Flashleads helps you discover businesses that need your expertise and connect you directly with potential clients.
                 </p>
                 <div className="flex items-center gap-4">
                     <Button href="/signup">Get Started</Button>
@@ -50,11 +50,11 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Prospo</span>
+                    <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">A smarter way for freelancers <br /> to find clients</h1>
-                <p>Prospo helps you discover businesses that may need your skills and reach out with smart, personalized messages.</p>
+                <p>Flashleads helps you discover businesses that may need your skills and reach out with smart, personalized messages.</p>
             </div>
 
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
@@ -62,7 +62,7 @@ function Homepage() {
                     <img src="/lead-gen.png" alt="Client Opportunity Discovery Icon" className="w-full h-auto"/>
                     <h1 className="text-4xl opacity-[0.1] font-bold">01</h1>
                     <h2 className="font-semibold text-lg">Discover Client Opportunities</h2>
-                    <p className="text-sm text-gray-600">Find businesses that may need your service. Prospo surfaces opportunities so you don't have to search endlessly for freelance jobs.</p>
+                    <p className="text-sm text-gray-600">Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.</p>
                 </div>
                 <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="200">
                     <img src="/outreach.png" alt="Smart Outreach Icon" className="w-full h-auto"/>
@@ -87,7 +87,7 @@ function Homepage() {
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">Features Built for Freelancers</h1>
-                <p>Prospo helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
+                <p>Flashleads helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
             </div>
 
             <div className="flex gap-4 md:flex-row flex-col">
@@ -133,7 +133,7 @@ function Homepage() {
 
         <section className="bg-black text-white flex justify-center flex-col md:items-center gap-6 md:mx-[5%] mx-4 p-[5%] rounded-lg mb-16" data-aos="zoom-in">
             <h1 className="xl:text-4xl text-2xl font-semibold md:text-center">Start Finding Clients Today</h1>
-            <p className="md:text-center max-w-2xl">Join freelancers using Prospo to discover opportunities, connect with potential clients, and grow their freelance business.</p>
+            <p className="md:text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
             <Button href="/signup" className="text-[14px]">Join the Waitlist</Button>
         </section>
 
