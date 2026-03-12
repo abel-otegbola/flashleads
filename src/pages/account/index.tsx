@@ -1,11 +1,11 @@
 "use client";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
-import LeadDetails from "./feeds/LeadDetails";
+import LeadDetails from "./leads/LeadDetails";
 import { Formik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
-import Feeds from "./feeds";
+import Feeds from "./leads";
 import Clients from "./clients";
 import Dashboardpage from "./dashboard";
 import SearchBar from "../../components/search/searchBar";
@@ -27,7 +27,6 @@ function AccountPages() {
             <div className="flex flex-col flex-1">
                 <div className="flex p-3 md:px-6 px-4 sm:pr-4 items-center justify-end bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
                     
-
                     <div className="flex md:gap-6 gap-4 items-center">
                         <Formik
                             initialValues={{ search: "" }}
@@ -52,7 +51,7 @@ function AccountPages() {
                 <Routes>
                     <Route path="/" element={<Navigate to={"/account/dashboard"} />} />
                     <Route path="/dashboard" element={<Dashboardpage />} />
-                    <Route path="/feeds" element={<Feeds />} />
+                    <Route path="/leads" element={<Feeds />} />
                     <Route path="/leads/:id" element={<LeadDetails />} />
                     <Route path="/clients" element={<Clients />} />
                     <Route path="/profile" element={<Profile />} />
