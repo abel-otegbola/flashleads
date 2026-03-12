@@ -169,7 +169,7 @@ export default function Leads() {
       {/* Header */}
       <div className="mb-6 flex flex-col gap-6 justify-between">
         <div>
-          <h1 className="text-2xl font-medium mb-2">Bookmarked leads</h1>
+          <h1 className="mb-2 font-semibold uppercase">Bookmarked leads</h1>
           <p className="text-gray-600">Manage and track your potential clients</p>
         </div>
         <div className="flex flex-wrap gap-3">

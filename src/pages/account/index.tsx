@@ -12,6 +12,7 @@ import SearchBar from "../../components/search/searchBar";
 import { Bell } from "@solar-icons/react";
 import { AuthCTA } from "../../components/authCTA/AuthCTA";
 import Profile from "./profile";
+import Settings from "./settings";
 
 function AccountPages() {
     const { user } = useContext(AuthContext);
@@ -55,6 +56,7 @@ function AccountPages() {
                     <Route path="/leads/:id" element={<LeadDetails />} />
                     <Route path="/clients" element={<Clients />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
                 </Routes>
             </div>
         </div>
