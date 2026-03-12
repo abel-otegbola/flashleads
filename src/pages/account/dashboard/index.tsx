@@ -21,7 +21,7 @@ function Dashboardpage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savingLeadId, setSavingLeadId] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(profile?.specialty || "");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<string>('United States');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
@@ -88,7 +88,7 @@ function Dashboardpage() {
 
       try {
         const specialtyData = FREELANCING_SPECIALTIES.find(
-          s => s.value === profile.specialty
+          s => s.label === profile.specialty
         );
 
         const category = specialtyData?.category;
@@ -110,7 +110,7 @@ function Dashboardpage() {
         const randomPage = Math.floor(Math.random() * 5) + 1;
 
         const leads = await generateDashboardLeads({
-          searchTerm: searchTerm || filters.signals[Math.floor(Math.random() * filters.signals.length)] || profile.specialty,
+          searchTerm: searchTerm !== "" ? searchTerm : filters.signals[Math.floor(Math.random() * filters.signals.length)] || profile.specialty,
           specialty: profile.specialty,
           industries,
           titles,

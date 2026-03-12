@@ -25,8 +25,6 @@ export default async function handler(req, res) {
       page = 1, 
       perPage = 25,
       companySize,
-      revenueRange,
-      hasWebsite,
       industries,
       titles
     } = req.body;
@@ -67,21 +65,37 @@ export default async function handler(req, res) {
       per_page: Math.min(perPage, 10), // Free tier limit
     };
 
-    // Add company size filter - Apollo expects specific format
-    if (companySize && Array.isArray(companySize)) {
-      requestBody.organization_num_employees_ranges = companySize.map(size => {
+    // Add company size filter - Apollo expects specific format and non-empty array
+    if (companySize && Array.isArray(companySize) && companySize.length > 0) {
+      const sizeRanges = companySize.map(size => {
         // Convert "1-10" to "1,10" format that Apollo expects
         return size.replace('-', ',');
-      });
-    } else if (companySize && typeof companySize === 'string') {
+      }).filter(Boolean); // Remove any empty values
+      
+      if (sizeRanges.length > 0) {
+        requestBody.organization_num_employees_ranges = sizeRanges;
+      } else {
+        // Default if conversion resulted in empty array
+        requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200'];
+      }
+    } else if (companySize && typeof companySize === 'string' && companySize.trim() !== '') {
       requestBody.organization_num_employees_ranges = [companySize.replace('-', ',')];
     } else {
+      // Default company sizes for small to medium businesses
       requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200'];
     }
 
-    // Add location if provided
-    if (location) {
+    // Add location if provided and not empty
+    if (location && location.trim() !== '') {
       requestBody.organization_locations = [location];
+    }
+
+    // Validate that search terms exist
+    if (!requestBody.q_organization_keyword_tags || requestBody.q_organization_keyword_tags.length === 0 || !requestBody.q_organization_keyword_tags[0]) {
+      return res.status(400).json({ 
+        error: 'Search term cannot be empty',
+        receivedSearchTerm: searchTerm 
+      });
     }
 
     console.log('Apollo discover request:', { 
