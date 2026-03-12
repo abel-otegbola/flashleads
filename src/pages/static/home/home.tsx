@@ -5,7 +5,7 @@ import Topbar from "../../../components/topbar/topbar"
 import Footer from "../../../components/footer/Footer"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import { categoryApolloFilters, SPECIALTY_CATEGORIES } from "../../../constants/specialties"
+import { FREELANCING_SPECIALTIES, SPECIALTY_CATEGORIES } from "../../../constants/specialties"
 import { ArrowRight } from "@solar-icons/react"
 
 function Homepage() {
@@ -55,8 +55,8 @@ function Homepage() {
                 SPECIALTY_CATEGORIES.slice(0, 6).map(category => (
                     <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
                         <h3 className="flex gap-2 items-center font-light"># {category} <ArrowRight /></h3>
-                        <p className="flex flex-wrap w-full gap-1">{categoryApolloFilters[category].industries.slice(0,4).map(industry => (
-                            <span key={industry} className="text-[12px] px-3 py-1 rounded-full border border-gray-200/[0.3]">{industry}</span>
+                        <p className="flex flex-wrap w-full gap-1">{FREELANCING_SPECIALTIES.filter(item => item.category === category).slice(0,4).map(industry => (
+                            <span key={industry.label} className="text-[12px] px-3 py-1 rounded-full border border-gray-200/[0.3]">{industry.label}</span>
                         )) }</p>
                     </div>
                 ))
