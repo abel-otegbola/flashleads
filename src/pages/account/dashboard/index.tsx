@@ -110,7 +110,7 @@ function Dashboardpage() {
         const randomPage = Math.floor(Math.random() * 5) + 1;
 
         const leads = await generateDashboardLeads({
-          searchTerm: searchTerm !== "" ? searchTerm : filters.signals[Math.floor(Math.random() * filters.signals.length)] || profile.specialty,
+          searchTerm: searchTerm !== "" ? searchTerm : profile.specialty,
           specialty: profile.specialty,
           industries,
           titles,

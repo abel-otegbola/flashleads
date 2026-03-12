@@ -44,19 +44,17 @@ export default async function handler(req, res) {
       });
     }
 
-    // Build enhanced search term by merging industries and other parameters
+    // Build a simpler, broader search term for better results
+    // Apollo works better with simple keywords rather than complex combined terms
     let enhancedSearchTerm = searchTerm;
     
-    // Merge industries into search term if provided
-    if (industries && Array.isArray(industries) && industries.length > 0) {
-      enhancedSearchTerm = `${searchTerm} in ${industries.join(' ')}`;
+    // If no searchTerm but industries provided, use only the first one
+    if (!enhancedSearchTerm && industries && Array.isArray(industries) && industries.length > 0) {
+      enhancedSearchTerm = industries[0];
     }
     
-    // Optionally add titles context (without being too specific)
-    if (titles && Array.isArray(titles) && titles.length > 0) {
-      const titleContext = titles.slice(0, 2).join(' or ');
-      enhancedSearchTerm = `${enhancedSearchTerm} ${titleContext}`;
-    }
+    // Don't add titles to searchTerm as it makes it too specific
+    // Titles will be used for filtering after results if needed
 
     // Build request body for Apollo AI (using valid parameters only)
     const requestBody = {
