@@ -13,6 +13,7 @@ export type values = {
     verifyOtp: (otp: string) => Promise<void>;
     resetPassword: (password: string) => Promise<void>;
     updateUser: (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string }) => Promise<void>;
+    deleteAccount: (password: string) => Promise<void>;
 }
 
 export const AuthContext = createContext({} as values);

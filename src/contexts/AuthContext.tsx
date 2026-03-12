@@ -1,11 +1,11 @@
 'use client'
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset, updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset, updateEmail, updatePassword, updateProfile, EmailAuthProvider, reauthenticateWithCredential, deleteUser } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { type ReactNode, useEffect, useState } from 'react';
 import { useLocalStorage } from "../customHooks/useLocaStorage";
 import { app, db } from "../firebase/firebase";
-import { doc, setDoc, Timestamp, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, Timestamp, updateDoc, getDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "./AuthContextValue";
@@ -213,6 +213,38 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
         }
     }
 
+    const deleteAccount = async (password: string) => {
+        setLoading(true);
+        try {
+            const currentUser = auth.currentUser;
+            if (!currentUser || !currentUser.email) throw new Error('No user is currently logged in');
+
+            // Re-authenticate before deletion
+            const credential = EmailAuthProvider.credential(currentUser.email, password);
+            await reauthenticateWithCredential(currentUser, credential);
+
+            // Delete Firestore leads
+            const leadsQuery = query(collection(db, 'leads'), where('userId', '==', currentUser.uid));
+            const leadsSnap = await getDocs(leadsQuery);
+            await Promise.all(leadsSnap.docs.map(d => deleteDoc(d.ref)));
+
+            // Delete Firestore profile
+            await deleteDoc(doc(db, 'userProfiles', currentUser.uid));
+
+            // Delete Firebase Auth account
+            await deleteUser(currentUser);
+
+            setUser(null);
+            setPopup({ type: 'success', msg: 'Account deleted successfully', timestamp: Date.now() });
+        } catch (error: unknown) {
+            const message = error instanceof FirebaseError ? error.message : String(error);
+            setPopup({ type: 'error', msg: formatError(message), timestamp: Date.now() });
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setUser(user)
@@ -220,7 +252,7 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
     }, [setUser]);
 
     return (
-        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut, forgotPassword, verifyOtp, resetPassword, updateUser }}>
+        <AuthContext.Provider value={{ user, loading, popup, login, signUp, sociallogin, logOut, forgotPassword, verifyOtp, resetPassword, updateUser, deleteAccount }}>
             <Toast
               message={popup?.msg} 
               type={popup?.type as "error" | "success"} 

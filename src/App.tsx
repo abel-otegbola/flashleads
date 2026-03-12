@@ -4,6 +4,7 @@ import AuthProvider from "./contexts/AuthContext"
 import LeadsProvider from "./contexts/LeadsContext"
 import ClientsProvider from "./contexts/ClientsContext"
 import UserProfileProvider from "./contexts/UserProfileContext"
+import ThemeProvider from "./contexts/ThemeContext"
 import Signup from "./pages/auth/signup"
 import ForgotPassword from "./pages/auth/forgotPassword"
 import VerifyOtp from "./pages/auth/verifyOtp"
@@ -27,6 +28,7 @@ function App() {
   return (
     <div className="text-[14px] md:text-[15px] 2xl:text-[16px] tracking-[5%] leading-[24px]">
       <BrowserRouter>
+      <ThemeProvider>
       <ModalProvider>
       <AuthProvider>
         <UserProfileProvider>
@@ -65,6 +67,7 @@ function App() {
         </UserProfileProvider>
       </AuthProvider>
       </ModalProvider>
+      </ThemeProvider>
       </BrowserRouter>
     </div>
   )
