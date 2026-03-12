@@ -1,7 +1,7 @@
 // Freelancing Specialties Constants (Alphabetically Ordered)
 export const FREELANCING_SPECIALTIES = [
   { value: '', label: 'Select your specialty...', category: '' },
-  { value: '3d-modeling', label: '3D Modeling (Blender/Maya)', category: 'Design' },
+  { value: '3d-modeling', label: '3D Modeling', category: 'Design' },
   { value: 'ai-ml-development', label: 'AI/ML Development', category: 'Development' },
   { value: 'animation', label: 'Animation', category: 'Media' },
   { value: 'audio-editing', label: 'Audio Editing', category: 'Media' },

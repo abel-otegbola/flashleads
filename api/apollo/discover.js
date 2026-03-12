@@ -26,7 +26,9 @@ export default async function handler(req, res) {
       perPage = 25,
       companySize,
       revenueRange,
-      hasWebsite
+      hasWebsite,
+      industries,
+      titles
     } = req.body;
 
     // Validate required parameters
@@ -51,11 +53,33 @@ export default async function handler(req, res) {
       per_page: Math.min(perPage, 10), // Free tier limit
     };
 
-    // Add company size filter
+    // Add company size filter - handle both string and array formats
     if (companySize) {
-      requestBody.organization_num_employees_ranges = [companySize];
+      if (Array.isArray(companySize)) {
+        // Convert array format like ["1-10", "11-50"] to Apollo format
+        const sizeRanges = companySize.map(size => {
+          const [min, max] = size.split('-');
+          return `${min},${max}`;
+        });
+        requestBody.organization_num_employees_ranges = sizeRanges;
+      } else if (typeof companySize === 'string') {
+        requestBody.organization_num_employees_ranges = [companySize];
+      }
     } else {
       requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200']; // Small to medium businesses
+    }
+
+    // Add industries if provided
+    if (industries && Array.isArray(industries) && industries.length > 0) {
+      requestBody.q_organization_keyword_tags = [
+        ...requestBody.q_organization_keyword_tags,
+        ...industries
+      ];
+    }
+
+    // Add job titles if provided (for decision maker targeting)
+    if (titles && Array.isArray(titles) && titles.length > 0) {
+      requestBody.person_titles = titles;
     }
 
     // Add location if provided
@@ -74,7 +98,7 @@ export default async function handler(req, res) {
       }
     }
 
-    console.log('Apollo discover request:', { searchTerm, location, page, perPage });
+    console.log('Apollo discover request:', { searchTerm, location, page, perPage, industries, titles, companySize });
 
     // Call Apollo AI API (free tier endpoint)
     const response = await fetch('https://api.apollo.io/v1/organizations/search', {
