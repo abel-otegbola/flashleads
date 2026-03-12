@@ -46,40 +46,37 @@ export default async function handler(req, res) {
       });
     }
 
-    // Build request body for Apollo AI (using free tier endpoint)
+    // Build enhanced search term by merging industries and other parameters
+    let enhancedSearchTerm = searchTerm;
+    
+    // Merge industries into search term if provided
+    if (industries && Array.isArray(industries) && industries.length > 0) {
+      enhancedSearchTerm = `${searchTerm} in ${industries.join(' ')}`;
+    }
+    
+    // Optionally add titles context (without being too specific)
+    if (titles && Array.isArray(titles) && titles.length > 0) {
+      const titleContext = titles.slice(0, 2).join(' or ');
+      enhancedSearchTerm = `${enhancedSearchTerm} ${titleContext}`;
+    }
+
+    // Build request body for Apollo AI (using valid parameters only)
     const requestBody = {
-      q_organization_keyword_tags: [searchTerm],
+      q_organization_keyword_tags: [enhancedSearchTerm],
       page,
       per_page: Math.min(perPage, 10), // Free tier limit
     };
 
-    // Add company size filter - handle both string and array formats
-    if (companySize) {
-      if (Array.isArray(companySize)) {
-        // Convert array format like ["1-10", "11-50"] to Apollo format
-        const sizeRanges = companySize.map(size => {
-          const [min, max] = size.split('-');
-          return `${min},${max}`;
-        });
-        requestBody.organization_num_employees_ranges = sizeRanges;
-      } else if (typeof companySize === 'string') {
-        requestBody.organization_num_employees_ranges = [companySize];
-      }
+    // Add company size filter - Apollo expects specific format
+    if (companySize && Array.isArray(companySize)) {
+      requestBody.organization_num_employees_ranges = companySize.map(size => {
+        // Convert "1-10" to "1,10" format that Apollo expects
+        return size.replace('-', ',');
+      });
+    } else if (companySize && typeof companySize === 'string') {
+      requestBody.organization_num_employees_ranges = [companySize.replace('-', ',')];
     } else {
-      requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200']; // Small to medium businesses
-    }
-
-    // Add industries if provided
-    if (industries && Array.isArray(industries) && industries.length > 0) {
-      requestBody.q_organization_keyword_tags = [
-        ...requestBody.q_organization_keyword_tags,
-        ...industries
-      ];
-    }
-
-    // Add job titles if provided (for decision maker targeting)
-    if (titles && Array.isArray(titles) && titles.length > 0) {
-      requestBody.person_titles = titles;
+      requestBody.organization_num_employees_ranges = ['1,20', '21,50', '51,100', '101,200'];
     }
 
     // Add location if provided
@@ -87,18 +84,14 @@ export default async function handler(req, res) {
       requestBody.organization_locations = [location];
     }
 
-    // Add revenue range if provided (Apollo uses annual revenue)
-    if (revenueRange) {
-      const [min, max] = revenueRange.split(',');
-      if (min && max) {
-        requestBody.revenue_range = {
-          min: parseInt(min),
-          max: parseInt(max)
-        };
-      }
-    }
-
-    console.log('Apollo discover request:', { searchTerm, location, page, perPage, industries, titles, companySize });
+    console.log('Apollo discover request:', { 
+      enhancedSearchTerm, 
+      location, 
+      page, 
+      perPage, 
+      companySize: requestBody.organization_num_employees_ranges,
+      requestBody 
+    });
 
     // Call Apollo AI API (free tier endpoint)
     const response = await fetch('https://api.apollo.io/v1/organizations/search', {
@@ -114,10 +107,11 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Apollo API error:', response.status, data);
+      console.error('Apollo API error:', response.status, JSON.stringify(data, null, 2));
       return res.status(response.status).json({
-        error: data.error || data.message || 'Failed to search organizations',
-        details: data
+        error: `Invalid parameters: ${data.error || data.message || 'Apollo API rejected the request'}`,
+        details: data,
+        sentParams: requestBody
       });
     }
 
