@@ -30,7 +30,7 @@ function Sidebar() {
 
     return (
         <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[300px]"}`}>
-            <button className={`md:absolute fixed top-5 md:right-4 md:left-auto flex flex-col justify-center items-center md:bg-slate-100/[0.4] bg-white backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-500 ${open ? " left-[280px]" : "left-4"}`} onClick={() => setOpen(!open)}>
+            <button className={`md:absolute fixed top-5 md:right-4 md:left-auto flex flex-col justify-center items-center md:bg-slate-100/[0.4] bg-white backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-500 ${open ? " left-[280px] max-[500px]:left-[230px]" : "left-4"}`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
                 :
@@ -40,7 +40,7 @@ function Sidebar() {
 
             <div  className={`fixed top-0 left-0 md:hidden bg-[#000]/[0.5] ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
             <div ref={modalRef} className={`flex flex-col justify-between md:h-full md:bg-slate-100/[0.4] bg-white dark:bg-dark-bg-secondary h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[320px] max-[500px]:w-[270px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[-400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
-                <Link to={"/"} className={`flex items-center mb-2 p-1 pt-[6px] pb-5 border-b border-gray-500/[0.1] ${open ? "sm:p-1 pb-5 sm:w-11 sm:h-11 sm:justify-center sm:aspect-square sm:bg-slate-100 rounded" : ""}`}>
+                <Link to={"/"} className={`flex items-center mb-2 p-1 gap-1 pt-[6px] pb-5 border-b border-gray-500/[0.1] ${open ? "sm:p-1 pb-5 sm:w-11 sm:h-11 sm:justify-center sm:aspect-square sm:bg-slate-100 rounded" : ""}`}>
                     <img src="/logo.svg" width={12} height={20} alt="logo" className={``} />
                     <h3 className={`font-bold uppercase duration-500 ${open ? "sm:hidden" : ""}`}>Flashleads</h3>
                 </Link>
@@ -99,7 +99,7 @@ function Sidebar() {
 
                     {/* User Info */}
                     {user && (
-                        <div className={`flex items-center gap-3 p-2 border border-gray-500/[0.1] bg-white rounded`}>
+                        <div className={`flex items-center gap-3 border border-gray-500/[0.1] bg-white rounded ${open ? "p-0 rounded-full" : "p-2"}`}>
                             <AuthCTA user={user} />
                             
                             {/* User Details */}

@@ -21,13 +21,13 @@ export default function Login() {
     <div className="h-screen flex justify-between">
 
       <div className="scroll flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-screen overflow-y-auto w-full md:px-0 px-6">
-        <div className="2xl:w-[600px] sm:w-[460px] py-[15%] md:mx-0 mx-auto h-full w-full">
+        <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto w-full">
           <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
               <h1 className="font-bold text-[24px] text-center">Sign in to Flashleads</h1>
               <p className="text-[#7C7E7E] font-medium text-center">Manage your leads and grow your business</p>
             </div>
-            <Button variant="secondary" onClick={() => sociallogin("google")} className="w-full font-semibold"><GoogleIcon /> Sign in with Google</Button>
+            <Button variant="secondary" onClick={() => sociallogin("google")} className="w-full font-semibold shadow-none"><GoogleIcon /> Sign in with Google</Button>
 
             <div className="flex items-center gap-4 w-full">
               <LineCircleIcon className="flex-1 "/>

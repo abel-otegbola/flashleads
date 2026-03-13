@@ -16,7 +16,7 @@ export default function VerifyOtp() {
     <div className="h-screen flex justify-between">
 
       <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md:px-0 px-6">
-        <div className="2xl:w-[600px] sm:w-[460px] py-[15%] md:mx-0 mx-auto h-full w-full">
+        <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto h-full w-full">
           <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
               <h1 className="font-bold text-[24px] text-center">Verify OTP</h1>
