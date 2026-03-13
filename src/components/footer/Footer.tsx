@@ -59,8 +59,6 @@ function Footer() {
             <ul className="space-y-3">
               {
                 [
-                  { id: 1, title: "Talent Marketplace", href: "/talents" },
-                  { id: 2, title: "Project Catalogs", href: "/projects" },
                   { id: 1, title: "Enterprise", href: "/enterprise" },
                   { id: 1, title: "Business Plus", href: "/business-plus" },
                   { id: 1, title: "Direct Contracts", href: "/direct-contracts" },

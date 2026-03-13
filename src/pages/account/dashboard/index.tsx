@@ -119,7 +119,7 @@ function Dashboardpage() {
           companySize: filters.companySize || ["1-10", "11-50"],
           location: selectedLocation,
           page: randomPage,
-          perPage: 5
+          perPage: 10
         });
 
         setGeneratedLeads(leads);
