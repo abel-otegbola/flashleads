@@ -38,7 +38,7 @@ export default function ForgotPassword() {
                     value={values.email}
                     onChange={handleChange}
                     type="email"
-                    lefticon={<Letter weight="BoldDuotone" size={20} color="currentColor" />}
+                    lefticon={<Letter size={20} color="currentColor" />}
                     error={touched.email ? errors.email : ""}
                     label="Email Address"
                   />
