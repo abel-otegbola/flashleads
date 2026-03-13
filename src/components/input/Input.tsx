@@ -1,5 +1,7 @@
-import { Eye, EyeClosed, type IconProps } from "@solar-icons/react";
+import { type IconProps } from "@solar-icons/react";
 import { useState, type InputHTMLAttributes, type ReactElement } from "react";
+import EyeSlashIcon from "../../assets/icons/eyeSlash";
+import EyeIcon from "../../assets/icons/eye";
 
 interface inputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -19,9 +21,9 @@ export default function Input({ onChange, error, type, ...props }: inputProps) {
     }
     
     return (
-        <div className="flex flex-col w-full gap-[6px]">
+        <div className="flex flex-col w-full gap-[2px]">
 
-          { props.label ? <label htmlFor={props.name} className={`text-[14px] font-medium
+          { props.label ? <label htmlFor={props.name} className={`xl:text-[14px] text-[13px] font-semibold
             ${focus ? "text-[--color-primary]" : ""}
             ${error && !focus ? "text-red-500" : ""}
           `}>{props.label}</label> : "" }
@@ -50,12 +52,12 @@ export default function Input({ onChange, error, type, ...props }: inputProps) {
                 { type === "password" ? 
                     <button 
                         type="button"
-                        className="absolute right-2 top-[8px] px-2 p-2 cursor-pointer" 
+                        className="absolute right-2 top-[4px] px-2 p-2 cursor-pointer" 
                         title="toggle show password" 
                         aria-checked={show} 
                         onClick={(e) => {setShow(!show); e.preventDefault()}}
                     >
-                        { show ? <Eye size={16} /> : <EyeClosed size={16} /> }
+                        { show ? <EyeIcon width={16} /> : <EyeSlashIcon width={16} /> }
                     </button>
                 : "" }
             </div>

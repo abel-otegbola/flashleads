@@ -24,7 +24,7 @@ export default function Login() {
         <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto w-full">
           <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-[24px] text-center">Sign in to Flashleads</h1>
+              <h1 className="font-bold text-[24px] text-center">Sign in to your Account</h1>
               <p className="text-[#7C7E7E] font-medium text-center">Manage your leads and grow your business</p>
             </div>
             <Button variant="secondary" onClick={() => sociallogin("google")} className="w-full font-semibold shadow-none"><GoogleIcon /> Sign in with Google</Button>
@@ -51,7 +51,8 @@ export default function Login() {
                     value={values.email}
                     onChange={handleChange}
                     type="email"
-                    lefticon={<Letter weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="Enter your email"
+                    lefticon={<Letter size={20} color="currentColor" />}
                     error={touched.email ? errors.email : ""}
                     label="Email Address"
                   />
@@ -60,7 +61,8 @@ export default function Login() {
                     value={values.password}
                     onChange={handleChange}
                     type="password"
-                    lefticon={<Lock weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="Enter your password"
+                    lefticon={<Lock size={20} color="currentColor" />}
                     error={!touched.password ? errors.password : ""}
                     label="Password"
                   />

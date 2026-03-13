@@ -21,8 +21,8 @@ export default function Signup() {
         <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto w-full">
           <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-[24px] text-center">Create Account</h1>
-              <p className="text-[#7C7E7E] font-medium text-center">Create your free account to start finding high-quality leads and sending smarter cold emails.</p>
+              <h1 className="font-bold text-[24px] text-center">Get Started</h1>
+              <p className="text-[#7C7E7E] font-medium text-center">Create your account to start finding clients</p>
             </div>
 
             <Formik
@@ -45,7 +45,8 @@ export default function Signup() {
                     value={values.fullname}
                     onChange={handleChange}
                     type="text"
-                    lefticon={<User weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="e.g John Doe"
+                    lefticon={<User size={20} color="currentColor" />}
                     error={touched.fullname ? errors.fullname : ""}
                     label="Full Name"
                   />
@@ -54,13 +55,14 @@ export default function Signup() {
                     value={values.email}
                     onChange={handleChange}
                     type="email"
-                    lefticon={<Letter weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="e.g john.doe@example.com"
+                    lefticon={<Letter size={20} color="currentColor" />}
                     error={touched.email ? errors.email : ""}
                     label="Work Email"
                   />
                   <Dropdown 
                     label="Specialty" 
-                      leftIcon={<Case weight="BoldDuotone" size={20} color="currentColor" />}
+                      leftIcon={<Case size={20} color="currentColor" />}
                     value={values.specialty} 
                     onChange={(value) => setFieldValue("specialty", value)} 
                     error={touched.specialty ? errors.specialty : ""}
@@ -72,7 +74,8 @@ export default function Signup() {
                     value={values.password}
                     onChange={handleChange}
                     type="password"
-                    lefticon={<Lock weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="Enter your password"
+                    lefticon={<Lock size={20} color="currentColor" />}
                     error={touched.password ? errors.password : ""}
                     label="Password"
                   />

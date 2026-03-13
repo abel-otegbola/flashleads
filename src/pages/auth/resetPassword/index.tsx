@@ -16,7 +16,7 @@ export default function ResetPassword() {
     <div className="h-screen flex justify-between">
 
       <div className="flex items-center justify-center 2xl:w-[54.375%] xl:w-[55%] md:w-[55%] h-full w-full md:px-0 px-6">
-        <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto h-full w-full">
+        <div className="2xl:w-[520px] sm:w-[400px] py-[15%] md:mx-0 mx-auto w-full">
           <div className="relative flex flex-col justify-center 2xl:gap-12 gap-6 mb-8">
             <div className="flex flex-col gap-2">
               <h1 className="font-bold text-[24px] text-center">Reset Password</h1>
@@ -38,7 +38,8 @@ export default function ResetPassword() {
                     value={values.password}
                     onChange={handleChange}
                     type="password"
-                    lefticon={<Lock weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="Enter your new password"
+                    lefticon={<Lock size={20} color="currentColor" />}
                     error={touched.password ? errors.password : ""}
                     label="New Password"
                   />
@@ -47,11 +48,12 @@ export default function ResetPassword() {
                     value={values.confirmPassword}
                     onChange={handleChange}
                     type="password"
-                    lefticon={<Lock weight="BoldDuotone" size={20} color="currentColor" />}
+                    placeholder="Confirm your new password"
+                    lefticon={<Lock size={20} color="currentColor" />}
                     error={touched.confirmPassword ? errors.confirmPassword : ""}
                     label="Confirm Password"
                   />
-                  <Button type="submit" className="w-full mt-4">
+                  <Button type="submit" className="w-full py-[12px] mt-4">
                     {isSubmitting || loading ? <LoadingIcon color="white" className="animate-spin w-[20px]" /> : "Reset Password"}
                   </Button>
                 </form>

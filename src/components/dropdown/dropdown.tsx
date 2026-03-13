@@ -43,14 +43,14 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
     }
 
     return (
-        <div className={`relative flex flex-col gap-1 ${className}`} ref={dropdownRef}>
-                { label ? <label htmlFor={name} className={`font-medium text-[13px] ${isOpen ? "text-primary" : ""}`}>{label}</label> : "" }
+        <div className={`relative flex flex-col gap-[2px] ${className}`} ref={dropdownRef}>
+                { label ? <label htmlFor={name} className={`font-semibold xl:text-[14px] text-[13px] ${isOpen ? "text-primary" : ""}`}>{label}</label> : "" }
 
-            <div className={`flex items-center relative rounded bg-white w-full py-1 pr-1 border duration-500 z-[1] 
+            <div className={`flex items-center relative rounded-[6px] bg-white w-full py-1 border duration-500 z-[1] 
                 ${error && !isOpen ?  "border-red-500 text-red-500 " : variant === "primary" ? "border-gray-100" : "border-none"}
                 ${isOpen ? "border-primary dark:border-primary shadow-input-active" : ""}
                 ${disabled ? "opacity-[0.25] cursor-not-allowed" : "cursor-pointer"}
-                ${variant === "primary" ? "px-[8px] py-[8px] " : ""}
+                ${variant === "primary" ? "pl-[12px] pr-[6px] py-[8px] " : ""}
             `}>
                 <button
                     type="button"
@@ -60,7 +60,7 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     disabled={disabled}
                 >
-                    <span className={`flex items-center gap-2 truncate ${!selectedOption ? "text-[#5D6772]" : ""}`}>
+                    <span className={`flex items-center gap-2 truncate ${!selectedOption ? "text-gray-300" : ""}`}>
                         {selectedOption?.icon || leftIcon}
                         {selectedOption?.title || placeholder}
                     </span>
