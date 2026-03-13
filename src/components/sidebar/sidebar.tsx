@@ -30,7 +30,7 @@ function Sidebar() {
 
     return (
         <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "sm:w-[104px]": "sm:w-[300px]"}`}>
-            <button className={`md:absolute fixed top-5 md:right-4 md:left-auto left-5 flex flex-col justify-center items-center md:bg-slate-100/[0.4] bg-white backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full`} onClick={() => setOpen(!open)}>
+            <button className={`md:absolute fixed top-5 md:right-4 md:left-auto flex flex-col justify-center items-center md:bg-slate-100/[0.4] bg-white backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-500 ${open ? " left-[280px]" : "left-4"}`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
                 :
@@ -39,22 +39,23 @@ function Sidebar() {
             </button>
 
             <div  className={`fixed top-0 left-0 md:hidden bg-[#000]/[0.5] ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
-            <div ref={modalRef} className={`flex flex-col justify-between md:h-full md:bg-slate-100/[0.4] bg-white dark:bg-dark-bg-secondary h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[320px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[-400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
-                <Link to={"/"} className="flex items-center mb-2 sm:p-1 border-b border-gray-500/[0.1]">
-                    <h3 className="px-2 pb-[16px] font-bold uppercase">Flashleads</h3>
+            <div ref={modalRef} className={`flex flex-col justify-between md:h-full md:bg-slate-100/[0.4] bg-white dark:bg-dark-bg-secondary h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[320px] max-[500px]:w-[270px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[-400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
+                <Link to={"/"} className={`flex items-center mb-2 p-1 pt-[6px] pb-5 border-b border-gray-500/[0.1] ${open ? "sm:p-1 pb-5 sm:w-11 sm:h-11 sm:justify-center sm:aspect-square sm:bg-slate-100 rounded" : ""}`}>
+                    <img src="/logo.svg" width={12} height={20} alt="logo" className={``} />
+                    <h3 className={`font-bold uppercase duration-500 ${open ? "sm:hidden" : ""}`}>Flashleads</h3>
                 </Link>
 
                 {/* Navigation Links */}
                 <div className="flex-1 flex flex-col gap-1 text-[14px]">
                     <h1 className={`opacity-[0.4] p-3 text-[14px] uppercase ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>General</h1>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-[1px]">
                         {
                         generalLinks.map(link => {
                             if (link.label === 'Profile') {
                                 return (
                                 <>
                                     <h1 className={`opacity-[0.4] p-3 pt-4 text-[14px] uppercase mt-4 border-t border-gray-500/[0.2] ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>Others</h1>
-                                    <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-white font-bold" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
+                                    <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "sm:bg-white bg-gray-100/[0.2] font-bold" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
                                         {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black"></span>: ""}
                                         <div className="flex items-center gap-3">
                                             <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>
@@ -70,7 +71,7 @@ function Sidebar() {
                                         <button
                                             key={link.id}
                                             onClick={async () => { setOpen(false); await logOut(); navigate('/login'); }}
-                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[48px] rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "bg-white font-bold text-primary" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
+                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[48px] rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "sm:bg-white bg-gray-100/[0.2] font-bold text-primary" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
                                             <div className="flex items-center gap-3">
                                                 <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                                 <span className={`flex-1 py-1 break-normal duration-500 ${open ? "sm:hidden" : ""}`}>{link.label} </span>
@@ -79,7 +80,7 @@ function Sidebar() {
                                     )
                                 }
                                 return (
-                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "bg-white font-bold" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
+                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "sm:bg-white bg-gray-100/[0.2] font-bold" : "font-semibold opacity-75 hover:bg-gray-100/[0.2]"}`}>
                                     {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black"></span>: ""}
                                     <div className="flex items-center gap-3">
                                         <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>

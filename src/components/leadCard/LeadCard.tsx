@@ -58,7 +58,7 @@ export default function LeadCard({
           {lead?.company.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-1">
+          <div className="flex items-start gap-3 mb-1">
             <h3 className="font-semibold">
               {lead?.company}
             </h3>
