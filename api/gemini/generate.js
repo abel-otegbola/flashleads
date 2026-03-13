@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const { lead } = req.body || {};
+  const { lead, companyInsights } = req.body || {};
 
   if (!lead)
     return res.status(400).json({ error: 'Missing lead in request body' });
@@ -23,6 +23,10 @@ export default async function handler(req, res) {
   const leadSummary = (typeof lead === 'string')
     ? lead
     : `Name: ${lead.name || ''}\nCompany: ${lead.company || ''}\nWebsite: ${lead.companyWebsite || ''}\nNotes: ${lead.notes || ''}\nWebsiteAudit: ${typeof lead.websiteAudit === 'string' ? lead.websiteAudit : JSON.stringify(lead.websiteAudit || {}, null, 2)}`;
+
+  const insightsSummary = companyInsights
+    ? `\n\nCompany Research Insights:\n${JSON.stringify(companyInsights, null, 2)}`
+    : '';
 
   if (process.env.DEBUG_GEMINI) console.log('Lead summary for prompt:', leadSummary);
 
@@ -49,7 +53,7 @@ export default async function handler(req, res) {
     - Do NOT use phrases like "I hope this email finds you well" or "I wanted to reach out"
 
     Lead details:
-    ${leadSummary}
+    ${leadSummary}${insightsSummary}
     `;
 
   try {

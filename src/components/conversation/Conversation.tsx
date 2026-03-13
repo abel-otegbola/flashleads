@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Button from '../button/Button';
 import type { Lead } from '../../contexts/LeadsContextValue';
 
@@ -6,11 +6,55 @@ interface Props {
   lead: Lead;
 }
 
+interface CompanyInsights {
+  summary: string;
+  whatTheyOffer: string[];
+  whatIsUnique: string[];
+  improvements: string[];
+  conversationAngles: string[];
+  confidence: 'low' | 'medium' | 'high';
+}
+
 export default function Conversation({ lead }: Props) {
   const [message, setMessage] = useState('');
   const [generated, setGenerated] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [insights, setInsights] = useState<CompanyInsights | null>(null);
+  const [insightsLoading, setInsightsLoading] = useState(false);
+  const [insightsError, setInsightsError] = useState<string | null>(null);
+
+  const fetchCompanyInsights = useCallback(async () => {
+    if (!lead?.company) return;
+
+    setInsightsError(null);
+    setInsightsLoading(true);
+    try {
+      const resp = await fetch('/api/gemini/company-insights', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead })
+      });
+
+      if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
+      const data = await resp.json();
+      if (data?.insights) {
+        setInsights(data.insights as CompanyInsights);
+      } else {
+        throw new Error('Missing insights payload');
+      }
+    } catch (err) {
+      console.error('Failed to fetch company insights:', err);
+      setInsightsError('Could not analyze this company right now.');
+    } finally {
+      setInsightsLoading(false);
+    }
+  }, [lead]);
+
+  useEffect(() => {
+    setInsights(null);
+    fetchCompanyInsights();
+  }, [lead.id, fetchCompanyInsights]);
 
   const handleGenerate = async () => {
     setError(null);
@@ -19,7 +63,7 @@ export default function Conversation({ lead }: Props) {
       const resp = await fetch('/api/gemini/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lead })
+        body: JSON.stringify({ lead, companyInsights: insights })
       });
       if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
       const data = await resp.json();
@@ -42,6 +86,65 @@ export default function Conversation({ lead }: Props) {
 
   return (
     <div className="conversation-component">
+      <div className="mb-5 border border-gray-500/[0.1] rounded-lg p-3 bg-slate-50/[0.4]">
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-sm text-gray-700 font-medium">About Company</label>
+          <Button size="xs" variant="secondary" onClick={fetchCompanyInsights} disabled={insightsLoading}>
+            {insightsLoading ? 'Analyzing...' : 'Refresh'}
+          </Button>
+        </div>
+
+        {insightsLoading && <p className="text-sm text-gray-500">Analyzing company and website context...</p>}
+        {insightsError && <p className="text-sm text-red-600">{insightsError}</p>}
+
+        {!insightsLoading && !insightsError && insights && (
+          <div className="text-sm text-gray-700 space-y-3">
+            <div>
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Summary</p>
+              <p>{insights.summary}</p>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">What They Offer</p>
+              <ul className="list-disc pl-5 space-y-1">
+                {insights.whatTheyOffer?.map((item, idx) => (
+                  <li key={`offer-${idx}`}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">What Is Unique</p>
+              <ul className="list-disc pl-5 space-y-1">
+                {insights.whatIsUnique?.map((item, idx) => (
+                  <li key={`unique-${idx}`}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Improvement Opportunities</p>
+              <ul className="list-disc pl-5 space-y-1">
+                {insights.improvements?.map((item, idx) => (
+                  <li key={`improvement-${idx}`}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Conversation Angles</p>
+              <ul className="list-disc pl-5 space-y-1">
+                {insights.conversationAngles?.map((item, idx) => (
+                  <li key={`angle-${idx}`}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="text-xs text-gray-400">Confidence: {insights.confidence}</p>
+          </div>
+        )}
+      </div>
+
       <div className="mb-2">
         <label className="block text-sm text-gray-600 mb-1">Generate Outreach</label>
         <textarea
