@@ -18,6 +18,25 @@ export default async function handler(req, res) {
   if (!apiKey)
     return res.status(500).json({ error: 'Missing GOOGLE_GEMINI_API_KEY env variable' });
 
+  const parseRetryDelaySeconds = (errorBody) => {
+    const retry = errorBody?.error?.details?.find((d) => d?.['@type']?.includes('RetryInfo'));
+    const retryDelay = retry?.retryDelay;
+    if (!retryDelay || typeof retryDelay !== 'string') return null;
+    const value = parseInt(retryDelay.replace('s', ''), 10);
+    return Number.isNaN(value) ? null : value;
+  };
+
+  const buildFallbackOutreach = (leadData) => {
+    const name = leadData?.name || 'there';
+    const company = leadData?.company || 'your team';
+    const industry = leadData?.industry || 'your space';
+    const service = Array.isArray(leadData?.serviceNeeds) && leadData.serviceNeeds.length > 0
+      ? leadData.serviceNeeds[0]
+      : 'conversion and growth';
+
+    return `Subject: Quick idea for ${company}\n\nHi ${name},\n\nI came across ${company} and liked how you operate in ${industry}. I noticed there may be room to improve ${service.toLowerCase()} outcomes with a few focused website and messaging tweaks.\n\nIf useful, I can share 2-3 concrete ideas tailored to your current setup and audience, then you can decide if any are worth testing.\n\nWould a quick exchange this week be helpful?`;
+  };
+
   // Build PAS + CTA prompt – proven high-converting format
   // Create a readable lead summary. If `lead` is an object, include important fields
   const leadSummary = (typeof lead === 'string')
@@ -90,6 +109,15 @@ export default async function handler(req, res) {
     }
 
     if (!response.ok) {
+      if (response.status === 429) {
+        const retryAfter = parseRetryDelaySeconds(data);
+        return res.status(200).json({
+          text: buildFallbackOutreach(lead),
+          fallback: true,
+          reason: 'quota_exceeded',
+          retryAfterSeconds: retryAfter
+        });
+      }
       console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
       return res.status(502).json({
         error: 'Gemini API returned non-OK status',

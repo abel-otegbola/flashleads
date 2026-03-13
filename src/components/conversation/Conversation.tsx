@@ -23,11 +23,13 @@ export default function Conversation({ lead }: Props) {
   const [insights, setInsights] = useState<CompanyInsights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(false);
   const [insightsError, setInsightsError] = useState<string | null>(null);
+  const [quotaNotice, setQuotaNotice] = useState<string | null>(null);
 
   const fetchCompanyInsights = useCallback(async () => {
     if (!lead?.company) return;
 
     setInsightsError(null);
+    setQuotaNotice(null);
     setInsightsLoading(true);
     try {
       const resp = await fetch('/api/gemini/company-insights', {
@@ -40,6 +42,13 @@ export default function Conversation({ lead }: Props) {
       const data = await resp.json();
       if (data?.insights) {
         setInsights(data.insights as CompanyInsights);
+        if (data?.fallback && data?.reason === 'quota_exceeded') {
+          setQuotaNotice(
+            data?.retryAfterSeconds
+              ? `Gemini quota is temporarily exhausted. Showing fallback insights. Try again in about ${data.retryAfterSeconds}s.`
+              : 'Gemini quota is temporarily exhausted. Showing fallback insights for now.'
+          );
+        }
       } else {
         throw new Error('Missing insights payload');
       }
@@ -58,6 +67,7 @@ export default function Conversation({ lead }: Props) {
 
   const handleGenerate = async () => {
     setError(null);
+    setQuotaNotice(null);
     setLoading(true);
     try {
       const resp = await fetch('/api/gemini/generate', {
@@ -69,8 +79,15 @@ export default function Conversation({ lead }: Props) {
       const data = await resp.json();
       setGenerated(data.text || data.output || '');
       setMessage(data.text || data.output || '');
+      if (data?.fallback && data?.reason === 'quota_exceeded') {
+        setQuotaNotice(
+          data?.retryAfterSeconds
+            ? `Gemini quota is temporarily exhausted. Generated a fallback draft. Try again in about ${data.retryAfterSeconds}s.`
+            : 'Gemini quota is temporarily exhausted. Generated a fallback draft.'
+        );
+      }
     } catch {
-        // Generic error message
+      setError('Could not generate outreach right now. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -156,6 +173,7 @@ export default function Conversation({ lead }: Props) {
       </div>
 
       {error && <p className="text-red-600 mb-2">{error}</p>}
+      {quotaNotice && <p className="text-amber-600 mb-2 text-sm">{quotaNotice}</p>}
 
       <div className="flex gap-2">
         <Button onClick={handleGenerate} disabled={loading || !lead}>

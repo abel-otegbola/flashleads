@@ -24,6 +24,41 @@ export default async function handler(req, res) {
   const industry = lead.industry || '';
   const location = lead.location || '';
 
+  const parseRetryDelaySeconds = (errorBody) => {
+    const retry = errorBody?.error?.details?.find((d) => d?.['@type']?.includes('RetryInfo'));
+    const retryDelay = retry?.retryDelay;
+    if (!retryDelay || typeof retryDelay !== 'string') return null;
+    const value = parseInt(retryDelay.replace('s', ''), 10);
+    return Number.isNaN(value) ? null : value;
+  };
+
+  const buildFallbackInsights = () => ({
+    summary: `${company || 'This company'} appears to operate in ${industry || 'its market'} and likely serves businesses that need reliable outcomes. Without live AI/web enrichment, this is a conservative baseline profile using available lead data.`,
+    whatTheyOffer: [
+      industry ? `${industry} related services/products` : 'Core offerings in their niche',
+      'Solutions for customer/business needs',
+      'Value delivery through their main website presence'
+    ],
+    whatIsUnique: [
+      location ? `Regional relevance in ${location}` : 'Potential positioning in a specific segment',
+      website ? `Own web property (${website}) to convert and educate visitors` : 'Digital presence that can be strengthened',
+      'Opportunity to differentiate through clearer value communication'
+    ],
+    improvements: [
+      'Clarify homepage messaging to explain value in the first 5 seconds',
+      'Strengthen proof points (case studies, testimonials, measurable outcomes)',
+      'Improve call-to-action hierarchy for better conversion intent',
+      'Tighten audience-specific landing pages for key segments'
+    ],
+    conversationAngles: [
+      'Share one specific observation about their positioning and ask for their perspective',
+      'Offer 2-3 low-effort website messaging tests they could run',
+      'Ask how they currently qualify and convert inbound interest',
+      'Start with feedback on user journey friction instead of pitching services'
+    ],
+    confidence: 'low'
+  });
+
   const prompt = `You are a sharp B2B research assistant helping a freelancer start meaningful cold outreach conversations.
 
 Research this company using web knowledge and (if available) public website context.
@@ -80,6 +115,15 @@ Rules:
     }
 
     if (!response.ok) {
+      if (response.status === 429) {
+        const retryAfter = parseRetryDelaySeconds(data);
+        return res.status(200).json({
+          insights: buildFallbackInsights(),
+          fallback: true,
+          reason: 'quota_exceeded',
+          retryAfterSeconds: retryAfter
+        });
+      }
       console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
       return res.status(502).json({
         error: 'Gemini API returned non-OK status',
