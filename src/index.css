@@ -7,7 +7,7 @@
   --color-gray-200: oklch(78.43% 0.007 256.12);
   --color-green: oklch(66.29% 0.160 152.37);
   --color-red: oklch(44.31% 0.210 27.14);
-  --font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-family: "Urbanist", system-ui, -apple-system, sans-serif;
 }
 
 html, body {

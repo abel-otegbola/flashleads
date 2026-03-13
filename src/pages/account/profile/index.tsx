@@ -17,7 +17,7 @@ export default function Profile() {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-      setPhotoURL(user?.photoURL || profile?.photoURL || "");
+      setPhotoURL(user?.photoURL || profile?.photoURL || "/profile.jpg");
     }, [user?.photoURL, profile?.photoURL]);
 
     const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,12 +87,12 @@ export default function Profile() {
                               className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
                             />
                           ) : (
-                            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+                            <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center border border-gray-500/[0.2]">
                               <User size={32} className="text-gray-500" />
                             </div>
                           )}
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex flex-col gap-2">
                           <input
                             ref={fileInputRef}
                             type="file"
@@ -100,20 +100,24 @@ export default function Profile() {
                             onChange={handlePhotoChange}
                             className="hidden"
                           />
-                          <button
+                          <Button
                             type="button"
+                            variant="secondary"
+                            size="small"
                             onClick={() => fileInputRef.current?.click()}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                            className="shadow-none leading-[110%] py-2"
                           >
                             Change picture
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             type="button"
+                            variant="secondary"
+                            size="small"
                             onClick={handleDeletePhoto}
-                            className="px-4 py-2 text-red-600 text-sm font-medium hover:bg-red-50 rounded-lg transition-colors"
+                            className="shadow-none leading-[110%] py-2 text-red-400 border border-red-200"
                           >
                             Delete picture
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
