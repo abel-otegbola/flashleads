@@ -106,7 +106,7 @@ export default function Conversation({ lead }: Props) {
       <div className="mb-5 border border-gray-500/[0.1] rounded-lg p-3 bg-slate-50/[0.4]">
         <div className="flex items-center justify-between mb-2">
           <label className="block text-sm text-gray-700 font-medium">About Company</label>
-          <Button size="xs" variant="secondary" onClick={fetchCompanyInsights} disabled={insightsLoading}>
+          <Button size="small" className='shadow-none' variant="secondary" onClick={fetchCompanyInsights} disabled={insightsLoading}>
             {insightsLoading ? 'Analyzing...' : 'Refresh'}
           </Button>
         </div>
@@ -165,7 +165,7 @@ export default function Conversation({ lead }: Props) {
       <div className="mb-2">
         <label className="block text-sm text-gray-600 mb-1">Generate Outreach</label>
         <textarea
-          className="w-full min-h-[120px] border border-gray-500/[0.1] rounded p-2"
+          className="w-full min-h-[120px] border border-gray-500/[0.1] focus:outline-primary rounded p-2"
           value={message || generated || ''}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Generate a personalized outreach message"

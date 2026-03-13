@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
 import { ClientsContext } from '../../../contexts/ClientsContextValue';
 import Button from '../../../components/button/Button';
@@ -223,7 +223,14 @@ export default function LeadDetails() {
             </p>
             <p className="px-4 py-1">
               <span className='font-medium text-[12px] opacity-75 mr-2'>Email:</span> 
-              <span className=''>{lead.email || '—'}</span>
+              { !lead.email ? <button className='underline text-primary' onClick={() => findLeadEmail({
+                leadId: lead.id,
+                companyWebsite: lead.companyWebsite,
+                companyName: lead.company,
+                leads,
+                updateLead,
+                showModal
+              }) }>Search for email</button> : <span className=''>{lead.email || '—'}</span> }
             </p>
             <p className="px-4 py-1">
               <span className='font-medium text-[12px] opacity-75 mr-2'>Phone:</span> <span className=''>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
@@ -234,7 +241,9 @@ export default function LeadDetails() {
             </p>
             <p className="px-4 py-1">
               <span className='font-medium text-[12px] opacity-75 mr-2'>Website:</span> 
-              <span className=''>{lead.companyWebsite || '—'}</span>
+              <Link to={lead.companyWebsite || '#'} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
+                {lead.companyWebsite || '—'}
+              </Link>
             </p>
           </div>
 
