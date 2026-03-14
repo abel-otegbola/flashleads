@@ -83,7 +83,7 @@ export default function EstimateModal({ isOpen, onClose, onSubmit, estimate, pre
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-bold">{title || (estimate ? 'Edit Estimate' : 'Create Estimate')}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:opacity-[0.6]">
+          <button onClick={onClose} className="text-gray/ hover:opacity-[0.6]">
             <CloseCircle size={24} />
           </button>
         </div>

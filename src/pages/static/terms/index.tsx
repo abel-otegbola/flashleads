@@ -8,7 +8,7 @@ function Terms() {
       
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-bold mb-6">Terms of Service</h1>
-        <p className="opacity-[0.6] dark:text-gray-400 mb-12">
+        <p className="opacity-[0.6] dark:text-gray/ mb-12">
           Last updated: November 20, 2025
         </p>
 

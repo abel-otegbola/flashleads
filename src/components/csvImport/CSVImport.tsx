@@ -169,7 +169,7 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
             ) : (
               <div>
                 <p className="opacity-[0.6] font-semibold">Click to select CSV file</p>
-                <p className="text-sm text-gray-400 mt-1">or drag and drop</p>
+                <p className="text-sm text-gray/ mt-1">or drag and drop</p>
               </div>
             )}
           </div>

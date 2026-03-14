@@ -54,7 +54,7 @@ function About() {
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-              <div className="opacity-[0.6] dark:text-gray-400">{stat.label}</div>
+              <div className="opacity-[0.6] dark:text-gray/">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ function About() {
               <div key={index} className="text-center">
                 <div className="text-5xl mb-4">{value.icon}</div>
                 <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
-                <p className="opacity-[0.6] dark:text-gray-400 text-sm">
+                <p className="opacity-[0.6] dark:text-gray/ text-sm">
                   {value.description}
                 </p>
               </div>

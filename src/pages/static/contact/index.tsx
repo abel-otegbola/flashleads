@@ -50,7 +50,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="opacity-[0.6] dark:text-gray-400">support@flashleads.com</p>
+                    <p className="opacity-[0.6] dark:text-gray/">support@flashleads.com</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -59,7 +59,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="opacity-[0.6] dark:text-gray-400">+1 (555) 123-4567</p>
+                    <p className="opacity-[0.6] dark:text-gray/">+1 (555) 123-4567</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -68,7 +68,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Office</h3>
-                    <p className="opacity-[0.6] dark:text-gray-400">
+                    <p className="opacity-[0.6] dark:text-gray/">
                       123 Business Street<br />
                       San Francisco, CA 94102<br />
                       United States
@@ -80,7 +80,7 @@ function Contact() {
 
             <div>
               <h3 className="font-semibold mb-4">Office Hours</h3>
-              <div className="space-y-2 text-sm opacity-[0.6] dark:text-gray-400">
+              <div className="space-y-2 text-sm opacity-[0.6] dark:text-gray/">
                 <p>Monday - Friday: 9am - 6pm PST</p>
                 <p>Saturday: 10am - 4pm PST</p>
                 <p>Sunday: Closed</p>
@@ -222,7 +222,7 @@ function Contact() {
                   {faq.q}
                   <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <p className="mt-4 opacity-[0.6] dark:text-gray-400">{faq.a}</p>
+                <p className="mt-4 opacity-[0.6] dark:text-gray/">{faq.a}</p>
               </details>
             ))}
           </div>

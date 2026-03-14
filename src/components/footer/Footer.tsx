@@ -15,7 +15,7 @@ function Footer() {
                 <LogoIcon width={20} height={20} className="" />
                 <h3 className="font-bold text-[20px] tracking-[2px]">lashleads</h3>
             </Link>
-            <p className="opacity-[0.6] dark:text-gray-400 text-sm mb-6 max-w-sm">
+            <p className="opacity-[0.6] dark:text-gray/ text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
             </p>
             <div className="flex gap-4">
@@ -121,17 +121,17 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray/[0.3]">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-            <p className="text-sm opacity-[0.6] dark:text-gray-400 md:text-center md:text-left">
+            <p className="text-sm opacity-[0.6] dark:text-gray/ md:text-center md:text-left">
               © {currentYear} Flashleads. All rights reserved.
             </p>
             <div className="flex flex-wrap md:justify-end gap-6">
-              <Link to="/privacy" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/privacy" className="text-sm opacity-[0.6] dark:text-gray/ hover:text-primary transition-colors">
                 Privacy
               </Link>
-              <Link to="/terms" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/terms" className="text-sm opacity-[0.6] dark:text-gray/ hover:text-primary transition-colors">
                 Terms
               </Link>
-              <Link to="/security" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/security" className="text-sm opacity-[0.6] dark:text-gray/ hover:text-primary transition-colors">
                 Security
               </Link>
             </div>

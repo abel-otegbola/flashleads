@@ -168,7 +168,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
               <p className="text-sm opacity-[0.6]">Powered by Hunter.io</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:opacity-[0.6]">
+          <button onClick={onClose} className="text-gray/ hover:opacity-[0.6]">
             <CloseCircle size={24} />
           </button>
         </div>
@@ -367,7 +367,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
               <p className="opacity-[0.6] mb-2">
                 Enter any company name or website
               </p>
-              <p className="text-xs text-gray-400 mb-4">
+              <p className="text-xs text-gray/ mb-4">
                 We'll automatically find their team members' contact information
               </p>
               <div className="inline-flex flex-wrap gap-2 justify-center">

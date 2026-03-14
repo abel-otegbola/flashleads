@@ -68,7 +68,7 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
+                    <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">A smarter way for freelancers <br /> to find clients</h1>
@@ -101,7 +101,7 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center" data-aos="fade-up">
                 <div className="max-w-[338px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray-400 rounded font-medium border border-gray-100 md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Features</span>
+                    <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Features</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">Features Built for Freelancers</h1>

@@ -81,7 +81,7 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
                     <div className="p-1 border-b border-gray/[0.1]">
                         <input
                             type="text"
-                            className="w-full px-3 py-3 outline-none bg-transparent border border-gray/[0.1] rounded focus:border-primary placeholder:text-gray-400"
+                            className="w-full px-3 py-3 outline-none bg-transparent border border-gray/[0.1] rounded focus:border-primary placeholder:text-gray/"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}

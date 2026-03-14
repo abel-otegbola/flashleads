@@ -105,7 +105,7 @@ function Integrations() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Connect FlashLeads with Your Favorite Tools
           </h1>
-          <p className="text-lg opacity-[0.6] dark:text-gray-400 mb-8">
+          <p className="text-lg opacity-[0.6] dark:text-gray/ mb-8">
             Seamlessly integrate with the tools you already use. Build powerful workflows and automate your sales process.
           </p>
           <Button href="/signup">Start Free Trial</Button>
@@ -145,7 +145,7 @@ function Integrations() {
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2">{integration.name}</h3>
-              <p className="text-sm opacity-[0.6] dark:text-gray-400 mb-4">
+              <p className="text-sm opacity-[0.6] dark:text-gray/ mb-4">
                 {integration.description}
               </p>
               <div className="flex items-center justify-between">

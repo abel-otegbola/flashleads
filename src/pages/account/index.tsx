@@ -43,7 +43,7 @@ function AccountPages() {
                             )
                         }
                         </Formik>
-                        <Link to={"/account/notifications"} className="relative text-gray-200 hover:text-gray-400 duration-300">
+                        <Link to={"/account/notifications"} className="relative text-gray-200 hover:text-gray/ duration-300">
                             <Bell size={20} color="currentColor"/>
                         </Link>
                         <AuthCTA user={user} />

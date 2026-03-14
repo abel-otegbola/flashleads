@@ -104,7 +104,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
           <h2 className="text-lg font-bold">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:opacity-[0.6] transition-colors"
+            className="text-gray/ hover:opacity-[0.6] transition-colors"
           >
             <CloseCircle size={24} />
           </button>

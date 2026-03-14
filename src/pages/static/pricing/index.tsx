@@ -90,7 +90,7 @@ function Pricing() {
               className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
                 !isYearly 
                   ? 'shadow-sm' 
-                  : 'opacity-[0.6] dark:text-gray-400'
+                  : 'opacity-[0.6] dark:text-gray/'
               }`}
             >
               Monthly
@@ -100,7 +100,7 @@ function Pricing() {
               className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
                 isYearly 
                   ? 'shadow-sm' 
-                  : 'opacity-[0.6] dark:text-gray-400'
+                  : 'opacity-[0.6] dark:text-gray/'
               }`}
             >
               Yearly <span className="text-green-600 text-xs ml-1">(Save 20%)</span>
@@ -143,19 +143,19 @@ function Pricing() {
                       <span className="text-5xl font-bold">
                         ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                       </span>
-                      <span className={`text-sm ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
+                      <span className={`text-sm ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray/"}`}>
                         / {isYearly ? 'year' : 'month'}
                       </span>
                     </>
                   )}
                 </div>
                 {plan.monthlyPrice !== null && isYearly && (
-                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray/"}`}>
                     ${(plan.yearlyPrice / 12).toFixed(2)} per month, billed annually
                   </p>
                 )}
                 {plan.monthlyPrice === null && (
-                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray/"}`}>
                     {plan.period}
                   </p>
                 )}

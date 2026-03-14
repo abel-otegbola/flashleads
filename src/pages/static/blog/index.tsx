@@ -82,7 +82,7 @@ function Blog() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             The FlashLeads Blog
           </h1>
-          <p className="text-lg opacity-[0.6] dark:text-gray-400">
+          <p className="text-lg opacity-[0.6] dark:text-gray/">
             Insights, strategies, and stories from the world of modern sales and lead generation
           </p>
         </div>
@@ -98,7 +98,7 @@ function Blog() {
               </div>
               <h2 className="text-3xl font-bold mb-4">{featured.title}</h2>
               <p className="opacity-[0.6] dark:text-gray-300 mb-6">{featured.excerpt}</p>
-              <div className="flex items-center gap-4 mb-6 text-sm opacity-[0.6] dark:text-gray-400">
+              <div className="flex items-center gap-4 mb-6 text-sm opacity-[0.6] dark:text-gray/">
                 <span>{featured.author}</span>
                 <span>•</span>
                 <span>{featured.date}</span>
@@ -150,7 +150,7 @@ function Blog() {
                 <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
                   {post.title}
                 </h3>
-                <p className="opacity-[0.6] dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                <p className="opacity-[0.6] dark:text-gray/ text-sm mb-4 line-clamp-2">
                   {post.excerpt}
                 </p>
                 <div className="flex items-center justify-between text-xs opacity-[0.6] dark:opacity-[0.6]">

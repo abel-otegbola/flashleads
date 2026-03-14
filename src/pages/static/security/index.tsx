@@ -72,7 +72,7 @@ function Security() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Your Data Security is Our Top Priority
           </h1>
-          <p className="text-lg opacity-[0.6] dark:text-gray-400">
+          <p className="text-lg opacity-[0.6] dark:text-gray/">
             We employ industry-leading security practices to protect your sensitive business data at every level.
           </p>
         </div>
@@ -88,7 +88,7 @@ function Security() {
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm opacity-[0.6] dark:text-gray-400">
+              <p className="text-sm opacity-[0.6] dark:text-gray/">
                 {feature.description}
               </p>
             </div>
@@ -119,7 +119,7 @@ function Security() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold mb-6">Secure Infrastructure</h2>
-            <div className="space-y-4 opacity-[0.6] dark:text-gray-400">
+            <div className="space-y-4 opacity-[0.6] dark:text-gray/">
               <p>
                 FlashLeads is hosted on AWS and Google Cloud Platform, leveraging their enterprise-grade infrastructure and security controls.
               </p>
@@ -175,7 +175,7 @@ function Security() {
             ].map((practice, index) => (
               <div key={index} className="bg-background dark:bg-gray-700 p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">{practice.title}</h3>
-                <p className="opacity-[0.6] dark:text-gray-400">{practice.desc}</p>
+                <p className="opacity-[0.6] dark:text-gray/">{practice.desc}</p>
               </div>
             ))}
           </div>

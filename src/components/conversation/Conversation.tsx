@@ -157,7 +157,7 @@ export default function Conversation({ lead }: Props) {
               </ul>
             </div>
 
-            <p className="text-xs text-gray-400">Confidence: {insights.confidence}</p>
+            <p className="text-xs text-gray/">Confidence: {insights.confidence}</p>
           </div>
         )}
       </div>

@@ -107,7 +107,7 @@ function Sidebar() {
                                 <p className="font-medium  mb-1">
                                     <span className=" capitalize">{user?.fullname || user?.displayName || user?.email?.split('@')[0]}</span>
                                 </p>
-                                <p className="text-xs opacity-[0.6] dark:text-gray-400 truncate">
+                                <p className="text-xs opacity-[0.6] dark:text-gray/ truncate">
                                     {user.email || ''}
                                 </p>
                             </div>

@@ -99,7 +99,7 @@ function Solutions() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Built for Your Business Model
           </h1>
-          <p className="text-lg opacity-[0.6] dark:text-gray-400 mb-8">
+          <p className="text-lg opacity-[0.6] dark:text-gray/ mb-8">
             Whether you're a startup, agency, or enterprise, FlashLeads adapts to your unique needs and scales with your growth.
           </p>
         </div>
@@ -115,7 +115,7 @@ function Solutions() {
             >
               <div className="text-5xl mb-4">{solution.icon}</div>
               <h3 className="text-2xl font-bold mb-3">{solution.title}</h3>
-              <p className="opacity-[0.6] dark:text-gray-400 mb-6">
+              <p className="opacity-[0.6] dark:text-gray/ mb-6">
                 {solution.description}
               </p>
               
@@ -166,7 +166,7 @@ function Solutions() {
       {/* Case Studies Section */}
       <section className="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto py-20">
         <h2 className="text-3xl font-bold text-center mb-4">Success Stories</h2>
-        <p className="text-center opacity-[0.6] dark:text-gray-400 mb-12">
+        <p className="text-center opacity-[0.6] dark:text-gray/ mb-12">
           See how businesses like yours are growing with FlashLeads
         </p>
         <div className="grid md:grid-cols-3 gap-8">
@@ -177,7 +177,7 @@ function Solutions() {
             >
               <div className="text-4xl mb-4">{study.logo}</div>
               <h3 className="font-bold text-lg mb-2">{study.company}</h3>
-              <div className="text-sm opacity-[0.6] dark:text-gray-400 mb-4">{study.industry}</div>
+              <div className="text-sm opacity-[0.6] dark:text-gray/ mb-4">{study.industry}</div>
               <div className="text-2xl font-bold text-primary mb-4">{study.result}</div>
               <p className="text-sm italic opacity-[0.6] dark:text-gray-300">
                 "{study.testimonial}"

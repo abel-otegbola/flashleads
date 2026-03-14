@@ -336,7 +336,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:opacity-[0.6]">
+          <button onClick={onClose} className="text-gray/ hover:opacity-[0.6]">
             <CloseCircle size={24} />
           </button>
         </div>
@@ -488,7 +488,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
                     ? 'Click "Discover Businesses" to start finding leads'
                     : 'Set your specialty in your profile to get started'}
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray/">
                   We'll find small businesses that need your services
                 </p>
               </div>

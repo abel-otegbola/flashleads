@@ -31,7 +31,7 @@ export default function Login() {
 
             <div className="flex items-center gap-4 w-full">
               <LineCircleIcon className="flex-1 "/>
-              <span className="text-gray-400 rounded font-medium border border-gray-100 p-4 md:px-[15%] leading-[12px] py-2 text-nowrap text-[12px]">Or sign in with Email</span>
+              <span className="text-gray/ rounded font-medium border border-gray/[0.2] p-4 md:px-[15%] leading-[12px] py-2 text-nowrap text-[12px]">Or sign in with Email</span>
               <LineCircleIcon className="flex-1 rotate-180" />
             </div>
 
