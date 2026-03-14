@@ -143,15 +143,15 @@ function Dashboardpage() {
             <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
-        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] dark:bg-gray/[0.09] bg-background ">
+        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] dark:bg-gray/[0.09] bg-white">
           <div className="flex items-start gap-2">
             <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
               <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
             </Link>
             <div className="flex flex-col flex-1">
               <div className="flex items-center gap-1">
-                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedLocation}</button>
-                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-slate-100/[0.4] rounded font-semibold">{selectedIndustry}</button>
+                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold">{selectedLocation}</button>
+                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold">{selectedIndustry}</button>
               </div>
               <textarea 
                 value={searchQuery}
@@ -200,7 +200,7 @@ function Dashboardpage() {
         )}
 
         {!loading && !error && generatedLeads.length === 0 && (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+          <div className="bg-gray/[0.09] border border-gray/[0.2] rounded-lg p-8 text-center">
             <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
           </div>
         )}
