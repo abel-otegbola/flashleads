@@ -53,7 +53,7 @@ function Homepage() {
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
             {
                 SPECIALTY_CATEGORIES.slice(0, 6).map(category => (
-                    <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center border border-gray/[0.2] text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
+                    <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
                         <h3 className="flex gap-2 items-center font-light"># {category} <ArrowRight /></h3>
                         <p className="flex flex-wrap w-full gap-1">{FREELANCING_SPECIALTIES.filter(item => item.category === category).slice(0,4).map(industry => (
                             <span key={industry.label} className="text-[12px] px-3 py-1 rounded-full border border-gray-200/[0.3]">{industry.label}</span>

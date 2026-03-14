@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
 import SearchBar from "../search/searchBar";
+import LogoIcon from "../../assets/icons/logo";
 
 function Topbar() {
     const [open, setOpen] = useState(false)
@@ -41,9 +42,9 @@ function Topbar() {
         <>
         <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <div className="flex items-center gap-6">
-            <Link to={"/"} className="flex gap-1 items-center">
-                <img src="/logo.svg" width={16} height={20} alt="logo" />
-                <h3 className="font-black uppercase">Flashleads</h3>
+            <Link to={"/"} className="flex gap-[2px] items-center">
+                <LogoIcon width={20} height={20} />
+                <h3 className="font-semibold text-[18px] tracking-[2px]">lashleads</h3>
             </Link>
             
             <ul className={`
@@ -53,10 +54,11 @@ function Topbar() {
                 md:h-auto h-screen
                 md:bg-transparent bg-background dark:bg-dark
                 md:shadow-none shadow-xl
-                md:p-0 pt-20 px-6 pb-6
+                md:p-0 py-3 px-6 pb-6
                 md:translate-x-0 ${open ? "translate-x-0" : "translate-x-full"}
                 transition-transform duration-500 ease-in-out
             `}>
+                <LogoIcon width={20} height={20} className="md:hidden my-4" />
                 {
                     [
                         { id: 0, title: "Hire Freelancers", href: "#freelancers" },
@@ -90,8 +92,12 @@ function Topbar() {
                 }
                 {/* Mobile CTA */}
                 <li className="md:hidden mt-4">
-                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-6 md:flex-row flex-col">
+                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center">
                         <AuthCTA user={user} />
+                        <div className="leading-[100%] flex flex-col gap-2">
+                            <p className="font-semibold">Account</p>
+                            <p className="text-[12px]">{user?.email}</p>
+                        </div>
                     </div>
                 </li>
             </ul>

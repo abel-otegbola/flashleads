@@ -4,6 +4,7 @@ import { Bell, Home, Logout, Settings, UsersGroupRounded, type IconProps, CloseC
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
+import LogoIcon from "../../assets/icons/logo";
 
 export interface Link {
     id: number; label: string; icon: ReactElement<IconProps>, link: string, subtext?: string
@@ -39,9 +40,9 @@ function Sidebar() {
 
             <div  className={`fixed top-0 left-0 md:hidden bg-[#000]/[0.5] ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
             <div ref={modalRef} className={`flex flex-col justify-between md:h-full sm:bg-gray/[0.05] bg-background h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "sm:w-[74px] w-[320px] max-[500px]:w-[270px] translate-x-[0px] opacity-[1]": "sm:w-full translate-x-[-400px] md:translate-x-[0px] md:opacity-[1] opacity-[0]"}`}>  
-                <Link to={"/"} className={`flex items-center mb-2 p-1 gap-1 pt-[6px] pb-5 border-b border-gray/[0.1] ${open ? "sm:p-1 pb-5 sm:w-11 sm:h-11 sm:justify-center sm:aspect-square sm:bg-slate-100 rounded" : ""}`}>
-                    <img src="/logo.svg" width={12} height={20} alt="logo" className={``} />
-                    <h3 className={`font-bold uppercase duration-500 ${open ? "sm:hidden" : ""}`}>Flashleads</h3>
+                <Link to={"/"} className={`flex items-center mb-2 p-1 pt-[6px] pb-5 border-b border-gray/[0.1] ${open ? "sm:p-1 pb-5 sm:w-11 sm:h-11 sm:justify-center sm:aspect-square sm:bg-slate-100 rounded" : ""}`}>
+                    <LogoIcon width={16} height={16} />
+                    <h3 className={`font-semibold tracking-[2px] duration-500 ${open ? "sm:hidden" : ""}`}>lashleads</h3>
                 </Link>
 
                 {/* Navigation Links */}

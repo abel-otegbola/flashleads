@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LogoIcon from "../../assets/icons/logo";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,8 +11,9 @@ function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4 text-white">
-                <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Flashleads</h3>
+            <Link to={"/"} className="flex gap-[2px] items-center mb-2">
+                <LogoIcon width={20} height={20} className="" />
+                <h3 className="font-bold text-[20px] tracking-[2px]">lashleads</h3>
             </Link>
             <p className="opacity-[0.6] dark:text-gray-400 text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
