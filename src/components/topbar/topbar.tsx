@@ -42,7 +42,7 @@ function Topbar() {
         <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <div className="flex items-center gap-6">
             <Link to={"/"} className="flex gap-1 items-center">
-                <img src="/logo.svg" width={12} height={20} alt="logo" />
+                <img src="/logo.svg" width={16} height={20} alt="logo" />
                 <h3 className="font-black uppercase">Flashleads</h3>
             </Link>
             
@@ -109,9 +109,9 @@ function Topbar() {
                 onClick={() => setOpen(!open)}
                 aria-label="Toggle menu"
             >
-                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}></span>
-                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}></span>
-                <span className={`w-5 h-0.5 bg-back dark:bg-gray-400 rounded-full transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
+                <span className={`w-5 h-0.5 bg-text/[0.6] rounded-full transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}></span>
+                <span className={`w-3 h-0.5 bg-text/[0.6] rounded-full transition-all duration-300 ${open ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}></span>
+                <span className={`w-5 h-0.5 bg-text/[0.6] rounded-full transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
             </button>
         </div>
         </>
