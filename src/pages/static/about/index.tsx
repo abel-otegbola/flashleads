@@ -54,7 +54,7 @@ function About() {
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-              <div className="text-gray-600 dark:text-gray-400">{stat.label}</div>
+              <div className="opacity-[0.6] dark:text-gray-400">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ function About() {
               <div key={index} className="text-center">
                 <div className="text-5xl mb-4">{value.icon}</div>
                 <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                <p className="opacity-[0.6] dark:text-gray-400 text-sm">
                   {value.description}
                 </p>
               </div>
@@ -85,7 +85,7 @@ function About() {
           <p className="text-lg mb-8 opacity-90">
             Be part of the future of sales. Start your free trial today.
           </p>
-          <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+          <Button variant="secondary" className="bg-background text-primary hover:bg-gray-100">
             Get Started Free
           </Button>
         </div>

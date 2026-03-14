@@ -31,7 +31,7 @@ function Dashboardpage() {
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
     if (score >= 70) return "text-orange-600 font-medium";
-    return "text-gray-600";
+    return "opacity-[0.6]";
   };
 
   const saveLead = async (lead: GeneratedLead) => {
@@ -137,15 +137,15 @@ function Dashboardpage() {
   return (
       <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
 
-        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray-500/[0.09] bg-slate-100/[0.1] md:rounded-lg">
+        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.02] md:rounded-lg">
           <div>
             <h1 className="mb-2 font-semibold uppercase">Discover</h1>
-            <p className="text-gray-600">Leads based on your specialization:</p>
+            <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
-        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray-500/[0.1] bg-white">
+        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] dark:bg-gray/[0.09] bg-background ">
           <div className="flex items-start gap-2">
-            <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray-500/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
+            <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
               <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
             </Link>
             <div className="flex flex-col flex-1">
@@ -188,20 +188,20 @@ function Dashboardpage() {
 
         <div className="flex items-center justify-between py-4">
           <p className="font-semibold opacity-[0.5]">Current search: <span className="underline">{searchTerm || profile?.specialty}</span></p>
-          <p className="text-xs text-gray-500">{selectedLocation} {selectedIndustry && `• ${selectedIndustry}`}</p>
+          <p className="text-xs opacity-[0.6]">{selectedLocation} {selectedIndustry && `• ${selectedIndustry}`}</p>
         </div>
 
         {loading && <SkeletonLoader count={5} />}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+          <div className="bg-gray/[0.1] rounded-lg p-4 text-center">
             <p className="text-red-600">{error}</p>
           </div>
         )}
 
         {!loading && !error && generatedLeads.length === 0 && (
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-            <p className="text-gray-600">No leads generated yet. Please complete your profile first.</p>
+            <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
           </div>
         )}
 
@@ -218,8 +218,8 @@ function Dashboardpage() {
           
         </div>
 
-        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 bg-white ">
-          <div className="rounded-lg p-4 border border-gray-500/[0.1]">
+        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 md:p-0 p-4 bg-background ">
+          <div className="rounded-lg p-4 border border-gray/[0.1] dark:bg-gray/[0.09]">
             <div className="flex justify-between items-center gap-2 flex-wrap mb-2">
               <h1 className="font-medium">Bookmarked Leads</h1>
               <Link to="/account/leads" className="text-primary text-[12px] underline">View all</Link>
@@ -233,7 +233,7 @@ function Dashboardpage() {
                     <img 
                       src={lead.logoUrl} 
                       alt={`${lead.company} logo`}
-                      className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-500/[0.1]"
+                      className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray/[0.1]"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
@@ -242,7 +242,7 @@ function Dashboardpage() {
                     />
                     ) : null}
                     <div 
-                      className={`w-10 h-10 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
+                      className={`w-10 h-10 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
                     >
                       {lead?.company.charAt(0).toUpperCase()}
                     </div>
@@ -255,7 +255,7 @@ function Dashboardpage() {
                       </h3>
                     </div>
                     
-                    <div className="flex items-center flex-wrap gap-2 text-xs text-gray-600">
+                    <div className="flex items-center flex-wrap gap-2 text-xs opacity-[0.6]">
                       <Buildings size={16} className="flex-shrink-0" />
                       <span className="font-medium">{lead?.industry}</span>
                     </div>
@@ -265,10 +265,10 @@ function Dashboardpage() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-500/[0.1] p-4">
+          <div className="rounded-lg border border-gray/[0.1] dark:bg-gray/[0.09] p-4">
             <h3 className="text-[14px] capitalize font-semibold">Based on your specialty</h3>
             <div className="my-2">
-              <h4 className="uppercase text-[12px] py-2 border-b border-gray-500/[0.1] font-medium">Industries</h4>
+              <h4 className="uppercase text-[12px] py-2 border-b border-gray/[0.1] font-medium">Industries</h4>
               <div className="flex flex-wrap gap-2 py-2 text-[12px]">
                 {
                   profile?.specialty &&
@@ -277,7 +277,7 @@ function Dashboardpage() {
                 )?.category || "Development" ].industries.map(industry => (
                   <button 
                     key={industry} 
-                    className={`border border-gray-500/[0.2] px-4 py-[6px] rounded-full ${selectedIndustry === industry ? "bg-primary text-white" : ""}`}
+                    className={`border border-gray/[0.2] px-4 py-[6px] rounded-full ${selectedIndustry === industry ? "bg-primary text-white" : ""}`}
                     onClick={() => setSelectedIndustry(industry)}
                     >{industry}</button>
                 ))

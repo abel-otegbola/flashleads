@@ -23,7 +23,7 @@ const LocationPicker = ({ selectedLocation, onLocationChange }: LocationPickerPr
         <div className="relative">
         <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 p-2 rounded-full border border-gray-500/[0.1] hover:bg-gray-50 transition-colors text-sm"
+            className="flex items-center gap-2 p-2 rounded-full border border-gray/[0.1] hover:bg-gray-50 transition-colors text-sm"
         >
             <MapPoint size={18} className="" />
         </button>
@@ -31,10 +31,10 @@ const LocationPicker = ({ selectedLocation, onLocationChange }: LocationPickerPr
         {isOpen && (
             <div
             ref={popupRef}
-            className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-500/[0.2] rounded-xl shadow-xl z-50 max-h-96 overflow-hidden flex flex-col"
+            className="absolute top-full left-0 mt-2 w-80 bg-background border border-gray/[0.2] rounded-xl shadow-xl z-50 max-h-96 overflow-hidden flex flex-col"
             >
             {/* Header */}
-            <div className="flex items-center px-4 gap-2 border-b border-gray-500/[0.2]">
+            <div className="flex items-center px-4 gap-2 border-b border-gray/[0.2]">
                 <MapPoint size={16} />
                 <input
                 type="text"

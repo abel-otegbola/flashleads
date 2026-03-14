@@ -322,21 +322,21 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-background rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <MagicStick size={24} className="text-primary" />
             <div>
               <h2 className="text-lg font-bold">Discover Businesses</h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm opacity-[0.6]">
                 {profile?.specialty 
                   ? `Finding businesses that need ${profile.specialty} services` 
                   : 'Complete your profile to discover businesses'}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} className="text-gray-400 hover:opacity-[0.6]">
             <CloseCircle size={24} />
           </button>
         </div>
@@ -410,7 +410,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
             {searchResults.length > 0 && (
               <>
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm opacity-[0.6]">
                     Found {searchResults.length} potential clients
                   </p>
                   <button
@@ -443,14 +443,14 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
                           <div className="flex items-start justify-between mb-2">
                             <div>
                               <h3 className="font-semibold text-gray-900">{business.company}</h3>
-                              <p className="text-sm text-gray-600">{business.name}</p>
+                              <p className="text-sm opacity-[0.6]">{business.name}</p>
                             </div>
                             <span className="text-xs font-medium px-2 py-1 bg-green-100 text-green-700 rounded">
                               Score: {business.score}
                             </span>
                           </div>
                           
-                          <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                          <div className="flex items-center gap-4 text-sm opacity-[0.6] mb-2">
                             <div className="flex items-center gap-1">
                               <Buildings2 size={14} />
                               <span>{business.industry}</span>
@@ -466,7 +466,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
                             ))}
                           </div>
 
-                          <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <div className="flex items-center gap-3 text-xs opacity-[0.6]">
                             <span>💰 Est. Value: ${business.value.toLocaleString()}</span>
                             {business.companyWebsite && (
                               <span>🌐 {business.companyWebsite}</span>
@@ -483,7 +483,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
             {!loading && searchResults.length === 0 && !error && (
               <div className="text-center py-12">
                 <Buildings2 size={48} className="mx-auto text-gray-300 mb-4" />
-                <p className="text-gray-500 mb-2">
+                <p className="opacity-[0.6] mb-2">
                   {profile?.specialty 
                     ? 'Click "Discover Businesses" to start finding leads'
                     : 'Set your specialty in your profile to get started'}
@@ -500,7 +500,7 @@ export default function BusinessDiscovery({ isOpen, onClose, onImportLeads }: Bu
         {searchResults.length > 0 && (
           <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm opacity-[0.6]">
                 {selectedBusinesses.size} business{selectedBusinesses.size !== 1 ? 'es' : ''} selected
               </p>
               <div className="flex gap-3">

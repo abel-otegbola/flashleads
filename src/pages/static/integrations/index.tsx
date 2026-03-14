@@ -105,7 +105,7 @@ function Integrations() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Connect FlashLeads with Your Favorite Tools
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          <p className="text-lg opacity-[0.6] dark:text-gray-400 mb-8">
             Seamlessly integrate with the tools you already use. Build powerful workflows and automate your sales process.
           </p>
           <Button href="/signup">Start Free Trial</Button>
@@ -132,7 +132,7 @@ function Integrations() {
           {integrations.map((integration, index) => (
             <div
               key={index}
-              className="p-6 rounded-xl border border-gray-200/[0.2] hover:shadow-lg transition-all duration-300"
+              className="p-6 rounded-xl border border-gray/[0.2] hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="text-4xl">{integration.logo}</div>
@@ -145,11 +145,11 @@ function Integrations() {
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2">{integration.name}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-sm opacity-[0.6] dark:text-gray-400 mb-4">
                 {integration.description}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500 dark:text-gray-500">{integration.category}</span>
+                <span className="text-xs opacity-[0.6] dark:opacity-[0.6]">{integration.category}</span>
                 <button className="text-sm text-primary font-medium hover:underline">
                   {integration.status === "Available" ? "Connect" : "Learn More"}
                 </button>
@@ -167,10 +167,10 @@ function Integrations() {
             Request a new integration or build your own using our powerful API
           </p>
           <div className="flex gap-4 justify-center">
-            <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+            <Button variant="secondary" className="bg-background text-primary hover:bg-gray-100">
               Request Integration
             </Button>
-            <Button variant="secondary" className="bg-white/20 text-white hover:bg-white/30 border-white">
+            <Button variant="secondary" className="bg-background/20 text-white hover:bg-background/30 border-white">
               View API Docs
             </Button>
           </div>

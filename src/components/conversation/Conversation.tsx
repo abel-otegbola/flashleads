@@ -103,26 +103,26 @@ export default function Conversation({ lead }: Props) {
 
   return (
     <div className="conversation-component">
-      <div className="mb-5 border border-gray-500/[0.1] rounded-lg p-3 bg-slate-50/[0.4]">
+      <div className="mb-5 border border-gray/[0.1] rounded-lg p-3 bg-slate-50/[0.4]">
         <div className="flex items-center justify-between mb-2">
-          <label className="block text-sm text-gray-700 font-medium">About Company</label>
+          <label className="block text-sm opacity-[0.6] font-medium">About Company</label>
           <Button size="small" className='shadow-none' variant="secondary" onClick={fetchCompanyInsights} disabled={insightsLoading}>
             {insightsLoading ? 'Analyzing...' : 'Refresh'}
           </Button>
         </div>
 
-        {insightsLoading && <p className="text-sm text-gray-500">Analyzing company and website context...</p>}
+        {insightsLoading && <p className="text-sm opacity-[0.6]">Analyzing company and website context...</p>}
         {insightsError && <p className="text-sm text-red-600">{insightsError}</p>}
 
         {!insightsLoading && !insightsError && insights && (
-          <div className="text-sm text-gray-700 space-y-3">
+          <div className="text-sm opacity-[0.6] space-y-3">
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Summary</p>
+              <p className="text-xs uppercase tracking-wide opacity-[0.6] mb-1">Summary</p>
               <p>{insights.summary}</p>
             </div>
 
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">What They Offer</p>
+              <p className="text-xs uppercase tracking-wide opacity-[0.6] mb-1">What They Offer</p>
               <ul className="list-disc pl-5 space-y-1">
                 {insights.whatTheyOffer?.map((item, idx) => (
                   <li key={`offer-${idx}`}>{item}</li>
@@ -131,7 +131,7 @@ export default function Conversation({ lead }: Props) {
             </div>
 
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">What Is Unique</p>
+              <p className="text-xs uppercase tracking-wide opacity-[0.6] mb-1">What Is Unique</p>
               <ul className="list-disc pl-5 space-y-1">
                 {insights.whatIsUnique?.map((item, idx) => (
                   <li key={`unique-${idx}`}>{item}</li>
@@ -140,7 +140,7 @@ export default function Conversation({ lead }: Props) {
             </div>
 
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Improvement Opportunities</p>
+              <p className="text-xs uppercase tracking-wide opacity-[0.6] mb-1">Improvement Opportunities</p>
               <ul className="list-disc pl-5 space-y-1">
                 {insights.improvements?.map((item, idx) => (
                   <li key={`improvement-${idx}`}>{item}</li>
@@ -149,7 +149,7 @@ export default function Conversation({ lead }: Props) {
             </div>
 
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Conversation Angles</p>
+              <p className="text-xs uppercase tracking-wide opacity-[0.6] mb-1">Conversation Angles</p>
               <ul className="list-disc pl-5 space-y-1">
                 {insights.conversationAngles?.map((item, idx) => (
                   <li key={`angle-${idx}`}>{item}</li>
@@ -163,9 +163,9 @@ export default function Conversation({ lead }: Props) {
       </div>
 
       <div className="mb-2">
-        <label className="block text-sm text-gray-600 mb-1">Generate Outreach</label>
+        <label className="block text-sm opacity-[0.6] mb-1">Generate Outreach</label>
         <textarea
-          className="w-full min-h-[120px] border border-gray-500/[0.1] focus:outline-primary rounded p-2"
+          className="w-full min-h-[120px] border border-gray/[0.1] focus:outline-primary rounded p-2"
           value={message || generated || ''}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Generate a personalized outreach message"
@@ -182,7 +182,7 @@ export default function Conversation({ lead }: Props) {
         <Button onClick={handleSend} disabled={!message && !generated}>Send Email</Button>
       </div>
 
-      <details className="mt-3 text-xs text-gray-500">
+      <details className="mt-3 text-xs opacity-[0.6]">
         <summary>Prompt used (click to expand)</summary>
         <pre className="whitespace-pre-wrap mt-2 bg-gray-50 p-2 rounded text-xs">
 {`Write a short email (3-6 paragraphs) describing what a freelancer can do to help the company scale and build their business. Include suggested next steps and a short result/benefit paragraph. Lead data:\nName: ${lead.name}\nCompany: ${lead.company}\nWebsite: ${lead.companyWebsite || 'N/A'}\nNotes: ${lead.notes || 'N/A'}\nWebsite audit: ${lead.websiteAudit || 'N/A'}`}

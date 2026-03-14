@@ -120,12 +120,12 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-4 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-background rounded-lg p-4 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold text-gray-800">Import Businesses from CSV</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="opacity-[0.6] hover:opacity-[0.6] text-2xl"
           >
             ×
           </button>
@@ -164,11 +164,11 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
             {csvFile ? (
               <div>
                 <p className="text-green-600 font-semibold">📄 {csvFile.name}</p>
-                <p className="text-sm text-gray-500 mt-1">Click to select a different file</p>
+                <p className="text-sm opacity-[0.6] mt-1">Click to select a different file</p>
               </div>
             ) : (
               <div>
-                <p className="text-gray-600 font-semibold">Click to select CSV file</p>
+                <p className="opacity-[0.6] font-semibold">Click to select CSV file</p>
                 <p className="text-sm text-gray-400 mt-1">or drag and drop</p>
               </div>
             )}
@@ -190,15 +190,15 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
               <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Website</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Industry</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Value</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Company</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Contact</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Email</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Website</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Industry</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium opacity-[0.6] uppercase">Value</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-background divide-y divide-gray-200">
                   {preview.map((business, index) => (
                     <tr key={index}>
                       <td className="px-3 py-2 whitespace-nowrap">{business.company}</td>
@@ -242,7 +242,7 @@ Jane Smith,Tech Startup,jane@techstartup.com,555-5678,San Francisco CA,techstart
         {/* Column Mapping Guide */}
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <h4 className="font-semibold text-gray-800 mb-2 text-sm">Supported CSV Columns:</h4>
-          <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+          <div className="grid grid-cols-2 gap-2 text-xs opacity-[0.6]">
             <div><strong>name</strong> or contact, contact name</div>
             <div><strong>company</strong> or business, business name</div>
             <div><strong>email</strong> or email address</div>

@@ -51,7 +51,7 @@ function Topbar() {
                 md:static fixed top-0 right-0 md:z-auto z-[999]
                 md:w-auto w-[280px] sm:w-[320px]
                 md:h-auto h-screen
-                md:bg-transparent bg-white dark:bg-dark
+                md:bg-transparent bg-background dark:bg-dark
                 md:shadow-none shadow-xl
                 md:p-0 pt-20 px-6 pb-6
                 md:translate-x-0 ${open ? "translate-x-0" : "translate-x-full"}

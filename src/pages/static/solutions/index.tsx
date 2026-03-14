@@ -99,7 +99,7 @@ function Solutions() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Built for Your Business Model
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          <p className="text-lg opacity-[0.6] dark:text-gray-400 mb-8">
             Whether you're a startup, agency, or enterprise, FlashLeads adapts to your unique needs and scales with your growth.
           </p>
         </div>
@@ -111,11 +111,11 @@ function Solutions() {
           {solutions.map((solution, index) => (
             <div
               key={index}
-              className="p-8 rounded-2xl border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-300 bg-white dark:bg-gray-800"
+              className="p-8 rounded-2xl border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-300 bg-background dark:bg-gray-800"
             >
               <div className="text-5xl mb-4">{solution.icon}</div>
               <h3 className="text-2xl font-bold mb-3">{solution.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="opacity-[0.6] dark:text-gray-400 mb-6">
                 {solution.description}
               </p>
               
@@ -125,7 +125,7 @@ function Solutions() {
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
+                    <span className="text-sm opacity-[0.6] dark:text-gray-300">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -153,7 +153,7 @@ function Solutions() {
             ].map((industry, index) => (
               <div
                 key={index}
-                className="text-center p-6 bg-white dark:bg-gray-700 rounded-xl hover:shadow-lg transition-all"
+                className="text-center p-6 bg-background dark:bg-gray-700 rounded-xl hover:shadow-lg transition-all"
               >
                 <div className="text-4xl mb-3">{industry.icon}</div>
                 <div className="font-semibold">{industry.name}</div>
@@ -166,7 +166,7 @@ function Solutions() {
       {/* Case Studies Section */}
       <section className="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto py-20">
         <h2 className="text-3xl font-bold text-center mb-4">Success Stories</h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-12">
+        <p className="text-center opacity-[0.6] dark:text-gray-400 mb-12">
           See how businesses like yours are growing with FlashLeads
         </p>
         <div className="grid md:grid-cols-3 gap-8">
@@ -177,9 +177,9 @@ function Solutions() {
             >
               <div className="text-4xl mb-4">{study.logo}</div>
               <h3 className="font-bold text-lg mb-2">{study.company}</h3>
-              <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">{study.industry}</div>
+              <div className="text-sm opacity-[0.6] dark:text-gray-400 mb-4">{study.industry}</div>
               <div className="text-2xl font-bold text-primary mb-4">{study.result}</div>
-              <p className="text-sm italic text-gray-700 dark:text-gray-300">
+              <p className="text-sm italic opacity-[0.6] dark:text-gray-300">
                 "{study.testimonial}"
               </p>
             </div>
@@ -195,10 +195,10 @@ function Solutions() {
             Join thousands of teams already growing with FlashLeads
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+            <Button variant="secondary" className="bg-background text-primary hover:bg-gray-100">
               Start Free Trial
             </Button>
-            <Button variant="secondary" className="bg-white/20 text-white hover:bg-white/30 border-white">
+            <Button variant="secondary" className="bg-background/20 text-white hover:bg-background/30 border-white">
               Schedule Demo
             </Button>
           </div>

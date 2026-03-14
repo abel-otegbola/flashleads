@@ -97,14 +97,14 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div
         ref={modalRef}
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-background rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <h2 className="text-lg font-bold">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 hover:opacity-[0.6] transition-colors"
           >
             <CloseCircle size={24} />
           </button>
@@ -267,7 +267,7 @@ export default function LeadModal({ isOpen, onClose, onSubmit, lead, title }: Le
                       className="w-full"
                     />
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Score: {values.score}</span>
+                      <span className="text-sm opacity-[0.6]">Score: {values.score}</span>
                       <input
                         type="number"
                         name="score"

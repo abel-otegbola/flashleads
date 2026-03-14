@@ -73,7 +73,7 @@ function Blog() {
   const categories = ["All", "Lead Generation", "Email Marketing", "Sales Strategy", "Technology", "Social Selling", "Personalization"];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-background dark:bg-gray-900">
       <Topbar />
       
       {/* Hero Section */}
@@ -82,7 +82,7 @@ function Blog() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             The FlashLeads Blog
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg opacity-[0.6] dark:text-gray-400">
             Insights, strategies, and stories from the world of modern sales and lead generation
           </p>
         </div>
@@ -97,8 +97,8 @@ function Blog() {
                 Featured
               </div>
               <h2 className="text-3xl font-bold mb-4">{featured.title}</h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-6">{featured.excerpt}</p>
-              <div className="flex items-center gap-4 mb-6 text-sm text-gray-600 dark:text-gray-400">
+              <p className="opacity-[0.6] dark:text-gray-300 mb-6">{featured.excerpt}</p>
+              <div className="flex items-center gap-4 mb-6 text-sm opacity-[0.6] dark:text-gray-400">
                 <span>{featured.author}</span>
                 <span>•</span>
                 <span>{featured.date}</span>
@@ -140,7 +140,7 @@ function Blog() {
           {posts.map((post, index) => (
             <article
               key={index}
-              className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="group bg-background dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 h-48 flex items-center justify-center text-6xl">
                 {post.image}
@@ -150,10 +150,10 @@ function Blog() {
                 <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                <p className="opacity-[0.6] dark:text-gray-400 text-sm mb-4 line-clamp-2">
                   {post.excerpt}
                 </p>
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-500">
+                <div className="flex items-center justify-between text-xs opacity-[0.6] dark:opacity-[0.6]">
                   <span>{post.author}</span>
                   <span>{post.date}</span>
                 </div>
@@ -184,7 +184,7 @@ function Blog() {
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 rounded-lg text-gray-900 outline-none"
             />
-            <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all whitespace-nowrap">
+            <button className="bg-background text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all whitespace-nowrap">
               Subscribe
             </button>
           </div>

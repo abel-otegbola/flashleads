@@ -20,7 +20,7 @@ import SearchBar from "../../../components/search/searchBar";
 
 const statusColors = {
   active: "bg-green-100 text-green-700 border-green-200",
-  inactive: "bg-gray-100 text-gray-700 border-gray-200",
+  inactive: "bg-gray-100 opacity-[0.6] border-gray-200",
   prospect: "bg-blue-100 text-blue-700 border-blue-200",
   past: "bg-orange-100 text-orange-700 border-orange-200"
 };
@@ -96,7 +96,7 @@ export default function Clients() {
       <div className="mb-6 flex flex-wrap items-center gap-12 justify-between">
         <div>
           <h1 className="text-2xl font-medium mb-2">Clients</h1>
-          <p className="text-gray-600">Manage your client relationships and track projects</p>
+          <p className="opacity-[0.6]">Manage your client relationships and track projects</p>
         </div>
         <div className="flex gap-3">
           <Button 
@@ -114,28 +114,28 @@ export default function Clients() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
+        <div className="bg-background border border-gray/[0.2] rounded-lg p-4">
           <div className="flex flex-col gap-3 mb-2">
               <p className="text-sm opacity-[0.5]">Total Clients</p>
               <p className="text-2xl font-medium">{totalClients}</p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
+        <div className="bg-background border border-gray/[0.2] rounded-lg p-4">
           <div className="flex flex-col gap-3 mb-2">
               <p className="text-sm opacity-[0.5]">Active Clients</p>
               <p className="text-2xl font-medium">{activeClients}</p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
+        <div className="bg-background border border-gray/[0.2] rounded-lg p-4">
           <div className="flex flex-col gap-3 mb-2">
               <p className="text-sm opacity-[0.5]">Prospects</p>
               <p className="text-2xl font-medium">{prospects}</p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4">
+        <div className="bg-background border border-gray/[0.2] rounded-lg p-4">
           <div className="flex flex-col gap-3 mb-2">
               <p className="text-sm opacity-[0.5]">Total Revenue</p>
               <p className="text-2xl font-medium">${totalRevenue.toLocaleString()}</p>
@@ -144,7 +144,7 @@ export default function Clients() {
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white border border-gray-200/[0.2] border-b-transparent rounded-t-lg p-4">
+      <div className="bg-background border border-gray/[0.2] border-b-transparent rounded-t-lg p-4">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <SearchBar onChange={(e) => setSearchQuery(e.target.value)} />
@@ -153,7 +153,7 @@ export default function Clients() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 border border-gray/[0.2] rounded-lg focus:outline-none focus:border-primary"
             >
               <option value="all">All Statuses</option>
               <option value="active">Active</option>
@@ -185,7 +185,7 @@ export default function Clients() {
           {filteredClients.map(client => {
             const stats = getClientStats(client);
             return (
-              <div key={client.id} className="bg-white border border-gray-200/[0.2] rounded-b-lg p-6 hover:shadow-lg transition-shadow">
+              <div key={client.id} className="bg-background border border-gray/[0.2] rounded-b-lg p-6 hover:shadow-lg transition-shadow">
                 {/* Client Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
@@ -230,11 +230,11 @@ export default function Clients() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <div className="text-center p-2 bg-gray-50 rounded">
-                    <p className="text-xs text-gray-600">Projects</p>
+                    <p className="text-xs opacity-[0.6]">Projects</p>
                     <p className="text-lg font-semibold">{stats.projectsCount}</p>
                   </div>
                   <div className="text-center p-2 bg-gray-50 rounded">
-                    <p className="text-xs text-gray-600">Revenue</p>
+                    <p className="text-xs opacity-[0.6]">Revenue</p>
                     <p className="text-lg font-semibold">${client.totalRevenue.toLocaleString()}</p>
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export default function Clients() {
                 <div className="flex gap-2">
                   <button 
                     onClick={() => setSelectedClient(client)}
-                    className="flex-1 px-3 py-2 border border-gray-200/[0.2] rounded-lg hover:bg-gray-50 text-sm flex items-center justify-center gap-1"
+                    className="flex-1 px-3 py-2 border border-gray/[0.2] rounded-lg hover:bg-gray-50 text-sm flex items-center justify-center gap-1"
                   >
                     <Folder size={16} />
                     View Details
@@ -262,7 +262,7 @@ export default function Clients() {
                       setEditingClient(client);
                       setIsClientModalOpen(true);
                     }}
-                    className="px-3 py-2 border border-gray-200/[0.2] rounded-lg hover:bg-gray-50 text-sm"
+                    className="px-3 py-2 border border-gray/[0.2] rounded-lg hover:bg-gray-50 text-sm"
                   >
                     <Pen size={16} />
                   </button>
@@ -281,16 +281,16 @@ export default function Clients() {
 
       {/* Clients List View */}
       {view === 'list' && (
-        <div className="bg-white border border-gray-200/[0.2] rounded-b-lg overflow-hidden md:w-full w-[90vw]">
+        <div className="bg-background border border-gray/[0.2] rounded-b-lg overflow-hidden md:w-full w-[90vw]">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Client</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Contact</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Projects</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Revenue</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Client</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Contact</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Projects</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Revenue</th>
+                <th className="px-6 py-3 text-left text-xs font-medium opacity-[0.6] uppercase">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -322,7 +322,7 @@ export default function Clients() {
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-sm font-semibold">{stats.projectsCount}</p>
-                      <p className="text-xs text-gray-600">{stats.activeProjects} active</p>
+                      <p className="text-xs opacity-[0.6]">{stats.activeProjects} active</p>
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-sm font-semibold">${client.totalRevenue.toLocaleString()}</p>
@@ -334,7 +334,7 @@ export default function Clients() {
                           className="p-1 hover:bg-gray-100 rounded"
                           title="View details"
                         >
-                          <Folder size={18} className="text-gray-600" />
+                          <Folder size={18} className="opacity-[0.6]" />
                         </button>
                         <button
                           onClick={() => {
@@ -344,7 +344,7 @@ export default function Clients() {
                           className="p-1 hover:bg-gray-100 rounded"
                           title="Edit client"
                         >
-                          <Pen size={18} className="text-gray-600" />
+                          <Pen size={18} className="opacity-[0.6]" />
                         </button>
                         <button
                           onClick={() => handleDeleteClient(client.id)}
@@ -364,7 +364,7 @@ export default function Clients() {
           {filteredClients.length === 0 && (
             <div className="text-center py-12">
               <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">
+              <p className="opacity-[0.6]">
                 {clientsLoading ? 'Loading clients...' : 'No clients found matching your criteria'}
               </p>
             </div>
@@ -374,9 +374,9 @@ export default function Clients() {
 
       {/* Empty State for Grid View */}
       {view === 'grid' && filteredClients.length === 0 && (
-        <div className="flex flex-col items-center text-center py-12 bg-white border border-gray-200/[0.2] rounded-b-lg">
+        <div className="flex flex-col items-center text-center py-12 bg-background border border-gray/[0.2] rounded-b-lg">
           <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 mb-4">
+          <p className="opacity-[0.6] mb-4">
             {clientsLoading ? 'Loading clients...' : 'No clients found'}
           </p>
           {!clientsLoading && searchQuery === '' && statusFilter === 'all' && (

@@ -158,17 +158,17 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-background rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <Star size={24} className="text-primary" />
             <div>
               <h2 className="text-lg font-bold">AI Lead Generation</h2>
-              <p className="text-sm text-gray-600">Powered by Hunter.io</p>
+              <p className="text-sm opacity-[0.6]">Powered by Hunter.io</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} className="text-gray-400 hover:opacity-[0.6]">
             <CloseCircle size={24} />
           </button>
         </div>
@@ -187,7 +187,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
               className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
               disabled={step === 'results'}
             />
-            <p className="text-xs text-gray-500 mt-1">Enter any company name or website - we'll find their contacts automatically</p>
+            <p className="text-xs opacity-[0.6] mt-1">Enter any company name or website - we'll find their contacts automatically</p>
           </div>
           <div className="flex flex-col gap-4 mb-4">
             <div>
@@ -277,7 +277,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
           {searchResults.length > 0 && (
             <>
               <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm opacity-[0.6]">
                   Found {searchResults.length} leads
                 </p>
                 <button
@@ -312,13 +312,13 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
                             <h3 className="font-semibold text-gray-900">
                               {contact.first_name} {contact.last_name}
                             </h3>
-                            <p className="text-sm text-gray-600">{contact.position || 'Position not available'}</p>
+                            <p className="text-sm opacity-[0.6]">{contact.position || 'Position not available'}</p>
                           </div>
                           <span className="text-xs font-medium text-primary">
                             {contact.confidence}% match
                           </span>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                        <div className="flex items-center gap-4 text-sm opacity-[0.6]">
                           <div className="flex items-center gap-1">
                             <Buildings2 size={14} />
                             <span>{organization?.organization}</span>
@@ -364,7 +364,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
           {!loading && searchResults.length === 0 && !error && step === 'search' && (
             <div className="text-center py-12">
               <UserCircle size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500 mb-2">
+              <p className="opacity-[0.6] mb-2">
                 Enter any company name or website
               </p>
               <p className="text-xs text-gray-400 mb-4">
@@ -385,7 +385,7 @@ export default function ApolloLeadSearch({ isOpen, onClose, onImportLeads }: Apo
         {searchResults.length > 0 && (
           <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm opacity-[0.6]">
                 {selectedLeads.size} lead{selectedLeads.size !== 1 ? 's' : ''} selected
               </p>
               <div className="flex gap-3">

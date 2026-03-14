@@ -4,7 +4,7 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black border-t border-gray-200 dark:border-gray-800 text-white">
+    <footer className="bg-black text-white">
       <div className="px-4 sm:px-6 lg:px-20 py-12 md:py-16">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
@@ -13,7 +13,7 @@ function Footer() {
             <Link to="/" className="flex items-center gap-2 mb-4 text-white">
                 <h3 className="md:text-[20px] text-[16px] font-bold uppercase">Flashleads</h3>
             </Link>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 max-w-sm">
+            <p className="opacity-[0.6] dark:text-gray-400 text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
             </p>
             <div className="flex gap-4">
@@ -21,7 +21,7 @@ function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-primary hover:text-white transition-all duration-200"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray/[0.2] hover:bg-primary hover:text-white transition-all duration-200"
                 aria-label="Twitter"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@ function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-primary hover:text-white transition-all duration-200"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray/[0.2] hover:bg-primary hover:text-white transition-all duration-200"
                 aria-label="LinkedIn"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@ function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-primary hover:text-white transition-all duration-200"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray/[0.2] hover:bg-primary hover:text-white transition-all duration-200"
                 aria-label="GitHub"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -117,19 +117,19 @@ function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
+        <div className="pt-8 border-t border-gray/[0.3]">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-            <p className="text-sm text-gray-600 dark:text-gray-400 md:text-center md:text-left">
+            <p className="text-sm opacity-[0.6] dark:text-gray-400 md:text-center md:text-left">
               © {currentYear} Flashleads. All rights reserved.
             </p>
             <div className="flex flex-wrap md:justify-end gap-6">
-              <Link to="/privacy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/privacy" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
                 Privacy
               </Link>
-              <Link to="/terms" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/terms" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
                 Terms
               </Link>
-              <Link to="/security" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+              <Link to="/security" className="text-sm opacity-[0.6] dark:text-gray-400 hover:text-primary transition-colors">
                 Security
               </Link>
             </div>

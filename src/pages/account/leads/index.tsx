@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Leads() {
   const { leads, loading, addLead, updateLead, deleteLead } = useContext(LeadsContext);
-  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDiscoveryModalOpen, setIsDiscoveryModalOpen] = useState(false);
   const [isCSVImportOpen, setIsCSVImportOpen] = useState(false);
@@ -144,7 +143,7 @@ export default function Leads() {
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
     if (score >= 70) return "text-orange-600 font-medium";
-    return "text-gray-600";
+    return "opacity-[0.6]";
   };
 
   const handleFindEmail = async (leadId: string, companyWebsite: string, companyName: string) => {
@@ -170,7 +169,7 @@ export default function Leads() {
       <div className="mb-6 flex flex-col gap-6 justify-between">
         <div>
           <h1 className="mb-2 font-semibold uppercase">Bookmarked leads</h1>
-          <p className="text-gray-600">Manage and track your potential clients</p>
+          <p className="opacity-[0.6]">Manage and track your potential clients</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
@@ -180,25 +179,10 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white border border-gray-200/[0.2] rounded-lg p-4 mb-4">
-        <div className="flex flex-col md:flex-row gap-4 justify-between">
-          <div className="md:w-1/3 w-full">
-            <input
-              type="text"
-              placeholder="Search leads by name, company, or email..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200/[0.2] rounded-lg focus:outline-none focus:border-primary"
-            />
-          </div>
-        </div>
-      </div>
-
       {loading && <SkeletonLoader count={5} />}
 
       {/* Feed Layout */}
-      <div className="grid md:grid-cols-2 gap-2 space-y-4">
+      <div className="grid md:grid-cols-2 gap-2 space-y-4 p-4 rounded-[16px] bg-gray/[0.05]">
         {!loading && filteredLeads.map((lead) => (
           <LeadCard
             key={lead?.id}
@@ -215,8 +199,8 @@ export default function Leads() {
 
       {/* Pagination placeholder */}
       {filteredLeads?.length > 0 && (
-        <div className="mt-6 flex items-center justify-between bg-white border border-gray-200/[0.2] rounded-lg p-4">
-          <p className="text-sm text-gray-600">
+        <div className="mt-6 flex items-center justify-between bg-background border border-gray/[0.2] rounded-lg p-4">
+          <p className="text-sm opacity-[0.6]">
             Showing <span className="font-semibold">{filteredLeads?.length}</span> of <span className="font-semibold">{leads?.length}</span> leads
           </p>
         </div>

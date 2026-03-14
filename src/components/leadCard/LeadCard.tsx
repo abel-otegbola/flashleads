@@ -35,7 +35,7 @@ export default function LeadCard({
 }: LeadCardProps) {
   return (
     <div
-      className="bg-white border border-gray-200/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
+      className="bg-background border border-gray/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
       onClick={() => onClick?.(lead)}
     >
       {/* Header */}
@@ -44,7 +44,7 @@ export default function LeadCard({
           <img 
             src={lead.logoUrl} 
             alt={`${lead.company} logo`}
-            className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-500/[0.1]"
+            className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray/[0.1]"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.style.display = 'none';
@@ -53,7 +53,7 @@ export default function LeadCard({
           />
         ) : null}
         <div 
-          className={`w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray-500/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
+          className={`w-12 h-12 bg-slate-100/[0.3] rounded-full flex items-center justify-center font-bold flex-shrink-0 border border-gray/[0.1] ${lead?.logoUrl ? 'hidden' : ''}`}
         >
           {lead?.company.charAt(0).toUpperCase()}
         </div>
@@ -62,29 +62,29 @@ export default function LeadCard({
             <h3 className="font-semibold">
               {lead?.company}
             </h3>
-            <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
+            <div className="flex items-center gap-1 bg-gray/[0.09] px-2 py-1 leading-[110%] text-[12px] rounded-full">
               <Star size={14} className="text-yellow-500" weight="Bold" />
-              <span className={`text-xs font-medium ${getScoreColor(lead?.score)}`}>
+              <span className={`font-medium ${getScoreColor(lead?.score)}`}>
                 {lead?.score}
               </span>
             </div>
           </div>
-          <div className="flex items-center flex-wrap gap-2 text-xs text-gray-600">
+          <div className="flex items-center flex-wrap gap-2 opacity-50 text-[13px]">
             <Buildings size={16} className="flex-shrink-0" />
             <span className="font-medium">{lead?.industry}</span>
           </div>
           {lead?.estimatedEmployees && (
-          <div className="flex items-center gap-1 text-xs mt-1 text-gray-500">
+          <div className="flex items-center gap-1 mt-1 opacity-50 text-[13px]">
             <UsersGroupRounded size={14} />
-            <span className="text-xs">{lead.estimatedEmployees} employees</span>
+            <span className="">{lead.estimatedEmployees} employees</span>
           </div>
           )}
-          <div className="flex items-center gap-1 text-xs mt-1 text-gray-500">
+          <div className="flex items-center gap-1 mt-1 opacity-50 text-[13px]">
             <MapPoint size={14} />
             <span>{lead?.location}</span>
           </div>
           {lead?.foundedYear && (
-          <div className="flex items-center gap-1 text-xs mt-1 text-gray-500">
+          <div className="flex items-center gap-1 mt-1 opacity-50 text-[13px]">
             <ClockCircle size={14} />
             <span>Founded {lead.foundedYear}</span>
           </div>
@@ -99,7 +99,7 @@ export default function LeadCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
+                  className="text-xs px-4 py-1 rounded bg-gray/[0.05] font-medium border border-gray/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                 >
                   Website
                 </Link>
@@ -110,7 +110,7 @@ export default function LeadCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
+                  className="text-xs px-4 py-1 rounded bg-gray/[0.05] font-medium border border-gray/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                 >
                   LinkedIn
                 </Link>
@@ -121,7 +121,7 @@ export default function LeadCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
+                  className="text-xs px-4 py-1 rounded bg-gray/[0.05] font-medium border border-gray/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                 >
                   Twitter
                 </Link>
@@ -132,7 +132,7 @@ export default function LeadCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs px-4 py-1 rounded bg-slate-100/[0.5] font-medium border border-gray-500/[0.1] hover:bg-primary hover:text-white hover:border-primary"
+                  className="text-xs px-4 py-1 rounded bg-gray/[0.05] font-medium border border-gray/[0.1] hover:bg-primary hover:text-white hover:border-primary"
                 >
                   Facebook
                 </Link>
@@ -155,7 +155,7 @@ export default function LeadCard({
             <Bookmark 
               size={20} 
               weight={isBookmarking ? 'Bold' : 'Linear'}
-              className={isBookmarking ? 'text-blue-600' : ''}
+              className={isBookmarking ? 'text-blue-600' : 'text-gray'}
             />
           </button>
         )}
@@ -164,7 +164,7 @@ export default function LeadCard({
       {/* Service Needs (if available) */}
       {lead?.serviceNeeds && lead.serviceNeeds.length > 0 && (
         <div className="mb-4 px-4 flex flex-wrap items-center gap-2">
-          <p className="text-xs text-gray-500 font-medium">Service Needs:</p>
+          <p className="text-xs opacity-50 text-[13px] font-medium">Service Needs:</p>
           <div className="flex flex-wrap gap-2">
             {lead.serviceNeeds.map((service, idx) => (
               <span
@@ -179,10 +179,10 @@ export default function LeadCard({
       )}
 
       {/* Footer */}
-      <div className={`flex items-center ${(onFindEmail || onEdit || onDelete) ? 'justify-between' : ''} gap-4 p-4 border-t border-gray-500/[0.1]`}>
+      <div className={`flex items-center ${(onFindEmail || onEdit || onDelete) ? 'justify-between' : ''} gap-4 p-4 border-t border-gray/[0.1]`}>
         <div className="flex items-center gap-1.5">
-          <span className="text-xs text-gray-500">Est. Value:</span>
-          <span className="text-sm font-bold text-gray-900">
+          <span className="opacity-50 text-[13px]">Est. Value:</span>
+          <span className="font-bold opacity-50 text-[13px]">
             ${lead?.value.toLocaleString()}
           </span>
         </div>
@@ -197,7 +197,7 @@ export default function LeadCard({
                   onFindEmail(lead.id, lead.companyWebsite, lead.company);
                 }}
                 disabled={isFindingEmail || !lead.companyWebsite}
-                className="p-2 hover:bg-blue-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 hover:bg-gray/[0.09] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 title={!lead.companyWebsite ? "No website available" : "Find email"}
               >
                 {isFindingEmail ? (
@@ -213,10 +213,10 @@ export default function LeadCard({
                   e.stopPropagation();
                   onEdit(lead);
                 }}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray/[0.09] rounded-lg transition-colors"
                 title="Edit lead"
               >
-                <Pen size={18} className="text-gray-600" />
+                <Pen size={18} className="opacity-50 text-[13px]" />
               </button>
             )}
             {onDelete && (
@@ -225,7 +225,7 @@ export default function LeadCard({
                   e.stopPropagation();
                   onDelete(lead.id);
                 }}
-                className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                className="p-2 hover:bg-red-50/[0.05] rounded-lg transition-colors"
                 title="Delete lead"
               >
                 <TrashBin2 size={18} className="text-red-600" />

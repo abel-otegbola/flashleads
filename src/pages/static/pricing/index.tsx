@@ -90,7 +90,7 @@ function Pricing() {
               className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
                 !isYearly 
                   ? 'shadow-sm' 
-                  : 'text-gray-600 dark:text-gray-400'
+                  : 'opacity-[0.6] dark:text-gray-400'
               }`}
             >
               Monthly
@@ -100,7 +100,7 @@ function Pricing() {
               className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
                 isYearly 
                   ? 'shadow-sm' 
-                  : 'text-gray-600 dark:text-gray-400'
+                  : 'opacity-[0.6] dark:text-gray-400'
               }`}
             >
               Yearly <span className="text-green-600 text-xs ml-1">(Save 20%)</span>
@@ -118,7 +118,7 @@ function Pricing() {
               className={`rounded-2xl p-8 ${
                 plan.highlighted
                   ? "bg-gradient-to-br from-primary to-fuchsia-500 text-white shadow-2xl scale-105 relative"
-                  : "bg-gray-100/[0.1] border border-gray-200/[0.2]"
+                  : "bg-gray-100/[0.1] border border-gray/[0.2]"
               }`}
             >
               {plan.highlighted && (
@@ -143,19 +143,19 @@ function Pricing() {
                       <span className="text-5xl font-bold">
                         ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                       </span>
-                      <span className={`text-sm ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                      <span className={`text-sm ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
                         / {isYearly ? 'year' : 'month'}
                       </span>
                     </>
                   )}
                 </div>
                 {plan.monthlyPrice !== null && isYearly && (
-                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
                     ${(plan.yearlyPrice / 12).toFixed(2)} per month, billed annually
                   </p>
                 )}
                 {plan.monthlyPrice === null && (
-                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "text-gray-600 dark:text-gray-400"}`}>
+                  <p className={`text-sm mt-1 ${plan.highlighted ? "text-white/80" : "opacity-[0.6] dark:text-gray-400"}`}>
                     {plan.period}
                   </p>
                 )}
@@ -177,7 +177,7 @@ function Pricing() {
               <button
                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
                   plan.highlighted
-                    ? "bg-white text-primary hover:bg-gray-100 shadow-lg"
+                    ? "bg-background text-primary hover:bg-gray-100 shadow-lg"
                     : "bg-primary text-white hover:bg-primary/90"
                 }`}
               >
@@ -210,7 +210,7 @@ function Pricing() {
               a: "You'll receive a notification when you're approaching your limit. You can upgrade anytime to continue accessing more leads."
             }
           ].map((faq, index) => (
-            <div key={index} className="p-6 rounded-xl border border-gray-200/[0.2]">
+            <div key={index} className="p-6 rounded-xl border border-gray/[0.2]">
               <h3 className="text-lg font-semibold mb-2">{faq.q}</h3>
               <p className="">{faq.a}</p>
             </div>

@@ -27,9 +27,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       {children}
       {isOpen && options && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-4">
+          <div className="bg-background rounded-lg shadow-xl max-w-md w-full p-4">
             {options.title && <h3 className="text-lg font-semibold mb-2">{options.title}</h3>}
-            <div className="mb-4 text-sm text-gray-700">{options.message}</div>
+            <div className="mb-4 text-sm opacity-[0.6]">{options.message}</div>
             <div className="flex justify-end gap-3">
               {options.showCancel && (
                 <button

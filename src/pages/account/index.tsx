@@ -23,10 +23,10 @@ function AccountPages() {
     }
   
     return (
-        <div className="min-h-[400px] flex justify-between bg-white bg-cover">
+        <div className="min-h-[400px] flex justify-between bg-background bg-cover">
             <Sidebar />
             <div className="flex flex-col flex-1">
-                <div className="flex p-3 md:px-6 px-4 sm:pr-4 items-center justify-end bg-white dark:bg-dark-bg border-b border-gray-500/[0.1] sticky top-0 z-[2]">
+                <div className="flex p-3 md:px-6 px-4 sm:pr-4 items-center justify-end bg-background dark:bg-dark-bg border-b border-gray/[0.1] sticky top-0 z-[2]">
                     
                     <div className="flex md:gap-6 gap-4 items-center">
                         <Formik

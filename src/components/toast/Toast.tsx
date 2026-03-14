@@ -36,7 +36,7 @@ export default function Toast({ message, type = "success", duration = 5000, time
   return (
     <div
       className={`
-        bg-white p-4 font-bold
+        bg-background p-4 font-bold
         transition-all duration-300 ease-out overflow-hidden fixed top-4 left-4 z-[1000]
         rounded-md shadow-md m-2
         ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'}

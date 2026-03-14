@@ -43,9 +43,9 @@ export default function Profile() {
       <div className="h-full p-4 md:p-6 md:col-span-2">
           <div className="mb-6">
               <h1 className="mb-2 font-semibold uppercase">Profile</h1>
-              <p className="text-gray-600">Manage your information and account</p>
+              <p className="opacity-[0.6]">Manage your information and account</p>
           </div>
-          <div className="bg-white rounded-lg md:border border-gray-500/[0.1] md:p-6">
+          <div className="bg-background rounded-lg md:border border-gray/[0.1] md:p-6">
               <Formik
                 initialValues={{ 
                   fullname: profile?.fullName || user?.displayName || "", 
@@ -77,7 +77,7 @@ export default function Profile() {
                     
                     {/* Profile Picture Section */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">Profile picture</label>
+                      <label className="block text-sm font-medium opacity-[0.6] mb-3">Profile picture</label>
                       <div className="flex items-center gap-4">
                         <div className="relative">
                           {photoURL ? (
@@ -87,8 +87,8 @@ export default function Profile() {
                               className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
                             />
                           ) : (
-                            <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center border border-gray-500/[0.2]">
-                              <User size={32} className="text-gray-500" />
+                            <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center border border-gray/[0.2]">
+                              <User size={32} className="opacity-[0.6]" />
                             </div>
                           )}
                         </div>
@@ -151,7 +151,7 @@ export default function Profile() {
 
                     {/* About Me / Bio */}
                     <div>
-                      <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="bio" className="block text-sm font-medium opacity-[0.6] mb-2">
                         About me
                       </label>
                       <textarea
@@ -160,7 +160,7 @@ export default function Profile() {
                         value={values.bio}
                         onChange={handleChange}
                         rows={5}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                        className="w-full px-4 py-2.5 border border-gray/[0.2] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
                         placeholder="Tell us about yourself..."
                       />
                       {touched.bio && errors.bio && (
@@ -169,7 +169,7 @@ export default function Profile() {
                     </div>
 
                     {/* Save Button */}
-                    <div className="flex justify-end pt-4 border-t border-gray-500/[0.1]">
+                    <div className="flex justify-end pt-4 border-t border-gray/[0.1]">
                       <Button 
                         type="submit" 
                         disabled={isSubmitting || loading}

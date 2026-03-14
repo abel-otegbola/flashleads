@@ -60,7 +60,7 @@ function Security() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-background dark:bg-gray-900">
       <Topbar />
       
       {/* Hero Section */}
@@ -72,7 +72,7 @@ function Security() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Your Data Security is Our Top Priority
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg opacity-[0.6] dark:text-gray-400">
             We employ industry-leading security practices to protect your sensitive business data at every level.
           </p>
         </div>
@@ -84,11 +84,11 @@ function Security() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all bg-white dark:bg-gray-800"
+              className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all bg-background dark:bg-gray-800"
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm opacity-[0.6] dark:text-gray-400">
                 {feature.description}
               </p>
             </div>
@@ -104,7 +104,7 @@ function Security() {
             {certifications.map((cert, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-700 p-6 rounded-xl text-center hover:shadow-lg transition-all"
+                className="bg-background dark:bg-gray-700 p-6 rounded-xl text-center hover:shadow-lg transition-all"
               >
                 <div className="text-4xl mb-3">{cert.logo}</div>
                 <div className="font-semibold text-sm">{cert.name}</div>
@@ -119,7 +119,7 @@ function Security() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold mb-6">Secure Infrastructure</h2>
-            <div className="space-y-4 text-gray-600 dark:text-gray-400">
+            <div className="space-y-4 opacity-[0.6] dark:text-gray-400">
               <p>
                 FlashLeads is hosted on AWS and Google Cloud Platform, leveraging their enterprise-grade infrastructure and security controls.
               </p>
@@ -173,9 +173,9 @@ function Security() {
                 desc: "Background checks for all employees, mandatory security training, and strict policies for handling sensitive data."
               }
             ].map((practice, index) => (
-              <div key={index} className="bg-white dark:bg-gray-700 p-6 rounded-xl">
+              <div key={index} className="bg-background dark:bg-gray-700 p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">{practice.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{practice.desc}</p>
+                <p className="opacity-[0.6] dark:text-gray-400">{practice.desc}</p>
               </div>
             ))}
           </div>
@@ -189,7 +189,7 @@ function Security() {
           <p className="text-lg mb-8 opacity-90">
             We offer a bug bounty program for responsible disclosure of security vulnerabilities
           </p>
-          <button className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+          <button className="bg-background text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all">
             Report a Vulnerability
           </button>
         </div>

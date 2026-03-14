@@ -40,7 +40,7 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2  gap-2 p-2 rounded-full border border-gray-500/[0.1] hover:bg-gray-50 transition-colors text-sm"
+        className="flex items-center gap-2  gap-2 p-2 rounded-full border border-gray/[0.1] hover:bg-gray-50 transition-colors text-sm"
       >
         <Buildings size={18} className="" />
       </button>
@@ -48,10 +48,10 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
       {isOpen && (
         <div
           ref={popupRef}
-          className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-500/[0.2] rounded-xl shadow-xl z-50 max-h-96 overflow-hidden flex flex-col"
+          className="absolute top-full left-0 mt-2 w-80 bg-background border border-gray/[0.2] rounded-xl shadow-xl z-50 max-h-96 overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center gap-2 px-4 border-b border-gray-500/[0.2]">
+          <div className="flex items-center gap-2 px-4 border-b border-gray/[0.2]">
             <Buildings size={16} />
             <input
               type="text"
@@ -67,8 +67,8 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
             {/* All Industries Option */}
             <button
               onClick={() => handleSelect("")}
-              className={`w-full text-left px-4 py-2 text-[12px] hover:bg-gray-50 transition-colors border-b border-gray-500/[0.1] ${
-                selectedIndustry === "" ? "bg-primary/5 text-primary font-medium" : "text-gray-700"
+              className={`w-full text-left px-4 py-2 text-[12px] hover:bg-gray-50 transition-colors border-b border-gray/[0.1] ${
+                selectedIndustry === "" ? "bg-primary/5 text-primary font-medium" : "opacity-[0.6]"
               }`}
             >
               <div className="flex items-center gap-2">
@@ -81,15 +81,15 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
                 <button
                   key={industry}
                   onClick={() => handleSelect(industry)}
-                  className={`w-full text-left px-4 py-2 text-[12px] font-medium hover:bg-gray-50 transition-colors border-b border-gray-500/[0.1] last:border-b-0 ${
-                    selectedIndustry === industry ? "bg-primary/5 text-primary font-medium" : "text-gray-700"
+                  className={`w-full text-left px-4 py-2 text-[12px] font-medium hover:bg-gray-50 transition-colors border-b border-gray/[0.1] last:border-b-0 ${
+                    selectedIndustry === industry ? "bg-primary/5 text-primary font-medium" : "opacity-[0.6]"
                   }`}
                 >
                     <span>{industry}</span>
                 </button>
               ))
             ) : searchQuery ? (
-              <div className="p-4 text-center text-gray-500 text-sm">
+              <div className="p-4 text-center opacity-[0.6] text-sm">
                 No industries found
               </div>
             ) : null}

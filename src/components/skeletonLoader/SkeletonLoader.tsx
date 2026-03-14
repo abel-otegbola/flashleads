@@ -8,7 +8,7 @@ export default function SkeletonLoader({ count = 5 }: SkeletonLoaderProps) {
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
-          className="bg-white border border-gray-200/[0.2] rounded-xl overflow-hidden animate-pulse"
+          className="bg-background border border-gray/[0.2] rounded-xl overflow-hidden animate-pulse"
         >
           <div className="p-6">
             {/* Header */}

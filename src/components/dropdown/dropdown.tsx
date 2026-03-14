@@ -46,8 +46,8 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
         <div className={`relative flex flex-col gap-[2px] ${className}`} ref={dropdownRef}>
                 { label ? <label htmlFor={name} className={`font-semibold xl:text-[14px] text-[13px] ${isOpen ? "text-primary" : ""}`}>{label}</label> : "" }
 
-            <div className={`flex items-center relative rounded-[6px] bg-white w-full py-1 border duration-500 z-[1] 
-                ${error && !isOpen ?  "border-red-500 text-red-500 " : variant === "primary" ? "border-gray-100" : "border-none"}
+            <div className={`flex items-center relative rounded-[6px] bg-background w-full py-1 border duration-500 z-[1] 
+                ${error && !isOpen ?  "border-red-500 text-red-500 " : variant === "primary" ? "border-gray/[0.2]" : "border-none"}
                 ${isOpen ? "border-primary dark:border-primary shadow-input-active" : ""}
                 ${disabled ? "opacity-[0.25] cursor-not-allowed" : "cursor-pointer"}
                 ${variant === "primary" ? "pl-[12px] pr-[6px] py-[8px] " : ""}
@@ -71,17 +71,17 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
                     </span>
                 </button>
 
-                { error && !isOpen ? <p className="absolute right-2 px-2 text-[12px] bg-white text-red-500 backdrop-blur-sm">{error}</p> : "" }
+                { error && !isOpen ? <p className="absolute right-2 px-2 text-[12px] bg-background text-red-500 backdrop-blur-sm">{error}</p> : "" }
             </div>
 
             {/* Custom Dropdown Menu */}
             {isOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-500/[0.1] rounded shadow-lg z-50 max-h-[300px] overflow-hidden">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-gray/[0.1] rounded shadow-lg z-50 max-h-[300px] overflow-hidden">
                     {/* Search Input */}
-                    <div className="p-1 border-b border-gray-500/[0.1]">
+                    <div className="p-1 border-b border-gray/[0.1]">
                         <input
                             type="text"
-                            className="w-full px-3 py-3 outline-none bg-transparent border border-gray-500/[0.1] rounded focus:border-primary placeholder:text-gray-400"
+                            className="w-full px-3 py-3 outline-none bg-transparent border border-gray/[0.1] rounded focus:border-primary placeholder:text-gray-400"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -106,7 +106,7 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
                                 </button>
                             ))
                         ) : (
-                            <div className="px-4 py-3 text-gray-500 text-center">
+                            <div className="px-4 py-3 opacity-[0.6] text-center">
                                 No options found
                             </div>
                         )}
