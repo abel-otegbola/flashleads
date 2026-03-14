@@ -205,7 +205,7 @@ function Dashboardpage() {
           </div>
         )}
 
-        <div className="p-4 bg-gray/[0.05] rounded-lg min-h-[230px]">
+        <div className="md:p-4 md:bg-gray/[0.05] flex flex-col gap-4 rounded-lg min-h-[230px]">
           {!loading && generatedLeads.map((lead) => (
             <LeadCard
               key={lead?.id}
