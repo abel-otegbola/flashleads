@@ -35,7 +35,7 @@ export default function LeadCard({
 }: LeadCardProps) {
   return (
     <div
-      className="bg-background border border-gray/[0.2] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
+      className="bg-background border border-gray/[0.1] rounded-xl transition-all duration-300 overflow-hidden cursor-pointer w-full"
       onClick={() => onClick?.(lead)}
     >
       {/* Header */}

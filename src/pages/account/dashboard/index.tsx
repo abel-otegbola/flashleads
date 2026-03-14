@@ -137,13 +137,13 @@ function Dashboardpage() {
   return (
       <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
 
-        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.02] md:rounded-lg">
+        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.05] md:rounded-lg">
           <div>
             <h1 className="mb-2 font-semibold uppercase">Discover</h1>
             <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
-        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] dark:bg-gray/[0.09] bg-white">
+        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] bg-background">
           <div className="flex items-start gap-2">
             <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
               <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
@@ -194,32 +194,34 @@ function Dashboardpage() {
         {loading && <SkeletonLoader count={5} />}
 
         {error && (
-          <div className="bg-gray/[0.1] rounded-lg p-4 text-center">
+          <div className="bg-background rounded-lg p-4 text-center">
             <p className="text-red-600">{error}</p>
           </div>
         )}
 
         {!loading && !error && generatedLeads.length === 0 && (
-          <div className="bg-gray/[0.09] border border-gray/[0.2] rounded-lg p-8 text-center">
+          <div className="bg-background border border-gray/[0.2] rounded-lg p-8 text-center">
             <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
           </div>
         )}
 
-        {!loading && generatedLeads.map((lead) => (
-          <LeadCard
-            key={lead?.id}
-            lead={lead as Lead}
-            onClick={handleLeadClick}
-            onBookmark={saveLead}
-            isBookmarking={savingLeadId === lead.id}
-            getScoreColor={getScoreColor}
-          />
-        ))}
+        <div className="p-4 bg-gray/[0.05] rounded-lg min-h-[230px]">
+          {!loading && generatedLeads.map((lead) => (
+            <LeadCard
+              key={lead?.id}
+              lead={lead as Lead}
+              onClick={handleLeadClick}
+              onBookmark={saveLead}
+              isBookmarking={savingLeadId === lead.id}
+              getScoreColor={getScoreColor}
+            />
+          ))}
+        </div>
           
         </div>
 
-        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 md:p-0 p-4 bg-background ">
-          <div className="rounded-lg p-4 border border-gray/[0.1] dark:bg-gray/[0.09]">
+        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 p-4 bg-gray/[0.05]">
+          <div className="rounded-lg p-4 border border-gray/[0.1] bg-background min-h-[260px]">
             <div className="flex justify-between items-center gap-2 flex-wrap mb-2">
               <h1 className="font-medium">Bookmarked Leads</h1>
               <Link to="/account/leads" className="text-primary text-[12px] underline">View all</Link>
@@ -265,7 +267,7 @@ function Dashboardpage() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray/[0.1] dark:bg-gray/[0.09] p-4">
+          <div className="rounded-lg border border-gray/[0.1] bg-background p-4">
             <h3 className="text-[14px] capitalize font-semibold">Based on your specialty</h3>
             <div className="my-2">
               <h4 className="uppercase text-[12px] py-2 border-b border-gray/[0.1] font-medium">Industries</h4>
