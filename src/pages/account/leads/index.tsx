@@ -80,9 +80,7 @@ export default function Leads() {
     value?: number;
   }
 
-  const handleImportDiscoveredLeads = async (discoveredLeads: ImportableBusiness[]) => {
-    console.log('🎯 Importing discovered businesses:', discoveredLeads?.length, 'leads');
-    
+  const handleImportDiscoveredLeads = async (discoveredLeads: ImportableBusiness[]) => {    
     try {
       let successCount = 0;
       let failCount = 0;
@@ -116,7 +114,7 @@ export default function Leads() {
         }
       }
       
-      console.log(`📊 Import Summary: ${successCount} succeeded, ${failCount} failed`);
+      console.log(`Import Summary: ${successCount} succeeded, ${failCount} failed`);
       
           if (successCount > 0) {
             const message = failCount > 0 

@@ -27,8 +27,7 @@ export default function LeadDetails() {
       setLoading(true);
       try {
         const data = await getSingleLead(id);
-        console.log('Fetched lead details:', data);
-        if (mounted) {setLead(data); console.log(data)};
+        if (mounted) {setLead(data)};
       } catch (err) {
         console.error('Error fetching lead details', err);
       } finally {
