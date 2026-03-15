@@ -32,6 +32,17 @@ export default async function handler(req, res) {
     return Number.isNaN(value) ? null : value;
   };
 
+  const isQuotaExceededError = (errorBody) => {
+    const status = (errorBody?.error?.status || '').toString().toUpperCase();
+    const message = (errorBody?.error?.message || '').toString().toLowerCase();
+    return (
+      status === 'RESOURCE_EXHAUSTED' ||
+      message.includes('quota') ||
+      message.includes('billing') ||
+      message.includes('resource exhausted')
+    );
+  };
+
   const buildFallbackInsights = () => ({
     summary: `${company || 'This company'} appears to operate in ${industry || 'its market'} and likely serves businesses that need reliable outcomes. Without live AI/web enrichment, this is a conservative baseline profile using available lead data.`,
     whatTheyOffer: [
@@ -84,44 +95,79 @@ Rules:
 - Keep items concise and conversation-ready.`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: 'application/json'
-          },
-          tools: [{ google_search: {} }]
-        })
+    const requestGemini = async (includeSearchTool) => {
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseMimeType: 'application/json'
+        }
+      };
+
+      if (includeSearchTool) {
+        payload.tools = [{ google_search: {} }];
       }
-    );
 
-    const rawText = await response.text();
-    let data;
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }
+      );
 
-    try {
-      data = rawText ? JSON.parse(rawText) : null;
-    } catch (parseErr) {
-      console.error('Failed to parse Gemini response JSON', parseErr, rawText);
-      return res.status(502).json({
-        error: 'Failed to parse Gemini response JSON',
-        status: response.status,
-        statusText: response.statusText,
-        rawBody: rawText
-      });
+      const rawText = await response.text();
+      let data;
+
+      try {
+        data = rawText ? JSON.parse(rawText) : null;
+      } catch (parseErr) {
+        console.error('Failed to parse Gemini response JSON', parseErr, rawText);
+        return {
+          response,
+          parseError: {
+            error: 'Failed to parse Gemini response JSON',
+            status: response.status,
+            statusText: response.statusText,
+            rawBody: rawText
+          }
+        };
+      }
+
+      return { response, data };
+    };
+
+    // First attempt includes grounding via google_search.
+    let geminiResult = await requestGemini(true);
+
+    // If grounded request is throttled/quota-limited, retry once without google_search.
+    if (geminiResult.response && geminiResult.response.status === 429) {
+      geminiResult = await requestGemini(false);
     }
+
+    if (geminiResult.parseError) {
+      return res.status(502).json(geminiResult.parseError);
+    }
+
+    const { response, data } = geminiResult;
 
     if (!response.ok) {
       if (response.status === 429) {
         const retryAfter = parseRetryDelaySeconds(data);
-        return res.status(200).json({
-          insights: buildFallbackInsights(),
-          fallback: true,
-          reason: 'quota_exceeded',
-          retryAfterSeconds: retryAfter
+        if (isQuotaExceededError(data)) {
+          return res.status(200).json({
+            insights: buildFallbackInsights(),
+            fallback: true,
+            reason: 'quota_exceeded',
+            retryAfterSeconds: retryAfter
+          });
+        }
+
+        return res.status(429).json({
+          error: 'Gemini API rate limited',
+          reason: 'rate_limited',
+          retryAfterSeconds: retryAfter,
+          body: data
         });
       }
       console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
