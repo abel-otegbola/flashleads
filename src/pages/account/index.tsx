@@ -13,6 +13,7 @@ import { Bell } from "@solar-icons/react";
 import { AuthCTA } from "../../components/authCTA/AuthCTA";
 import Profile from "./profile";
 import Settings from "./settings";
+import Notifications from "./notifications";
 
 function AccountPages() {
     const { user } = useContext(AuthContext);
@@ -43,7 +44,7 @@ function AccountPages() {
                             )
                         }
                         </Formik>
-                        <Link to={"/account/notifications"} className="relative text-gray-200 hover:text-gray/ duration-300">
+                        <Link to={"/account/notifications"} className="relative opacity-50 duration-300">
                             <Bell size={20} color="currentColor"/>
                         </Link>
                         <AuthCTA user={user} />
@@ -57,6 +58,7 @@ function AccountPages() {
                     <Route path="/clients" element={<Clients />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/notifications" element={<Notifications />} />
                 </Routes>
             </div>
         </div>

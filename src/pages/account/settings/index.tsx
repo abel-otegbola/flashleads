@@ -3,7 +3,7 @@ import { AuthContext } from "../../../contexts/AuthContextValue";
 import { useModal } from "../../../contexts/useModal";
 import Button from "../../../components/button/Button";
 import LoadingIcon from "../../../assets/icons/loadingIcon";
-import { TrashBin2, LockPassword, Letter } from "@solar-icons/react";
+import { TrashBin2 } from "@solar-icons/react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/input/Input";
 import ThemeSelector from "../../../components/themeSelector/themeSelector";
@@ -99,22 +99,22 @@ export default function Settings() {
   return (
     <div className="p-4 md:p-6">
       <div className="mb-8">
-        <h1 className="uppercase font-medium mb-1">Settings</h1>
+        <h1 className="text-2xl font-medium mb-2">Settings</h1>
         <p className="opacity-[0.6] ">Manage your account preferences</p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 md:p-6 rounded-lg md:border border-gray/[0.1] bg-gray/[0.02] dark:bg-gray/[0.07]">
+      <div className="flex flex-col lg:flex-row gap-6 md:p-6 rounded-lg md:border border-gray/[0.1] md:bg-gray/[0.03] min-h-[500px]">
         {/* Sidebar nav */}
-        <nav className="md:w-64 flex md:flex-col flex-row gap-1 shrink-0">
+        <nav className="lg:w-64 flex lg:flex-col flex-row gap-1 shrink-0">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveSection(item.id)}
               className={`text-left px-3 py-2 rounded-lg  font-medium transition-colors ${
                 activeSection === item.id
-                  ? "bg-background text-text"
+                  ? "bg-background text-text border border-gray/[0.2]"
                   : "opacity-[0.6] hover:bg-gray/[0.08]"
-              } ${item.id === "danger" ? "text-red-600 hover:bg-red-50 hover:text-red-600" : ""} ${
+              } ${item.id === "danger" ? "text-red-600" : ""} ${
                 activeSection === "danger" && item.id === "danger" ? "!bg-red-600 text-white" : ""
               }`}
             >
@@ -142,7 +142,7 @@ export default function Settings() {
               {/* Change email */}
               <div className="bg-background border border-gray/[0.2] rounded-xl p-6">
                 <h2 className="font-semibold mb-1 flex items-center gap-2">
-                  <Letter size={18} /> Change Email
+                  Change Email
                 </h2>
                 <p className=" opacity-[0.6] mb-4">Current: <span className="font-medium">{user?.email}</span></p>
                 <form onSubmit={handleChangeEmail} className="flex flex-col gap-3 max-w-sm">
@@ -162,7 +162,7 @@ export default function Settings() {
               {/* Change password */}
               <div className="bg-background border border-gray/[0.2] rounded-xl p-6">
                 <h2 className="font-semibold mb-1 flex items-center gap-2">
-                  <LockPassword size={18} /> Change Password
+                  Change Password
                 </h2>
                 <p className=" opacity-[0.6] mb-4">Choose a strong password with at least 6 characters</p>
                 <form onSubmit={handleChangePassword} className="flex flex-col gap-3 max-w-sm">

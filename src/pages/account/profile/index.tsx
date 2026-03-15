@@ -39,13 +39,13 @@ export default function Profile() {
     };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-      <div className="h-full p-4 md:p-6 md:col-span-2">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+      <div className="h-full p-4 md:p-6 lg:col-span-2 ">
           <div className="mb-6">
-              <h1 className="mb-2 font-semibold uppercase">Profile</h1>
+              <h1 className="text-2xl font-medium mb-2">Profile</h1>
               <p className="opacity-[0.6]">Manage your information and account</p>
           </div>
-          <div className="bg-background rounded-lg md:border border-gray/[0.1] md:p-6">
+          <div className="bg-gray/[0.03] rounded-lg md:border border-gray/[0.1] md:p-6">
               <Formik
                 initialValues={{ 
                   fullname: profile?.fullName || user?.displayName || "", 
@@ -127,7 +127,7 @@ export default function Profile() {
                       value={values.fullname}
                       onChange={handleChange}
                       type="text"
-                      lefticon={<User weight="BoldDuotone" size={20} color="currentColor" />}
+                      lefticon={<User size={20} color="currentColor" />}
                       error={touched.fullname ? errors.fullname : ""}
                       label="Full Name"
                       />
@@ -136,13 +136,13 @@ export default function Profile() {
                       value={values.email}
                       onChange={handleChange}
                       type="email"
-                      lefticon={<Letter weight="BoldDuotone" size={20} color="currentColor" />}
+                      lefticon={<Letter size={20} color="currentColor" />}
                       error={touched.email ? errors.email : ""}
                       label="Work Email"
                   />
                   <Dropdown 
                       label="Specialty" 
-                      leftIcon={<Case weight="BoldDuotone" size={20} color="currentColor" />}
+                      leftIcon={<Case size={20} color="currentColor" />}
                       value={values.specialty} 
                       onChange={(value) => setFieldValue("specialty", value)} 
                       error={touched.specialty ? errors.specialty : ""}

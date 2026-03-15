@@ -12,8 +12,8 @@ function Footer() {
           {/* Brand Column */}
           <div className="col-span-2">
             <Link to={"/"} className="flex gap-[2px] items-center mb-2">
-                <LogoIcon width={20} height={20} className="" />
-                <h3 className="font-bold text-[20px] tracking-[2px]">lashleads</h3>
+                <LogoIcon width={16} height={16} className="" />
+                <h3 className="text-[18px] tracking-[3px]">lashleads</h3>
             </Link>
             <p className="opacity-[0.6] dark:text-gray/ text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.

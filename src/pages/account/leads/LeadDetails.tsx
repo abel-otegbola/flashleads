@@ -212,17 +212,17 @@ export default function LeadDetails() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col md:col-span-2 bg-background border border-gray/[0.1] rounded-lg p-4">
           <Conversation lead={lead} />
         </div>
         <div className='flex flex-col gap-4 text-[14px] w-full'>
           <div className="w-full bg-background rounded-lg border border-gray/[0.2] pb-4">
-            <p className="bg-slate-100/[0.2] px-4 py-4 font-medium mb-2 border-b border-gray/[0.2] flex items-center gap-2">
+            <p className="bg-gray/[0.03] px-4 py-4 font-medium mb-2 border-b border-gray/[0.2] flex items-center gap-2">
               Contacts
             </p>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Email:</span> 
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Email:</span> 
               { !lead.email ? <button className='underline text-primary' onClick={() => findLeadEmail({
                 leadId: lead.id,
                 companyWebsite: lead.companyWebsite,
@@ -232,15 +232,16 @@ export default function LeadDetails() {
                 showModal
               }) }>Search for email</button> : <span className=''>{lead.email || '—'}</span> }
             </p>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Phone:</span> <span className=''>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Phone:</span> 
+              <span className=''>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
             </p>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Location:</span> 
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Location:</span> 
               <span className=''>{lead.location || '—'}</span>
             </p>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Website:</span> 
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Website:</span> 
               <Link to={lead.companyWebsite || '#'} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
                 {lead.companyWebsite || '—'}
               </Link>
@@ -248,7 +249,7 @@ export default function LeadDetails() {
           </div>
 
           <div className="bg-background rounded-lg border border-gray/[0.2] bg-background pb-4">
-            <p className="bg-slate-100/[0.2] px-4 py-4 font-medium mb-2 border-b border-gray/[0.2] flex items-center gap-2">
+            <p className="bg-gray/[0.03] px-4 py-4 font-medium mb-2 border-b border-gray/[0.2] flex items-center gap-2">
               Socials
             </p>
             {[
@@ -256,8 +257,8 @@ export default function LeadDetails() {
               { label: 'Twitter', url: lead.twitterUrl },
               { label: 'Facebook', url: lead.facebookUrl },
             ].map((social) => (
-              <p key={social.label} className="px-4 py-1">
-                <span className='font-medium text-[12px] opacity-75 mr-2'>{social.label}:</span>
+              <p key={social.label} className="px-4 py-1 flex flex-col">
+                <span className='font-medium text-[12px] opacity-50'>{social.label}:</span>
                 {social.url ? (
                   <a href={social.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
                     {social.url}
@@ -271,17 +272,17 @@ export default function LeadDetails() {
 
           <div className="bg-background rounded-lg border border-gray/[0.2] bg-background pb-2">
             
-            <div className="bg-slate-100/[0.2] flex gap-4 justify-between mb-2 p-4 border-b border-gray/[0.2]">
+            <div className="bg-gray/[0.03] flex gap-4 justify-between mb-2 p-4 border-b border-gray/[0.2]">
               <p className=" text-sm font-medium flex items-center gap-2 font-semibold"> 
                 Opportunity
               </p>
             </div>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Value</span> 
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Value</span> 
               <span className=''>${lead.value || '—'}</span>
             </p>
-            <p className="px-4 py-1">
-              <span className='font-medium text-[12px] opacity-75 mr-2'>Score</span> 
+            <p className="px-4 py-1 flex flex-col">
+              <span className='font-medium text-[12px] opacity-50'>Score</span> 
               <span className=''>{lead.score || '—'}</span>
             </p>
             

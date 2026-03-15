@@ -168,7 +168,7 @@ export default function Leads() {
       {/* Header */}
       <div className="mb-6 flex flex-col gap-6 justify-between">
         <div>
-          <h1 className="mb-2 font-semibold uppercase">Bookmarked leads</h1>
+          <h1 className="text-2xl font-medium mb-2">Bookmarked leads</h1>
           <p className="opacity-[0.6]">Manage and track your potential clients</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -182,7 +182,7 @@ export default function Leads() {
       {loading && <SkeletonLoader count={5} />}
 
       {/* Feed Layout */}
-      <div className="grid md:grid-cols-2 gap-2 space-y-4 p-4 rounded-[16px] bg-gray/[0.05]">
+      <div className="grid md:grid-cols-2 gap-2 space-y-4 p-4 rounded-[16px] bg-gray/[0.03]">
         {!loading && filteredLeads.map((lead) => (
           <LeadCard
             key={lead?.id}

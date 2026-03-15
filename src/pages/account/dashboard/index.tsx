@@ -135,11 +135,11 @@ function Dashboardpage() {
   }, [user?.uid, profile?.specialty, searchTerm, selectedLocation, selectedIndustry]);
 
   return (
-      <div className="flex md:flex-row flex-col gap-4 md:p-4 h-full">
+      <div className="flex lg:flex-row flex-col gap-4 md:p-4 h-full">
 
-        <div className="md:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.05] md:rounded-lg">
+        <div className="lg:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.03] md:rounded-lg">
           <div>
-            <h1 className="mb-2 font-semibold uppercase">Discover</h1>
+            <h1 className="text-2xl font-medium mb-2">Discover</h1>
             <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
@@ -187,8 +187,7 @@ function Dashboardpage() {
         </div>
 
         <div className="flex items-center justify-between py-4">
-          <p className="font-semibold opacity-[0.5]">Current search: <span className="underline">{searchTerm || profile?.specialty}</span></p>
-          <p className="text-xs opacity-[0.6]">{selectedLocation} {selectedIndustry && `• ${selectedIndustry}`}</p>
+          <p className="opacity-[0.5]">Current search: <span className="font-semibold">{searchTerm || profile?.specialty}</span></p>
         </div>
 
         {loading && <SkeletonLoader count={5} />}
@@ -220,7 +219,7 @@ function Dashboardpage() {
           
         </div>
 
-        <div className="md:w-[35%] w-full gap-4 flex flex-col mb-6 p-4 bg-gray/[0.05]">
+        <div className="lg:w-[35%] w-full gap-4 flex flex-col mb-6 p-4 bg-gray/[0.03]">
           <div className="rounded-lg p-4 border border-gray/[0.1] bg-background min-h-[260px]">
             <div className="flex justify-between items-center gap-2 flex-wrap mb-2">
               <h1 className="font-medium">Bookmarked Leads</h1>
