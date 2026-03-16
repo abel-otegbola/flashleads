@@ -57,63 +57,59 @@ Rules:
 - Keep items concise and conversation-ready.`;
 
   try {
-    const requestGemini = async (includeSearchTool) => {
-      const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: 'application/json'
-        }
-      };
-
-      if (includeSearchTool) {
-        payload.tools = [{ google_search: {} }];
-      }
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }
-      );
-
-      const rawText = await response.text();
-      let data;
-
-      try {
-        data = rawText ? JSON.parse(rawText) : null;
-      } catch (parseErr) {
-        console.error('Failed to parse Gemini response JSON', parseErr, rawText);
-        return {
-          response,
-          parseError: {
-            error: 'Failed to parse Gemini response JSON',
-            status: response.status,
-            statusText: response.statusText,
-            rawBody: rawText
+    // Gemini REST API endpoint
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: prompt }]
+            }
+          ],
+          generationConfig: {
+            responseMimeType: 'application/json'
           }
-        };
+        })
       }
+    );
 
-      return { response, data };
-    };
-
-    // First attempt includes grounding via google_search.
-    let geminiResult = await requestGemini(true);
-
-    // If grounded request is throttled/quota-limited, retry once without google_search.
-    if (geminiResult.response && geminiResult.response.status === 429) {
-      geminiResult = await requestGemini(false);
+    // Try to parse body safely and provide detailed errors for debugging
+    let data;
+    const rawText = await response.text();
+    try {
+      data = rawText ? JSON.parse(rawText) : null;
+    } catch (parseErr) {
+      // If parsing fails, include the raw body in the error
+      console.error('Failed to parse Gemini response JSON', parseErr, rawText);
+      return res.status(502).json({
+        error: 'Failed to parse Gemini response JSON',
+        status: response.status,
+        statusText: response.statusText,
+        rawBody: rawText
+      });
     }
-
-    if (geminiResult.parseError) {
-      return res.status(502).json(geminiResult.parseError);
-    }
-
-    const { response, data } = geminiResult;
 
     if (!response.ok) {
+      if (response.status === 429) {
+        const retryAfter = parseRetryDelaySeconds(data);
+        return res.status(200).json({
+          insights: {
+            summary: `${company || 'This company'} appears to operate in ${industry || 'its market'} with limited retrievable detail at the moment.`,
+            whatTheyOffer: ['Core offering could not be confidently resolved due to temporary quota limits.'],
+            whatIsUnique: ['Differentiators unavailable while AI provider quota is temporarily exceeded.'],
+            improvements: ['Retry analysis later to retrieve deeper website and market-specific opportunities.'],
+            conversationAngles: ['Reference a recent company update and ask one discovery question about priorities.'],
+            confidence: 'low'
+          },
+          fallback: true,
+          reason: 'quota_exceeded',
+          retryAfterSeconds: retryAfter
+        });
+      }
+      console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
       return res.status(502).json({
         error: 'Gemini API returned non-OK status',
         status: response.status,
@@ -124,6 +120,7 @@ Rules:
 
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) {
+      console.error('Invalid AI response shape', data);
       return res.status(502).json({ error: 'Invalid AI response shape', body: data });
     }
 
@@ -137,10 +134,11 @@ Rules:
 
     return res.status(200).json({ insights: parsed });
   } catch (err) {
-    console.error('Gemini company insights error:', err && err.message ? err.message : err);
+    console.error('Gemini generation error:', err && err.message ? err.message : err, err && err.stack ? err.stack : err);
     return res.status(500).json({
       error: 'Generation failed',
-      message: err && err.message ? err.message : String(err)
+      message: err && err.message ? err.message : String(err),
+      stack: err && err.stack ? err.stack : undefined
     });
   }
 }

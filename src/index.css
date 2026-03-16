@@ -149,3 +149,9 @@ hr {
     display: none;
   }
 }
+
+.btn-bg {
+  background: linear-gradient(96deg, #D437ED 5.3%, #C4674B 33.08%, #D9EF34 62.81%, #8263F4 88.72%);
+  filter: blur(10px);
+  opacity: 1;
+}

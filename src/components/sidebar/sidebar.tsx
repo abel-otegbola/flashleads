@@ -96,20 +96,22 @@ function Sidebar() {
 
                 {/* User Info & Theme Toggle */}
                 <div className="flex flex-col gap-3 pt-4 mt-4">
-
                     {/* User Info */}
                     {user && (
-                        <div className={`flex items-center gap-3 border border-gray/[0.1] bg-background rounded ${open ? "p-0 rounded-full" : "p-2"}`}>
-                            <AuthCTA user={user} />
-                            
-                            {/* User Details */}
-                            <div className={`flex-1 min-w-0 ${open ? "md:hidden" : ""}`}>
-                                <p className="font-medium  mb-1">
-                                    <span className=" capitalize">{user?.fullname || user?.displayName || user?.email?.split('@')[0]}</span>
-                                </p>
-                                <p className="text-xs opacity-[0.6] dark:text-gray/ truncate">
-                                    {user.email || ''}
-                                </p>
+                        <div className="relative">
+                            <div className={`relative flex items-center gap-3 border border-gray/[0.1] bg-background rounded-lg z-[2] ${open ? "p-0 rounded-full" : "p-2"}`}>
+                                
+                                <AuthCTA user={user} />
+                                
+                                {/* User Details */}
+                                <div className={`flex-1 min-w-0 ${open ? "md:hidden" : ""}`}>
+                                    <p className="font-medium  mb-1">
+                                        <span className=" capitalize">{user?.fullname || user?.displayName || user?.email?.split('@')[0]}</span>
+                                    </p>
+                                    <p className="text-xs opacity-[0.6] dark:text-gray/ truncate">
+                                        {user.email || ''}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     )}

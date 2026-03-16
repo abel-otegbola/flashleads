@@ -29,15 +29,12 @@ export default async function handler(req, res) {
   const buildFallbackOutreach = (leadData) => {
     const name = leadData?.name || 'there';
     const company = leadData?.company || 'your team';
-    const industry = leadData?.industry || 'your space';
-    const service = Array.isArray(leadData?.serviceNeeds) && leadData.serviceNeeds.length > 0
-      ? leadData.serviceNeeds[0]
-      : 'conversion and growth';
+    const issue = leadData?.notes || 'some friction in the current user journey';
 
-    return `Subject: Quick idea for ${company}\n\nHi ${name},\n\nI came across ${company} and liked how you operate in ${industry}. I noticed there may be room to improve ${service.toLowerCase()} outcomes with a few focused website and messaging tweaks.\n\nIf useful, I can share 2-3 concrete ideas tailored to your current setup and audience, then you can decide if any are worth testing.\n\nWould a quick exchange this week be helpful?`;
+    return `Subject: Quick user note for ${company}\n\nHi ${name},\n\nI use products like yours and noticed ${issue}. From a user perspective, this can create confusion and make it harder to trust what to do next.\n\nIs this something your team is currently looking at, or am I missing context on how it is meant to work?`;
   };
 
-  // Build PAS + CTA prompt – proven high-converting format
+  // Build first-touch prompt focused on reply generation from a user perspective
   // Create a readable lead summary. If `lead` is an object, include important fields
   const leadSummary = (typeof lead === 'string')
     ? lead
@@ -50,25 +47,27 @@ export default async function handler(req, res) {
   if (process.env.DEBUG_GEMINI) console.log('Lead summary for prompt:', leadSummary);
 
   const prompt = `
-    You are an expert cold outreach specialist writing highly converting B2B emails.
+    You are writing the FIRST outreach message to start a reply, not to sell services.
+    Write as a concerned user/customer of their product, not as a freelancer, consultant, agency, or vendor.
 
-    Write a SHORT, personalized outreach email using this proven format:
+    Write a SHORT, personalized outreach email with this structure:
 
-    **Subject Line**: Write ONE compelling, curiosity-driven subject line (5-8 words max)
+    Subject Line: ONE natural subject line (4-8 words) that sounds like customer feedback.
 
-    **Email Body** (4-5 sentences ONLY):
-    1. HOOK: Open with ONE sentence showing you researched them (mention specific detail about their company/website)
-    2. PROBLEM: ONE sentence pointing out a specific issue or missed opportunity you noticed
-    3. SOLUTION: ONE sentence stating how you can fix it (be specific, not vague)
-    4. PROOF/VALUE: ONE short sentence with a relevant result or benefit
-    5. CTA: ONE simple question or soft call-to-action (e.g., "Worth a quick chat?")
+    Email Body (3-4 sentences ONLY):
+    1. Context: Mention one specific thing you noticed on their site/product.
+    2. User Impact: Explain how this issue affects a real user workflow or trust.
+    3. Clarifying Question: Ask one sincere, low-pressure question that invites a reply.
+    4. Optional: Add one short sentence showing interest in their project direction.
 
     CRITICAL RULES:
-    - Keep it under 80 words total
+    - Keep it under 90 words total
     - NO fluff or corporate jargon
-    - Be conversational and direct
-    - Focus on THEIR benefit, not your services
-    - End with a low-pressure question, NOT "book a call" or "schedule a meeting"
+    - Be conversational, specific, and respectful
+    - Focus on user impact and product experience
+    - Do NOT pitch services, solutions, deliverables, pricing, or meetings
+    - Do NOT use freelancer/agency language (for example: "I can help", "I offer", "my services", "my agency")
+    - End with a low-pressure question that is easy to answer
     - Do NOT use phrases like "I hope this email finds you well" or "I wanted to reach out"
 
     Lead details:

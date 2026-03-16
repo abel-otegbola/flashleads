@@ -1,24 +1,19 @@
 import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { LeadsContext, type Lead } from '../../../contexts/LeadsContextValue';
-import { ClientsContext } from '../../../contexts/ClientsContextValue';
 import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
-import { Case, Letter, Phone } from '@solar-icons/react';
 import Conversation from '../../../components/conversation/Conversation';
 import { findLeadEmail } from '../../../helpers/emailFinder';
 
 export default function LeadDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getSingleLead, deleteLead, updateLead, leads } = useContext(LeadsContext);
-  const { addClient } = useContext(ClientsContext);
+  const { getSingleLead, updateLead, leads } = useContext(LeadsContext);
   const { showModal } = useModal();
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
-  const [converting, setConverting] = useState(false);
-  const [findingEmail, setFindingEmail] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -50,117 +45,6 @@ export default function LeadDetails() {
     </div>
   );
 
-  const handleSendEmail = async () => {
-    if (!lead.email) {
-      // Try to find email first
-      if (!lead.companyWebsite) {
-        await showModal({ 
-          title: 'No Email or Website', 
-          message: 'This lead has no email address and no website to search for contacts.' 
-        });
-        return;
-      }
-
-      const confirmed = await showModal({
-        title: 'Find Email First?',
-        message: `This lead has no email address.\n\nWould you like to search for their contact email using Hunter.io before sending?`,
-        showCancel: true
-      });
-
-      if (!confirmed) return;
-
-      setFindingEmail(true);
-      try {
-        const success = await findLeadEmail({
-          leadId: lead.id,
-          companyWebsite: lead.companyWebsite,
-          companyName: lead.company,
-          leads,
-          updateLead,
-          showModal
-        });
-
-        if (success && id) {
-          // Refresh the lead data to get the updated email
-          const updatedLead = await getSingleLead(id);
-          if (updatedLead) {
-            setLead(updatedLead);
-            // Now open mail client with the found email
-            window.location.href = `mailto:${updatedLead.email}?subject=${encodeURIComponent('Regarding your website')}&body=${encodeURIComponent('Hi ' + updatedLead.name + ',\n\nI noticed your website and...')}`;
-          }
-        }
-      } catch (error) {
-        console.error('Error finding email:', error);
-      } finally {
-        setFindingEmail(false);
-      }
-      return;
-    }
-    // Open mail client
-    window.location.href = `mailto:${lead.email}?subject=${encodeURIComponent('Regarding your website')}&body=${encodeURIComponent('Hi ' + lead.name + ',\n\nI noticed your website and...')}`;
-  };
-
-  const handleCall = async () => {
-    if (!lead.phone) {
-      await showModal({ title: 'No Phone', message: 'This lead has no phone number.' });
-      return;
-    }
-    window.location.href = `tel:${lead.phone}`;
-  };
-
-  const handleConvertToClient = async () => {
-    if (!lead) return;
-    
-    const confirmed = await showModal({ 
-      title: 'Convert Lead to Client', 
-      message: `Convert ${lead.name} from ${lead.company} to a client?\n\nThis will:\n• Create a new client record\n• Move them to your Clients page\n• You can then create projects for them\n\nThe lead will be removed from your leads list.`,
-      showCancel: true
-    });
-    
-    if (!confirmed) return;
-    
-    setConverting(true);
-    try {
-      // Create client from lead data
-      await addClient({
-        name: lead.name,
-        email: lead.email,
-        phone: typeof lead.phone === 'string' ? lead.phone : '',
-        company: lead.company,
-        location: lead.location,
-        industry: lead.industry,
-        status: 'active',
-        totalRevenue: 0,
-        linkedinUrl: lead.linkedinUrl || '',
-        website: lead.companyWebsite,
-        notes: lead.notes || `Converted from lead. Original value: $${lead.value.toLocaleString()}`,
-        tags: lead.serviceNeeds || []
-      });
-      
-      // Delete the lead
-      await deleteLead(lead.id);
-      
-      await showModal({ 
-        title: 'Success!', 
-        message: `${lead.name} has been converted to a client!\n\nYou can now find them in the Clients section.`,
-        showCancel: false
-      });
-      
-      // Navigate to clients page
-      navigate('/account/clients');
-      
-    } catch (error) {
-      console.error('Error converting lead to client:', error);
-      await showModal({ 
-        title: 'Conversion Failed', 
-        message: 'Failed to convert lead to client. Please try again.',
-        showCancel: false
-      });
-    } finally {
-      setConverting(false);
-    }
-  };
-
   return (
     <div className="md:p-6 p-2 min-h-screen">
       <div className="flex flex-wrap gap-4 items-center justify-between">
@@ -190,22 +74,6 @@ export default function LeadDetails() {
               <p className="text-sm opacity-[0.6]">{lead.industry}</p>
             </div>
           </div>
-          <div className="mt-4 flex gap-2 flex-wrap">
-            <Button variant="secondary" className='shadow-none' onClick={handleSendEmail} disabled={findingEmail}>
-              {findingEmail ? <LoadingIcon /> : <Letter />} 
-              {findingEmail ? 'Finding Email...' : 'Send Email'}
-            </Button>
-            <Button variant="secondary" className='shadow-none' onClick={handleCall}><Phone />Call Company</Button>
-            <Button 
-              variant="secondary"
-              className='shadow-none'
-              onClick={handleConvertToClient}
-              disabled={converting}
-            >
-              {converting ? <LoadingIcon /> : <Case />} 
-              {converting ? 'Converting...' : 'Convert Lead to Client'}
-            </Button>
-          </div>
         </div>
         <div className="flex gap-2">
         </div>
@@ -229,11 +97,17 @@ export default function LeadDetails() {
                 leads,
                 updateLead,
                 showModal
-              }) }>Search for email</button> : <span className=''>{lead.email || '—'}</span> }
+              }) }>Search for email</button> : 
+              <Link to={`mailto:${lead.email}`} className='text-primary hover:underline'>
+                {lead.email || '—'}
+              </Link> 
+              }
             </p>
             <p className="px-4 py-1 flex flex-col">
               <span className='font-medium text-[12px] opacity-50'>Phone:</span> 
-              <span className=''>{typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}</span>
+              <Link to={`tel:${lead.phone}`} className='text-primary hover:underline'>
+                {typeof lead.phone === 'string' && lead.phone ? lead.phone : '—'}
+              </Link>
             </p>
             <p className="px-4 py-1 flex flex-col">
               <span className='font-medium text-[12px] opacity-50'>Location:</span> 
@@ -241,7 +115,7 @@ export default function LeadDetails() {
             </p>
             <p className="px-4 py-1 flex flex-col">
               <span className='font-medium text-[12px] opacity-50'>Website:</span> 
-              <Link to={lead.companyWebsite || '#'} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
+              <Link to={lead.companyWebsite || '#'} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs break-all">
                 {lead.companyWebsite || '—'}
               </Link>
             </p>
@@ -259,7 +133,7 @@ export default function LeadDetails() {
               <p key={social.label} className="px-4 py-1 flex flex-col">
                 <span className='font-medium text-[12px] opacity-50'>{social.label}:</span>
                 {social.url ? (
-                  <a href={social.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs break-all">
+                  <a href={social.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs break-all">
                     {social.url}
                   </a>
                 ) : (

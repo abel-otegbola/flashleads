@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapPoint } from "@solar-icons/react";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 
@@ -10,7 +10,14 @@ interface LocationPickerProps {
 const LocationPicker = ({ selectedLocation, onLocationChange }: LocationPickerProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [value, setValue] = useState(selectedLocation || "");
+    const inputRef = useRef<HTMLInputElement>(null);
     const popupRef = useOutsideClick(() => setIsOpen(false), false);
+
+    useEffect(() => {
+        if (isOpen) {
+            inputRef.current?.focus();
+        }
+    }, [isOpen]);
 
     const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.key === "Enter") {
@@ -18,14 +25,13 @@ const LocationPicker = ({ selectedLocation, onLocationChange }: LocationPickerPr
             setIsOpen(false);
         }
     }
-
     return (
         <div className="relative">
         <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 p-2 rounded-full border border-gray/[0.1] hover:bg-gray-50 transition-colors text-sm"
+            className="px-4 py-[4px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold"
         >
-            <MapPoint size={18} className="" />
+            {selectedLocation || "Select Location"}
         </button>
 
         {isOpen && (
@@ -37,6 +43,7 @@ const LocationPicker = ({ selectedLocation, onLocationChange }: LocationPickerPr
             <div className="flex items-center px-4 gap-2 border-b border-gray/[0.2]">
                 <MapPoint size={16} />
                 <input
+                ref={inputRef}
                 type="text"
                 placeholder="Type location..."
                 value={value}

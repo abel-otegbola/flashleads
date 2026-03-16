@@ -11,7 +11,7 @@ interface Theme {
 type Themes = Array<Theme>
 
 
-function ThemeSelector() {
+function ThemeSelector({ props }: { props?: React.HTMLAttributes<HTMLDivElement> }) {
     const { theme, setTheme } = useContext(ThemeContext)
 
     const themes: Themes = [
@@ -21,7 +21,7 @@ function ThemeSelector() {
     ]
 
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-2" {...props}>
             {
                 themes.map(item => {
                     return (

@@ -40,9 +40,9 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2  gap-2 p-2 rounded-full border border-gray/[0.1] hover:bg-gray-50 transition-colors text-sm"
+        className="px-4 py-[4px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold"
       >
-        <Buildings size={18} className="" />
+        {selectedIndustry || "Select Industry"}
       </button>
 
       {isOpen && (
@@ -81,7 +81,7 @@ const IndustryPicker = ({ selectedIndustry, specialty, onIndustryChange }: Indus
                 <button
                   key={industry}
                   onClick={() => handleSelect(industry)}
-                  className={`w-full text-left px-4 py-2 text-[12px] font-medium hover:bg-gray-50 transition-colors border-b border-gray/[0.1] last:border-b-0 ${
+                  className={`w-full text-left px-4 py-2 text-[12px] font-medium hover:bg-gray/[0.05] transition-colors border-b border-gray/[0.1] last:border-b-0 ${
                     selectedIndustry === industry ? "bg-primary/5 text-primary font-medium" : "opacity-[0.6]"
                   }`}
                 >

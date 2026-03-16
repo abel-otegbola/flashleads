@@ -143,79 +143,80 @@ function Dashboardpage() {
             <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
-        <div className="flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] bg-background">
-          <div className="flex items-start gap-2">
-            <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
-              <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
-            </Link>
-            <div className="flex flex-col flex-1">
-              <div className="flex items-center gap-1">
-                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold">{selectedLocation}</button>
-                <button className="px-2 py-[2px] text-[10px] leading-[14px] bg-gray/[0.09] rounded font-semibold">{selectedIndustry}</button>
-              </div>
-              <textarea 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} 
-                className="py-2 flex-1 border-none outline-none text-semibold resize-none" 
-                placeholder="Customize your client search here..."
-                rows={2}
-              />
+          <div className="relative">
+            <div className="absolute z-[1] top-[8%] left-[2%] w-[96%] h-[84%] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
             </div>
-          </div>
-          
-          <div className="flex flex-wrap justify-between gap-2 items-center">
-            <div className="flex gap-2 items-center">
-              <LocationPicker 
-                selectedLocation={selectedLocation}
-                onLocationChange={setSelectedLocation}
-              />
-              
-              <IndustryPicker 
-                selectedIndustry={selectedIndustry}
-                specialty={profile?.specialty}
-                onIndustryChange={setSelectedIndustry}
-              />
-            </div>
+            <div className="relative flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] bg-background z-[2]">
             
-            <Button 
-              onClick={() => setSearchTerm(searchQuery || profile?.specialty || '')}
-              className="px-6 py-2 rounded-lg text-white hover:bg-primary-dark text-sm font-medium"
-            >
-              Search
-            </Button>
+              <div className="flex items-start gap-4 z-2">
+                <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
+                  <img src={user?.photoURL || profile?.photoURL || "/profile.jpg"} width={40} height={40} className="rounded-full" alt="Profile" />
+                </Link>
+                <div className="flex flex-col flex-1">
+                  <textarea 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} 
+                    className="py-2 flex-1 border-none outline-none text-semibold resize-none" 
+                    placeholder="Customize your client search here..."
+                    rows={2}
+                  />
+                </div>
+              </div>
+            
+              <div className="flex flex-wrap justify-between gap-2 items-center">
+                <div className="flex gap-2 items-center">
+                  <LocationPicker 
+                    selectedLocation={selectedLocation}
+                    onLocationChange={setSelectedLocation}
+                  />
+                  
+                  <IndustryPicker 
+                    selectedIndustry={selectedIndustry}
+                    specialty={profile?.specialty}
+                    onIndustryChange={setSelectedIndustry}
+                  />
+                </div>
+                
+                <Button 
+                  onClick={() => setSearchTerm(searchQuery || profile?.specialty || '')}
+                  className="px-6 py-2 rounded-lg text-white hover:bg-primary-dark text-sm font-medium"
+                >
+                  Search
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center justify-between py-4">
-          <p className="opacity-[0.5]">Current search: <span className="font-semibold">{searchTerm || profile?.specialty}</span></p>
-        </div>
-
-        {loading && <SkeletonLoader count={5} />}
-
-        {error && (
-          <div className="bg-background rounded-lg p-4 text-center">
-            <p className="text-red-600">{error}</p>
+          <div className="flex items-center justify-between py-4">
+            <p className="opacity-[0.5]">Current search: <span className="font-semibold">{searchTerm || profile?.specialty}</span></p>
           </div>
-        )}
 
-        {!loading && !error && generatedLeads.length === 0 && (
-          <div className="bg-background border border-gray/[0.2] rounded-lg p-8 text-center">
-            <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
+          {loading && <SkeletonLoader count={5} />}
+
+          {error && (
+            <div className="bg-background rounded-lg p-4 text-center">
+              <p className="text-red-600">{error}</p>
+            </div>
+          )}
+
+          {!loading && !error && generatedLeads.length === 0 && (
+            <div className="bg-background border border-gray/[0.2] rounded-lg p-8 text-center">
+              <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
+            </div>
+          )}
+
+          <div className="md:p-4 md:bg-gray/[0.05] flex flex-col gap-4 rounded-lg min-h-[230px]">
+            {!loading && generatedLeads.map((lead) => (
+              <LeadCard
+                key={lead?.id}
+                lead={lead as Lead}
+                onClick={handleLeadClick}
+                onBookmark={saveLead}
+                isBookmarking={savingLeadId === lead.id}
+                getScoreColor={getScoreColor}
+              />
+            ))}
           </div>
-        )}
-
-        <div className="md:p-4 md:bg-gray/[0.05] flex flex-col gap-4 rounded-lg min-h-[230px]">
-          {!loading && generatedLeads.map((lead) => (
-            <LeadCard
-              key={lead?.id}
-              lead={lead as Lead}
-              onClick={handleLeadClick}
-              onBookmark={saveLead}
-              isBookmarking={savingLeadId === lead.id}
-              getScoreColor={getScoreColor}
-            />
-          ))}
-        </div>
           
         </div>
 
