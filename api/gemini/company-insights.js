@@ -114,16 +114,6 @@ Rules:
     const { response, data } = geminiResult;
 
     if (!response.ok) {
-      if (response.status === 429) {
-        const retryAfter = parseRetryDelaySeconds(data);
-        return res.status(429).json({
-          error: 'Gemini API rate limited',
-          reason: 'rate_limited',
-          retryAfterSeconds: retryAfter,
-          body: data
-        });
-      }
-      console.error('Gemini API returned non-OK status', response.status, response.statusText, data);
       return res.status(502).json({
         error: 'Gemini API returned non-OK status',
         status: response.status,
