@@ -1,4 +1,4 @@
-import { useContext, useState, type ReactElement } from "react";
+import { useContext, useEffect, useState, type ReactElement } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Bell, Home, Logout, Settings, type IconProps, CloseCircle, SidebarMinimalistic, Bookmark, User } from "@solar-icons/react";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
@@ -12,9 +12,24 @@ export interface Link {
 
 function Sidebar() {
     const [open, setOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia("(max-width: 767px)").matches)
     const pathname = useLocation().pathname;
     const { user, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+        const handleMediaChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        mediaQuery.addEventListener("change", handleMediaChange);
+
+        return () => {
+            mediaQuery.removeEventListener("change", handleMediaChange);
+        };
+    }, []);
 
     const generalLinks: Link[] = [
         { id: 0, label: "Dashboard", icon: <Home size={16} />, link: "/account/dashboard" },
@@ -25,23 +40,29 @@ function Sidebar() {
         { id: 6, label: "Logout", icon: <Logout size={16} />, link: "#" },
     ]
     
-    const modalRef = useOutsideClick(setOpen, false)
+    const modalRef = useOutsideClick(setOpen, false, isMobile && open)
 
     return (
-        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "md:w-[104px]": "md:w-[300px]"}`}>
-            <button className={`md:absolute fixed top-5 md:right-4 md:left-auto flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-500 ${open ? " left-[280px] max-[500px]:left-[230px]" : "left-4"}`} onClick={() => setOpen(!open)}>
+        <>
+        <button className={`md:absolute fixed top-5 md:right-4 flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-700 ${open ? " left-[280px] max-[500px]:left-[230px] md:left-24" : "md:left-[260px] left-4"}`} onClick={() => setOpen(!open)}>
                 { open ?
-                <CloseCircle size={24} color="currentColor" weight="LineDuotone" />
+                <CloseCircle size={28} color="currentColor" />
                 :
                 <SidebarMinimalistic size={20} color="currentColor" />
                 }
             </button>
+        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "md:w-[74px]": "md:w-[300px]"}`}>
+            
 
             <div  className={`fixed top-0 left-0 md:hidden bg-[#000]/[0.5] ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
             <div ref={modalRef} className={`flex flex-col justify-between md:h-full md:bg-gray/[0.05] bg-background h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "md:w-[74px] w-[320px] max-[500px]:w-[270px] translate-x-[0px]": "md:w-full translate-x-[-400px] md:translate-x-[0px]"}`}>  
-                <Link to={"/"} className={`flex items-center mb-2 gap-[2px] p-1 pt-[6px] pb-5 border-b border-gray/[0.1] ${open ? "md:p-1 pb-5 md:w-11 md:h-11 md:justify-center md:aspect-square md:bg-gray/[0.08] rounded" : ""}`}>
-                    <LogoIcon width={14} height={14} />
-                    <h3 className={`tracking-[3px] duration-500 ${open ? "md:hidden" : ""}`}>lashleads</h3>
+                <Link to={"/"} className={`flex items-center mb-2 gap-2 w-full p-1 pt-[2px] pb-5 border-b border-gray/[0.1] ${open ? "w-12 h-12 md:justify-center md:aspect-square" : ""}`}>
+                    <div className="relative">
+                        <div className="absolute top-[2%] left-[2%] w-[96%] h-[96%] z-[1] btn-bg-logo rounded-full">
+                        </div>
+                        <LogoIcon width={28} height={28} className="rounded-full z-[2] relative" />
+                    </div>
+                    <h3 className={`tracking-[2px] font-medium duration-500 ${open ? "md:hidden" : ""}`}>Flashleads</h3>
                 </Link>
 
                 {/* Navigation Links */}
@@ -54,7 +75,7 @@ function Sidebar() {
                                 return (
                                 <>
                                     <h1 className={`opacity-[0.4] p-3 pt-4 text-[14px] uppercase mt-4 border-t border-gray/[0.2] ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>Others</h1>
-                                    <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
+                                    <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
                                         {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black  dark:bg-primary"></span>: ""}
                                         <div className="flex items-center gap-3">
                                             <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>
@@ -69,7 +90,7 @@ function Sidebar() {
                                     return (
                                         <button
                                             key={link.id}
-                                            onClick={async () => { setOpen(false); await logOut(); navigate('/login'); }}
+                                            onClick={async () => { await logOut(); navigate('/login'); }}
                                             className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[48px] rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold text-primary" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
                                             <div className="flex items-center gap-3">
                                                 <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
@@ -79,7 +100,7 @@ function Sidebar() {
                                     )
                                 }
                                 return (
-                                <Link key={link.id} onClick={() => setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
+                                <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
                                     {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black  dark:bg-primary"></span>: ""}
                                     <div className="flex items-center gap-3">
                                         <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>
@@ -117,6 +138,7 @@ function Sidebar() {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

@@ -42,9 +42,13 @@ function Topbar() {
         <>
         <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <div className="flex items-center gap-6">
-            <Link to={"/"} className="flex gap-[2px] items-center">
-                <LogoIcon width={16} height={16} />
-                <h3 className=" text-[18px] tracking-[3px]">lashleads</h3>
+            <Link to={"/"} className="flex gap-2 items-center">
+            <div className="relative">
+                <div className="absolute top-[2%] left-[2%] w-[96%] h-[96%] z-[-1] btn-bg-logo rounded-full">
+                </div>
+                <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
+            </div>
+            <h3 className="font-medium text-[16px] tracking-[2px]">Flashleads</h3>
             </Link>
             
             <ul className={`
@@ -58,7 +62,7 @@ function Topbar() {
                 md:translate-x-0 ${open ? "translate-x-0" : "translate-x-full"}
                 transition-transform duration-500 ease-in-out
             `}>
-                <LogoIcon width={20} height={20} className="md:hidden my-4" />
+                <LogoIcon width={28} height={28} className="md:hidden my-4" />
                 {
                     [
                         { id: 0, title: "Hire Freelancers", href: "#freelancers" },

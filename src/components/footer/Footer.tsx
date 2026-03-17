@@ -11,9 +11,13 @@ function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-2">
-            <Link to={"/"} className="flex gap-[2px] items-center mb-2">
-                <LogoIcon width={16} height={16} className="" />
-                <h3 className="text-[18px] tracking-[3px]">lashleads</h3>
+            <Link to={"/"} className="flex gap-2 items-center mb-2">
+              <div className="relative">
+                  <div className="absolute top-[2%] left-[2%] w-[96%] h-[96%] z-[1] btn-bg-logo rounded-full">
+                  </div>
+                  <LogoIcon width={28} height={28} className="relative rounded-full z-[2]" />
+              </div>
+                <h3 className="text-[16px] tracking-[2px]">Flashleads</h3>
             </Link>
             <p className="opacity-[0.6] dark:text-gray/ text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.

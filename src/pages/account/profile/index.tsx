@@ -45,7 +45,7 @@ export default function Profile() {
               <h1 className="text-2xl font-medium mb-2">Profile</h1>
               <p className="opacity-[0.6]">Manage your information and account</p>
           </div>
-          <div className="bg-gray/[0.03] rounded-lg md:border border-gray/[0.1] md:p-6">
+          <div className="md:bg-gray/[0.03] rounded-lg md:border border-gray/[0.1] md:p-6">
               <Formik
                 initialValues={{ 
                   fullname: profile?.fullName || user?.displayName || "", 
