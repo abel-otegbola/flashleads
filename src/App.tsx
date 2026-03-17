@@ -25,7 +25,7 @@ import MouseCursor from "./components/mouseCursor/MouseCursor"
 function App() {
 
   return (
-    <div className="text-[14px] md:text-[15px] 2xl:text-[16px] bg-background text-text tracking-[5%] leading-[24px]">
+    <div className="text-[14px] md:text-[15px] 2xl:text-[16px] bg-background text-text tracking-[5%]">
       <BrowserRouter>
       <ThemeProvider>
       <ModalProvider>

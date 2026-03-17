@@ -180,7 +180,7 @@ export default function Leads() {
       {loading && <SkeletonLoader count={5} />}
 
       {/* Feed Layout */}
-      <div className="grid md:grid-cols-2 gap-2 space-y-4 p-4 rounded-[16px] bg-gray/[0.03]">
+      <div className="grid md:grid-cols-2 gap-2 space-y-4 md:p-4 rounded-[16px] md:bg-gray/[0.03]">
         {!loading && filteredLeads.map((lead) => (
           <LeadCard
             key={lead?.id}
