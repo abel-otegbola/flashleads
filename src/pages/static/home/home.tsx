@@ -50,7 +50,7 @@ function Homepage() {
             </div>
         </header>
 
-        <section className="flex flex-col gap-4 py-8 md:px-[8%] px-4">
+        <section className="flex flex-col gap-4 py-8 md:px-[8%] px-4 dark:bg-black">
             <h2 className="text-2xl font-medium mb-2 text-center">Personalized categories</h2>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
             {
