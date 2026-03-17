@@ -1,31 +1,5 @@
 import * as Yup from 'yup';
 
-export const clientSchema = Yup.object().shape({
-    name: Yup.string()
-        .required('Name is required')
-        .min(2, 'Name must be at least 2 characters'),
-    email: Yup.string()
-        .required('Email is required')
-        .email('Invalid email format'),
-    phone: Yup.string()
-        .matches(/^[+()0-9\s-]+$/, 'Invalid phone number format'),
-    company: Yup.string()
-        .required('Company is required')
-        .min(2, 'Company must be at least 2 characters'),
-    location: Yup.string(),
-    industry: Yup.string().required('Industry is required'),
-    status: Yup.string()
-        .oneOf(['active', 'inactive', 'prospect', 'past'], 'Invalid status')
-        .required('Status is required'),
-    totalRevenue: Yup.number()
-        .min(0, 'Revenue must be positive')
-        .required('Total revenue is required'),
-    linkedinUrl: Yup.string().url('Invalid URL'),
-    website: Yup.string().url('Invalid URL'),
-    notes: Yup.string(),
-    tags: Yup.array().of(Yup.string()),
-});
-
 export const projectSchema = Yup.object().shape({
     clientId: Yup.string().required('Client is required'),
     name: Yup.string()

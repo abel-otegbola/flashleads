@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "./pages/auth/login"
 import AuthProvider from "./contexts/AuthContext"
 import LeadsProvider from "./contexts/LeadsContext"
-import ClientsProvider from "./contexts/ClientsContext"
 import UserProfileProvider from "./contexts/UserProfileContext"
 import ThemeProvider from "./contexts/ThemeContext"
 import Signup from "./pages/auth/signup"
@@ -33,7 +32,6 @@ function App() {
       <AuthProvider>
         <UserProfileProvider>
         <LeadsProvider>
-          <ClientsProvider>
             
               <MouseCursor />
               <Routes>
@@ -62,7 +60,6 @@ function App() {
               <Route path="/account/*" element={<AccountPages />} />
 
             </Routes>
-          </ClientsProvider>
         </LeadsProvider>
         </UserProfileProvider>
       </AuthProvider>

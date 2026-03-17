@@ -1,6 +1,6 @@
 import { useContext, useState, type ReactElement } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, Home, Logout, Settings, UsersGroupRounded, type IconProps, CloseCircle, SidebarMinimalistic, Bookmark, User } from "@solar-icons/react";
+import { Bell, Home, Logout, Settings, type IconProps, CloseCircle, SidebarMinimalistic, Bookmark, User } from "@solar-icons/react";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
@@ -19,7 +19,6 @@ function Sidebar() {
     const generalLinks: Link[] = [
         { id: 0, label: "Dashboard", icon: <Home size={16} />, link: "/account/dashboard" },
         { id: 1, label: "Leads", icon: <Bookmark size={16} />, link: "/account/leads" },
-        { id: 2, label: "Clients", icon: <UsersGroupRounded size={16} />, link: "/account/clients" },
         { id: 3, label: "Profile", icon: <User size={16} />, link: "/account/profile" },
         { id: 4, label: "Messages", icon: <Bell size={16} />, link: "/account/notifications", subtext: "2" },
         { id: 5, label: "Settings", icon: <Settings size={16} />, link: "/account/settings" },

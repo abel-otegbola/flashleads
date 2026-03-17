@@ -6,7 +6,6 @@ import { Formik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import Feeds from "./leads";
-import Clients from "./clients";
 import Dashboardpage from "./dashboard";
 import SearchBar from "../../components/search/searchBar";
 import { Bell } from "@solar-icons/react";
@@ -55,7 +54,6 @@ function AccountPages() {
                     <Route path="/dashboard" element={<Dashboardpage />} />
                     <Route path="/leads" element={<Feeds />} />
                     <Route path="/leads/:id" element={<LeadDetails />} />
-                    <Route path="/clients" element={<Clients />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/notifications" element={<Notifications />} />
