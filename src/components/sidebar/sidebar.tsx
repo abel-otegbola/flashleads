@@ -44,15 +44,15 @@ function Sidebar() {
 
     return (
         <>
-        <button className={`md:absolute fixed top-5 md:right-4 flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-700 ${open ? " left-[280px] max-[500px]:left-[230px] md:left-24" : "md:left-[260px] left-4"}`} onClick={() => setOpen(!open)}>
+        
+        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "md:w-[74px]": "md:w-[300px]"}`}>
+            <button className={`md:absolute fixed top-5 md:right-4 flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-700 ${open ? " left-[280px] max-[500px]:left-[230px] md:left-24" : "md:left-[260px] left-4"}`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={28} color="currentColor" />
                 :
                 <SidebarMinimalistic size={20} color="currentColor" />
                 }
             </button>
-        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "md:w-[74px]": "md:w-[300px]"}`}>
-            
 
             <div  className={`fixed top-0 left-0 md:hidden bg-[#000]/[0.5] ${open ? "w-full h-full" : "w-0 h-full"}`}></div>
             <div ref={modalRef} className={`flex flex-col justify-between md:h-full md:bg-gray/[0.05] bg-background h-[100vh] md:sticky fixed md:shadow-none shadow-lg md:top-0 top-0 py-4 px-4 left-0 overflow-y-auto overflow-x-hidden z-[5] transition-all duration-700 ${open ? "md:w-[74px] w-[320px] max-[500px]:w-[270px] translate-x-[0px]": "md:w-full translate-x-[-400px] md:translate-x-[0px]"}`}>  

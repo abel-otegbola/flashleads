@@ -28,7 +28,7 @@ export default function Input({ onChange, error, type, ...props }: inputProps) {
             ${error && !focus ? "text-red-500" : ""}
           `}>{props.label}</label> : "" }
 
-            <div className={`flex items-center px-[12px] py-[10px] gap-2 relative w-full duration-500 rounded-[6px]
+            <div className={`flex items-center px-[12px] py-[10px] gap-2 relative w-full duration-500 rounded-[6px] bg-background
                 ${error && !focus ? "border border-red-500 text-red-500 " : ""}
                 ${focus ? "border border-primary" : "border-gray/[0.2]"}
                 ${props.className}

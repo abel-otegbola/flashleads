@@ -169,7 +169,7 @@ export const generateDashboardLeads = async ({
   const organizations = data.organizations || [];
 
   // Transform into lead format
-  const leads: GeneratedLead[] = organizations.slice(0, 5).map((org: ApolloOrganization, index: number) => {
+  const leads: GeneratedLead[] = organizations.map((org: ApolloOrganization, index: number) => {
     const score = calculateScore(org);
     const serviceNeeds = determineServiceNeeds(org, specialty);
     

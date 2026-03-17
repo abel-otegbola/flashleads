@@ -227,7 +227,7 @@ function Dashboardpage() {
               <Link to="/account/leads" className="text-primary text-[12px] underline">View all</Link>
             </div>
             <div className="flex flex-col ">
-              {leads.map((lead) => (
+              {leads.slice(0,4).map((lead) => (
                 <Link to={`/account/leads/${lead.id}`} key={lead?.id} className="flex items-center gap-3 py-3">
                   
                   <div className="flex items-center gap-4">
