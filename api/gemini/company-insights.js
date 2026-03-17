@@ -15,6 +15,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
+  const model = 'gemini-2.5-flash';
   if (!apiKey) {
     return res.status(500).json({ error: 'Missing GOOGLE_GEMINI_API_KEY env variable' });
   }
@@ -59,7 +60,7 @@ Rules:
   try {
     // Gemini REST API endpoint
     const response = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey,
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
