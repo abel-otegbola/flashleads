@@ -22,11 +22,10 @@ function Homepage() {
             
         <Topbar />
 
-        <header className="flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 py-12 md:py-12">
-            <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6" data-aos="fade-up">
+        <header className="relative flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 py-12 md:py-12">
+            <div className="absolute top-[20%] left-[25%] w-[50%] h-[20%] z-[1] btn-bg-hero p-2 rounded-[80px]"  />
+            <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6 z-[2]" data-aos="fade-up">
                 <div className="relative flex items-center bg-background md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
-                    <div className="absolute top-[20%] left-[4%] w-[92%] h-[60%] z-[-1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
-                    </div>
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
@@ -41,7 +40,7 @@ function Homepage() {
                     <Button variant="secondary">Discover Businesses</Button>
                 </div>
             </div>
-            <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16" data-aos="fade-up" data-aos-delay="200">
+            <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16 z-[2]" data-aos="fade-up" data-aos-delay="200">
                 <img 
                     src="/hero-bg.png" 
                     alt="FlashLeads Illustration" 

@@ -54,6 +54,8 @@ Return ONLY valid JSON (no markdown, no extra text) with this exact shape:
 Rules:
 - Be specific and practical.
 - Avoid generic buzzwords.
+- Use simple language that a non-expert can understand.
+- Use LinkedIn and other social media context as well.
 - If website details are limited, infer cautiously and lower confidence.
 - Keep items concise and conversation-ready.`;
 
