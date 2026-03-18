@@ -163,5 +163,5 @@ hr {
 .btn-bg-hero {
   background: linear-gradient(96deg, #724fff 5.3%, #fed610 33.08%, #aaff55 72.81%, #cc5dff 88.72%);
   filter: blur(90px);
-  opacity: 0.3;
+  opacity: 0.4;
 }
