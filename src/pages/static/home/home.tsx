@@ -29,7 +29,7 @@ function Homepage() {
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
-                <h1 className="font-bold max-[400px]:text-3xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
+                <h1 className="font-bold max-[400px]:font-black max-[400px]:text-2xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
                     Find Clients Who  <br/>Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
