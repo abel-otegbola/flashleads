@@ -22,14 +22,14 @@ function Homepage() {
             
         <Topbar />
 
-        <header className="relative flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 py-12 md:py-12">
+        <header className="relative flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 max-[400px]:px-0 py-12 md:py-12">
             <div className="absolute top-[20%] left-[25%] w-[50%] h-[20%] z-[1] btn-bg-hero p-2 rounded-[80px]"  />
             <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6 z-[2]" data-aos="fade-up">
                 <div className="relative flex items-center bg-background md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
-                <h1 className="font-bold max-[400px]:text-2xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
+                <h1 className="font-bold max-[400px]:text-3xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
                     Find Clients Who  <br/>Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
