@@ -72,7 +72,7 @@ function Homepage() {
                     <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
-                <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">A smarter way for freelancers <br /> to find clients</h1>
+                <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">A smarter way for <br /> freelancers to find clients</h1>
                 <p>Flashleads helps you discover businesses that may need your skills and reach out with smart, personalized messages.</p>
             </div>
 
@@ -105,7 +105,7 @@ function Homepage() {
                     <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Features</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
-                <h1 className="xl:text-4xl sm:text-2xl text-lg font-semibold">Features Built for Freelancers</h1>
+                <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">Features Built for Freelancers</h1>
                 <p>Flashleads helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
             </div>
 
@@ -146,7 +146,7 @@ function Homepage() {
 
         </section>
 
-        <section className="bg-gray/[0.05] flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="zoom-in">
+        <section className="bg-gray/[0.05] flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
             <h1 className="xl:text-4xl text-2xl font-semibold text-center">Start Finding Clients Today</h1>
             <p className="text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
             <Button href="/signup" className="text-[14px]">Get Started</Button>
