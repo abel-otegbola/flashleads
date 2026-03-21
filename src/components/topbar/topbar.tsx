@@ -94,7 +94,7 @@ function Topbar() {
                 }
                 {/* Mobile CTA */}
                 <li className="md:hidden mt-4">
-                    <div onClick={() => setOpen(false)} className="flex md:flex-row flex-col md:gap-2 gap-4 items-center">
+                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center">
                         <AuthCTA user={user} />
                         {
                             user && 
