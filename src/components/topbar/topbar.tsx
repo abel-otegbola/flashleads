@@ -44,8 +44,6 @@ function Topbar() {
             <div className="flex items-center gap-6">
             <Link to={"/"} className="flex gap-2 items-center">
             <div className="relative">
-                <div className="absolute top-[2%] left-[2%] w-[96%] h-[96%] z-[-1] btn-bg-logo rounded-full">
-                </div>
                 <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
             </div>
             <h3 className="font-medium text-[16px] tracking-[2px]">Flashleads</h3>
@@ -54,7 +52,7 @@ function Topbar() {
             <ul className={`
                 flex md:flex-row flex-col md:items-center md:gap-2 lg:gap-4
                 md:static fixed top-0 right-0 md:z-auto z-[999]
-                md:w-auto w-[280px] sm:w-[320px]
+                md:w-auto w-full sm:w-[320px]
                 md:h-auto h-screen
                 md:bg-transparent bg-background dark:bg-dark
                 md:shadow-none shadow-xl
@@ -96,19 +94,22 @@ function Topbar() {
                 }
                 {/* Mobile CTA */}
                 <li className="md:hidden mt-4">
-                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center">
+                    <div onClick={() => setOpen(false)} className="flex md:flex-row flex-col md:gap-2 gap-4 items-center">
                         <AuthCTA user={user} />
-                        <div className="leading-[100%] flex flex-col gap-2">
-                            <p className="font-semibold">Account</p>
-                            <p className="text-[12px]">{user?.email}</p>
-                        </div>
+                        {
+                            user && 
+                            <div className="leading-[100%] flex flex-col gap-2">
+                                <p className="font-semibold">Account</p>
+                                <p className="text-[12px]">{user?.email}</p>
+                            </div>
+                        }
                     </div>
                 </li>
             </ul>
             </div>
             
             {/* Right actions - Desktop only */}
-            <div className="hidden md:flex items-center gap-3 lg:gap-6">
+            <div className="hidden md:flex items-center gap-2 lg:gap-4">
                 <SearchBar />
                 <AuthCTA user={user} />
             </div>

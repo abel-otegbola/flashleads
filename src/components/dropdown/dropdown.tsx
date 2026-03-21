@@ -47,20 +47,20 @@ export default function Dropdown({ variant = "primary", className, disabled, lab
                 { label ? <label htmlFor={name} className={`font-semibold xl:text-[14px] text-[13px] ${isOpen ? "text-primary" : ""}`}>{label}</label> : "" }
 
             <div className={`flex items-center relative rounded-[6px] bg-background w-full py-1 border duration-500 z-[1] 
-                ${error && !isOpen ?  "border-red-500 text-red-500 " : variant === "primary" ? "border-gray/[0.2]" : "border-none"}
+                ${error && !isOpen ?  "border-red-500 text-red-500 " : variant === "primary" ? "border-gray-500/[0.3]" : "border-none"}
                 ${isOpen ? "border-primary dark:border-primary shadow-input-active" : ""}
                 ${disabled ? "opacity-[0.25] cursor-not-allowed" : "cursor-pointer"}
                 ${variant === "primary" ? "pl-[12px] pr-[6px] py-[8px] " : ""}
             `}>
                 <button
                     type="button"
-                    className={`py-[2px] pr-2 w-full outline-none bg-transparent text-left flex items-center justify-between text-[13px]
+                    className={`py-1 pr-2 w-full outline-none bg-transparent text-left flex items-center justify-between text-[13px]
                         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
                     `}
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     disabled={disabled}
                 >
-                    <span className={`flex items-center gap-2 truncate ${!selectedOption ? "text-gray-300" : ""}`}>
+                    <span className={`flex items-center gap-2 truncate ${!selectedOption ? "text-gray/[0.8]" : "text-primary"}`}>
                         {selectedOption?.icon || leftIcon}
                         {selectedOption?.title || placeholder}
                     </span>

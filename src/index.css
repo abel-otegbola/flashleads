@@ -3,9 +3,9 @@
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --color-primary: var(--color-primary, oklch(58.41% 0.232 283.19));
-  --color-background: var(--color-background, oklch(58.41% 0.232 283.19));
-  --color-text: var(--color-text, oklch(24.46% 0.010 276.69));
+  --color-primary: var(--primary, oklch(58.41% 0.232 283.19));
+  --color-background: var(--background, oklch(58.41% 0.232 283.19));
+  --color-text: var(--text, oklch(24.46% 0.010 276.69));
   --color-gray: var(--color-border-card, oklch(87.17% 0.009 258.34));
   --color-green: var(--color-green, oklch(66.29% 0.160 152.37));
   --color-red: var(--color-red, oklch(44.31% 0.210 27.14));
@@ -14,19 +14,19 @@
 
 /* Manual light theme override */
 :root {
-  --color-primary: oklch(58.41% 0.232 283.19);
-  --color-background: oklch(100% 0.00011 271.152);
-  --color-slate-100: oklch(96.8% 0.007 247.896);
-  --color-gray: oklch(61.51% 0.02791 263.275);
-  --color-text: oklch(0% 0 0);
+  --primary: oklch(58.41% 0.232 283.19);
+  --background: oklch(100% 0.00011 271.152);
+  --slate-100: oklch(96.8% 0.007 247.896);
+  --gray: oklch(61.51% 0.02791 263.275);
+  --text: oklch(0% 0 0);
   color-scheme: light;
 }
 
 /* Manual dark theme override */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-background: oklch(16.77% 0.00267 248.154);
-    --color-text: oklch(100% 0.00011 271.152);
+    --background: oklch(16.77% 0.00267 248.154);
+    --text: oklch(100% 0.00011 271.152);
     color-scheme: dark;
   }
 }
@@ -163,5 +163,5 @@ hr {
 .btn-bg-hero {
   background: linear-gradient(96deg, #724fff 5.3%, #fed610 33.08%, #aaff55 72.81%, #cc5dff 88.72%);
   filter: blur(90px);
-  opacity: 0.5;
+  opacity: 0.2;
 }

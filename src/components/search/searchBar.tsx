@@ -10,7 +10,7 @@ export default function SearchBar({ placeholder = "Search...", onChange }: Props
   const [query, setQuery] = useState("");
 
   return (
-    <div className="flex items-center relative w-full border border-gray/[0.5] rounded-lg pl-2">
+    <div className="flex items-center relative w-full border border-gray/[0.3] rounded-lg pl-4">
       <Magnifer size={16} color="currentColor" />
       <input
         className="w-full p-2 bg-transparent rounded-lg outline-none"

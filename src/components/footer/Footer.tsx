@@ -98,6 +98,24 @@ function Footer() {
             </ul>
           </div>
 
+          <div className="col-span-1">
+            <h3 className="font-semibold opacity-[0.4] mb-4">Main</h3>
+             <ul className="space-y-3">
+              {
+                [
+                  { id: 1, title: "Account Registration", href: "/signup" },
+                  { id: 2, title: "Settings", href: "/account/settings" },
+                ].map(item => (
+                  <li key={item.id}>
+                    <Link to={item.href} className="text-sm opacity-[0.8] hover:text-primary transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
         </div>
 
         {/* Bottom Bar */}

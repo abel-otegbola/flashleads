@@ -30,11 +30,11 @@ export default function Input({ onChange, error, type, ...props }: inputProps) {
 
             <div className={`flex items-center px-[12px] py-[10px] gap-2 relative w-full duration-500 rounded-[6px] bg-background
                 ${error && !focus ? "border border-red-500 text-red-500 " : ""}
-                ${focus ? "border border-primary" : "border-gray/[0.2]"}
+                ${focus ? "border border-primary" : "border-gray-500/[0.3]"}
                 ${props.className}
                 ${variants[props.variant || 'default']}
             `}>
-            { props.lefticon ? <span className={`${focus ? "text-primary" : props.value !== "" ? "text-primary" : "text-gray-100"}`}>{props.lefticon}</span>: "" }
+            { props.lefticon ? <span className={`${focus ? "text-primary" : props.value !== "" ? "text-primary" : "text-gray/[0.8]"}`}>{props.lefticon}</span>: "" }
                 <input 
                     { ...props }
                     className={`w-full outline-none bg-transparent text-[14px] leading-[24px]

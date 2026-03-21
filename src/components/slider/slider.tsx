@@ -12,7 +12,7 @@ function Slider({slides, activeSlider}: {slides: {title: string, text: string}[]
             opacity: activeSlider === idx ? 1 : 0,
             }}
         >
-            <h2 className={`xl:text-[32px] leading-[44px] tracking-[-1%] text-[25px] font-bold ${activeSlider === idx ? 'animate-blur-reveal' : ''}`}>
+            <h2 className={`xl:text-[24px] leading-[44px] tracking-[-1%] text-[16px] font-semibold ${activeSlider === idx ? 'animate-blur-reveal' : ''}`}>
               {slide.title}
             </h2>
             <p className={`tracking-[-7%] ${activeSlider === idx ? 'animate-blur-reveal-delay' : ''}`}>

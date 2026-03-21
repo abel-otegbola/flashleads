@@ -25,7 +25,7 @@ function Homepage() {
         <header className="relative flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 max-[400px]:px-0 py-12 md:py-12">
             <div className="absolute top-[20%] left-[25%] w-[50%] h-[20%] z-[1] btn-bg-hero p-2 rounded-[80px]"  />
             <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6 z-[2]" data-aos="fade-up">
-                <div className="relative flex items-center bg-background md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
+                <div className="relative flex items-center bg-background/[0.2] md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
@@ -49,7 +49,7 @@ function Homepage() {
             </div>
         </header>
 
-        <section className="flex flex-col gap-4 py-8 md:px-[8%] px-4 dark:bg-black">
+        <section className="relative flex flex-col gap-4 py-8 md:px-[8%] px-4 bg-gray/[0.05]">
             <h2 className="text-2xl font-medium mb-2 text-center">Personalized categories</h2>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
             {
@@ -67,7 +67,7 @@ function Homepage() {
 
         <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
-                <div className="max-w-[338px] flex items-center gap-4 w-full">
+                <div className="max-w-[308px] flex items-center gap-4">
                     <LineCircleIcon className="flex-1 "/>
                     <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
@@ -77,30 +77,27 @@ function Homepage() {
             </div>
 
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
-                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="100">
-                    <img src="/lead-gen.png" alt="Client Opportunity Discovery Icon" className="w-full h-auto"/>
-                    <h1 className="text-4xl opacity-[0.1] font-bold">01</h1>
-                    <h2 className="font-semibold text-lg">Discover Client Opportunities</h2>
-                    <p className="text-sm opacity-[0.6]">Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.</p>
-                </div>
-                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="200">
-                    <img src="/outreach.png" alt="Smart Outreach Icon" className="w-full h-auto"/>
-                    <h1 className="text-4xl opacity-[0.1] font-bold">02</h1>
-                    <h2 className="font-semibold text-lg">Smart Outreach Messages</h2>
-                    <p className="text-sm opacity-[0.6]">Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.</p>
-                </div>
-                <div className="flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="300">
-                    <img src="/crm.png" alt="Conversation Tracking Icon" className="w-full h-auto"/>
-                    <h1 className="text-4xl opacity-[0.1] font-bold">03</h1>
-                    <h2 className="font-semibold text-lg">Track Conversations</h2>
-                    <p className="text-sm opacity-[0.6]">Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.</p>
-                </div>
+                {
+                    [
+                        { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: "/lead-gen.png" },
+                        { id: 2, title: "Smart Outreach Messages", text: "Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.", img: "/outreach.png" },
+                        { id: 2, title: "Track Conversations", text: "Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.", img: "/crm.png" },
+                    ].map(step => (
+                        <div key={step.id} className="relative flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="100">
+                            <div className="absolute top-[20%] left-[30%] w-[70%] h-[10%] btn-bg-hero p-2 rounded-[80px]"  />
+                            <img src={step.img} alt="Client Opportunity Discovery Icon" className="w-full h-auto"/>
+                            <h1 className="text-4xl opacity-[0.1] font-bold">0{step.id}</h1>
+                            <h2 className="font-semibold text-lg">{step.title}</h2>
+                            <p className="text-sm opacity-[0.6]">{step.text}</p>
+                        </div>
+                    ))
+                }
             </div>
         </section>
 
         <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center" data-aos="fade-up">
-                <div className="max-w-[338px] flex items-center gap-4 w-full">
+                <div className="max-w-[268px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
                     <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Features</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
@@ -110,7 +107,8 @@ function Homepage() {
             </div>
 
             <div className="flex gap-6 md:flex-row flex-col">
-                <div className="w-full md:w-1/2 flex flex-col gap-6">
+                <div className="relative w-full md:w-1/2 flex flex-col gap-6">
+                    <div className="absolute top-[20%] left-0 w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-right" data-aos-delay="100">
                         <img src="/features-lead-gen.png" alt="Client Discovery Feature Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
@@ -126,7 +124,8 @@ function Homepage() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
+                <div className="relative w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
+                    <div className="absolute top-[20%] left-0 w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
                     <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-left" data-aos-delay="100">
                         <img src="/features-crm.png" alt="Conversation Tracking Feature Icon" className="w-full h-auto object-contain"/>
                         <div className="flex flex-col gap-2">
@@ -146,7 +145,9 @@ function Homepage() {
 
         </section>
 
-        <section className="bg-gray/[0.05] flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
+        <section className="relative bg-gray/[0.05] flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
+        
+            <div className="absolute top-[30%] left-[25%] w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
             <h1 className="xl:text-4xl text-2xl font-semibold text-center">Start Finding Clients Today</h1>
             <p className="text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
             <Button href="/signup" className="text-[14px]">Get Started</Button>
