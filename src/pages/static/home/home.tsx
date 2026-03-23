@@ -25,7 +25,7 @@ function Homepage() {
         <header className="relative flex flex-col items-center justify-between min-h-[500px] gap-8 lg:gap-12 lg:px-[8%] md:px-9 px-4 max-[400px]:px-0 py-12 md:py-12">
             <div className="absolute top-[20%] left-[25%] w-[50%] h-[20%] z-[1] btn-bg-hero p-2 rounded-[80px]"  />
             <div className="flex flex-col items-center text-center gap-4 md:max-w-3xl max-w-lg md:p-6 z-[2]" data-aos="fade-up">
-                <div className="relative flex items-center bg-background/[0.2] md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.2] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
+                <div className="relative flex items-center bg-background/[0.2] md:text-xs text-[10px] p-1 pr-4 sm:pr-3 rounded-full border border-gray/[0.09] w-fit gap-2 text-xs sm:text-sm shadow mb-4">
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
@@ -54,7 +54,7 @@ function Homepage() {
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
             {
                 SPECIALTY_CATEGORIES.slice(0, 6).map(category => (
-                    <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
+                    <div key={category} className={`rounded-[20px] p-4 bg-cover bg-center bg-background border border-gray/[0.2] text-white flex flex-col justify-between h-[200px]`} style={{ backgroundImage: `url('/categories/${category}.png')` }} data-aos="fade-up">
                         <h3 className="flex gap-2 items-center font-light"># {category} <ArrowRight /></h3>
                         <p className="flex flex-wrap w-full gap-1">{FREELANCING_SPECIALTIES.filter(item => item.category === category).slice(0,4).map(industry => (
                             <span key={industry.label} className="text-[12px] px-3 py-1 rounded-full border border-gray-200/[0.3]">{industry.label}</span>
@@ -81,7 +81,7 @@ function Homepage() {
                     [
                         { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: "/lead-gen.png" },
                         { id: 2, title: "Smart Outreach Messages", text: "Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.", img: "/outreach.png" },
-                        { id: 2, title: "Track Conversations", text: "Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.", img: "/crm.png" },
+                        { id: 3, title: "Track Conversations", text: "Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.", img: "/crm.png" },
                     ].map(step => (
                         <div key={step.id} className="relative flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="100">
                             <div className="absolute top-[20%] left-[30%] w-[70%] h-[10%] btn-bg-hero p-2 rounded-[80px]"  />

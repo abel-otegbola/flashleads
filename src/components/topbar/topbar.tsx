@@ -1,14 +1,29 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, type ReactElement } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
 import SearchBar from "../search/searchBar";
 import LogoIcon from "../../assets/icons/logo";
+import { ThemeContext } from "../../contexts/ThemeContextValue";
+import { Moon, Sun, Tablet } from "@solar-icons/react";
+
+interface Theme {
+    id: string | number, img: ReactElement, title: string
+}
+
+type Themes = Array<Theme>
 
 function Topbar() {
     const [open, setOpen] = useState(false)
     const [activeSection, setActiveSection] = useState("")
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);    
+    const { theme, setTheme } = useContext(ThemeContext)
+    
+    const themes: Themes = [
+        { id: 0, img: <Tablet />, title: "auto" },
+        { id: 1, img: <Sun />, title: "light" },
+        { id: 2, img: <Moon />, title: "dark" },
+    ]
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,10 +72,10 @@ function Topbar() {
                 md:bg-transparent bg-background dark:bg-dark
                 md:shadow-none shadow-xl
                 md:p-0 py-3 px-6 pb-6
-                md:translate-x-0 ${open ? "translate-x-0" : "translate-x-full"}
-                transition-transform duration-500 ease-in-out
+                md:translate-x-0 md:opacity-100 ${open ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"}
+                transition-opacity duration-500 ease-in-out
             `}>
-                <LogoIcon width={28} height={28} className="md:hidden my-4" />
+                <LogoIcon width={28} height={28} className="md:hidden mb-6 mt-3" />
                 {
                     [
                         { id: 0, title: "Hire Freelancers", href: "#freelancers" },
@@ -68,10 +83,10 @@ function Topbar() {
                         { id: 2, title: "Pricing", href: "#pricing" },
                         { id: 3, title: "Contact Us", href: "#contact" },
                     ].map(link => (
-                        <li key={link.id} className="md:px-0 md:py-0 py-2">
-                            <a 
-                                href={link.href} 
-                                className={`font-semibold lg:px-3 md:px-2 py-2 duration-200 block w-full rounded-md
+                        <li key={link.id} className="md:px-0 md:py-0">
+                            <Link
+                                to={link.href} 
+                                className={`font-semibold lg:px-3 md:p-2 py-6 duration-200 block w-full md:border-none border-t border-gray-500/[0.2]
                                     ${activeSection === link.href 
                                         ? 'text-primary' 
                                         : ''
@@ -88,20 +103,20 @@ function Topbar() {
                                 }}
                             >
                                 {link.title}
-                            </a>
+                            </Link>
                         </li>
                     ))
                 }
                 {/* Mobile CTA */}
-                <li className="md:hidden mt-4">
-                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center">
+                <li className="md:hidden">
+                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center border-t border-gray-500/[0.2] pt-6">
                         <AuthCTA user={user} />
                         {
                             user && 
-                            <div className="leading-[100%] flex flex-col gap-2">
+                            <Link to="/account" className="leading-[100%] flex flex-col gap-2 flex-1">
                                 <p className="font-semibold">Account</p>
                                 <p className="text-[12px]">{user?.email}</p>
-                            </div>
+                            </Link>
                         }
                     </div>
                 </li>
@@ -111,6 +126,22 @@ function Topbar() {
             {/* Right actions - Desktop only */}
             <div className="hidden md:flex items-center gap-2 lg:gap-4">
                 <SearchBar />
+                <div className="flex gap-1 p-1 bg-gray/[0.08] rounded">
+                    {
+                        themes.map(item => {
+                            return (
+                                <button
+                                    key={item.id} 
+                                    aria-label={"Theme setting changed to "+ theme} 
+                                    onClick={() => setTheme(item.title)} 
+                                    className={`shadow-none capitalize text-md p-1 rounded ${item.title === theme ? "bg-primary text-white" : "bg-none"}`}
+                                >
+                                    {item.img}
+                                </button>
+                            )
+                        })
+                    }
+                </div>
                 <AuthCTA user={user} />
             </div>
             
