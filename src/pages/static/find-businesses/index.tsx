@@ -200,7 +200,7 @@ function FindBusinesses() {
           {!loading && !error && generatedLeads.length === 0 && (
             <div className="flex flex-col justify-center items-center gap-10 bg-background border border-gray/[0.2] rounded-lg p-8 text-center">
               <p className="opacity-[0.6]">No leads generated yet. Please complete your profile first.</p>
-              <Button href="/account" variant="secondary">
+              <Button href="/find-businesses" variant="secondary">
                 Reload
               </Button>
             </div>
