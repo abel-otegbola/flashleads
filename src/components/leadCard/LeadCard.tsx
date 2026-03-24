@@ -169,7 +169,7 @@ export default function LeadCard({
             {lead.serviceNeeds.map((service, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1 bg-slate-50 text-xs rounded-full font-medium"
+                className="px-3 py-1 bg-gray-500/[0.09] text-xs rounded-full font-medium"
               >
                 {service}
               </span>
