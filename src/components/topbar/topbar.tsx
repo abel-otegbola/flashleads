@@ -6,6 +6,7 @@ import SearchBar from "../search/searchBar";
 import LogoIcon from "../../assets/icons/logo";
 import { ThemeContext } from "../../contexts/ThemeContextValue";
 import { Moon, Sun, Tablet } from "@solar-icons/react";
+import ThemeSelector from "../themeSelector/themeSelector";
 
 interface Theme {
     id: string | number, img: ReactElement, title: string
@@ -58,10 +59,10 @@ function Topbar() {
         <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
             <div className="flex items-center gap-6">
             <Link to={"/"} className="flex gap-2 items-center">
-            <div className="relative">
-                <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
-            </div>
-            <h3 className="font-medium text-[16px] tracking-[2px]">Flashleads</h3>
+                <div className="relative">
+                    <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
+                </div>
+                <h3 className="font-medium text-[16px] tracking-[2px]">Flashleads</h3>
             </Link>
             
             <ul className={`
@@ -109,7 +110,7 @@ function Topbar() {
                 }
                 {/* Mobile CTA */}
                 <li className="md:hidden">
-                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center border-t border-gray-500/[0.2] pt-6">
+                    <div onClick={() => setOpen(false)} className="flex md:gap-4 gap-2 items-center border-y border-gray-500/[0.2] py-6">
                         <AuthCTA user={user} />
                         {
                             user && 
@@ -118,6 +119,10 @@ function Topbar() {
                                 <p className="text-[12px]">{user?.email}</p>
                             </Link>
                         }
+                    </div>
+                    
+                    <div className="flex gap-1 rounded py-6">
+                        <ThemeSelector />
                     </div>
                 </li>
             </ul>
