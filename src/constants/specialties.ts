@@ -102,7 +102,6 @@ export const categoryApolloFilters: Record<string, { industries: string[]; jobTi
       "Head of Product"
     ],
     signals: [
-      "Recently raised funding",
       "Hiring software engineers",
       "New product launch",
       "Startup scaling team",
