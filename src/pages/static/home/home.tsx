@@ -5,8 +5,14 @@ import Topbar from "../../../components/topbar/topbar"
 import Footer from "../../../components/footer/Footer"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import { FREELANCING_SPECIALTIES, SPECIALTY_CATEGORIES } from "../../../constants/specialties"
-import { ArrowRight } from "@solar-icons/react"
+import OutreachIcon from "../../../assets/icons/outreach"
+import LeadGenIcon from "../../../assets/icons/leadGen"
+import CrmIcon from "../../../assets/icons/crm"
+import FeatureLeadGenIcon from "../../../assets/icons/featureLeadGen"
+import FeatureOutreachIcon from "../../../assets/icons/featureOutreach"
+import FeatureCrmIcon from "../../../assets/icons/featureCrm"
+import FeatureSocialIcon from "../../../assets/icons/featureSocial"
+import HeroImg from "../../../assets/icons/hero-img"
 
 function Homepage() {
   useEffect(() => {
@@ -41,15 +47,11 @@ function Homepage() {
                 </div>
             </div>
             <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16 z-[2]" data-aos="fade-up" data-aos-delay="200">
-                <img 
-                    src="/hero-bg.png" 
-                    alt="FlashLeads Illustration" 
-                    className="w-full lg:max-w-5xl h-auto object-contain"
-                />
+                <HeroImg text={"var(--text)"} fill={"var(--background)"} />
             </div>
         </header>
 
-        <section className="relative flex flex-col gap-4 py-8 md:px-[8%] px-4 bg-gray/[0.05]">
+        {/* <section className="relative flex flex-col gap-4 py-8 md:px-[8%] px-4 bg-gray/[0.05]">
             <h2 className="text-2xl font-medium mb-2 text-center">Personalized categories</h2>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
             {
@@ -63,7 +65,7 @@ function Homepage() {
                 ))
             }
             </div>
-        </section>
+        </section> */}
 
         <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
@@ -79,13 +81,13 @@ function Homepage() {
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
                 {
                     [
-                        { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: "/lead-gen.png" },
-                        { id: 2, title: "Smart Outreach Messages", text: "Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.", img: "/outreach.png" },
-                        { id: 3, title: "Track Conversations", text: "Keep track of your outreach, replies, and client conversations in one place so you never miss a potential project.", img: "/crm.png" },
+                        { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: <LeadGenIcon /> },
+                        { id: 2, title: "Smart Outreach Messages", text: "Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.", img: <OutreachIcon text={"var(--text)"} fill={"var(--background)"} /> },
+                        { id: 3, title: "Track Revenue", text: "Keep track of your revenue in one place so you never miss a potential project.", img: <CrmIcon text={"var(--text)"} fill={"var(--background)"} /> },
                     ].map(step => (
                         <div key={step.id} className="relative flex flex-col gap-4 p-3" data-aos="fade-up" data-aos-delay="100">
                             <div className="absolute top-[20%] left-[30%] w-[70%] h-[10%] btn-bg-hero p-2 rounded-[80px]"  />
-                            <img src={step.img} alt="Client Opportunity Discovery Icon" className="w-full h-auto"/>
+                            <div className="w-full">{step.img}</div>
                             <h1 className="text-4xl opacity-[0.1] font-bold">0{step.id}</h1>
                             <h2 className="font-semibold text-lg">{step.title}</h2>
                             <p className="text-sm opacity-[0.6]">{step.text}</p>
@@ -109,32 +111,35 @@ function Homepage() {
             <div className="flex gap-6 md:flex-row flex-col">
                 <div className="relative w-full md:w-1/2 flex flex-col gap-6">
                     <div className="absolute top-[20%] left-0 w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
-                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-right" data-aos-delay="100">
-                        <img src="/features-lead-gen.png" alt="Client Discovery Feature Icon" className="w-full h-auto object-contain"/>
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.1] bg-gray/[0.04]" data-aos="fade-right" data-aos-delay="100"> 
+                        <FeatureLeadGenIcon
+                            text={"var(--text)"} fill={"var(--background)"}
+                            className="w-full h-auto object-contain p-12 dark:bg-black bg-white rounded-lg"
+                        />
                         <div className="flex flex-col gap-2">
                             <h2 className="font-semibold text-lg">Find Businesses That Need Your Skills</h2>
                             <p className="text-sm opacity-[0.6]">Discover potential clients across different industries who may benefit from your expertise.</p>
                         </div>
                     </div>
-                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-right" data-aos-delay="200">
-                        <img src="/features-outreach.png" alt="AI Outreach Feature Icon" className="w-full h-auto object-contain"/>
-                        <div className="flex flex-col gap-2">
-                            <h2 className="font-semibold text-lg">AI-Generated Outreach Messages</h2>
-                            <p className="text-sm opacity-[0.6]">Create personalized messages that help you introduce your services and increase the chances of getting client replies.</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
-                    <div className="absolute top-[20%] left-0 w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
-                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-left" data-aos-delay="100">
-                        <img src="/features-crm.png" alt="Conversation Tracking Feature Icon" className="w-full h-auto object-contain"/>
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.1] bg-gray/[0.04]" data-aos="fade-left" data-aos-delay="100">
+                        <FeatureCrmIcon text={"var(--text)"} fill={"var(--background)"} className="w-full h-auto object-contain p-9 dark:bg-black bg-white rounded-lg" />
                         <div className="flex flex-col gap-2">
                             <h2 className="font-semibold text-lg">Track Outreach and Replies</h2>
                             <p className="text-sm opacity-[0.6]">Manage your conversations, follow up with leads, and keep track of potential projects in one simple dashboard.</p>
                         </div>
                     </div>
-                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.2] bg-[#D9D9D9]/[0.1]" data-aos="fade-left" data-aos-delay="200">
-                        <img src="/features-social.png" alt="Opportunity Insights Icon" className="w-full h-auto object-contain"/>
+                </div>
+                <div className="relative w-full md:w-1/2 flex flex-col gap-6 mt-6 md:mt-0">
+                    <div className="absolute top-[20%] left-0 w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.1] bg-gray/[0.04]" data-aos="fade-right" data-aos-delay="200">
+                        <FeatureOutreachIcon text={"var(--text)"} fill={"var(--background)"} className="w-full h-auto object-contain p-4 dark:bg-black bg-white rounded-lg" />
+                        <div className="flex flex-col gap-2">
+                            <h2 className="font-semibold text-lg">AI-Generated Outreach Messages</h2>
+                            <p className="text-sm opacity-[0.6]">Create personalized messages that help you introduce your services and increase the chances of getting client replies.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-4 flex-col md:p-10 p-4 rounded-lg border border-gray/[0.1] bg-gray/[0.04]" data-aos="fade-left" data-aos-delay="200">
+                        <FeatureSocialIcon text={"var(--text)"} fill={"var(--background)"} className="w-full h-auto object-contain p-12 dark:bg-black bg-white rounded-lg" />
                         <div className="flex flex-col gap-2">
                             <h2 className="font-semibold text-lg">Understand Each Lead Better</h2>
                             <p className="text-sm opacity-[0.6]">Get helpful information about potential clients so you can personalize your outreach and offer the right solution.</p>
@@ -145,7 +150,7 @@ function Homepage() {
 
         </section>
 
-        <section className="relative bg-gray/[0.05] flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
+        <section className="relative bg-gray/[0.05] dark:bg-black flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
         
             <div className="absolute top-[30%] left-[25%] w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
             <h1 className="xl:text-4xl text-2xl font-semibold text-center">Start Finding Clients Today</h1>
