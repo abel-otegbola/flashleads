@@ -86,7 +86,8 @@ function Footer() {
                 [
                   { id: 1, title: "About Us", href: "/about" },
                   { id: 2, title: "Pricing", href: "/pricing" },
-                  { id: 4, title: "Support", href: "/support" },
+                  { id: 3, title: "Terms", href: "/terms" },
+                  { id: 4, title: "Security", href: "/security" },
                 ].map(item => (
                   <li key={item.id}>
                     <Link to={item.href} className="text-sm opacity-[0.8] hover:text-primary transition-colors">

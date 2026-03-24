@@ -3,7 +3,7 @@ import Footer from "../../../components/footer/Footer";
 
 function Privacy() {
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900">
+    <div className="min-h-screen bg-background ">
       <Topbar />
       
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto">
@@ -126,7 +126,7 @@ function Privacy() {
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
               If you have questions about this Privacy Policy or our data practices, please contact us at:
             </p>
-            <div className="mt-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="mt-4 p-6 bg-gray-50  rounded-lg">
               <p className="opacity-[0.6] dark:text-gray-300">
                 <strong>Email:</strong> privacy@flashleads.com<br />
                 <strong>Address:</strong> 123 Business Street, San Francisco, CA 94102, USA

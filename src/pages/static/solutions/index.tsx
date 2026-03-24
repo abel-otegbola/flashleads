@@ -111,7 +111,7 @@ function Solutions() {
           {solutions.map((solution, index) => (
             <div
               key={index}
-              className="p-8 rounded-2xl border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-300 bg-background dark:bg-gray-800"
+              className="p-8 rounded-2xl border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-300 bg-background "
             >
               <div className="text-5xl mb-4">{solution.icon}</div>
               <h3 className="text-2xl font-bold mb-3">{solution.title}</h3>
@@ -139,7 +139,7 @@ function Solutions() {
       </section>
 
       {/* Industry Focus Section */}
-      <section className="bg-gray-50 dark:bg-gray-800 py-20">
+      <section className="bg-gray-50  py-20">
         <div className="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Industries We Serve</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">

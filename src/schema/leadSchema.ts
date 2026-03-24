@@ -12,7 +12,7 @@ export const leadSchema = Yup.object({
         .email('Invalid email address'),
     phone: Yup.string()
         .required('Phone number is required')
-        .matches(/^[\+\(\)\d\s\-]+$/, 'Invalid phone number format'),
+        .matches(/^[\d\s-]+$/, 'Invalid phone number format'),
     location: Yup.string()
         .required('Location is required')
         .min(3, 'Location must be at least 3 characters'),
@@ -30,4 +30,7 @@ export const leadSchema = Yup.object({
         .min(0, 'Score must be between 0 and 100')
         .max(100, 'Score must be between 0 and 100')
         .typeError('Score must be a number'),
+
+    about: Yup.string()
+        .nullable(),
 });

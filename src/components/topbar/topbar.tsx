@@ -30,7 +30,7 @@ function Topbar() {
         const handleScroll = () => {
 
             // Detect active section
-            const sections = ["Hire Freelancers", "Find Opportunities", "Pricing", "Contact Us"]
+            const sections = ["Features", "Find Opportunities", "Contact Us"]
             const scrollPosition = window.scrollY + 100
 
             for (const sectionId of sections) {
@@ -57,7 +57,7 @@ function Topbar() {
     return (
         <>
         <div className={`flex justify-between items-center w-full lg:px-[3%] md:px-9 p-4 md:py-6 z-[999] sticky top-0 backdrop-blur-md transition-shadow duration-300`}>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-10">
             <Link to={"/"} className="flex gap-2 items-center">
                 <div className="relative">
                     <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
@@ -79,10 +79,10 @@ function Topbar() {
                 <LogoIcon width={28} height={28} className="md:hidden mb-6 mt-3" />
                 {
                     [
-                        { id: 0, title: "Hire Freelancers", href: "#freelancers" },
+                        { id: 0, title: "About Us", href: "/about" },
+                        { id: 1, title: "Features", href: "#features" },
                         { id: 1, title: "Find Opportunities", href: "#opportunities" },
-                        { id: 2, title: "Pricing", href: "#pricing" },
-                        { id: 3, title: "Contact Us", href: "#contact" },
+                        { id: 3, title: "Contact Us", href: "/contact" },
                     ].map(link => (
                         <li key={link.id} className="md:px-0 md:py-0">
                             <Link

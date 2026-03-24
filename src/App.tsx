@@ -21,6 +21,7 @@ import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
 import { ModalProvider } from "./contexts/ModalContext"
 import MouseCursor from "./components/mouseCursor/MouseCursor"
+import FindBusinesses from "./pages/static/find-businesses"
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/find-businesses" element={<FindBusinesses />} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<Privacy />} />

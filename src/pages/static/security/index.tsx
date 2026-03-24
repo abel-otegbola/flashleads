@@ -60,7 +60,7 @@ function Security() {
   ];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900">
+    <div className="min-h-screen bg-background ">
       <Topbar />
       
       {/* Hero Section */}
@@ -72,7 +72,7 @@ function Security() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             Your Data Security is Our Top Priority
           </h1>
-          <p className="text-lg opacity-[0.6] dark:text-gray/">
+          <p className="text-lg opacity-[0.6] dark:text-gray">
             We employ industry-leading security practices to protect your sensitive business data at every level.
           </p>
         </div>
@@ -84,7 +84,7 @@ function Security() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all bg-background dark:bg-gray-800"
+              className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all bg-background "
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
@@ -97,7 +97,7 @@ function Security() {
       </section>
 
       {/* Certifications Section */}
-      <section className="bg-gray-50 dark:bg-gray-800 py-20">
+      <section className="bg-gray-500/[0.05] py-20">
         <div className="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Certifications & Compliance</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -131,10 +131,10 @@ function Security() {
               </p>
             </div>
             <div className="mt-6 flex gap-4">
-              <div className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg font-medium">
+              <div className="px-4 py-2 bg-gray-500/[0.09] rounded-lg font-medium">
                 99.9% Uptime SLA
               </div>
-              <div className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg font-medium">
+              <div className="px-4 py-2 bg-gray-500/[0.09] rounded-lg font-medium">
                 1s Response Time
               </div>
             </div>
@@ -147,7 +147,7 @@ function Security() {
       </section>
 
       {/* Security Practices Section */}
-      <section className="bg-gray-50 dark:bg-gray-800 py-20">
+      <section className="bg-gray-500/[0.05] py-20">
         <div className="px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Our Security Practices</h2>
           <div className="space-y-6">

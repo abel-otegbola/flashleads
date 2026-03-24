@@ -73,7 +73,7 @@ function Blog() {
   const categories = ["All", "Lead Generation", "Email Marketing", "Sales Strategy", "Technology", "Social Selling", "Personalization"];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <Topbar />
       
       {/* Hero Section */}
@@ -140,7 +140,7 @@ function Blog() {
           {posts.map((post, index) => (
             <article
               key={index}
-              className="group bg-background dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="group bg-background  rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 h-48 flex items-center justify-center text-6xl">
                 {post.image}

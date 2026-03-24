@@ -3,7 +3,7 @@ import Footer from "../../../components/footer/Footer";
 
 function Terms() {
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900">
+    <div className="min-h-screen bg-background ">
       <Topbar />
       
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto">
@@ -129,7 +129,7 @@ function Terms() {
 
           <section>
             <h2 className="text-2xl font-bold mb-4">14. Contact Information</h2>
-            <div className="mt-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="mt-4 p-6 bg-gray-50  rounded-lg">
               <p className="opacity-[0.6] dark:text-gray-300">
                 <strong>Email:</strong> legal@flashleads.com<br />
                 <strong>Address:</strong> 123 Business Street, San Francisco, CA 94102, USA

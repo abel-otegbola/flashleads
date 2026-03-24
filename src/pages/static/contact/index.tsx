@@ -86,27 +86,11 @@ function Contact() {
                 <p>Sunday: Closed</p>
               </div>
             </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Follow Us</h3>
-              <div className="flex gap-3">
-                {["Twitter", "LinkedIn", "Facebook", "Instagram"].map((platform) => (
-                  <a
-                    key={platform}
-                    href="#"
-                    className="w-10 h-10 bg-gray-100/[0.2] rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-                    aria-label={platform}
-                  >
-                    {platform[0]}
-                  </a>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-50/[0.2] border border-gray/[0.2] rounded-2xl p-8">
+            <div className="bg-gray/[0.05] border border-gray/[0.2] rounded-2xl p-8">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">

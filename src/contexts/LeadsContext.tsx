@@ -54,6 +54,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                     logoUrl: data.logoUrl,
                     foundedYear: data.foundedYear,
                     estimatedEmployees: data.estimatedEmployees,
+                    notes: data.notes,
+                    about: data.about,
                 });
             });
             console.log(fetchedLeads)
@@ -87,7 +89,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
             const addedLead: Lead = {
                 ...leadData,
                 id: docRef.id,
-                addedDate: new Date().toISOString()
+                addedDate: new Date().toISOString(),
+                about: leadData.about,
             };
 
             setLeads(prev => {
@@ -234,7 +237,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
                 logoUrl: data.logoUrl,
                 foundedYear: data.foundedYear,
                 estimatedEmployees: data.estimatedEmployees,
-                notes: data.notes
+                notes: data.notes,
+                about: data.about,
             };
 
             return lead;

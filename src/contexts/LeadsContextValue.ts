@@ -56,6 +56,9 @@ export interface Lead {
     
     // Notes
     notes?: string;
+
+    // About/Insights
+    about?: string;
 }
 
 export type LeadsContextValue = {

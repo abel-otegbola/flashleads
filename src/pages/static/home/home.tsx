@@ -43,7 +43,7 @@ function Homepage() {
                 </p>
                 <div className="flex items-center gap-4">
                     <Button href="/signup">Get Started</Button>
-                    <Button variant="secondary">Discover Businesses</Button>
+                    <Button href="/find-businesses" variant="secondary">Discover Businesses</Button>
                 </div>
             </div>
             <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16 z-[2]" data-aos="fade-up" data-aos-delay="200">
@@ -71,7 +71,7 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[308px] flex items-center gap-4">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
+                    <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">A smarter way for <br /> freelancers to find clients</h1>
@@ -101,7 +101,7 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center" data-aos="fade-up">
                 <div className="max-w-[268px] flex items-center gap-4 w-full">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="text-gray/ rounded font-medium border border-gray/[0.2] md:p-4 md:py-2 p-2 leading-[12px] py-1 text-nowrap md:text-[12px] text-[10px]">Features</span>
+                    <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm text-nowrap md:text-[12px] text-[10px]">Features</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">Features Built for Freelancers</h1>
