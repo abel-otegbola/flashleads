@@ -76,9 +76,21 @@ function FindBusinesses() {
   
   const handleLeadClick = async (lead: GeneratedLead) => {
     // Save the lead first, then navigate
-    const leadId = await saveLead(lead);
-    if (leadId) {
-      navigate(`/account/leads/${leadId}`);
+    if(user) {
+        const leadId = await saveLead(lead);
+        if (leadId) {
+        navigate(`/account/leads/${leadId}`);
+        }
+    }
+    else {
+        //save lead to localStorage 
+        const tempLeadId = `temp-${Date.now()}`;
+        const leadData = {
+            ...lead,
+            id: tempLeadId,
+        };
+        localStorage.setItem('tempLead', JSON.stringify(leadData));
+        navigate(`/business/${tempLeadId}`);
     }
   };
 
