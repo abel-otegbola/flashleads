@@ -53,7 +53,7 @@ function AccountPages() {
                     <Route path="/" element={<Navigate to={"/account/dashboard"} />} />
                     <Route path="/dashboard" element={<Dashboardpage />} />
                     <Route path="/leads" element={<Feeds />} />
-                    <Route path="/leads/:id" element={<LeadDetails />} />
+                    <Route path="/business/:id" element={<LeadDetails />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/notifications" element={<Notifications />} />
