@@ -85,7 +85,6 @@ function FindBusinesses() {
   // Generate leads when dashboard opens or search parameters change
   useEffect(() => {
     const fetchLeads = async () => {
-      if (!user?.uid || !searchQuery) return;
 
       setLoading(true);
       setError(null);
