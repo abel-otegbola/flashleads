@@ -5,6 +5,7 @@ import Button from '../../../components/button/Button';
 import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
 import { findLeadEmail } from '../../../helpers/emailFinder';
+import Conversation from '../../../components/conversation/Conversation';
 
 export default function StaticLeadDetails() {
   const { id } = useParams<{ id: string }>();
@@ -73,7 +74,7 @@ export default function StaticLeadDetails() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col md:col-span-2 bg-background border border-gray/[0.1] rounded-lg p-4">
-          Login to analyze this lead in depth, and track your conversations.
+            <Conversation lead={lead} />
         </div>
         <div className='flex flex-col gap-4 text-[14px] w-full'>
           <div className="w-full bg-background rounded-lg border border-gray/[0.2] pb-4">
