@@ -150,7 +150,7 @@ function FindBusinesses() {
   return (
     <>
         <Topbar />
-      <div className="flex lg:flex-row flex-col gap-4 md:p-4 h-full max-w-[800px] mx-auto">
+      <div className="flex lg:flex-row flex-col gap-4 md:p-4 h-full max-w-[900px] mx-auto">
 
         <div className=" w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.03] md:rounded-lg">
           <div>

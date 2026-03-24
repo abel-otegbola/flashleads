@@ -6,6 +6,7 @@ import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
 import { findLeadEmail } from '../../../helpers/emailFinder';
 import Conversation from '../../../components/conversation/Conversation';
+import Topbar from '../../../components/topbar/topbar';
 
 export default function StaticLeadDetails() {
   const { id } = useParams<{ id: string }>();
@@ -39,7 +40,9 @@ export default function StaticLeadDetails() {
   );
 
   return (
-    <div className="md:p-6 p-2 min-h-screen">
+    <>
+    <Topbar />
+    <div className="md:p-6 p-2 min-h-screen max-w-[900px] mx-auto">
       <div className="flex flex-wrap gap-4 items-center justify-between">
         <div className='w-full pb-2'>
           <div className='flex gap-2 items-center p-1'>
@@ -157,5 +160,6 @@ export default function StaticLeadDetails() {
 
       </div>
     </div>
+    </>
   );
 }
