@@ -91,7 +91,7 @@ function FindBusinesses() {
 
       try {
         const specialtyData = FREELANCING_SPECIALTIES.find(
-          s => s.label === searchQuery
+          s => s.label === searchTerm
         );
 
         const category = specialtyData?.category;
@@ -113,8 +113,8 @@ function FindBusinesses() {
         const randomPage = Math.floor(Math.random() * 5) + 1;
 
         const leads = await generateDashboardLeads({
-          searchTerm: searchTerm !== "" ? searchTerm : filters.signals[Math.floor(Math.random() * filters.signals.length)] || searchQuery,
-          specialty: searchQuery,
+          searchTerm: searchTerm !== "" ? searchTerm : filters.signals[Math.floor(Math.random() * filters.signals.length)] || searchTerm,
+          specialty: searchTerm,
           industries,
           titles,
           companySize: filters.companySize || ["1-10", "11-50"],
@@ -133,7 +133,7 @@ function FindBusinesses() {
     };
 
     fetchLeads();
-  }, [user?.uid, searchQuery, searchTerm, selectedLocation, selectedIndustry]);
+  }, [user?.uid, searchTerm, selectedLocation, selectedIndustry]);
 
   return (
     <>
