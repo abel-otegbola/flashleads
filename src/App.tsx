@@ -46,7 +46,7 @@ function App() {
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/find-businesses" element={<FindBusinesses />} />
-              <Route path="/lead/:id" element={<StaticLeadDetails />} />
+              <Route path="/business/:id" element={<StaticLeadDetails />} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<Privacy />} />
