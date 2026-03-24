@@ -6,7 +6,7 @@ import LoadingIcon from '../../../assets/icons/loadingIcon';
 import { useModal } from '../../../contexts/useModal';
 import { findLeadEmail } from '../../../helpers/emailFinder';
 
-export default function LeadDetails() {
+export default function StaticLeadDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { updateLead, leads } = useContext(LeadsContext);

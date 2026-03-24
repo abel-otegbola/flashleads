@@ -22,6 +22,7 @@ import Blog from "./pages/static/blog"
 import { ModalProvider } from "./contexts/ModalContext"
 import MouseCursor from "./components/mouseCursor/MouseCursor"
 import FindBusinesses from "./pages/static/find-businesses"
+import StaticLeadDetails from "./pages/static/business"
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/find-businesses" element={<FindBusinesses />} />
+              <Route path="/lead/:id" element={<StaticLeadDetails />} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<Privacy />} />
