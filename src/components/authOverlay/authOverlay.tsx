@@ -30,7 +30,7 @@ function AuthOverlay() {
   }, [activeSlider]);
 
   return (
-    <div className="h-[94%] my-auto rounded-[20px] sticky top-0 right-6 bg-[url('/auth-bg-3.png')] bg-cover bg-top 2xl:w-[45.625%] xl:w-[45%] md:w-[45%] md:block hidden relative">
+    <div className="h-[94%] my-auto rounded-[20px] sticky top-0 right-6 bg-[url('/auth-bg-3.webp')] bg-cover bg-top 2xl:w-[45.625%] xl:w-[45%] md:w-[45%] md:block hidden relative">
 
       {/* Content Overlay */}
       <div className="relative flex flex-col h-full justify-end gap-6 w-full bg-gray/[0.09] p-[8%]">
