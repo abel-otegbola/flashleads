@@ -20,7 +20,7 @@ function FindBusinesses() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savingLeadId, setSavingLeadId] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("Web development");
   const [searchQuery, setSearchQuery] = useState<string>("Web development");
   const [selectedLocation, setSelectedLocation] = useState<string>('United States');
   const [selectedIndustry] = useState<string>('');
@@ -102,9 +102,7 @@ function FindBusinesses() {
       setError(null);
 
       try {
-        const specialtyData = FREELANCING_SPECIALTIES.find(
-          s => s.label === searchTerm
-        );
+        const specialtyData = FREELANCING_SPECIALTIES[0];
 
         const category = specialtyData?.category;
 
