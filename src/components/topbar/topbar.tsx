@@ -60,9 +60,9 @@ function Topbar() {
             <div className="flex items-center gap-10">
             <Link to={"/"} className="flex gap-2 items-center">
                 <div className="relative">
-                    <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
+                    <LogoIcon width={36} height={36} className="rounded-full z-[2]" />
                 </div>
-                <h3 className="font-medium text-[16px] tracking-[2px]">Prospo</h3>
+                <h3 className="font-medium text-[16px] tracking-[2px] uppercase">Prospo</h3>
             </Link>
             
             <ul className={`
