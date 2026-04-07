@@ -1,4 +1,4 @@
-# FlashLeads - CRM for Freelancers
+# Prospo - CRM for Freelancers
 
 A modern CRM platform designed for freelancers to generate leads, manage clients, track projects, and close more deals.
 
@@ -44,7 +44,7 @@ A modern CRM platform designed for freelancers to generate leads, manage clients
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd flashleads
+cd Prospo
 ```
 
 2. Install dependencies:

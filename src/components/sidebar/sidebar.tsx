@@ -62,7 +62,7 @@ function Sidebar() {
                         </div>
                         <LogoIcon width={28} height={28} className="rounded-full z-[2] relative" />
                     </div>
-                    <h3 className={`tracking-[2px] font-medium duration-500 ${open ? "md:hidden" : ""}`}>Flashleads</h3>
+                    <h3 className={`tracking-[2px] font-medium duration-500 ${open ? "md:hidden" : ""}`}>Prospo</h3>
                 </Link>
 
                 {/* Navigation Links */}

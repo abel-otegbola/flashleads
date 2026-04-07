@@ -17,7 +17,7 @@ function Footer() {
                   </div>
                   <LogoIcon width={28} height={28} className="relative rounded-full z-[2]" />
               </div>
-                <h3 className="text-[16px] tracking-[2px]">Flashleads</h3>
+                <h3 className="text-[16px] tracking-[2px]">Prospo</h3>
             </Link>
             <p className="opacity-[0.6] dark:text-gray/ text-sm mb-6 max-w-sm">
               Transform your sales process with intelligent lead generation and automated outreach. Close more deals, faster.
@@ -123,7 +123,7 @@ function Footer() {
         <div className="pt-8 border-t border-gray/[0.3]">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
             <p className="text-sm opacity-[0.6] dark:text-gray/ md:text-center md:text-left">
-              © {currentYear} Flashleads. All rights reserved.
+              © {currentYear} Prospo. All rights reserved.
             </p>
             <div className="flex flex-wrap md:justify-end gap-6">
               <Link to="/privacy" className="text-sm opacity-[0.6] dark:text-gray/ hover:text-primary transition-colors">

@@ -27,7 +27,7 @@ function Integrations() {
     },
     {
       name: "Gmail",
-      description: "Send and track emails directly from FlashLeads",
+      description: "Send and track emails directly from Prospo",
       logo: "✉️",
       category: "Email",
       status: "Available"
@@ -41,7 +41,7 @@ function Integrations() {
     },
     {
       name: "Zapier",
-      description: "Connect FlashLeads with 5,000+ apps via Zapier",
+      description: "Connect Prospo with 5,000+ apps via Zapier",
       logo: "⚡",
       category: "Automation",
       status: "Available"
@@ -103,7 +103,7 @@ function Integrations() {
             30+ Integrations
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            Connect FlashLeads with Your Favorite Tools
+            Connect Prospo with Your Favorite Tools
           </h1>
           <p className="text-lg opacity-[0.6] dark:text-gray/ mb-8">
             Seamlessly integrate with the tools you already use. Build powerful workflows and automate your sales process.

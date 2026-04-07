@@ -16,14 +16,14 @@ function Terms() {
           <section>
             <h2 className="text-2xl font-bold mb-4">1. Agreement to Terms</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
-              By accessing or using FlashLeads ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access the Service.
+              By accessing or using Prospo ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access the Service.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-4">2. Use License</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed mb-3">
-              FlashLeads grants you a personal, non-transferable, non-exclusive license to use the Service. You agree not to:
+              Prospo grants you a personal, non-transferable, non-exclusive license to use the Service. You agree not to:
             </p>
             <ul className="list-disc pl-6 space-y-2 opacity-[0.6] dark:text-gray-300">
               <li>Modify or copy the materials</li>
@@ -74,7 +74,7 @@ function Terms() {
           <section>
             <h2 className="text-2xl font-bold mb-4">6. Intellectual Property</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
-              The Service and its original content, features, and functionality are owned by FlashLeads and are protected by international copyright, trademark, and other intellectual property laws.
+              The Service and its original content, features, and functionality are owned by Prospo and are protected by international copyright, trademark, and other intellectual property laws.
             </p>
           </section>
 
@@ -102,14 +102,14 @@ function Terms() {
           <section>
             <h2 className="text-2xl font-bold mb-4">10. Limitation of Liability</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
-              FlashLeads shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Service.
+              Prospo shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Service.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-4">11. Indemnification</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
-              You agree to indemnify and hold FlashLeads harmless from any claims, damages, or expenses arising from your use of the Service or violation of these Terms.
+              You agree to indemnify and hold Prospo harmless from any claims, damages, or expenses arising from your use of the Service or violation of these Terms.
             </p>
           </section>
 
@@ -131,7 +131,7 @@ function Terms() {
             <h2 className="text-2xl font-bold mb-4">14. Contact Information</h2>
             <div className="mt-4 p-6 bg-gray-50  rounded-lg">
               <p className="opacity-[0.6] dark:text-gray-300">
-                <strong>Email:</strong> legal@flashleads.com<br />
+                <strong>Email:</strong> legal@Prospo.com<br />
                 <strong>Address:</strong> 123 Business Street, San Francisco, CA 94102, USA
               </p>
             </div>

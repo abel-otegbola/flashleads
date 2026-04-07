@@ -50,7 +50,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="opacity-[0.6] dark:text-gray/">support@flashleads.com</p>
+                    <p className="opacity-[0.6] dark:text-gray/">support@Prospo.com</p>
                   </div>
                 </div>
                 <div className="flex gap-4">

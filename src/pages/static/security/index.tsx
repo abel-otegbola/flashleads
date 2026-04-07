@@ -121,7 +121,7 @@ function Security() {
             <h2 className="text-3xl font-bold mb-6">Secure Infrastructure</h2>
             <div className="space-y-4 opacity-[0.6] dark:text-gray/">
               <p>
-                FlashLeads is hosted on AWS and Google Cloud Platform, leveraging their enterprise-grade infrastructure and security controls.
+                Prospo is hosted on AWS and Google Cloud Platform, leveraging their enterprise-grade infrastructure and security controls.
               </p>
               <p>
                 Our data centers are ISO 27001 certified and feature multiple layers of physical and digital security, including biometric access controls and 24/7 surveillance.

@@ -62,7 +62,7 @@ function Topbar() {
                 <div className="relative">
                     <LogoIcon width={28} height={28} className="rounded-full z-[2]" />
                 </div>
-                <h3 className="font-medium text-[16px] tracking-[2px]">Flashleads</h3>
+                <h3 className="font-medium text-[16px] tracking-[2px]">Prospo</h3>
             </Link>
             
             <ul className={`

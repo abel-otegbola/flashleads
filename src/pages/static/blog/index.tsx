@@ -80,7 +80,7 @@ function Blog() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            The FlashLeads Blog
+            The Prospo Blog
           </h1>
           <p className="text-lg opacity-[0.6] dark:text-gray/">
             Insights, strategies, and stories from the world of modern sales and lead generation

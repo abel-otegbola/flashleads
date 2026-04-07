@@ -67,7 +67,7 @@ function Solutions() {
       company: "TechCorp Inc.",
       industry: "SaaS",
       result: "300% increase in qualified leads",
-      testimonial: "FlashLeads transformed our sales process completely.",
+      testimonial: "Prospo transformed our sales process completely.",
       logo: "🏢"
     },
     {
@@ -81,7 +81,7 @@ function Solutions() {
       company: "StartupXYZ",
       industry: "E-commerce",
       result: "$1M ARR in 6 months",
-      testimonial: "Couldn't have scaled this fast without FlashLeads.",
+      testimonial: "Couldn't have scaled this fast without Prospo.",
       logo: "🛒"
     }
   ];
@@ -100,7 +100,7 @@ function Solutions() {
             Built for Your Business Model
           </h1>
           <p className="text-lg opacity-[0.6] dark:text-gray/ mb-8">
-            Whether you're a startup, agency, or enterprise, FlashLeads adapts to your unique needs and scales with your growth.
+            Whether you're a startup, agency, or enterprise, Prospo adapts to your unique needs and scales with your growth.
           </p>
         </div>
       </section>
@@ -167,7 +167,7 @@ function Solutions() {
       <section className="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto py-20">
         <h2 className="text-3xl font-bold text-center mb-4">Success Stories</h2>
         <p className="text-center opacity-[0.6] dark:text-gray/ mb-12">
-          See how businesses like yours are growing with FlashLeads
+          See how businesses like yours are growing with Prospo
         </p>
         <div className="grid md:grid-cols-3 gap-8">
           {caseStudies.map((study, index) => (
@@ -192,7 +192,7 @@ function Solutions() {
         <div className="bg-gradient-to-r from-primary to-fuchsia-500 rounded-2xl p-12 text-center text-white">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-lg mb-8 opacity-90">
-            Join thousands of teams already growing with FlashLeads
+            Join thousands of teams already growing with Prospo
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="secondary" className="bg-background text-primary hover:bg-gray-100">

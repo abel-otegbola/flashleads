@@ -39,7 +39,7 @@ function Homepage() {
                     Find Clients Who  <br/>Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
-                    Flashleads helps you discover businesses that need your expertise and connect you directly with potential clients.
+                    Prospo helps you discover businesses that need your expertise and connect you directly with potential clients.
                 </p>
                 <div className="flex items-center gap-4">
                     <Button href="/signup">Get Started</Button>
@@ -71,17 +71,17 @@ function Homepage() {
             <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center">
                 <div className="max-w-[308px] flex items-center gap-4">
                     <LineCircleIcon className="flex-1 "/>
-                    <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-nowrap md:text-[12px] text-[10px]">Why Flashleads</span>
+                    <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-nowrap md:text-[12px] text-[10px]">Why Prospo</span>
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">A smarter way for <br /> freelancers to find clients</h1>
-                <p>Flashleads helps you discover businesses that may need your skills and reach out with smart, personalized messages.</p>
+                <p>Prospo helps you discover businesses that may need your skills and reach out with smart, personalized messages.</p>
             </div>
 
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-8 mt-12 md:px-0">
                 {
                     [
-                        { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Flashleads surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: <LeadGenIcon /> },
+                        { id: 1, title: "Discover Client Opportunities", text: "Find businesses that may need your service. Prospo surfaces opportunities so you don't have to search endlessly for freelance jobs.", img: <LeadGenIcon /> },
                         { id: 2, title: "Smart Outreach Messages", text: "Generate personalized outreach messages designed to help freelancers get replies and start conversations with potential clients.", img: <OutreachIcon text={"var(--text)"} fill={"var(--background)"} /> },
                         { id: 3, title: "Track Revenue", text: "Keep track of your revenue in one place so you never miss a potential project.", img: <CrmIcon text={"var(--text)"} fill={"var(--background)"} /> },
                     ].map(step => (
@@ -105,7 +105,7 @@ function Homepage() {
                     <LineCircleIcon className="flex-1 rotate-180" />
                 </div>
                 <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">Features Built for Freelancers</h1>
-                <p>Flashleads helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
+                <p>Prospo helps freelancers discover opportunities, connect with businesses, and grow their client base faster.</p>
             </div>
 
             <div className="flex gap-6 md:flex-row flex-col">
@@ -154,7 +154,7 @@ function Homepage() {
         
             <div className="absolute top-[30%] left-[25%] w-[50%] h-[30%] btn-bg-hero p-2 rounded-[80px]"  />
             <h1 className="xl:text-4xl text-2xl font-semibold text-center">Start Finding Clients Today</h1>
-            <p className="text-center max-w-2xl">Join freelancers using Flashleads to discover opportunities, connect with potential clients, and grow their freelance business.</p>
+            <p className="text-center max-w-2xl">Join freelancers using Prospo to discover opportunities, connect with potential clients, and grow their freelance business.</p>
             <Button href="/signup" className="text-[14px]">Get Started</Button>
         </section>
 

@@ -130,7 +130,7 @@ export default function Settings() {
             <div className="bg-background border border-gray/[0.2] rounded-xl p-6 flex flex-col gap-6">
               <div>
                 <h2 className="font-semibold mb-1">Theme</h2>
-                <p className=" opacity-[0.6] mb-4">Choose how Flashleads looks for you</p>
+                <p className=" opacity-[0.6] mb-4">Choose how Prospo looks for you</p>
                 <ThemeSelector />
               </div>
             </div>

@@ -16,7 +16,7 @@ function Privacy() {
           <section>
             <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
             <p className="opacity-[0.6] dark:text-gray-300 leading-relaxed">
-              FlashLeads ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform and services.
+              Prospo ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform and services.
             </p>
           </section>
 
@@ -128,7 +128,7 @@ function Privacy() {
             </p>
             <div className="mt-4 p-6 bg-gray-50  rounded-lg">
               <p className="opacity-[0.6] dark:text-gray-300">
-                <strong>Email:</strong> privacy@flashleads.com<br />
+                <strong>Email:</strong> privacy@Prospo.com<br />
                 <strong>Address:</strong> 123 Business Street, San Francisco, CA 94102, USA
               </p>
             </div>

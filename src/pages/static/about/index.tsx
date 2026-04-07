@@ -38,7 +38,7 @@ function About() {
             We're on a Mission to Transform Sales
           </h1>
           <p className="text-lg">
-            FlashLeads was born from the frustration of spending countless hours on manual lead generation. We believe sales teams should focus on selling, not searching.
+            Prospo was born from the frustration of spending countless hours on manual lead generation. We believe sales teams should focus on selling, not searching.
           </p>
         </div>
       </section>

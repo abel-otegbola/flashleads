@@ -1,4 +1,4 @@
-Set-Location "c:\Users\DELL\Desktop\Abel\Dev\flashleads"
+Set-Location "c:\Users\DELL\Desktop\Abel\Dev\Prospo"
 
 $items = @(
   @{ In="public/features-lead-gen.svg"; Out="src/assets/icons/featureLeadGen.tsx"; Comp="FeatureLeadGenIcon"; W="452"; H="292"; VB="0 0 452 292"; Op="0.16" },
