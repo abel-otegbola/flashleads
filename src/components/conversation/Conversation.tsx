@@ -146,8 +146,6 @@ export default function Conversation({ lead }: Props) {
       </div>
 
       <div className="mb-2 relative ">
-        <div className="absolute z-[1] top-[11%] left-[2%] w-[96%] h-[74%] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
-        </div>
         <textarea
           className="w-full min-h-[120px] border border-gray/[0.1] focus:outline-none shadow-[4px_4px_20px_#0000000A] rounded-[12px] p-4 px-4 z-[2] relative bg-background"
           value={message || generated || ''}

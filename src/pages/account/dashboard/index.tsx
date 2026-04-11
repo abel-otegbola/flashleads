@@ -144,8 +144,6 @@ function Dashboardpage() {
           </div>
           
           <div className="relative">
-            <div className="absolute z-[1] top-[8%] left-[2%] w-[96%] h-[84%] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
-            </div>
             <div className="relative flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] bg-background z-[2]">
             
               <div className="flex items-start gap-4 z-2">

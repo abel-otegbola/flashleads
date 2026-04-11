@@ -27,7 +27,7 @@ import StaticLeadDetails from "./pages/static/business"
 function App() {
 
   return (
-    <div className="text-[14px] md:text-[15px] 2xl:text-[16px] bg-background text-text tracking-[5%]">
+    <div className="text-[14px] md:text-[16px] 2xl:text-[18px] bg-background text-text tracking-[5%]">
       <BrowserRouter>
       <ThemeProvider>
       <ModalProvider>

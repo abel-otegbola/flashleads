@@ -44,10 +44,10 @@ Location: ${location || 'N/A'}
 Return ONLY valid JSON (no markdown, no extra text) with this exact shape:
 {
   "summary": "2-4 sentence overview of what they do and who they likely serve",
-  "whatTheyOffer": ["3-6 concise offerings"],
-  "whatIsUnique": ["3-5 unique differentiators"],
-  "improvements": ["3-6 thoughtful improvement ideas for growth, positioning, website, or conversion"],
-  "conversationAngles": ["3-5 meaningful outreach angles that create conversation without pitching hard"],
+  "whatTheyOffer": ["2-3 concise offerings"],
+  "whatIsUnique": ["2-3 unique differentiators"],
+  "improvements": ["2-3 thoughtful improvement ideas for growth, positioning, website, or conversion"],
+  "conversationAngles": ["1-3 meaningful outreach angles that create conversation without pitching hard"],
   "confidence": "low|medium|high"
 }
 
