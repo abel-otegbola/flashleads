@@ -13,6 +13,9 @@ import { AuthCTA } from "../../components/authCTA/AuthCTA";
 import Profile from "./profile";
 import Settings from "./settings";
 import Notifications from "./notifications";
+import CaseStudyDetails from "./case-studies/caseStudyDetails";
+import CaseStudies from "./case-studies";
+import NewCaseStudy from "./case-studies/new";
 
 function AccountPages() {
     const { user } = useContext(AuthContext);
@@ -44,7 +47,7 @@ function AccountPages() {
                         }
                         </Formik>
                         <Link to={"/account/notifications"} className="relative opacity-50 duration-300">
-                            <Bell size={20} color="currentColor"/>
+                            <Bell size={22} color="currentColor"/>
                         </Link>
                         <AuthCTA user={user} />
                     </div>
@@ -55,6 +58,9 @@ function AccountPages() {
                     <Route path="/leads" element={<Feeds />} />
                     <Route path="/leads/:id" element={<LeadDetails />} />
                     <Route path="/business/:id" element={<LeadDetails />} />
+                    <Route path="/case-studies" element={<CaseStudies />} />
+                    <Route path="/case-studies/new" element={<NewCaseStudy />} />
+                    <Route path="/case-studies/:id" element={<CaseStudyDetails />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/notifications" element={<Notifications />} />

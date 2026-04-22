@@ -43,7 +43,7 @@ function Homepage() {
                 </p>
                 <div className="flex items-center gap-4">
                     <Button href="/signup">Get Started</Button>
-                    <Button href="/find-businesses" variant="secondary">Discover Businesses</Button>
+                    <Button href="/login" variant="secondary">Discover Businesses</Button>
                 </div>
             </div>
             <div className="w-full flex items-center justify-center md:mt-[-32px] lg:-mt-16 z-[2]" data-aos="fade-up" data-aos-delay="200">

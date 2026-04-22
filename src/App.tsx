@@ -21,13 +21,13 @@ import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
 import { ModalProvider } from "./contexts/ModalContext"
 import MouseCursor from "./components/mouseCursor/MouseCursor"
-import FindBusinesses from "./pages/static/find-businesses"
-import StaticLeadDetails from "./pages/static/business"
+// import FindBusinesses from "./pages/static/find-businesses"
+// import StaticLeadDetails from "./pages/static/business"
 
 function App() {
 
   return (
-    <div className="text-[14px] md:text-[16px] 2xl:text-[18px] bg-background text-text tracking-[5%]">
+    <div className="text-[14px] md:text-[15px] 2xl:text-[18px] bg-background text-text tracking-[5%]">
       <BrowserRouter>
       <ThemeProvider>
       <ModalProvider>
@@ -45,8 +45,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/find-businesses" element={<FindBusinesses />} />
-              <Route path="/business/:id" element={<StaticLeadDetails />} />
+              {/* <Route path="/find-businesses" element={<FindBusinesses />} /> */}
+              {/* <Route path="/business/:id" element={<StaticLeadDetails />} /> */}
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<Privacy />} />

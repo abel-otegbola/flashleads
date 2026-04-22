@@ -1,30 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext, type ReactElement } from "react";
+import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
 import SearchBar from "../search/searchBar";
 import LogoIcon from "../../assets/icons/logo";
-import { ThemeContext } from "../../contexts/ThemeContextValue";
-import { Moon, Sun, Tablet } from "@solar-icons/react";
 import ThemeSelector from "../themeSelector/themeSelector";
-
-interface Theme {
-    id: string | number, img: ReactElement, title: string
-}
-
-type Themes = Array<Theme>
 
 function Topbar() {
     const [open, setOpen] = useState(false)
     const [activeSection, setActiveSection] = useState("")
-    const { user } = useContext(AuthContext);    
-    const { theme, setTheme } = useContext(ThemeContext)
-    
-    const themes: Themes = [
-        { id: 0, img: <Tablet />, title: "auto" },
-        { id: 1, img: <Sun />, title: "light" },
-        { id: 2, img: <Moon />, title: "dark" },
-    ]
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -131,22 +116,6 @@ function Topbar() {
             {/* Right actions - Desktop only */}
             <div className="hidden md:flex items-center gap-2 lg:gap-4">
                 <SearchBar />
-                <div className="flex gap-1 p-1 bg-gray/[0.08] rounded">
-                    {
-                        themes.map(item => {
-                            return (
-                                <button
-                                    key={item.id} 
-                                    aria-label={"Theme setting changed to "+ theme} 
-                                    onClick={() => setTheme(item.title)} 
-                                    className={`shadow-none capitalize text-md p-1 rounded ${item.title === theme ? "bg-primary text-white" : "bg-none"}`}
-                                >
-                                    {item.img}
-                                </button>
-                            )
-                        })
-                    }
-                </div>
                 <AuthCTA user={user} />
             </div>
             

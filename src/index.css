@@ -9,7 +9,7 @@
   --color-gray: var(--color-border-card, oklch(87.17% 0.009 258.34));
   --color-green: var(--color-green, oklch(66.29% 0.160 152.37));
   --color-red: var(--color-red, oklch(44.31% 0.210 27.14));
-  --font-family: "Urbanist", system-ui, -apple-system, sans-serif;
+  --font-family: "Google Sans Flex", system-ui, -apple-system, sans-serif;
 }
 
 /* Manual light theme override */

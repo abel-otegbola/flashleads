@@ -27,6 +27,7 @@ function Dashboardpage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<string>('United States');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
+  const [active, setActive] = useState("For you")
   
   const getScoreColor = (score: number) => {
     if (score >= 85) return "text-green-600 font-semibold";
@@ -135,16 +136,16 @@ function Dashboardpage() {
   }, [user?.uid, profile?.specialty, searchTerm, selectedLocation, selectedIndustry]);
 
   return (
-      <div className="flex lg:flex-row flex-col gap-4 md:p-4 h-full">
+      <div className="flex lg:flex-row flex-col gap-4 md:px-4 h-full">
 
-        <div className="lg:w-[65%] w-full p-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.03] md:rounded-lg">
+        <div className="lg:w-[65%] w-full p-4 mt-4 flex flex-col gap-4 mb-6 md:border border-gray/[0.09] bg-gray/[0.03] md:rounded-lg">
           <div>
             <h1 className="text-2xl font-medium mb-2">Discover</h1>
             <p className="opacity-[0.6]">Leads based on your specialization:</p>
           </div>
           
           <div className="relative">
-            <div className="relative flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-[20px] border border-gray/[0.1] bg-background z-[2]">
+            <div className="relative flex flex-col gap-3 p-4 shadow-[4px_4px_20px_#0000000A] rounded-lg border border-gray/[0.2] bg-background z-[2]">
             
               <div className="flex items-start gap-4 z-2">
                 <Link to="/account" className="w-10 h-10 rounded-full bg-primary/[0.2] border border-gray/[0.2] flex items-center justify-center font-semibold flex-shrink-0">
@@ -186,7 +187,18 @@ function Dashboardpage() {
           </div>
 
           <div className="flex items-center justify-between py-4">
-            <p className="opacity-[0.5]">Current search: <span className="font-semibold">{searchTerm || profile?.specialty}</span></p>
+            {/* <p className="opacity-[0.5]">Current search: <span className="font-semibold">{searchTerm || profile?.specialty}</span></p> */}
+            <div className="flex gap-4 w-full border-b border-gray/[0.2] text-[14px]">
+              {
+                ["For you", "Case studies"].map(tab => (
+                  <button 
+                    onClick={() => setActive(tab)} 
+                    key={tab}
+                    className={`py-4 ${active === tab ? "border-b border-primary font-medium" : ""}`}
+                  >{tab}</button>
+                ))
+              }
+            </div>
           </div>
 
           {loading && <SkeletonLoader count={5} />}
@@ -221,7 +233,7 @@ function Dashboardpage() {
           
         </div>
 
-        <div className="lg:w-[35%] w-full gap-4 flex flex-col mb-6 p-4 bg-gray/[0.03]">
+        <div className="lg:w-[35%] w-full gap-4 flex flex-col mb-6 p-4 md:border-l border-gray/[0.3]">
           <div className="rounded-lg p-4 border border-gray/[0.1] bg-background min-h-[260px]">
             <div className="flex justify-between items-center gap-2 flex-wrap mb-2">
               <h1 className="font-medium">Bookmarked Leads</h1>

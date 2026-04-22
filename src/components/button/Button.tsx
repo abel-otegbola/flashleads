@@ -18,23 +18,32 @@ export default function Button({ variant, className, href, size, disabled, onCli
         tertiary: "rounded-[4px]"
     }
 
+    const sizeClasses: Record<NonNullable<buttonProps["size"]>, string> = {
+        xs: "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]",
+        small: "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]",
+        medium: "rounded-[8px] text-[14px] py-[8px] md:px-[18px] px-[16px]",
+        large: "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]"
+    }
+
+    const selectedSize = size || "medium"
+
     return (
        <>
             { 
             href ? 
-                <Link role="button" to={href} className={`rounded-[6px] flex items-center justify-center md:gap-2 gap-1 w-fit  font-semibold text-nowrap
+                <Link role="button" to={href} className={`rounded-[6px] flex items-center justify-center md:gap-2 gap-1 w-fit  font-medium text-nowrap
                     ${variants[variant || "primary"]} 
                     ${disabled ? "opacity-[0.25]" : ""} 
-                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] md:text-[14px] py-[8px] md:px-[18px] px-[16px]"} 
+                    ${sizeClasses[selectedSize]} 
                     ${className} 
                      `}> 
                     { children }
                 </Link>
 
-                : <button className={` duration-500 flex items-center justify-center md:gap-2 gap-1 w-fit cursor-pointer font-semibold text-nowrap
+                : <button className={` duration-500 flex items-center justify-center md:gap-2 gap-1 w-fit cursor-pointer font-medium text-nowrap
                     ${variants[variant || "primary"]} 
                     ${disabled ? "opacity-[0.25]" : ""} 
-                    ${size === "xs" ? "rounded-[2px] text-[8px] py-[2px] md:px-[8px] px-[4px]" : size === "small" ? "rounded text-[12px] py-[4px] md:px-[12px] px-[8px]" : size === "large" ? "rounded-[12px] md:py-[16px] py-[10px] md:px-[32px] px-[28px]" : "rounded-[8px] md:text-[14px] py-[8px] md:px-[18px] px-[16px]"} 
+                    ${sizeClasses[selectedSize]} 
                     ${className} 
                 `}
                 {...props}

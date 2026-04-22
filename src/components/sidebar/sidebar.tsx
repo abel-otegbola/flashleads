@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, type ReactElement } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, Home, Logout, Settings, type IconProps, CloseCircle, SidebarMinimalistic, Bookmark, User } from "@solar-icons/react";
+import { Bell, Home, Logout, Settings, type IconProps, CloseCircle, SidebarMinimalistic, Bookmark, User, File } from "@solar-icons/react";
 import { useOutsideClick } from "../../customHooks/useOutsideClick";
 import { AuthContext } from "../../contexts/AuthContextValue";
 import { AuthCTA } from "../authCTA/AuthCTA";
@@ -32,12 +32,13 @@ function Sidebar() {
     }, []);
 
     const generalLinks: Link[] = [
-        { id: 0, label: "Dashboard", icon: <Home size={16} />, link: "/account/dashboard" },
-        { id: 1, label: "Leads", icon: <Bookmark size={16} />, link: "/account/leads" },
-        { id: 3, label: "Profile", icon: <User size={16} />, link: "/account/profile" },
-        { id: 4, label: "Messages", icon: <Bell size={16} />, link: "/account/notifications", subtext: "2" },
-        { id: 5, label: "Settings", icon: <Settings size={16} />, link: "/account/settings" },
-        { id: 6, label: "Logout", icon: <Logout size={16} />, link: "#" },
+        { id: 0, label: "Dashboard", icon: <Home size={18} />, link: "/account/dashboard" },
+        { id: 1, label: "Leads", icon: <Bookmark size={18} />, link: "/account/leads" },
+        { id: 1, label: "Case Studies", icon: <File size={18} />, link: "/account/case-studies" },
+        { id: 3, label: "Profile", icon: <User size={18} />, link: "/account/profile" },
+        { id: 4, label: "Messages", icon: <Bell size={18} />, link: "/account/notifications", subtext: "2" },
+        { id: 5, label: "Settings", icon: <Settings size={18} />, link: "/account/settings" },
+        { id: 6, label: "Logout", icon: <Logout size={18} />, link: "#" },
     ]
     
     const modalRef = useOutsideClick(setOpen, false, isMobile && open)
@@ -45,8 +46,8 @@ function Sidebar() {
     return (
         <>
         
-        <div className={`md:sticky top-0 left-0 h-screen w-0 duration-500 ${open ? "md:w-[74px]": "md:w-[300px]"}`}>
-            <button className={`md:absolute fixed top-5 md:right-4 flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[50] p-[2px] px-[13px] rounded-full duration-700 ${open ? " left-[280px] max-[500px]:left-[230px] md:left-24" : "md:left-[260px] left-4"}`} onClick={() => setOpen(!open)}>
+        <div className={`relative md:sticky top-0 left-0 h-screen w-0 duration-500 md:z-[20] border-r border-gray/[0.2] ${open ? "md:w-[74px]": "md:w-[300px]"}`}>
+            <button className={`fixed md:absolute top-5 flex flex-col justify-center items-center md:bg-gray/[0.03] bg-background backdrop-blur-md gap-1 w-5 h-6 z-[1200] md:z-[30] p-[2px] px-[13px] rounded-full duration-700 ${open ? "left-[280px] max-[500px]:left-[230px] md:left-16" : "md:left-[260px] left-4"}`} onClick={() => setOpen(!open)}>
                 { open ?
                 <CloseCircle size={28} color="currentColor" />
                 :
@@ -75,7 +76,7 @@ function Sidebar() {
                                 return (
                                 <>
                                     <h1 className={`opacity-[0.4] p-3 pt-4 text-[14px] uppercase mt-4 border-t border-gray/[0.2] ${open ? "opacity-[1] md:opacity-[0]" : ""}`}>Others</h1>
-                                    <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
+                                    <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-semibold" : "font-medium opacity-75 hover:bg-gray/[0.09]"}`}>
                                         {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black  dark:bg-primary"></span>: ""}
                                         <div className="flex items-center gap-3">
                                             <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>
@@ -91,7 +92,7 @@ function Sidebar() {
                                         <button
                                             key={link.id}
                                             onClick={async () => { await logOut(); navigate('/login'); }}
-                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[48px] rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold text-primary" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
+                                            className={`relative w-full text-left flex items-center justify-between px-3 py-1 h-[48px] rounded-[6px] duration-300 cursor-pointer ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-semibold text-primary" : "font-medium opacity-75 hover:bg-gray/[0.09]"}`}>
                                             <div className="flex items-center gap-3">
                                                 <span className={`w-[18px] ${pathname.includes(link.link) ? "text-primary opacity-100" : ""}`}>{link.icon}</span>
                                                 <span className={`flex-1 py-1 break-normal duration-500 ${open ? "md:hidden" : ""}`}>{link.label} </span>
@@ -100,7 +101,7 @@ function Sidebar() {
                                     )
                                 }
                                 return (
-                                <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-bold" : "font-semibold opacity-75 hover:bg-gray/[0.09]"}`}>
+                                <Link key={link.id} onClick={() => !isMobile ? {} : setOpen(false)} to={ link.link} className={`relative flex items-center justify-between px-3 py-3 h-[48px] rounded-[6px] duration-300 ${pathname.includes(link.link) ? "md:bg-background bg-gray/[0.05] font-semibold" : "font-medium opacity-75 hover:bg-gray/[0.09]"}`}>
                                     {pathname.includes(link.link) ? <span className="absolute -left-[2px] w-[3px] h-6 rounded bg-black  dark:bg-primary"></span>: ""}
                                     <div className="flex items-center gap-3">
                                         <span className={`w-[18px] ${pathname.includes(link.link) ? "opacity-100" : ""}`}>{link.icon}</span>
