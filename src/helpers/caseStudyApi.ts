@@ -3,11 +3,14 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import type { CaseStudyBlock, CaseStudyPayload } from "../interface/caseStudy";
+import type { CaseStudyBlock, CaseStudyDocument, CaseStudyPayload } from "../interface/caseStudy";
 
 const CASE_STUDIES_COLLECTION = "caseStudies";
 
@@ -98,4 +101,36 @@ export async function publishCaseStudy(
   });
 
   return caseStudyId;
+}
+
+export async function getUserCaseStudies(userId: string): Promise<CaseStudyDocument[]> {
+  const studiesQuery = query(collection(db, CASE_STUDIES_COLLECTION), where("userId", "==", userId));
+  const snapshot = await getDocs(studiesQuery);
+
+  const docs = snapshot.docs.map((entry) => {
+    const data = entry.data();
+    return {
+      id: entry.id,
+      userId: data.userId,
+      title: data.title || "Untitled Case Study",
+      blocks: Array.isArray(data.blocks) ? data.blocks : [],
+      status: data.status === "published" ? "published" : "draft",
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      publishedAt: data.publishedAt,
+    } as CaseStudyDocument;
+  });
+
+  const toMillis = (value: unknown): number => {
+    if (value && typeof value === "object" && "toMillis" in (value as object)) {
+      try {
+        return (value as { toMillis: () => number }).toMillis();
+      } catch {
+        return 0;
+      }
+    }
+    return 0;
+  };
+
+  return docs.sort((a, b) => toMillis(b.updatedAt) - toMillis(a.updatedAt));
 }
