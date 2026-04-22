@@ -26,9 +26,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const cloudName = (process.env.CLOUDINARY_CLOUD_NAME || "").trim();
+  const apiKey = (process.env.CLOUDINARY_API_KEY || "").trim();
+  const apiSecret = (process.env.CLOUDINARY_API_SECRET || "").trim();
 
   if (!cloudName || !apiKey || !apiSecret) {
     res.status(500).json({ error: "Missing CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, or CLOUDINARY_API_SECRET" });
@@ -49,7 +49,8 @@ export default async function handler(req, res) {
       .replace(/\.[^/.]+$/, "")
       .replace(/[^a-zA-Z0-9_-]/g, "-")
       .slice(0, 60);
-    const publicId = `${folder}/${Date.now()}-${Math.floor(Math.random() * 10000)}-${cleanedName}`;
+    // Cloudinary expects folder and public_id separately for predictable signature validation.
+    const publicId = `${Date.now()}-${Math.floor(Math.random() * 10000)}-${cleanedName}`;
 
     const paramsToSign = {
       folder,
