@@ -4,6 +4,7 @@ import { AlignLeft, AlignRight, AlignVerticalCenter, TextBold, TextItalic, TextU
 import CloudinaryDropUpload from "./CloudinaryDropUpload";
 import { resolveMediaUrl } from "../../helpers/mediaUrl";
 import type { CloudinaryUploadResult } from "../../helpers/cloudinaryUpload";
+import { useRef } from "react";
 
 interface CaseStudyBlocksCanvasProps {
   blocks: CaseStudyBlock[];
@@ -12,7 +13,6 @@ interface CaseStudyBlocksCanvasProps {
   onUpdateBlockContent: (id: number, content: string) => void;
   onDeleteBlock: (id: number) => void | Promise<void>;
   onMoveBlock: (id: number, direction: "up" | "down") => void;
-  onUpdateTextStyle: (id: number, patch: Partial<CaseStudyBlock["textStyle"]>) => void;
   onUpdateImageStyle: (id: number, patch: Partial<CaseStudyBlock["imageStyle"]>) => void;
   onUpdateEmbedStyle: (id: number, patch: Partial<CaseStudyBlock["embedStyle"]>) => void;
   onUpdateMediaBlock: (id: number, content: string) => void;
@@ -66,27 +66,22 @@ function HoverActions({
 
 function TextInlineToolbar({
   block,
-  onUpdateTextStyle,
+  onRunCommand,
 }: {
   block: CaseStudyBlock;
-  onUpdateTextStyle: (id: number, patch: Partial<CaseStudyBlock["textStyle"]>) => void;
+  onRunCommand: (id: number, command: string, value?: string) => void;
 }) {
-  const textStyle = {
-    variant: block.textStyle?.variant || "paragraph",
-    fontSize: block.textStyle?.fontSize || 16,
-    bold: !!block.textStyle?.bold,
-    italic: !!block.textStyle?.italic,
-    underline: !!block.textStyle?.underline,
-    align: block.textStyle?.align || "left",
-    link: block.textStyle?.link || "",
-  };
-
   return (
     <div className="absolute left-2 -top-10 opacity-0 group-hover:opacity-100 transition-opacity z-10">
       <div className="flex flex-wrap items-center gap-1 p-1 rounded-lg border border-gray/[0.2] bg-background shadow-sm">
         <select
-          value={textStyle.variant}
-          onChange={(e) => onUpdateTextStyle(block.id, { variant: e.target.value as TextVariant })}
+          defaultValue="paragraph"
+          onMouseDown={(e) => e.preventDefault()}
+          onChange={(e) => {
+            const selected = e.target.value as TextVariant;
+            onRunCommand(block.id, "formatBlock", selected === "heading" ? "H2" : "P");
+            e.currentTarget.value = "paragraph";
+          }}
           className="px-2 py-1 text-xs border border-gray/[0.2] rounded bg-transparent"
         >
           {TEXT_VARIANTS.map((variant) => (
@@ -96,60 +91,76 @@ function TextInlineToolbar({
           ))}
         </select>
 
-        <input
-          type="number"
-          min={12}
-          max={48}
-          value={textStyle.fontSize}
-          onChange={(e) => {
-            const raw = Number(e.target.value);
-            const nextSize = Number.isFinite(raw) ? Math.max(12, Math.min(48, raw)) : 16;
-            onUpdateTextStyle(block.id, { fontSize: nextSize });
-          }}
-          className="w-[64px] px-2 py-1 text-xs border border-gray/[0.2] rounded bg-transparent"
-          aria-label="Font size"
-        />
-
         <button
           type="button"
-          className={`px-2 py-1 text-xs rounded ${textStyle.bold ? "bg-primary/15" : "hover:bg-gray/[0.12]"}`}
-          onClick={() => onUpdateTextStyle(block.id, { bold: !textStyle.bold })}
+          onMouseDown={(e) => e.preventDefault()}
+          className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+          onClick={() => onRunCommand(block.id, "bold")}
         >
           <TextBold size={14} color="currentColor" />
         </button>
         <button
           type="button"
-          className={`px-2 py-1 text-xs rounded ${textStyle.italic ? "bg-primary/15" : "hover:bg-gray/[0.12]"}`}
-          onClick={() => onUpdateTextStyle(block.id, { italic: !textStyle.italic })}
+          onMouseDown={(e) => e.preventDefault()}
+          className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+          onClick={() => onRunCommand(block.id, "italic")}
         >
           <TextItalic size={14} color="currentColor" />
         </button>
         <button
           type="button"
-          className={`px-2 py-1 text-xs rounded ${textStyle.underline ? "bg-primary/15" : "hover:bg-gray/[0.12]"}`}
-          onClick={() => onUpdateTextStyle(block.id, { underline: !textStyle.underline })}
+          onMouseDown={(e) => e.preventDefault()}
+          className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+          onClick={() => onRunCommand(block.id, "underline")}
         >
           <TextUnderline size={14} color="currentColor" />
         </button>
 
-        {TEXT_ALIGNMENTS.map((align) => (
+        <button
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+          onClick={() => onRunCommand(block.id, "insertUnorderedList")}
+        >
+          UL
+        </button>
+        <button
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+          onClick={() => onRunCommand(block.id, "insertOrderedList")}
+        >
+          OL
+        </button>
+
+        {TEXT_ALIGNMENTS.map((align) => {
+          const command = align === "left" ? "justifyLeft" : align === "center" ? "justifyCenter" : "justifyRight";
+          return (
           <button
             key={align}
             type="button"
-            className={`px-2 py-1 text-xs rounded ${textStyle.align === align ? "bg-primary/15" : "hover:bg-gray/[0.12]"}`}
-            onClick={() => onUpdateTextStyle(block.id, { align })}
+            onMouseDown={(e) => e.preventDefault()}
+            className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
+            onClick={() => onRunCommand(block.id, command)}
           >
             {align === "left" ? <AlignLeft size={14} color="currentColor" /> : align === "center" ? <AlignVerticalCenter size={14} color="currentColor" /> : <AlignRight size={14} color="currentColor" />}
           </button>
-        ))}
+          );
+        })}
 
         <button
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           className="px-2 py-1 text-xs rounded hover:bg-gray/[0.12]"
           onClick={() => {
-            const nextLink = window.prompt("Enter text link URL", textStyle.link || "https://");
+            const nextLink = window.prompt("Enter text link URL", "https://");
             if (nextLink !== null) {
-              onUpdateTextStyle(block.id, { link: nextLink.trim() });
+              const trimmed = nextLink.trim();
+              if (!trimmed) {
+                onRunCommand(block.id, "unlink");
+                return;
+              }
+              onRunCommand(block.id, "createLink", trimmed);
             }
           }}
         >
@@ -200,7 +211,6 @@ export default function CaseStudyBlocksCanvas({
   onUpdateBlockContent,
   onDeleteBlock,
   onMoveBlock,
-  onUpdateTextStyle,
   onUpdateImageStyle,
   onUpdateEmbedStyle,
   onUpdateMediaBlock,
@@ -208,6 +218,28 @@ export default function CaseStudyBlocksCanvas({
   onUploadVideo,
   disabled = false,
 }: CaseStudyBlocksCanvasProps) {
+  const textRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+
+  const syncTextHtml = (id: number) => {
+    const element = textRefs.current.get(id);
+    if (!element) {
+      return;
+    }
+
+    onUpdateBlockContent(id, element.innerHTML);
+  };
+
+  const runTextCommand = (id: number, command: string, value?: string) => {
+    const element = textRefs.current.get(id);
+    if (!element) {
+      return;
+    }
+
+    element.focus();
+    document.execCommand(command, false, value);
+    syncTextHtml(id);
+  };
+
   return (
     <div className="p-4 md:p-6 space-y-4 min-h-[60vh]">
       {blocks.map((block, index) => {
@@ -217,19 +249,9 @@ export default function CaseStudyBlocksCanvas({
         }`;
 
         if (block.type === "text") {
-          const style = {
-            variant: block.textStyle?.variant || "paragraph",
-            fontSize: block.textStyle?.fontSize || 16,
-            bold: !!block.textStyle?.bold,
-            italic: !!block.textStyle?.italic,
-            underline: !!block.textStyle?.underline,
-            align: block.textStyle?.align || "left",
-            link: block.textStyle?.link || "",
-          };
-
           return (
             <div key={block.id} onClick={() => onSelectBlock(block.id)} className={`${shellClasses} p-4 cursor-text`}>
-              <TextInlineToolbar block={block} onUpdateTextStyle={onUpdateTextStyle} />
+              <TextInlineToolbar block={block} onRunCommand={runTextCommand} />
               <HoverActions
                 isFirst={index === 0}
                 isLast={index === blocks.length - 1}
@@ -239,31 +261,20 @@ export default function CaseStudyBlocksCanvas({
               />
 
               <div
+                ref={(node) => {
+                  if (node) {
+                    textRefs.current.set(block.id, node);
+                  } else {
+                    textRefs.current.delete(block.id);
+                  }
+                }}
                 contentEditable
                 suppressContentEditableWarning
-                className={`${style.variant === "heading" ? "font-semibold" : "font-normal"} min-h-[80px] outline-none leading-7`}
-                style={{
-                  fontSize: `${style.fontSize}px`,
-                  fontWeight: style.bold ? 700 : undefined,
-                  fontStyle: style.italic ? "italic" : "normal",
-                  textDecoration: style.underline ? "underline" : "none",
-                  textAlign: style.align,
-                }}
-                onBlur={(e) => onUpdateBlockContent(block.id, e.currentTarget.textContent ?? "")}
-              >
-                {block.content}
-              </div>
-
-              {style.link && (
-                <a
-                  href={style.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm text-primary underline mt-2 inline-block"
-                >
-                  {style.link}
-                </a>
-              )}
+                className="min-h-[80px] outline-none leading-7"
+                onInput={() => syncTextHtml(block.id)}
+                onBlur={() => syncTextHtml(block.id)}
+                dangerouslySetInnerHTML={{ __html: block.content || "" }}
+              />
             </div>
           );
         }

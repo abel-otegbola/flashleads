@@ -89,22 +89,6 @@ export default function NewCaseStudy() {
     updateBlock(id, media.isValid ? media.normalizedUrl : content);
   };
 
-  const updateTextStyle = (id: number, patch: Partial<CaseStudyBlock["textStyle"]>) => {
-    setBlocks((prev) =>
-      prev.map((block) =>
-        block.id === id
-          ? {
-              ...block,
-              textStyle: {
-                ...(block.textStyle || {}),
-                ...patch,
-              },
-            }
-          : block,
-      ),
-    );
-  };
-
   const updateImageStyle = (id: number, patch: Partial<CaseStudyBlock["imageStyle"]>) => {
     setBlocks((prev) =>
       prev.map((block) =>
@@ -335,7 +319,6 @@ export default function NewCaseStudy() {
               onUpdateMediaBlock={updateMediaBlock}
               onDeleteBlock={deleteBlock}
               onMoveBlock={moveBlock}
-              onUpdateTextStyle={updateTextStyle}
               onUpdateImageStyle={updateImageStyle}
               onUpdateEmbedStyle={updateEmbedStyle}
               onUploadImage={handleImageUpload}

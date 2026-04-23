@@ -7,9 +7,13 @@ import { getUserCaseStudies } from "../../../helpers/caseStudyApi";
 import type { CaseStudyBlock, CaseStudyDocument } from "../../../interface/caseStudy";
 import { ClockCircle } from "@solar-icons/react/ssr";
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function getPreviewText(blocks: CaseStudyBlock[]): string {
-  const textBlock = blocks.find((block) => block.type === "text" && block.content.trim());
-  return textBlock?.content || "No summary yet. Open this case study to add a short description.";
+  const textBlock = blocks.find((block) => block.type === "text" && stripHtml(block.content).trim());
+  return textBlock ? stripHtml(textBlock.content) : "No summary yet. Open this case study to add a short description.";
 }
 
 function getPreviewImage(blocks: CaseStudyBlock[]): string {

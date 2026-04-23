@@ -24,42 +24,11 @@ function formatDate(value: unknown): string {
 }
 
 function TextBlockView({ block }: { block: CaseStudyBlock }) {
-  const style = {
-    variant: block.textStyle?.variant || "paragraph",
-    fontSize: block.textStyle?.fontSize || 16,
-    bold: !!block.textStyle?.bold,
-    italic: !!block.textStyle?.italic,
-    underline: !!block.textStyle?.underline,
-    align: block.textStyle?.align || "left",
-    link: block.textStyle?.link || "",
-  };
-
   return (
-    <div>
-      <p
-        className={`${style.variant === "heading" ? "font-semibold" : "font-normal"} `}
-        style={{
-          fontSize: `${style.fontSize}px`,
-          fontWeight: style.bold ? 700 : undefined,
-          fontStyle: style.italic ? "italic" : "normal",
-          textDecoration: style.underline ? "underline" : "none",
-          textAlign: style.align,
-        }}
-      >
-        {block.content}
-      </p>
-
-      {style.link && (
-        <a
-          href={style.link}
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm text-primary underline mt-2 inline-block break-all"
-        >
-          {style.link}
-        </a>
-      )}
-    </div>
+    <div
+      className="leading-7 [&_h1]:text-3xl [&_h1]:font-semibold [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_a]:text-primary [&_a]:underline"
+      dangerouslySetInnerHTML={{ __html: block.content || "" }}
+    />
   );
 }
 
@@ -192,7 +161,7 @@ export default function CaseStudyDetails() {
               )}
 
               {caseStudy.blocks.map((block) => (
-                <div key={block.id} className="rounded-xl border border-gray/[0.12] p-3 md:p-4">
+                <div key={block.id} className="">
                   <BlockView block={block} />
                 </div>
               ))}
