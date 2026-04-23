@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import type { CaseStudyBlock, CaseStudyDocument, CaseStudyPayload } from "../interface/caseStudy";
+import { assertUserWithinPlanLimit, incrementUserUsage } from "./profileUsage";
 
 const CASE_STUDIES_COLLECTION = "caseStudies";
 
@@ -50,6 +51,8 @@ export async function saveCaseStudyDraft(
   const clean = sanitizePayload(payload);
 
   if (!caseStudyId) {
+    await assertUserWithinPlanLimit(userId, "case_studies");
+
     const created = await addDoc(collection(db, CASE_STUDIES_COLLECTION), {
       userId,
       ...clean,
@@ -58,6 +61,12 @@ export async function saveCaseStudyDraft(
       updatedAt: serverTimestamp(),
       publishedAt: null,
     });
+
+    try {
+      await incrementUserUsage(userId, "case_studies");
+    } catch (usageError) {
+      console.error("Failed to update case study usage counter:", usageError);
+    }
 
     return created.id;
   }
@@ -80,6 +89,8 @@ export async function publishCaseStudy(
   const clean = sanitizePayload(payload);
 
   if (!caseStudyId) {
+    await assertUserWithinPlanLimit(userId, "case_studies");
+
     const created = await addDoc(collection(db, CASE_STUDIES_COLLECTION), {
       userId,
       ...clean,
@@ -88,6 +99,12 @@ export async function publishCaseStudy(
       updatedAt: serverTimestamp(),
       publishedAt: serverTimestamp(),
     });
+
+    try {
+      await incrementUserUsage(userId, "case_studies");
+    } catch (usageError) {
+      console.error("Failed to update case study usage counter:", usageError);
+    }
 
     return created.id;
   }

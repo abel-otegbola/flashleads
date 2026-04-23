@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { type IUser } from "../interface/auth";
+import type { UserPlan, UserUsage } from "../interface/userProfile";
 
 export type values = {
     user: IUser;
@@ -12,7 +13,7 @@ export type values = {
     forgotPassword: (email: string) => Promise<void>;
     verifyOtp: (otp: string) => Promise<void>;
     resetPassword: (password: string) => Promise<void>;
-    updateUser: (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string }) => Promise<void>;
+    updateUser: (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string, current_plan?: UserPlan, current_usage?: UserUsage }) => Promise<void>;
     deleteAccount: (password: string) => Promise<void>;
 }
 

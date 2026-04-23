@@ -32,6 +32,8 @@ export default function UserProfileProvider({ children }: { children: ReactNode 
         const data = profileDoc.data();
         setProfile({
           ...data,
+          current_plan: data.current_plan || 'free',
+          current_usage: data.current_usage || { leads: 0, case_studies: 0 },
           createdAt: data.createdAt?.toDate(),
           updatedAt: data.updatedAt?.toDate(),
         } as UserProfile);
@@ -53,6 +55,8 @@ export default function UserProfileProvider({ children }: { children: ReactNode 
       const newProfile: UserProfile = {
         ...profileData,
         uid: user.uid,
+        current_plan: profileData.current_plan || 'free',
+        current_usage: profileData.current_usage || { leads: 0, case_studies: 0 },
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -101,6 +105,8 @@ export default function UserProfileProvider({ children }: { children: ReactNode 
         const data = profileDoc.data();
         return {
           ...data,
+          current_plan: data.current_plan || 'free',
+          current_usage: data.current_usage || { leads: 0, case_studies: 0 },
           createdAt: data.createdAt?.toDate(),
           updatedAt: data.updatedAt?.toDate(),
         } as UserProfile;

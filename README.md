@@ -71,6 +71,29 @@ VITE_FIREBASE_API_KEY=your_firebase_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
 # ... other Firebase config
+
+# Dodo Payments
+DODO_API_KEY=yoK4tAz__YsWV7sh.QcbbpMW3ZIKUNBlqoQOltxaJruzv2FE38Q-OJWaUcOi07T9b
+DODO_API_BASE_URL=https://api.dodopayments.com/v1
+DODO_WEBHOOK_SECRET=your_dodo_webhook_secret
+DODO_WEBHOOK_URL=https://prospo.app/api/dodo/webhook
+DODO_CURRENCY=USD
+DODO_PRO_PRICE_CENTS=900
+DODO_ENTERPRISE_PRICE_CENTS=2500
+DODO_LIFETIME_PRICE_CENTS=3900
+# Optional: if your Dodo account uses product IDs instead of inline prices
+# DODO_PRO_PRODUCT_ID=prod_xxx
+# DODO_ENTERPRISE_PRODUCT_ID=prod_xxx
+# DODO_LIFETIME_PRODUCT_ID=prod_xxx
+# Optional: custom verify endpoint URL template with {SESSION_ID} placeholder
+# DODO_VERIFY_URL_TEMPLATE=https://api.dodopayments.com/v1/checkouts/{SESSION_ID}
+# Optional local testing bypass
+# DODO_BYPASS_VERIFY=false
+
+# Firebase Admin (required for webhook plan finalization)
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxx@your_project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
 
 5. Start development servers:

@@ -5,6 +5,7 @@ import { FirebaseError } from "firebase/app";
 import { app } from "../firebase/firebase";
 import { AuthContext } from "./AuthContextValue";
 import { LeadsContext, type Lead } from "./LeadsContextValue";
+import { assertUserWithinPlanLimit, incrementUserUsage } from "../helpers/profileUsage";
 
 const db = getFirestore(app);
 
@@ -75,6 +76,8 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
         setError(null);
 
         try {
+            await assertUserWithinPlanLimit(leadData.userId, 'leads');
+
             const leadsRef = collection(db, 'leads');
             const newLead = {
                 ...leadData,
@@ -84,6 +87,12 @@ const LeadsProvider = ({ children }: { children: ReactNode }) => {
             console.log('📤 Calling Firebase addDoc with data:', newLead);
             const docRef = await addDoc(leadsRef, newLead);
             console.log('✅ Firebase addDoc successful, doc ID:', docRef.id);
+
+            try {
+                await incrementUserUsage(leadData.userId, 'leads');
+            } catch (usageError) {
+                console.error('Failed to update lead usage counter:', usageError);
+            }
 
             // Add to local state
             const addedLead: Lead = {

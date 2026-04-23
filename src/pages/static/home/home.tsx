@@ -13,8 +13,72 @@ import FeatureOutreachIcon from "../../../assets/icons/featureOutreach"
 import FeatureCrmIcon from "../../../assets/icons/featureCrm"
 import FeatureSocialIcon from "../../../assets/icons/featureSocial"
 import HeroImg from "../../../assets/icons/hero-img"
+import { CheckCircle } from "@solar-icons/react"
 
 function Homepage() {
+    const pricingPlans = [
+        {
+            id: 'starter',
+            name: 'Free Plan - Starter',
+            price: '$0',
+            cadence: 'Forever free',
+            accent: 'bg-slate-100 text-slate-700',
+            purpose: 'Start showcasing your work and attract your first clients with a simple case study and limited outreach.',
+            features: [
+                '5 leads',
+                '1 case study',
+                'Basic case study templates',
+                'Public profile',
+            ],
+        },
+        {
+            id: 'pro',
+            name: 'Pro Plan - Growth',
+            price: '$5',
+            cadence: 'Per month',
+            accent: 'bg-sky-100 text-sky-700',
+            purpose: 'Increase your visibility and win more clients with more case studies and higher outreach capacity.',
+            featured: true,
+            features: [
+                '50 leads/month',
+                '5 case studies',
+                'Premium case study templates',
+                'Export/share case studies (PDF/link)',
+                'Priority listing for more visibility',
+            ],
+        },
+        {
+            id: 'enterprise',
+            name: 'Enterprise Plan - Scale',
+            price: '$15',
+            cadence: 'Per month',
+            accent: 'bg-violet-100 text-violet-700',
+            purpose: 'Scale your client acquisition with unlimited case studies, leads, and advanced tools built for serious growth.',
+            features: [
+                'Unlimited leads',
+                'Unlimited case studies',
+                'Advanced analytics (views, clicks, conversions)',
+                'Custom branding (white-label case studies)',
+                'API access',
+            ],
+        },
+        {
+            id: 'lifetime',
+            name: 'Lifetime Plan',
+            price: '$100',
+            cadence: 'One-time payment',
+            accent: 'bg-amber-100 text-amber-800',
+            purpose: 'Pay once and keep generating leads and showcasing your work without recurring costs.',
+            badge: 'Limited Offer',
+            features: [
+                '100 leads/month',
+                '10 case studies',
+                'All Pro features',
+                'Early adopter badge',
+            ],
+        },
+    ]
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -35,7 +99,7 @@ function Homepage() {
                     <span className="px-2 sm:px-3 py-1 rounded-full bg-black text-white font-medium">Hire</span>
                     <span className="font-medium">Start connecting with potential clients</span>
                 </div>
-                <h1 className="font-bold max-[400px]:font-black max-[400px]:text-2xl max-[500px]:text-3xl text-4xl sm:text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4 px-4">
+                <h1 className="font-bold max-[420px]:text-3xl text-4xl lg:text-6xl leading-tight sm:leading-tight md:leading-tight lg:leading-[64px] md:px-0 sm:px-4">
                     Find Clients Who  <br/>Already Need Your Skills
                 </h1>
                 <p className="opacity-[0.8] md:w-[75%] w-[90%] md:mb-8 mb-4 max-w-xl leading-[28px]">
@@ -148,6 +212,59 @@ function Homepage() {
                 </div>
             </div>
 
+        </section>
+
+        <section className="flex justify-center flex-col items-center gap-6 py-8 md:px-[8%] px-4 mt-[40px]">
+            <div className="flex flex-col items-center justify-center gap-5 md:w-1/2 text-center" data-aos="fade-up">
+                <div className="max-w-[320px] flex items-center gap-4 w-full">
+                    <LineCircleIcon className="flex-1 "/>
+                    <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-nowrap md:text-[12px] text-[10px]">Pricing</span>
+                    <LineCircleIcon className="flex-1 rotate-180" />
+                </div>
+                <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">Choose the plan that matches your growth</h1>
+                <p>Start free, scale as you close more clients, or lock in a one-time founders deal.</p>
+            </div>
+
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 w-full mt-8">
+                {pricingPlans.map((plan, index) => (
+                    <article
+                        key={plan.id}
+                        className={`relative rounded-2xl border p-6 flex flex-col gap-5 bg-background ${plan.featured ? 'border-primary shadow-xl shadow-primary/10' : 'border-gray/[0.15]'}`}
+                        data-aos="fade-up"
+                        data-aos-delay={`${100 + index * 50}`}
+                    >
+                        <div className="flex items-start justify-between gap-2">
+                            <span className={`text-xs font-semibold px-3 py-1 rounded-full ${plan.accent}`}>{plan.name}</span>
+                            {plan.badge ? (
+                                <span className="text-[11px] uppercase tracking-wide text-amber-700 bg-amber-100 px-2 py-1 rounded-full">{plan.badge}</span>
+                            ) : null}
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <p className="text-3xl font-bold">{plan.price}</p>
+                            <p className="text-sm opacity-[0.6]">{plan.cadence}</p>
+                        <p className="text-sm opacity-[0.7] mt-auto">{plan.purpose}</p>
+                        </div>
+
+                        <ul className="flex flex-col flex-1 gap-2 text-sm opacity-[0.85]">
+                            {plan.features.map(feature => (
+                                <li key={feature} className="flex items-start gap-2">
+                                    <span className="text-green-500 mt-[2px]"><CheckCircle size={16} /></span>
+                                    <span>{feature}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <Button
+                            href="/signup"
+                            variant={plan.featured ? 'primary' : 'secondary'}
+                            className="w-full justify-center"
+                        >
+                            {plan.id === 'starter' ? 'Start Free' : 'Choose Plan'}
+                        </Button>
+                    </article>
+                ))}
+            </div>
         </section>
 
         <section className="relative bg-gray/[0.05] dark:bg-black flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">

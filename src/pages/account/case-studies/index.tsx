@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AddCircle, CheckCircle, PenNewSquare, Tablet } from "@solar-icons/react";
+import { AddCircle, CheckCircle, Copy, Eye, PenNewSquare, Tablet } from "@solar-icons/react";
 import Button from "../../../components/button/Button";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import { getUserCaseStudies } from "../../../helpers/caseStudyApi";
@@ -92,12 +92,12 @@ export default function CaseStudies() {
       {/* Header */}
       <div className="mb-6 flex flex-wrap items-center gap-6 justify-between">
         <div>
-          <h1 className="text-2xl font-medium mb-2">Case Studies</h1>
+          <h1 className="md:text-2xl text-xl font-medium mb-2">Case Studies</h1>
           <p className="opacity-[0.6]">Manage and design case studies</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link to="/account/case-studies/new">
-            <Button className="flex items-center gap-2">
+            <Button variant="secondary" className="flex items-center gap-2">
               <AddCircle size={20} />
               Add New Case Study
             </Button>
@@ -135,12 +135,12 @@ export default function CaseStudies() {
           return (
             <article key={study.id} className="py-7 flex  gap-5 items-center justify-between">
               <div className="flex-1 min-w-0">
-                <p className="opacity-75 mb-3">
+                <p className="opacity-75 md:text-[15px] text-[13px] mb-3">
                   In Case Studies by You
                 </p>
 
                 <Link to={`/account/case-studies/${study.id}`}>
-                  <h2 className="text-2xl md:text-[24px] font-semibold leading-tight mb-2 line-clamp-2 hover:underline">
+                  <h2 className="text-xl md:text-[24px] font-semibold leading-tight mb-2 line-clamp-2 hover:underline">
                     {study.title}
                   </h2>
                 </Link>
@@ -149,29 +149,33 @@ export default function CaseStudies() {
                   {previewText}
                 </p>
 
-                <div className="flex items-center flex-wrap gap-x-8 gap-y-2 text-[12px] opacity-70">
-                  <span className="flex gap-3 items-center"><ClockCircle weight={"BoldDuotone"} className="text-primary" size={20} />{formatDate(study.publishedAt || study.updatedAt || study.createdAt)}</span>
-                  <span className="flex gap-3 items-center"><CheckCircle weight={"BoldDuotone"} className="text-green-400" size={20} />{study.status === "published" ? "Published" : "Draft"}</span>
-                  <span className="flex gap-3 items-center"><Tablet weight={"BoldDuotone"} className="text-orange-400" size={20} />{study.blocks.length} blocks</span>
-                  <Link
-                    to={`/account/case-studies/${study.id}/edit`}
-                    className="flex items-center gap-2 px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
-                  >
-                    <PenNewSquare size={16} />
-                    Edit
-                  </Link>
-                  <Link
-                    to={`/case-study/${study.id}`}
-                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
-                  >
-                    View Public
-                  </Link>
-                  <button
-                    onClick={() => copyShareLink(study.id)}
-                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
-                  >
-                    Copy Link
-                  </button>
+                <div className="flex justify-between flex-wrap gap-8">
+                  <div className="flex items-center flex-wrap md:gap-x-8 gap-x-4 gap-y-4 text-[12px] opacity-70">
+                    <span className="flex gap-1 items-center"><ClockCircle weight={"BoldDuotone"} className="text-primary" size={20} />{formatDate(study.publishedAt || study.updatedAt || study.createdAt)}</span>
+                    <span className="flex gap-1 items-center"><CheckCircle weight={"BoldDuotone"} className="text-green-400" size={20} />{study.status === "published" ? "Published" : "Draft"}</span>
+                    <span className="flex gap-1 items-center"><Tablet weight={"BoldDuotone"} className="text-orange-400" size={20} />{study.blocks.length} blocks</span>
+                    
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Link
+                      to={`/account/case-studies/${study.id}/edit`}
+                      className="flex items-center gap-2 p-2 bg-gray/[0.09] rounded-full hover:bg-gray/[0.08] opacity-100"
+                    >
+                      <PenNewSquare size={16} />
+                    </Link>
+                    <Link
+                      to={`/case-study/${study.id}`}
+                      className="flex items-center gap-2 p-2 bg-gray/[0.09] rounded-full hover:bg-gray/[0.08] opacity-100"
+                    >
+                      <Eye size={16} />
+                    </Link>
+                    <button
+                      onClick={() => copyShareLink(study.id)}
+                      className="p-2 bg-gray/[0.09] rounded-full hover:bg-gray/[0.08] opacity-100"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
                 </div>
               </div>
 

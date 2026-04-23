@@ -7,6 +7,7 @@ import { useLocalStorage } from "../customHooks/useLocaStorage";
 import { app, db } from "../firebase/firebase";
 import { doc, setDoc, Timestamp, updateDoc, getDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
+import type { UserPlan, UserUsage } from "../interface/userProfile";
 
 import { AuthContext } from "./AuthContextValue";
 import Toast from "../components/toast/Toast";
@@ -65,6 +66,11 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
                 photoURL: firebaseUser.photoURL || '',
                 status: 'available',
                 portfolio: '',
+                current_plan: 'free' as UserPlan,
+                current_usage: {
+                    leads: 0,
+                    case_studies: 0,
+                } as UserUsage,
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now(),
             };
@@ -155,7 +161,7 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
         }
     }
 
-    const updateUser = async (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string }) => {
+    const updateUser = async (data: { email?: string, password?: string, fullname?: string, specialty?: string, bio?: string, photoURL?: string, username?: string, status?: string, current_plan?: UserPlan, current_usage?: UserUsage }) => {
         setLoading(true);
         try {
             const currentUser = auth.currentUser;
@@ -196,6 +202,8 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
                 if (data.photoURL !== undefined) updates.photoURL = data.photoURL;
                 if (data.username) updates.username = data.username;
                 if (data.status) updates.status = data.status;
+                if (data.current_plan) updates.current_plan = data.current_plan;
+                if (data.current_usage) updates.current_usage = data.current_usage;
                 
                 await updateDoc(userProfileRef, updates);
             }

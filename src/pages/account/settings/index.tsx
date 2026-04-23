@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import { useModal } from "../../../contexts/useModal";
 import Button from "../../../components/button/Button";
@@ -7,17 +7,28 @@ import { TrashBin2 } from "@solar-icons/react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/input/Input";
 import ThemeSelector from "../../../components/themeSelector/themeSelector";
+import { UserProfileContext } from "../../../contexts/UserProfileContextValue";
+import type { UserPlan } from "../../../interface/userProfile";
 
-type Section = "appearance" | "security" | "danger";
+type Section = "appearance" | "billing" | "security" | "danger";
 
 const NAV_ITEMS: { id: Section; label: string }[] = [
   { id: "appearance", label: "Appearance" },
+  { id: "billing", label: "Billing" },
   { id: "security", label: "Security" },
   { id: "danger", label: "Danger Zone" },
 ];
 
+const PLAN_OPTIONS: Array<{ id: UserPlan; label: string; price: string; cadence: string }> = [
+  { id: "free", label: "Free", price: "$0", cadence: "Forever free" },
+  { id: "pro", label: "Pro", price: "$9", cadence: "Per month" },
+  { id: "enterprise", label: "Enterprise", price: "$25", cadence: "Per month" },
+  { id: "lifetime", label: "Lifetime", price: "$39", cadence: "One-time" },
+];
+
 export default function Settings() {
   const { user, updateUser, deleteAccount, loading } = useContext(AuthContext);
+  const { profile } = useContext(UserProfileContext);
   const { showModal } = useModal();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<Section>("appearance");
@@ -33,6 +44,118 @@ export default function Settings() {
   // Danger zone
   const [deletePassword, setDeletePassword] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [billingBusyPlan, setBillingBusyPlan] = useState<UserPlan | null>(null);
+  const [processingCheckout, setProcessingCheckout] = useState(false);
+
+  const currentPlan = profile?.current_plan || "free";
+
+  useEffect(() => {
+    const finishCheckout = async () => {
+      if (!user?.uid || !user?.email) {
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const sessionId =
+        params.get("dodo_session_id") || params.get("checkout_id") || params.get("session_id") || "";
+      const targetPlan = (params.get("target_plan") || "") as UserPlan;
+
+      if (!sessionId || !targetPlan || processingCheckout) {
+        return;
+      }
+
+      setProcessingCheckout(true);
+      try {
+        const response = await fetch("/api/dodo/confirm-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            targetPlan,
+          }),
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.verified) {
+          throw new Error(result.error || "Payment was not verified.");
+        }
+
+        await updateUser({ current_plan: targetPlan });
+        await showModal({
+          title: "Plan Updated",
+          message: `Your subscription is now on the ${targetPlan} plan.`,
+        });
+
+        navigate("/account/settings", { replace: true });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to verify payment.";
+        await showModal({ title: "Payment Verification Failed", message });
+      } finally {
+        setProcessingCheckout(false);
+      }
+    };
+
+    finishCheckout();
+  }, [navigate, processingCheckout, showModal, updateUser, user?.email, user?.uid]);
+
+  const handlePlanChange = async (targetPlan: UserPlan) => {
+    if (!user?.uid || !user?.email) {
+      await showModal({ title: "Not Logged In", message: "Please log in before changing your plan." });
+      return;
+    }
+
+    if (targetPlan === currentPlan) {
+      await showModal({ title: "Current Plan", message: `You are already on the ${targetPlan} plan.` });
+      return;
+    }
+
+    if (targetPlan === "free") {
+      const confirmed = await showModal({
+        title: "Downgrade to Free",
+        message: "This moves your account to the Free plan immediately.",
+        showCancel: true,
+      });
+
+      if (!confirmed) {
+        return;
+      }
+
+      setBillingBusyPlan(targetPlan);
+      try {
+        await updateUser({ current_plan: "free" });
+        await showModal({ title: "Plan Updated", message: "Your account is now on the Free plan." });
+      } finally {
+        setBillingBusyPlan(null);
+      }
+      return;
+    }
+
+    setBillingBusyPlan(targetPlan);
+    try {
+      const response = await fetch("/api/dodo/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.uid,
+          userEmail: user.email,
+          targetPlan,
+          currentPlan,
+          origin: window.location.origin,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.checkoutUrl) {
+        throw new Error(result.error || "Unable to create checkout session.");
+      }
+
+      window.location.href = result.checkoutUrl;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to start checkout.";
+      await showModal({ title: "Checkout Error", message });
+      setBillingBusyPlan(null);
+    }
+  };
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,6 +255,46 @@ export default function Settings() {
                 <h2 className="font-semibold mb-1">Theme</h2>
                 <p className=" opacity-[0.6] mb-4">Choose how Prospo looks for you</p>
                 <ThemeSelector />
+              </div>
+            </div>
+          )}
+
+          {activeSection === "billing" && (
+            <div className="bg-background border border-gray/[0.2] rounded-xl p-6 flex flex-col gap-5">
+              <div>
+                <h2 className="font-semibold mb-1">Subscription Plan</h2>
+                <p className="opacity-[0.6] mb-1">Current plan: <span className="font-medium capitalize">{currentPlan}</span></p>
+                <p className="opacity-[0.6] text-sm">Paid plans require Dodo checkout confirmation before we apply the plan change.</p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                {PLAN_OPTIONS.map((plan) => {
+                  const isCurrent = currentPlan === plan.id;
+                  const isLoadingPlan = billingBusyPlan === plan.id;
+
+                  return (
+                    <div
+                      key={plan.id}
+                      className={`rounded-xl border p-4 flex flex-col gap-3 ${isCurrent ? "border-primary bg-primary/5" : "border-gray/[0.2]"}`}
+                    >
+                      <div>
+                        <h3 className="font-semibold capitalize">{plan.label}</h3>
+                        <p className="text-lg font-medium">{plan.price}</p>
+                        <p className="text-xs opacity-[0.6]">{plan.cadence}</p>
+                      </div>
+
+                      <Button
+                        type="button"
+                        variant={isCurrent ? "secondary" : "primary"}
+                        disabled={isCurrent || !!billingBusyPlan || processingCheckout}
+                        onClick={() => handlePlanChange(plan.id)}
+                        className="w-full justify-center"
+                      >
+                        {isCurrent ? "Current Plan" : isLoadingPlan ? "Opening checkout..." : "Switch Plan"}
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

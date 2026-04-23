@@ -1,4 +1,11 @@
 // User Profile Interface
+export type UserPlan = 'free' | 'pro' | 'enterprise' | 'lifetime';
+
+export interface UserUsage {
+  leads: number;
+  case_studies: number;
+}
+
 export interface UserProfile {
   uid: string;
   
@@ -14,6 +21,10 @@ export interface UserProfile {
   
   // Portfolio
   portfolio?: string;
+
+  // Billing and Usage
+  current_plan?: UserPlan;
+  current_usage?: UserUsage;
   
   // Metadata
   createdAt: Date;
