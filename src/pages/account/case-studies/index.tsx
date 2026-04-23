@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AddCircle, CheckCircle, Tablet } from "@solar-icons/react";
+import { AddCircle, CheckCircle, PenNewSquare, Tablet } from "@solar-icons/react";
 import Button from "../../../components/button/Button";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import { getUserCaseStudies } from "../../../helpers/caseStudyApi";
 import type { CaseStudyBlock, CaseStudyDocument } from "../../../interface/caseStudy";
 import { ClockCircle } from "@solar-icons/react/ssr";
+import Toast from "../../../components/toast/Toast";
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -48,6 +49,18 @@ export default function CaseStudies() {
   const [caseStudies, setCaseStudies] = useState<CaseStudyDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [popup, setPopup] = useState<{ type: "success" | "error"; msg: string; timestamp: number } | null>(null);
+
+  const copyShareLink = async (id: string) => {
+    const shareUrl = `${window.location.origin}/case-study/${id}`;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setPopup({ type: "success", msg: "Share link copied.", timestamp: Date.now() });
+    } catch {
+      setPopup({ type: "error", msg: "Unable to copy link. Please copy it manually.", timestamp: Date.now() });
+    }
+  };
 
   useEffect(() => {
     const run = async () => {
@@ -142,10 +155,23 @@ export default function CaseStudies() {
                   <span className="flex gap-3 items-center"><Tablet weight={"BoldDuotone"} className="text-orange-400" size={20} />{study.blocks.length} blocks</span>
                   <Link
                     to={`/account/case-studies/${study.id}/edit`}
-                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
+                    className="flex items-center gap-2 px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
                   >
+                    <PenNewSquare size={16} />
                     Edit
                   </Link>
+                  <Link
+                    to={`/case-study/${study.id}`}
+                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
+                  >
+                    View Public
+                  </Link>
+                  <button
+                    onClick={() => copyShareLink(study.id)}
+                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
+                  >
+                    Copy Link
+                  </button>
                 </div>
               </div>
 
@@ -160,6 +186,11 @@ export default function CaseStudies() {
           );
         })}
       </div>
+      <Toast
+        message={popup?.msg}
+        type={popup?.type}
+        timestamp={popup?.timestamp}
+      />
     </div>
   );
 }

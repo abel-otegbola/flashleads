@@ -1,13 +1,9 @@
-
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import MediaBlockPreview from "../../../components/caseStudy/MediaBlockPreview";
-import { AuthContext } from "../../../contexts/AuthContextValue";
-import { getUserCaseStudyById } from "../../../helpers/caseStudyApi";
-import type { CaseStudyBlock, CaseStudyDocument } from "../../../interface/caseStudy";
 import { AltArrowLeft } from "@solar-icons/react";
-import { PenNewSquare } from "@solar-icons/react/ssr";
-import Toast from "../../../components/toast/Toast";
+import type { CaseStudyBlock, CaseStudyDocument } from "../../interface/caseStudy";
+import { getPublicCaseStudyById } from "../../helpers/caseStudyApi";
+import MediaBlockPreview from "../../components/caseStudy/MediaBlockPreview";
 
 function formatDate(value: unknown): string {
   if (!value || typeof value !== "object" || !("toDate" in value)) {
@@ -82,32 +78,15 @@ function BlockView({ block }: { block: CaseStudyBlock }) {
   );
 }
 
-export default function CaseStudyDetails() {
+export default function PublicCaseStudy() {
   const { id } = useParams();
-  const { user } = useContext(AuthContext);
   const [caseStudy, setCaseStudy] = useState<CaseStudyDocument | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [popup, setPopup] = useState<{ type: "success" | "error"; msg: string; timestamp: number } | null>(null);
-
-  const handleCopyShareLink = async () => {
-    if (!id) {
-      return;
-    }
-
-    const shareUrl = `${window.location.origin}/case-study/${id}`;
-
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setPopup({ type: "success", msg: "Share link copied.", timestamp: Date.now() });
-    } catch {
-      setPopup({ type: "error", msg: "Unable to copy link. Please copy it manually.", timestamp: Date.now() });
-    }
-  };
 
   useEffect(() => {
     const run = async () => {
-      if (!id || !user?.uid) {
+      if (!id) {
         setLoading(false);
         setError("Case study not found.");
         return;
@@ -117,7 +96,7 @@ export default function CaseStudyDetails() {
       setError("");
 
       try {
-        const data = await getUserCaseStudyById(user.uid, id);
+        const data = await getPublicCaseStudyById(id);
         setCaseStudy(data);
       } catch (err) {
         const message = err instanceof Error ? err.message : "Failed to load case study.";
@@ -128,41 +107,23 @@ export default function CaseStudyDetails() {
     };
 
     run();
-  }, [id, user?.uid]);
+  }, [id]);
 
   return (
     <div className="md:p-6 p-3 min-h-screen">
       <div className="mx-auto max-w-[980px]">
         <div className="mb-6 flex items-center justify-between gap-3">
-            <Link
-              to="/account/case-studies"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-dark-bg-secondary"
-            >
-              <AltArrowLeft size={16} />Back
-            </Link>
-          <div className="flex items-center gap-6">
-            {id && (
-              <button
-                onClick={handleCopyShareLink}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray/[0.2] hover:bg-white dark:hover:bg-dark-bg-secondary"
-              >
-                Copy Share Link
-              </button>
-            )}
-            {id && (
-              <Link
-                to={`/account/case-studies/${id}/edit`}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray/[0.2] hover:bg-white dark:hover:bg-dark-bg-secondary"
-              >
-                <PenNewSquare size={16} />Edit
-              </Link>
-            )}
+          <Link
+            to="/"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-dark-bg-secondary"
+          >
+            <AltArrowLeft size={16} />Back
+          </Link>
           {caseStudy && (
             <p className="text-sm opacity-70">
-              {caseStudy.status === "published" ? "Published" : "Draft"}
+              {caseStudy.status === "published" ? "Published" : "Draft Preview"}
             </p>
           )}
-          </div>
         </div>
 
         {loading && <div className="text-sm opacity-70">Loading case study...</div>}
@@ -188,7 +149,7 @@ export default function CaseStudyDetails() {
               )}
 
               {caseStudy.blocks.map((block) => (
-                <div key={block.id} className="">
+                <div key={block.id}>
                   <BlockView block={block} />
                 </div>
               ))}
@@ -196,11 +157,6 @@ export default function CaseStudyDetails() {
           </article>
         )}
       </div>
-      <Toast
-        message={popup?.msg}
-        type={popup?.type}
-        timestamp={popup?.timestamp}
-      />
     </div>
   );
 }

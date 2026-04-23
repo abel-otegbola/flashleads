@@ -159,3 +159,25 @@ export async function getUserCaseStudyById(userId: string, caseStudyId: string):
     publishedAt: data.publishedAt,
   } as CaseStudyDocument;
 }
+
+export async function getPublicCaseStudyById(caseStudyId: string): Promise<CaseStudyDocument> {
+  const ref = doc(db, CASE_STUDIES_COLLECTION, caseStudyId);
+  const snapshot = await getDoc(ref);
+
+  if (!snapshot.exists()) {
+    throw new Error("Case study not found");
+  }
+
+  const data = snapshot.data();
+
+  return {
+    id: snapshot.id,
+    userId: data.userId,
+    title: data.title || "Untitled Case Study",
+    blocks: Array.isArray(data.blocks) ? data.blocks : [],
+    status: data.status === "published" ? "published" : "draft",
+    createdAt: data.createdAt,
+    updatedAt: data.updatedAt,
+    publishedAt: data.publishedAt,
+  } as CaseStudyDocument;
+}

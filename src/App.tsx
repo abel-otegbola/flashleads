@@ -19,6 +19,7 @@ import Privacy from "./pages/static/privacy"
 import Terms from "./pages/static/terms"
 import Security from "./pages/static/security"
 import Blog from "./pages/static/blog"
+import PublicCaseStudy from "./pages/public/caseStudyPublic"
 import { ModalProvider } from "./contexts/ModalContext"
 import MouseCursor from "./components/mouseCursor/MouseCursor"
 // import FindBusinesses from "./pages/static/find-businesses"
@@ -45,6 +46,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/case-study/:id" element={<PublicCaseStudy />} />
               {/* <Route path="/find-businesses" element={<FindBusinesses />} /> */}
               {/* <Route path="/business/:id" element={<StaticLeadDetails />} /> */}
               
