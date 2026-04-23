@@ -136,6 +136,12 @@ export default function CaseStudies() {
                   <span className="flex gap-3 items-center"><ClockCircle weight={"BoldDuotone"} className="text-primary" size={20} />{formatDate(study.publishedAt || study.updatedAt || study.createdAt)}</span>
                   <span className="flex gap-3 items-center"><CheckCircle weight={"BoldDuotone"} className="text-green-400" size={20} />{study.status === "published" ? "Published" : "Draft"}</span>
                   <span className="flex gap-3 items-center"><Tablet weight={"BoldDuotone"} className="text-orange-400" size={20} />{study.blocks.length} blocks</span>
+                  <Link
+                    to={`/account/case-studies/${study.id}/edit`}
+                    className="px-3 py-1 rounded border border-gray/[0.2] hover:bg-gray/[0.08] opacity-100"
+                  >
+                    Edit
+                  </Link>
                 </div>
               </div>
 

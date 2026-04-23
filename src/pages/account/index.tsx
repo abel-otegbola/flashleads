@@ -60,6 +60,7 @@ function AccountPages() {
                     <Route path="/business/:id" element={<LeadDetails />} />
                     <Route path="/case-studies" element={<CaseStudies />} />
                     <Route path="/case-studies/new" element={<NewCaseStudy />} />
+                    <Route path="/case-studies/:id/edit" element={<NewCaseStudy />} />
                     <Route path="/case-studies/:id" element={<CaseStudyDetails />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />

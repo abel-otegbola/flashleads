@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import CaseStudyBlocksCanvas from "../../../components/caseStudy/CaseStudyBlocksCanvas";
 import Toast from "../../../components/toast/Toast";
 import { AuthContext } from "../../../contexts/AuthContextValue";
 import { deleteCloudinaryAsset } from "../../../helpers/cloudinaryUpload";
-import { publishCaseStudy, saveCaseStudyDraft } from "../../../helpers/caseStudyApi";
+import { getUserCaseStudyById, publishCaseStudy, saveCaseStudyDraft } from "../../../helpers/caseStudyApi";
 import { resolveMediaUrl } from "../../../helpers/mediaUrl";
 import type { BlockType, CaseStudyBlock, CaseStudyPayload } from "../../../interface/caseStudy";
 import Button from "../../../components/button/Button";
@@ -27,6 +27,7 @@ function InsertOptionButton({ label, onClick }: InsertOptionButtonProps) {
 }
 
 export default function NewCaseStudy() {
+  const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("Title");
   const [blocks, setBlocks] = useState<CaseStudyBlock[]>([
@@ -36,7 +37,32 @@ export default function NewCaseStudy() {
   const [caseStudyId, setCaseStudyId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isLoadingExisting, setIsLoadingExisting] = useState(false);
   const [popup, setPopup] = useState<{ type: "success" | "error"; msg: string; timestamp: number } | null>(null);
+
+  useEffect(() => {
+    const loadExisting = async () => {
+      if (!id || !user?.uid) {
+        return;
+      }
+
+      setIsLoadingExisting(true);
+      try {
+        const study = await getUserCaseStudyById(user.uid, id);
+        setTitle(study.title || "Title");
+        setBlocks(Array.isArray(study.blocks) && study.blocks.length ? study.blocks : [{ id: 1, type: "text", content: "" }]);
+        setSelectedBlockId(study.blocks?.[0]?.id ?? null);
+        setCaseStudyId(study.id);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load case study for editing.";
+        setPopup({ type: "error", msg: message, timestamp: Date.now() });
+      } finally {
+        setIsLoadingExisting(false);
+      }
+    };
+
+    loadExisting();
+  }, [id, user?.uid]);
 
   const addBlock = (type: BlockType) => {
     const next: CaseStudyBlock = {
@@ -258,9 +284,9 @@ export default function NewCaseStudy() {
   return (
     <div className="min-h-[calc(100vh-65px)] p-3 md:p-6 bg-bg-gray-100/50 dark:bg-dark-bg">
       <div className="mx-auto max-w-[1300px]">
-        <div className="mb-5 flex items-center justify-between gap-4">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold">Add Case Study</h1>
+            <h1 className="text-2xl font-semibold">{id ? "Edit Case Study" : "Add Case Study"}</h1>
             <p className="opacity-65">Compose with rich blocks and preview live.</p>
           </div>
           <div className="flex items-center gap-2">
@@ -272,19 +298,23 @@ export default function NewCaseStudy() {
             </Link>
             <Button
               onClick={handleSaveDraft}
-              disabled={isSaving || isPublishing}
+              disabled={isSaving || isPublishing || isLoadingExisting}
               variant="secondary"
             >
               {isSaving ? "Saving..." : "Save Draft"}
             </Button>
             <Button
               onClick={handlePublish}
-              disabled={isSaving || isPublishing}
+              disabled={isSaving || isPublishing || isLoadingExisting}
             >
               {isPublishing ? "Publishing..." : "Publish"}
             </Button>
           </div>
         </div>
+
+        {isLoadingExisting && (
+          <div className="mb-4 text-sm opacity-70">Loading case study...</div>
+        )}
 
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-4">
           <section className="bg-background border border-gray/[0.08]">
@@ -310,7 +340,7 @@ export default function NewCaseStudy() {
               onUpdateEmbedStyle={updateEmbedStyle}
               onUploadImage={handleImageUpload}
               onUploadVideo={handleVideoUpload}
-              disabled={isSaving || isPublishing}
+              disabled={isSaving || isPublishing || isLoadingExisting}
             />
           </section>
 
