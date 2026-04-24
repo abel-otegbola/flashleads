@@ -12,6 +12,7 @@ import AccountPages from "./pages/account"
 import Homepage from "./pages/static/home/home"
 import Integrations from "./pages/static/integrations"
 import Pricing from "./pages/static/pricing"
+import FaqsPage from "./pages/static/faqs"
 import About from "./pages/static/about"
 import Contact from "./pages/static/contact"
 import Solutions from "./pages/static/solutions"
@@ -42,6 +43,7 @@ function App() {
               <Route path="/" element={<Homepage />} />
               <Route path="/integrations" element={<Integrations />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/faqs" element={<FaqsPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/solutions" element={<Solutions />} />

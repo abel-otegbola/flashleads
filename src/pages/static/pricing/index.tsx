@@ -3,6 +3,7 @@ import Footer from "../../../components/footer/Footer";
 import Button from "../../../components/button/Button";
 import LineCircleIcon from "../../../assets/icons/lineCircle";
 import { CheckCircle } from "@solar-icons/react";
+import FaqSection from "../../../components/faqSection/FaqSection";
 
 function Pricing() {
 
@@ -126,42 +127,7 @@ function Pricing() {
             </div>
         </section>
 
-      {/* FAQ Section */}
-      <section className="px-4 sm:px-6 lg:px-16 max-w-4xl mx-auto pb-20 mt-20">
-        <div className="flex flex-col items-center justify-center gap-5 text-center mb-20">
-            <div className="max-w-[320px] flex items-center gap-4 w-full">
-                <LineCircleIcon className="flex-1 "/>
-                <span className="px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-nowrap md:text-[12px] text-[10px]">FAQs</span>
-                <LineCircleIcon className="flex-1 rotate-180" />
-            </div>
-            <h1 className="xl:text-4xl sm:text-2xl text-2xl font-semibold">Frequently Asked Questions</h1>
-        </div>
-        <div className="space-y-6">
-          {[
-            {
-              q: "Can I change my plan later?",
-              a: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate the charges."
-            },
-            {
-              q: "What payment methods do you accept?",
-              a: "We accept all major credit cards, PayPal, and bank transfers for Enterprise plans."
-            },
-            {
-              q: "Is there a free trial?",
-              a: "Yes! All paid plans come with a 14-day free trial. No credit card required to start."
-            },
-            {
-              q: "What happens when I reach my lead limit?",
-              a: "You'll receive a notification when you're approaching your limit. You can upgrade anytime to continue accessing more leads."
-            }
-          ].map((faq, index) => (
-            <div key={index} className="p-6 rounded-xl border border-gray/[0.2]">
-              <h3 className="text-lg font-semibold mb-2">{faq.q}</h3>
-              <p className="">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <FaqSection />
 
       <Footer />
     </div>

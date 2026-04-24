@@ -14,6 +14,7 @@ import FeatureCrmIcon from "../../../assets/icons/featureCrm"
 import FeatureSocialIcon from "../../../assets/icons/featureSocial"
 import HeroImg from "../../../assets/icons/hero-img"
 import { CheckCircle } from "@solar-icons/react"
+import FaqSection from "../../../components/faqSection/FaqSection"
 
 function Homepage() {
     const pricingPlans = [
@@ -266,6 +267,8 @@ function Homepage() {
                 ))}
             </div>
         </section>
+
+        <FaqSection sectionClassName="pb-10 mt-16" />
 
         <section className="relative bg-gray/[0.05] dark:bg-black flex justify-center flex-col items-center gap-6 md:mx-[8%] mx-4 p-[5%] mt-[40px] rounded-lg mb-16" data-aos="fade-in">
         
